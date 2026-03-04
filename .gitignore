@@ -1,0 +1,16 @@
+# Ignore all node_modules everywhere
+node_modules/
+Backend/node_modules/
+Frontend/node_modules/
+
+# Ignore ALL environment variable files (This covers your config.env)
+*.env
+Backend/config/config.env
+
+# Ignore React build folders (For later)
+dist/
+build/
+
+# Ignore Mac/System files
+.DS_Store
+npm-debug.log*
