@@ -2,15 +2,24 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
+<<<<<<< HEAD
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "dev": "nodemon server.js"
+=======
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+>>>>>>> 8cfcf95 (connected with the backend)
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+<<<<<<< HEAD
   "type": "module",
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -21,5 +30,11 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
+=======
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.2.4"
+>>>>>>> 8cfcf95 (connected with the backend)
   }
 }
