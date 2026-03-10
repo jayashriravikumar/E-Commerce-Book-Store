@@ -1,7 +1,26 @@
-import app from "./app.js";
+import app from './app.js';
+import dotenv from 'dotenv';
+import {connectDB} from './config/db.js';
 
-const PORT = 5000;
+dotenv.config({path:'backend/config/config.env'});
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+connectDB();
+
+process.on("UncaughtException",(err)=>{
+    console.log(`Error: ${err.message}`);
+    console.log("Shutting down the server due to uncaught exception");
+    process.exit(1);
+});  
+
+const server = app.listen(PORT,()=>{
+    console.log(`Server is running on port ${PORT}`);
+});
+
+process.on("unhandledRejection",(err)=>{
+    console.log(`Error: ${err.message}`);
+    console.log("Shutting down the server due to unhandled promise rejection");
+    server.close(()=>{
+        process.exit(1);
+    });
 });
