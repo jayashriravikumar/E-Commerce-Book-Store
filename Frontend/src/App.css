@@ -1,1 +1,285 @@
+/* Book Grid */
 
+.books-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:20px;
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+/* Book Card */
+
+.book-card{
+  background:white;
+  border-radius:10px;
+  padding:15px;
+  text-align:center;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  transition:transform 0.2s;
+}
+
+.book-card:hover{
+  transform:translateY(-5px);
+}
+
+/* Book Image */
+
+.book-img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:6px;
+}
+
+/* Add to cart button */
+
+.cart-btn{
+  background:#4f46e5;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:5px;
+  margin-top:10px;
+  cursor:pointer;
+}
+
+.cart-btn:hover{
+  background:#3730a3;
+}
+
+/* ===== Footer ===== */
+
+.footer{
+  background:#1f2937;
+  color:white;
+  text-align:center;
+  padding:20px;
+  margin-top:40px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  max-width:1200px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.footer a{
+  color:#f59e0b;
+  text-decoration:none;
+}
+
+.footer a:hover{
+  text-decoration:underline;
+}
+
+/* ===== Global ===== */
+
+body{
+  margin:0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background:#f4f6fb;
+  color:#333;
+}
+
+/* ===== Navbar ===== */
+
+.navbar{
+  width:100%;
+  background:#1f2937;
+  color:white;
+  padding:15px 30px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.2);
+}
+
+.nav-container{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
+
+.nav-links{
+  display:flex;
+  gap:25px;
+}
+
+.nav-links a{
+  color:white;
+  text-decoration:none;
+  font-weight:500;
+}
+
+.nav-links a:hover{
+  color:#f59e0b;
+}
+
+/* ===== Search ===== */
+
+.search-bar{
+  padding:8px 12px;
+  border-radius:6px;
+  border:none;
+  width:220px;
+}
+
+/* ===== Hero Section ===== */
+
+.hero{
+  height:360px;
+  background:url("https://images.unsplash.com/photo-1512820790803-83ca734da794") center/cover;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  text-align:center;
+  position:relative;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+}
+
+.hero h1,
+.hero p,
+.hero button{
+  position:relative;
+}
+
+.hero h1{
+  font-size:42px;
+}
+
+.hero p{
+  font-size:18px;
+}
+
+/* ===== Button ===== */
+
+.browse-btn{
+  margin-top:15px;
+  padding:12px 24px;
+  background:#f59e0b;
+  border:none;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.browse-btn:hover{
+  background:#d97706;
+}
+
+/* ===== Featured Section ===== */
+
+.featured-section{
+  max-width:1200px;
+  margin:auto;
+  padding:40px 20px;
+}
+
+.featured-section h2{
+  text-align:center;
+  margin-bottom:30px;
+  font-size:28px;
+}
+
+/* ===== Books Grid ===== */
+
+.books-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:25px;
+}
+
+/* ===== Book Card ===== */
+
+.book-card{
+  background:white;
+  border-radius:10px;
+  padding:15px;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+
+.book-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+.book-card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:6px;
+}
+
+.book-card h3{
+  margin-top:10px;
+  font-size:18px;
+}
+
+.book-card button{
+  margin-top:10px;
+  background:#4f46e5;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.book-card button:hover{
+  background:#3730a3;
+}
+
+/* ===== Cart Badge ===== */
+
+.cart-link{
+  position:relative;
+}
+
+.cart-count{
+  background:red;
+  color:white;
+  font-size:12px;
+  border-radius:50%;
+  padding:3px 7px;
+  position:absolute;
+  top:-8px;
+  right:-12px;
+}
+
+/* ===== Footer ===== */
+
+.footer{
+  background:#1f2937;
+  color:white;
+  padding:20px;
+  text-align:center;
+  margin-top:40px;
+}
+
+.footer a{
+  color:#f59e0b;
+  text-decoration:none;
+}
+
+.footer a:hover{
+  text-decoration:underline;
+}

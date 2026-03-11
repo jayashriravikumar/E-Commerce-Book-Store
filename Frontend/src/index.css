@@ -1,1 +1,384 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================= GLOBAL ================= */
+
+body{
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  background:#f8fafc;
+  color:#1f2937;
+}
+
+*{
+  transition:all 0.2s ease;
+}
+
+button{
+  cursor:pointer;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+  width:100%;
+  background:#0f172a;
+  color:#f8fafc;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+.nav-wrapper{
+  max-width:1200px;
+  margin:auto;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:700;
+  color:white;
+  text-decoration:none;
+}
+
+/* SEARCH */
+
+.search-container{
+  display:flex;
+  border-radius:8px;
+  overflow:hidden;
+  background:#1e293b;
+}
+
+.search-container input{
+  border:none;
+  padding:9px 12px;
+  width:260px;
+  background:transparent;
+  color:white;
+}
+
+.search-container input::placeholder{
+  color:#94a3b8;
+}
+
+.search-container button{
+  background:#6366f1;
+  border:none;
+  padding:8px 14px;
+  color:white;
+}
+
+.search-container button:hover{
+  background:#818cf8;
+}
+
+/* NAV LINKS */
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:22px;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#e2e8f0;
+  font-weight:500;
+  position:relative;
+}
+
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  bottom:-4px;
+  left:0;
+  width:0;
+  height:2px;
+  background:#818cf8;
+  transition:width 0.25s;
+}
+
+.nav-links a:hover::after{
+  width:100%;
+}
+
+/* CART BADGE */
+
+.cart-icon{
+  position:relative;
+}
+
+.cart-count{
+  position:absolute;
+  top:-6px;
+  right:-10px;
+  background:#ef4444;
+  color:white;
+  font-size:11px;
+  padding:3px 6px;
+  border-radius:50%;
+}
+
+/* ================= HERO CAROUSEL ================= */
+
+.hero-slide{
+  height:420px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:white;
+  font-size:32px;
+  font-weight:bold;
+  position:relative;
+}
+
+.hero-slide::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+}
+
+.hero-slide h1{
+  position:relative;
+  z-index:1;
+  max-width:700px;
+}
+
+/* HERO IMAGES */
+
+.slide1{
+  background:url("https://images.unsplash.com/photo-1512820790803-83ca734da794") center/cover;
+}
+
+.slide2{
+  background:url("https://images.unsplash.com/photo-1524995997946-a1c2e315a42f") center/cover;
+}
+
+.slide3{
+  background:url("https://images.unsplash.com/photo-1516979187457-637abb4f9353") center/cover;
+}
+
+/* ================= WELCOME SECTION ================= */
+
+.welcome-section{
+  text-align:center;
+  padding:40px 20px;
+}
+
+.welcome-section h1{
+  font-size:36px;
+  margin-bottom:10px;
+}
+
+.welcome-section p{
+  font-size:18px;
+  color:#555;
+}
+
+.browse-btn{
+  margin-top:15px;
+  padding:12px 24px;
+  background:#4f46e5;
+  color:white;
+  border:none;
+  border-radius:6px;
+}
+
+.browse-btn:hover{
+  background:#3730a3;
+}
+
+/* ================= BOOK GRID ================= */
+
+.books-grid{
+  max-width:1200px;
+  margin:auto;
+  padding:40px 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:20px;
+}
+
+/* ================= BOOK CARD ================= */
+
+.book-card{
+  background:white;
+  border-radius:10px;
+  padding:15px;
+  text-align:center;
+  box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+.book-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 14px 40px rgba(0,0,0,0.15);
+}
+
+.book-card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:6px;
+}
+
+/* ================= CART PAGE ================= */
+
+.cart-page{
+  max-width:800px;
+  margin:auto;
+  padding:40px;
+}
+
+.cart-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #ddd;
+  padding:15px 0;
+}
+
+.remove-btn{
+  background:#ef4444;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:5px;
+}
+
+.remove-btn:hover{
+  background:#dc2626;
+}
+
+.cart-summary{
+  margin-top:20px;
+  text-align:right;
+}
+
+.checkout-btn{
+  background:#4f46e5;
+  color:white;
+  border:none;
+  padding:10px 20px;
+  border-radius:6px;
+}
+
+.checkout-btn:hover{
+  background:#3730a3;
+}
+
+/* ================= AUTH (LOGIN PAGE) ================= */
+
+.auth-container{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:#f4f6fb;
+}
+
+.auth-left{
+  background:linear-gradient(135deg,#6366f1,#9333ea);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:60px;
+  text-align:center;
+}
+
+.auth-left h1{
+  font-size:42px;
+  margin-bottom:15px;
+}
+
+.auth-left p{
+  font-size:18px;
+  max-width:350px;
+}
+
+.auth-right{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.login-card{
+  width:360px;
+  padding:40px;
+  background:white;
+  border-radius:12px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.1);
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.login-card input{
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+
+.login-card input:focus{
+  border-color:#6366f1;
+  outline:none;
+  box-shadow:0 0 0 2px rgba(99,102,241,0.2);
+}
+
+.login-card button{
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  background:#6366f1;
+  color:white;
+}
+
+.login-card button:hover{
+  background:#4f46e5;
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(99,102,241,0.4);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+  .auth-container{
+    grid-template-columns:1fr;
+  }
+
+  .auth-left{
+    display:none;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .nav-wrapper{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .search-container{
+    width:100%;
+  }
+
+  .search-container input{
+    width:100%;
+  }
+
+  .nav-links{
+    justify-content:space-around;
+  }
+
+}
