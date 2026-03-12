@@ -1,5 +1,4 @@
 import express from 'express';
-import express from 'express';
 import product from './routes/productRoutes.js';
 import errorHandler from './middleware/error.js';
 
