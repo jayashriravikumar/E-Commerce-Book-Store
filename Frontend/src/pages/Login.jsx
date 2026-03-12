@@ -8,43 +8,50 @@ function Login(){
 
   const login = async ()=>{
 
-    const res = await axios.post(
-      "http://localhost:5000/api/users/login",
-      {email,password}
-    );
+    try{
+      const res = await axios.post(
+        "http://localhost:5000/api/users/login",
+        {email,password}
+      );
 
-    localStorage.setItem("token",res.data.token);
+      localStorage.setItem("token",res.data.token);
 
-    alert("Login successful");
+      alert("Login successful");
+
+    }catch(err){
+      alert("Login failed");
+    }
+
   };
 
   return(
 
-    <div className="auth-container">
+    <div className="login-page">
 
-      {/* Left Side Branding */}
+      <div className="login-wrapper">
 
-      <div className="auth-left">
+        {/* LEFT SIDE */}
 
-        <h1>📚 BookStore</h1>
+        <div className="login-left">
 
-        <p>
-          Discover thousands of books and expand your knowledge.
-        </p>
+          <h1>WELCOME</h1>
 
-      </div>
+          <p>
+            Discover amazing books and improve your knowledge
+          </p>
 
-      {/* Login Card */}
+        </div>
 
-      <div className="auth-right">
 
-        <div className="login-card">
+        {/* RIGHT SIDE */}
 
-          <h2>Login to your account</h2>
+        <div className="login-right">
+
+          <h2>Sign in</h2>
 
           <input
             type="email"
-            placeholder="Email address"
+            placeholder="Email"
             value={email}
             onChange={(e)=>setEmail(e.target.value)}
           />
@@ -57,11 +64,33 @@ function Login(){
           />
 
           <button onClick={login}>
-            Login
+            Sign In
           </button>
 
-          <p className="auth-footer">
-            Don't have an account? Register
+          <div className="divider">
+            OR
+          </div>
+
+          {/* SOCIAL LOGIN */}
+
+          <button className="google-btn">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+              alt="google"
+            />
+            Sign in with Google
+          </button>
+
+          <button className="github-btn">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+              alt="github"
+            />
+            Sign in with GitHub
+          </button>
+
+          <p className="login-link">
+            Don't have account? Register
           </p>
 
         </div>
