@@ -1,5 +1,6 @@
 import Product from '../models/productModel.js';
 import errorHandler from '../helper/handleError.js';
+import APIHelper from '../helper/APIHelper.js';
 
 export const addProducts = async (req,res) => {
     //console.log(req.body);
@@ -40,11 +41,31 @@ export const updateProduct = async (req,res,next) =>{
         product});
 }
 
-export const getAllProducts = async (req,res) =>{
-    const products = await Product.find();
+export const getAllProducts = async (req,res,next) =>{
+    //const products = await Product.find();
+    const resultsPerPage = 4;
+    const apiHelper = new APIHelper(Product.find(),req.query).search().filter();
+    
+    const fliteredQuery=apiHelper.query.clone();
+    const productCount= await fliteredQuery.countDocuments();
+    
+    const totalPages = Math.ceil(productCount / resultsPerPage);
+    const page=Number(req.query.page) || 1; 
+    
+    if(totalPages > 0 && page > totalPages){
+        return next(new errorHandler(`Page ${page} does not exist`,404));
+    }
+    apiHelper.pagination(resultsPerPage);
+
+    const products = await apiHelper.query;
     res.status(200).json({
         success:true,
-        products});
+        products,
+        productCount,
+        totalPages,
+        resultsPerPage,
+        currentPage:page,
+    });
 };
 
 export const getSingleProduct = async (req,res,next) =>{
