@@ -1,43 +1,59 @@
 import { useState } from "react";
 import axios from "axios";
+import {
+  FaUser,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaGithub,
+  FaFacebook
+} from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
-function Login(){
+
+function Login() {
 
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
+  const [showPassword,setShowPassword] = useState(false);
 
-  const login = async ()=>{
+  const login = async () => {
 
-    try{
+    try {
+
       const res = await axios.post(
         "http://localhost:5000/api/users/login",
-        {email,password}
+        { email, password }
       );
 
       localStorage.setItem("token",res.data.token);
 
       alert("Login successful");
 
-    }catch(err){
+    } catch(err) {
+
       alert("Login failed");
+
     }
 
   };
 
-  return(
+  return (
 
     <div className="login-page">
 
-      <div className="login-wrapper">
+      <div className="login-container">
 
         {/* LEFT SIDE */}
 
         <div className="login-left">
 
-          <h1>WELCOME</h1>
+          <h1 className="logo">📚 BookStore</h1>
+
+          <h2>Welcome Back</h2>
 
           <p>
-            Discover amazing books and improve your knowledge
+            Discover thousands of books and expand your knowledge.
           </p>
 
         </div>
@@ -49,48 +65,102 @@ function Login(){
 
           <h2>Sign in</h2>
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e)=>setEmail(e.target.value)}
-          />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e)=>setPassword(e.target.value)}
-          />
+          {/* EMAIL */}
 
-          <button onClick={login}>
-            Sign In
+          <div className="input-box">
+
+            <FaUser className="input-icon"/>
+
+            <input
+              type="email"
+              placeholder="Email address"
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
+            />
+
+          </div>
+
+
+          {/* PASSWORD */}
+
+          <div className="input-box">
+
+            <FaLock className="input-icon"/>
+
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e)=>setPassword(e.target.value)}
+            />
+
+            <span
+              className="eye-icon"
+              onClick={()=>setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash/> : <FaEye/>}
+            </span>
+
+          </div>
+
+
+          {/* OPTIONS */}
+
+          <div className="login-options">
+
+            <label>
+              <input type="checkbox"/>
+              Remember me
+            </label>
+
+            <a href="#">Forgot Password?</a>
+
+          </div>
+
+
+          {/* LOGIN BUTTON */}
+
+          <button
+            className="login-btn"
+            onClick={login}
+          >
+            Sign in
           </button>
+
 
           <div className="divider">
             OR
           </div>
 
+
           {/* SOCIAL LOGIN */}
 
-          <button className="google-btn">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
-              alt="google"
-            />
-            Sign in with Google
-          </button>
+          <div className="social-login">
 
-          <button className="github-btn">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-              alt="github"
-            />
-            Sign in with GitHub
-          </button>
+            <button className="google">
+              <FcGoogle/> Google
+            </button>
 
-          <p className="login-link">
-            Don't have account? Register
+            <button className="github">
+              <FaGithub/> GitHub
+            </button>
+
+            <button className="facebook">
+              <FaFacebook/> Facebook
+            </button>
+
+          </div>
+
+
+          {/* REGISTER */}
+
+          <p className="register-text">
+
+            Don't have an account?
+
+            <span> Register</span>
+
           </p>
 
         </div>
@@ -100,6 +170,7 @@ function Login(){
     </div>
 
   );
+
 }
 
 export default Login;

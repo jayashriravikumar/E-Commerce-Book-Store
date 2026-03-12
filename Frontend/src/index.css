@@ -275,118 +275,105 @@ button{
   background:#3730a3;
 }
 
-/* PAGE BACKGROUND */
-
 .login-page{
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-
-  background:linear-gradient(135deg,#0f5ab3,#1e88e5);
+  background:linear-gradient(135deg,#1e88e5,#0d47a1);
+  font-family:Arial, Helvetica, sans-serif;
 }
 
-
-/* LOGIN CARD */
-
-.login-wrapper{
+.login-container{
   width:900px;
-  height:450px;
-
-  background:white;
-
-  border-radius:12px;
-
   display:flex;
-
+  background:white;
+  border-radius:10px;
   overflow:hidden;
-
   box-shadow:0 15px 40px rgba(0,0,0,0.2);
 }
-
 
 /* LEFT SIDE */
 
 .login-left{
   flex:1;
-
-  background:linear-gradient(135deg,#0d47a1,#1976d2);
-
+  background:linear-gradient(135deg,#1565c0,#0d47a1);
   color:white;
-
+  padding:40px;
   display:flex;
   flex-direction:column;
   justify-content:center;
-  align-items:center;
-
-  text-align:center;
-  padding:40px;
 }
 
-.login-left h1{
-  font-size:36px;
+.logo{
+  font-size:28px;
   margin-bottom:20px;
 }
 
-.login-left p{
-  max-width:250px;
-  opacity:0.9;
+.login-left h2{
+  margin-bottom:10px;
 }
-
 
 /* RIGHT SIDE */
 
 .login-right{
   flex:1;
-
   padding:40px;
-
   display:flex;
   flex-direction:column;
-  justify-content:center;
-
   gap:15px;
 }
 
-.login-right h2{
-  margin-bottom:15px;
+/* INPUT */
+
+.input-box{
+  position:relative;
 }
 
-
-.login-right input{
-
-  padding:12px;
-
-  border-radius:6px;
-
+.input-box input{
+  width:100%;
+  padding:12px 40px;
   border:1px solid #ddd;
+  border-radius:6px;
+}
 
+.input-icon{
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#777;
+}
+
+.eye-icon{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+}
+
+/* OPTIONS */
+
+.login-options{
+  display:flex;
+  justify-content:space-between;
   font-size:14px;
 }
 
+/* LOGIN BUTTON */
 
-/* BUTTON */
-
-.login-right button{
-
+.login-btn{
   padding:12px;
-
   border:none;
-
   border-radius:6px;
-
   background:#1565c0;
-
   color:white;
-
+  font-size:16px;
   cursor:pointer;
-
-  font-size:15px;
-
-  transition:0.3s;
 }
 
-.login-right button:hover{
+.login-btn:hover{
   background:#0d47a1;
 }
 
@@ -394,83 +381,50 @@ button{
 
 .divider{
   text-align:center;
-  margin:10px 0;
-  font-size:14px;
-  color:#888;
+  color:#999;
 }
 
+/* SOCIAL LOGIN */
 
-/* GOOGLE BUTTON */
+.social-login{
+  display:flex;
+  gap:10px;
+}
 
-.google-btn{
-
+.social-login button{
+  flex:1;
+  padding:10px;
+  border-radius:6px;
+  border:1px solid #ddd;
+  cursor:pointer;
   display:flex;
   align-items:center;
   justify-content:center;
-
-  gap:10px;
-
-  padding:10px;
-
-  border-radius:6px;
-
-  border:1px solid #ddd;
-
-  background:white;
-
-  cursor:pointer;
-
-  font-size:14px;
-
-  transition:0.2s;
+  gap:8px;
 }
 
-.google-btn img{
-  width:18px;
-}
-
-.google-btn:hover{
+.google:hover{
   background:#f5f5f5;
 }
 
-
-/* GITHUB BUTTON */
-
-.github-btn{
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  gap:10px;
-
-  padding:10px;
-
-  border-radius:6px;
-
-  border:1px solid #ddd;
-
-  background:white;
-
-  cursor:pointer;
-
-  font-size:14px;
-}
-
-.github-btn img{
-  width:18px;
-}
-
-.github-btn:hover{
+.github:hover{
   background:#f5f5f5;
 }
 
+.facebook{
+  color:#1877f2;
+}
 
-/* LINK */
+/* REGISTER */
 
-.login-link{
-  font-size:14px;
+.register-text{
   text-align:center;
+  font-size:14px;
+}
+
+.register-text span{
+  color:#1565c0;
+  cursor:pointer;
 }
 /* FOOTER */
 
