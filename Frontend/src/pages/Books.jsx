@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BookCard from "../components/BookCard";
+import { getUniqueBooks } from "../utils/books";
+import fallbackBooks from "../data/fallbackBooks";
 
 function Books({ search = "" }) {
 
@@ -13,12 +15,13 @@ function Books({ search = "" }) {
     axios
       .get("http://localhost:5000/api/books")
       .then((res) => {
-        setBooks(res.data);
+        setBooks(getUniqueBooks(res.data));
         setLoading(false);
       })
       .catch((err) => {
         console.error(err);
-        setError("Failed to load books");
+        setBooks(getUniqueBooks(fallbackBooks));
+        setError("");
         setLoading(false);
       });
 
@@ -43,10 +46,23 @@ function Books({ search = "" }) {
   }
 
   return (
-    <div className="books-grid">
-      {filteredBooks.map((book) => (
-        <BookCard key={book._id} book={book} />
-      ))}
+    <div className="books-page">
+      <section className="books-hero">
+        <div>
+          <p className="books-eyebrow">Curated Collection</p>
+          <h1>Explore Our Book Collection</h1>
+          <p className="books-hero-copy">
+            Discover handpicked reads with strong visuals, clear pricing, and
+            a cleaner shopping experience.
+          </p>
+        </div>
+      </section>
+
+      <div className="books-grid">
+        {filteredBooks.map((book) => (
+          <BookCard key={book._id} book={book} />
+        ))}
+      </div>
     </div>
   );
 }

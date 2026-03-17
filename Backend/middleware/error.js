@@ -4,7 +4,11 @@ export default (err, req, res, next) => {
 
   //Duplicate Key Error
   if (err.code === 11000) {
-    console.log(Object.keys(err.keyValue));
+    const duplicateField = Object.keys(err.keyValue || {})[0];
+    err.statusCode = 409;
+    err.message = duplicateField
+      ? `${duplicateField} already exists`
+      : "Duplicate value entered";
   }
 
   res.status(err.statusCode).json({

@@ -1,60 +1,99 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
+
+import BookStoreLogo from "./BookStoreLogo";
 import { CartContext } from "../context/CartContext";
+import { AuthContext } from "../context/AuthContext";
 
 function Navbar({ search, setSearch }) {
-
   const { cart } = useContext(CartContext);
+  const { isAuthenticated, logout, user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const totalCartItems = cart.reduce(
+    (sum, item) => sum + (item.quantity || 1),
+    0
+  );
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+
+    const trimmedSearch = search.trim();
+
+    if (location.pathname !== "/books") {
+      navigate("/books");
+    }
+
+    setSearch(trimmedSearch);
+  };
+
+  const clearSearch = () => {
+    setSearch("");
+  };
 
   return (
-
     <header className="navbar">
-
       <div className="nav-wrapper">
-
-        {/* Logo */}
         <Link to="/" className="logo">
-          📚 BookStore
+          <BookStoreLogo />
         </Link>
 
-        {/* Search */}
-        <div className="search-container">
-
+        <form
+          className="search-container"
+          onSubmit={handleSearchSubmit}
+          role="search"
+        >
           <input
             type="text"
-            placeholder="Search books..."
+            placeholder="Search by title..."
             value={search}
-            onChange={(e)=>setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Search books"
           />
 
-          <button>
-            🔍
+          {search && (
+            <button
+              type="button"
+              className="search-clear"
+              onClick={clearSearch}
+              aria-label="Clear search"
+            >
+              x
+            </button>
+          )}
+
+          <button type="submit" className="search-submit">
+            Search
           </button>
+        </form>
 
-        </div>
-
-        {/* Navigation Links */}
         <nav className="nav-links">
-
           <Link to="/">Home</Link>
-
           <Link to="/books">Books</Link>
-
           <Link to="/orders">Orders</Link>
-
-          <Link to="/login">Login</Link>
+          {isAuthenticated ? (
+            <>
+              <span className="nav-user">Hi, {user?.name?.split(" ")[0] || "Reader"}</span>
+              <button
+                type="button"
+                className="nav-auth-btn"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link to="/login">Login</Link>
+          )}
 
           <Link to="/cart" className="cart-icon">
-            🛒
-            <span className="cart-count">{cart.length}</span>
+            Cart
+            <span className="cart-count">{totalCartItems}</span>
           </Link>
-
         </nav>
-
       </div>
-
     </header>
-
   );
 }
 
