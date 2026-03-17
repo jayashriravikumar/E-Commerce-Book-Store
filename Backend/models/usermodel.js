@@ -1,50 +1,61 @@
 import mongoose from "mongoose";
-import validator from "validator";
-import bcryptjs from "bcryptjs";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-const UserSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, "Please enter your name"],
-      maxLength:[25,"Invalid name .Please enter a name fewer than 25 characters"],
-      minLength:[3,"Name should contain more than 3 characters"],
+const UserSchema = new mongoose.Schema({
+    name:{
+        type:String,
+        required:[true,"Please enter your name"],
     },
-    email: {
-      type: String,
-      required: [true, "Please enter your email"],
-      unique: true,
-      validate: [validator.isEmail, "please enter valid email"],
+    email:{
+        type:String,
+        required:[true,"Please enter your email"],
+        unique:true,
     },
-    password: {
-      type: String,
-      required: [true, "Please enter your password"],
-      minLength: [8, "password should be greater than 8 characters"],
-      select: false,
+    password:{
+        type:String,
+        required:[true,"Please enter your password"],
+        minLength:[8,"Password must be at least 8 characters"],
+        select:false,
     },
-    avatar: {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
+    avatar:{
+        public_id:{
+            type:String,
+            required:true,
+        },
+        url:{
+            type:String,
+            required:true,
+        }
     },
-    role: {
-      type: String,
-      default: "user",
+    isAdmin:{
+        type:Boolean,
+        default:false,
     },
-    resetPasswordToken: String,
-    resetPasswordExpire: Date,
-  },
+},{timestamps:true});
 
-  { timestamps: true },
-);
-UserSchema.pre("save", async function () {
-  if (!this.isModified("password")) return;
-
-  this.password = await bcryptjs.hash(this.password, 10);
+// Hash password before saving
+UserSchema.pre("save", async function(next){
+    if(!this.isModified("password")){
+        next();
+    }
+    this.password = await bcrypt.hash(this.password, 10);
 });
+
+// Generate JWT token
+UserSchema.methods.getJWTToken = function(){
+    return jwt.sign({id: this._id}, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRE,
+    });
+};
+
+// Compare password
+UserSchema.methods.comparePassword = async function(enteredPassword){
+    return await bcrypt.compare(enteredPassword, this.password);
+};
+
 export default mongoose.model("User", UserSchema);
+
+
+
+
