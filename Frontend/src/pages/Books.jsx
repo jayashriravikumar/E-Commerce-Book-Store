@@ -1,44 +1,46 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import BookCard from "../components/BookCard";
-import { getUniqueBooks } from "../utils/books";
-import fallbackBooks from "../data/fallbackBooks";
+import BookImage from "../components/BookImage";
+import { CartContext } from "../context/CartContext";
 
 function Books({ search = "" }) {
-
-  const [books, setBooks] = useState([]);
+  const { books = [], fetchBooks } = useContext(CartContext) || {};
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [activeBookIndex, setActiveBookIndex] = useState(0);
 
   useEffect(() => {
+    const loadBooks = async () => {
+      if (typeof fetchBooks === "function") {
+        await fetchBooks();
+      }
+      setLoading(false);
+    };
+    loadBooks();
+  }, [fetchBooks]);
 
-    axios
-      .get("http://localhost:5000/api/books")
-      .then((res) => {
-        setBooks(getUniqueBooks(res.data));
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setBooks(getUniqueBooks(fallbackBooks));
-        setError("");
-        setLoading(false);
-      });
-
-  }, []);
-
-  const filteredBooks = books.filter((book) =>
+  const filteredBooks = (Array.isArray(books) ? books : []).filter((book) =>
     (book.title || "")
       .toLowerCase()
       .includes((search || "").toLowerCase())
   );
 
+  useEffect(() => {
+    if (filteredBooks.length <= 1) {
+      setActiveBookIndex(0);
+      return undefined;
+    }
+
+    const slider = setInterval(() => {
+      setActiveBookIndex((current) => (current + 1) % filteredBooks.length);
+    }, 2200);
+
+    return () => clearInterval(slider);
+  }, [filteredBooks.length]);
+
+  const featuredBook = filteredBooks[activeBookIndex] || null;
+
   if (loading) {
     return <h2 style={{ textAlign: "center" }}>Loading books...</h2>;
-  }
-
-  if (error) {
-    return <h2 style={{ textAlign: "center", color: "red" }}>{error}</h2>;
   }
 
   if (filteredBooks.length === 0) {
@@ -49,20 +51,32 @@ function Books({ search = "" }) {
     <div className="books-page">
       <section className="books-hero">
         <div>
-          <p className="books-eyebrow">Curated Collection</p>
-          <h1>Explore Our Book Collection</h1>
+          <p className="books-eyebrow">Books Collection</p>
+          <h1>Find Your Next Read</h1>
           <p className="books-hero-copy">
-            Discover handpicked reads with strong visuals, clear pricing, and
-            a cleaner shopping experience.
+            Explore bestselling titles, timeless classics, and fresh arrivals picked for every kind of reader.
           </p>
         </div>
+
+        {featuredBook && (
+          <div className="books-hero-showcase">
+            <BookImage
+              book={featuredBook}
+              alt={featuredBook.title}
+              className="books-hero-image"
+            />
+            <p className="books-hero-feature-label">Now Showing</p>
+            <h3>{featuredBook.title}</h3>
+            <p>{featuredBook.author}</p>
+          </div>
+        )}
       </section>
 
-      <div className="books-grid">
+      <section className="books-grid books-list-grid">
         {filteredBooks.map((book) => (
           <BookCard key={book._id} book={book} />
         ))}
-      </div>
+      </section>
     </div>
   );
 }

@@ -102,7 +102,7 @@ const fallbackBooks = [
     howToUse: "Read alongside your personal budgeting or investing plan and list key lessons that affect your money decisions.",
     productDimensions: "20.1 cm x 13 cm x 2 cm",
     packageContains: ["1 Paperback Book", "Protective cover"],
-    image: "https://covers.openlibrary.org/b/isbn/9781612680002-L.jpg"
+    image: "https://covers.openlibrary.org/b/isbn/9781612681139-L.jpg"
   },
   {
     _id: "the-alchemist-paulo-coelho",

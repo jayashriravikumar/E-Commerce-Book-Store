@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import BookCard from "../components/BookCard";
 import HeroCarousel from "../components/HeroCarousel";
-import { getUniqueBooks } from "../utils/books";
-import fallbackBooks from "../data/fallbackBooks";
+import { CartContext } from "../context/CartContext";
 
 const categories = [
   {
@@ -34,17 +32,22 @@ const categories = [
   }
 ];
 
+const FEATURED_BOOKS_COUNT = 8;
+
 function Home() {
-  const [books, setBooks] = useState([]);
+  const { books = [], fetchBooks } = useContext(CartContext) || {};
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/books")
-      .then((res) => setBooks(getUniqueBooks(res.data)))
-      .catch((err) => {
-        console.log(err);
-        setBooks(getUniqueBooks(fallbackBooks));
-      });
-  }, []);
+    const loadHomeBooks = async () => {
+      if (typeof fetchBooks === "function") {
+        await fetchBooks();
+      }
+      setLoading(false);
+    };
+
+    loadHomeBooks();
+  }, [fetchBooks]);
 
   const booksByCategory = categories.map((category) => ({
     ...category,
@@ -114,12 +117,12 @@ function Home() {
         </div>
 
         <div className="books-grid">
-          {books.length > 0 ? (
-            books.slice(0, 4).map((book) => (
+          {!loading && books.length > 0 ? (
+            books.slice(0, FEATURED_BOOKS_COUNT).map((book) => (
               <BookCard key={book._id} book={book} />
             ))
           ) : (
-            <p>Loading books...</p>
+            <p>{loading ? "Loading books..." : "No books available right now."}</p>
           )}
         </div>
       </section>

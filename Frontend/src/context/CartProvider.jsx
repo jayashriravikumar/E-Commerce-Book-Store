@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
 import { CartContext } from "./CartContext";
+import { getUniqueBooks } from "../utils/books";
 
 const CART_STORAGE_KEY = "bookstore-cart";
 
@@ -18,10 +20,21 @@ function CartProvider({ children }) {
       return [];
     }
   });
+  const [books, setBooks] = useState([]);
 
   useEffect(() => {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
   }, [cart]);
+
+  const fetchBooks = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/books");
+      setBooks(getUniqueBooks(Array.isArray(response.data) ? response.data : []));
+    } catch (error) {
+      console.error("Error fetching books:", error);
+      setBooks([]);
+    }
+  }, []);
 
   const addToCart = (book) => {
     setCart((currentCart) => {
@@ -59,9 +72,12 @@ function CartProvider({ children }) {
     <CartContext.Provider
       value={{
         cart,
+        setCart,
         addToCart,
         removeFromCart,
         updateQuantity,
+        books,
+        fetchBooks,
       }}
     >
       {children}

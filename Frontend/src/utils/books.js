@@ -220,7 +220,24 @@ function getFallbackBookImage(book = {}) {
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
+function getImageOverride(book = {}) {
+  const title = (book?.title || "").trim().toLowerCase();
+  const author = (book?.author || "").trim().toLowerCase();
+
+  if (title === "rich dad poor dad" && author === "robert t. kiyosaki") {
+    return "https://covers.openlibrary.org/b/isbn/9781612681139-L.jpg";
+  }
+
+  return null;
+}
+
 export function getBookImage(book) {
+  const imageOverride = getImageOverride(book);
+
+  if (imageOverride) {
+    return imageOverride;
+  }
+
   if (book?.image?.startsWith("data:image/") || book?.image?.startsWith("http")) {
     return book.image;
   }

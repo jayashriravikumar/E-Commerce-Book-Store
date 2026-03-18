@@ -16,6 +16,21 @@ const fallbackBooks = seedBooks.map((book) => ({
   _id: buildFallbackId(book),
 }));
 
+const deduplicateBooks = (books = []) => {
+  const seen = new Set();
+
+  return books.filter((book) => {
+    const key = `${(book?.title || "").trim().toLowerCase()}::${(book?.author || "").trim().toLowerCase()}`;
+
+    if (!key || seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
+};
+
 const syncSeedBooks = async () => {
   for (const book of seedBooks) {
     await Book.updateOne(
@@ -31,14 +46,14 @@ const syncSeedBooks = async () => {
 router.get("/", async (req,res)=>{
   try {
     if (mongoose.connection.readyState !== 1) {
-      return res.json(fallbackBooks);
+      return res.json(deduplicateBooks(fallbackBooks));
     }
 
     await syncSeedBooks();
     const books = await Book.find();
-    res.json(books.length ? books : fallbackBooks);
+    res.json(deduplicateBooks(books.length ? books : fallbackBooks));
   } catch (error) {
-    res.json(fallbackBooks);
+    res.json(deduplicateBooks(fallbackBooks));
   }
 
 });
