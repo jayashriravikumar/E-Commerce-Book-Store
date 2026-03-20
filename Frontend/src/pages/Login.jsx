@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -111,7 +111,7 @@ function Login() {
     try {
       if (mode === "login") {
         const response = await login({
-          email: form.email.trim(),
+          email: form.email.trim().toLowerCase(),
           password: form.password,
           rememberMe: form.rememberMe,
         });
@@ -124,7 +124,7 @@ function Login() {
       if (mode === "register") {
         const response = await register({
           name: form.name.trim(),
-          email: form.email.trim(),
+          email: form.email.trim().toLowerCase(),
           password: form.password,
           rememberMe: form.rememberMe,
         });
@@ -134,7 +134,7 @@ function Login() {
         return;
       }
 
-      const response = await requestPasswordReset(form.email.trim());
+      const response = await requestPasswordReset(form.email.trim().toLowerCase());
       setMessage(response.message);
       setMode("login");
       setForm((currentForm) => ({

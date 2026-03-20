@@ -5,7 +5,16 @@ import { AuthContext } from "./AuthContext";
 
 const AUTH_STORAGE_KEY = "bookstore-auth-user";
 const AUTH_SESSION_KEY = "bookstore-auth-session-user";
-const API_URL = "http://localhost:5000/api/users";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const API_URL = `${API_BASE_URL}/api/users`;
+
+const authApi = axios.create({
+  baseURL: API_URL,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 function readStoredUser() {
   const localUser = localStorage.getItem(AUTH_STORAGE_KEY);
@@ -37,6 +46,20 @@ function clearStoredUser() {
   sessionStorage.removeItem(AUTH_SESSION_KEY);
 }
 
+function normalizeAuthPayload({ name, email, password }) {
+  return {
+    name: (name || "").trim(),
+    email: (email || "").trim().toLowerCase(),
+    password: password || "",
+  };
+}
+
+function validateAuthResponse(data) {
+  if (!data?.success || !data?.user) {
+    throw new Error("Invalid authentication response");
+  }
+}
+
 function AuthProvider({ children }) {
   const [user, setUser] = useState(readStoredUser);
   const [loading, setLoading] = useState(false);
@@ -45,11 +68,10 @@ function AuthProvider({ children }) {
     setLoading(true);
 
     try {
-      const { data } = await axios.post(`${API_URL}/register`, {
-        name,
-        email,
-        password,
-      });
+      const payload = normalizeAuthPayload({ name, email, password });
+      const { data } = await authApi.post("/register", payload);
+
+      validateAuthResponse(data);
 
       setUser(data.user);
       persistUser(data.user, rememberMe);
@@ -63,10 +85,10 @@ function AuthProvider({ children }) {
     setLoading(true);
 
     try {
-      const { data } = await axios.post(`${API_URL}/login`, {
-        email,
-        password,
-      });
+      const payload = normalizeAuthPayload({ email, password });
+      const { data } = await authApi.post("/login", payload);
+
+      validateAuthResponse(data);
 
       setUser(data.user);
       persistUser(data.user, rememberMe);
@@ -80,7 +102,9 @@ function AuthProvider({ children }) {
     setLoading(true);
 
     try {
-      const { data } = await axios.post(`${API_URL}/forgot-password`, { email });
+      const { data } = await authApi.post("/forgot-password", {
+        email: (email || "").trim().toLowerCase(),
+      });
       return data;
     } finally {
       setLoading(false);
