@@ -4,8 +4,9 @@ import axios from "axios";
 
 import BookImage from "../components/BookImage";
 import { CartContext } from "../context/CartContext";
-import { formatPrice, getUniqueBooks } from "../utils/books";
-import fallbackBooks from "../data/fallbackBooks";
+import { formatPrice } from "../utils/books";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 function BookDetail() {
   const { id } = useParams();
@@ -21,49 +22,47 @@ function BookDetail() {
   useEffect(() => {
     let isMounted = true;
 
-    Promise.allSettled([
-      axios.get(`http://localhost:5000/api/books/${id}`),
-      axios.get("http://localhost:5000/api/books")
-    ])
-      .then(([bookResult, booksResult]) => {
+    const loadBookDetail = async () => {
+      setLoading(true);
+      setError("");
+      setCartMessage("");
+      setShowFullDescription(false);
+
+      try {
+        const [bookResponse, booksResponse] = await Promise.all([
+          axios.get(`${API_BASE_URL}/api/books/${id}`),
+          axios.get(`${API_BASE_URL}/api/books`)
+        ]);
+
         if (!isMounted) {
           return;
         }
 
-        const allBooks = booksResult.status === "fulfilled"
-          ? getUniqueBooks(booksResult.value.data)
-          : getUniqueBooks(fallbackBooks);
-        const selectedFromList = allBooks.find((item) => item._id === id);
-        const resolvedBook = bookResult.status === "fulfilled"
-          ? bookResult.value.data
-          : selectedFromList;
+        const allBooks = Array.isArray(booksResponse.data) ? booksResponse.data : [];
 
+        setBook(bookResponse.data || null);
         setBooks(allBooks);
-
-        if (resolvedBook) {
-          setBook(resolvedBook);
-          setError("");
-          setShowFullDescription(false);
-          setCartMessage("");
-        } else {
-          setError("Failed to load book details");
-        }
-
-        setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error(err);
 
-        if (isMounted) {
-          const localBooks = getUniqueBooks(fallbackBooks);
-          const localBook = localBooks.find((item) => item._id === id);
+        if (!isMounted) {
+          return;
+        }
 
-          setBooks(localBooks);
-          setBook(localBook || null);
-          setError(localBook ? "" : "Failed to load book details");
+        setBook(null);
+        setBooks([]);
+        setError(
+          err?.response?.data?.message ||
+          "Failed to load book details. Please try again."
+        );
+      } finally {
+        if (isMounted) {
           setLoading(false);
         }
-      });
+      }
+    };
+
+    loadBookDetail();
 
     return () => {
       isMounted = false;

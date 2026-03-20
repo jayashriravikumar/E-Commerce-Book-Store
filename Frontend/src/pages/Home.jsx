@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import BookCard from "../components/BookCard";
@@ -35,24 +35,20 @@ const categories = [
 const FEATURED_BOOKS_COUNT = 8;
 
 function Home() {
-  const { books = [], fetchBooks } = useContext(CartContext) || {};
-  const [loading, setLoading] = useState(true);
+  const {
+    books = [],
+    booksLoading = false,
+    booksError = ""
+  } = useContext(CartContext) || {};
 
-  useEffect(() => {
-    const loadHomeBooks = async () => {
-      if (typeof fetchBooks === "function") {
-        await fetchBooks();
-      }
-      setLoading(false);
-    };
-
-    loadHomeBooks();
-  }, [fetchBooks]);
-
-  const booksByCategory = categories.map((category) => ({
-    ...category,
-    books: books.filter((book) => book.category === category.key).slice(0, 4)
-  }));
+  const booksByCategory = useMemo(
+    () =>
+      categories.map((category) => ({
+        ...category,
+        books: books.filter((book) => book.category === category.key).slice(0, 4)
+      })),
+    [books]
+  );
 
   return (
     <div className="home-page">
@@ -117,12 +113,16 @@ function Home() {
         </div>
 
         <div className="books-grid">
-          {!loading && books.length > 0 ? (
+          {booksLoading ? (
+            <p>Loading books...</p>
+          ) : booksError ? (
+            <p>{booksError}</p>
+          ) : books.length > 0 ? (
             books.slice(0, FEATURED_BOOKS_COUNT).map((book) => (
               <BookCard key={book._id} book={book} />
             ))
           ) : (
-            <p>{loading ? "Loading books..." : "No books available right now."}</p>
+            <p>No books available right now.</p>
           )}
         </div>
       </section>

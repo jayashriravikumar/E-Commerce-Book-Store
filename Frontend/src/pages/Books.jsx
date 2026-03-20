@@ -1,32 +1,28 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import BookCard from "../components/BookCard";
 import BookImage from "../components/BookImage";
 import { CartContext } from "../context/CartContext";
 
 function Books({ search = "" }) {
-  const { books = [], fetchBooks } = useContext(CartContext) || {};
-  const [loading, setLoading] = useState(true);
+  const {
+    books = [],
+    booksLoading = false,
+    booksError = ""
+  } = useContext(CartContext) || {};
   const [activeBookIndex, setActiveBookIndex] = useState(0);
 
-  useEffect(() => {
-    const loadBooks = async () => {
-      if (typeof fetchBooks === "function") {
-        await fetchBooks();
-      }
-      setLoading(false);
-    };
-    loadBooks();
-  }, [fetchBooks]);
-
-  const filteredBooks = (Array.isArray(books) ? books : []).filter((book) =>
-    (book.title || "")
-      .toLowerCase()
-      .includes((search || "").toLowerCase())
+  const filteredBooks = useMemo(
+    () =>
+      (Array.isArray(books) ? books : []).filter((book) =>
+        (book.title || "")
+          .toLowerCase()
+          .includes((search || "").toLowerCase())
+      ),
+    [books, search]
   );
 
   useEffect(() => {
     if (filteredBooks.length <= 1) {
-      setActiveBookIndex(0);
       return undefined;
     }
 
@@ -37,10 +33,17 @@ function Books({ search = "" }) {
     return () => clearInterval(slider);
   }, [filteredBooks.length]);
 
-  const featuredBook = filteredBooks[activeBookIndex] || null;
+  const normalizedBookIndex = filteredBooks.length
+    ? activeBookIndex % filteredBooks.length
+    : 0;
+  const featuredBook = filteredBooks[normalizedBookIndex] || null;
 
-  if (loading) {
+  if (booksLoading) {
     return <h2 style={{ textAlign: "center" }}>Loading books...</h2>;
+  }
+
+  if (booksError) {
+    return <h2 style={{ textAlign: "center", color: "#b91c1c" }}>{booksError}</h2>;
   }
 
   if (filteredBooks.length === 0) {
