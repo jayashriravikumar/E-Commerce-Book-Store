@@ -9,6 +9,7 @@ import Books from "./pages/Books";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import BookDetail from "./pages/BookDetail";
+import Checkout from "./pages/Checkout";
 
 function AppLayout() {
   const [search, setSearch] = useState("");
@@ -30,7 +31,12 @@ function AppLayout() {
             path="/books/:id"
             element={<BookDetail />}
           />
+          <Route
+            path="/book"
+            element={<BookDetail />}
+          />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </main>
