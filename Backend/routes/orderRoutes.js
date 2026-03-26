@@ -1,10 +1,9 @@
 import express from "express";
-import Book from "../models/book.js";
+import { createOrder } from "../controller/orderController.js";
+import { verifyUser } from "../helper/userAuth.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.json({ message: "Order route working" });
-});
+router.route("/").post(verifyUser, createOrder);
 
 export default router;

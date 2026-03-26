@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import productRoutes from "./routes/productRoutes.js";
 import bookRoutes from "./routes/bookRoutes.js";
@@ -11,7 +12,13 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(
+	cors({
+		origin: process.env.FRONTEND_URL || true,
+		credentials: true,
+	})
+);
 
 // Routes
 app.use("/api/products", productRoutes);
