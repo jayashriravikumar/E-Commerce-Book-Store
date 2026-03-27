@@ -4,6 +4,7 @@ import APIHelper from "../helper/APIHelper.js";
 
 export const addProducts = async (req, res,next) => {
   //console.log(req.body);
+  req.body.user = req.user.id;
   const product = await Product.create(req.body);
   res.status(201).json({
     success: true,

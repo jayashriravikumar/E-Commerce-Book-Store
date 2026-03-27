@@ -37,7 +37,9 @@ export const loginUser = async (req, res, next) => {
     }
 
     const user = await User.findOne({ email }).select("+password");
-
+    if (!user) {
+      return next(new HandleError("Invalid email or password", 401));
+    }
     const isValidPassword = await user.verifyPassword(password);
     if (!isValidPassword) {
       return next(new HandleError("Invalid email or password", 401));
@@ -45,3 +47,15 @@ export const loginUser = async (req, res, next) => {
   
     sendToken(user, 200, res);
 };
+
+export const logout = async (req,res,next) => {
+  const options = {
+    expires:new Date(Date.now()),
+    httpOnly:true,
+  }
+  res.cookie("token", null, options);
+  res.status(200).json({
+    success:true,
+    message:"Logged out successfully",
+  })
+  };
