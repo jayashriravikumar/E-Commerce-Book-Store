@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { AuthContext } from "./AuthContext";
 
 const AUTH_STORAGE_KEY = "bookstore-auth-user";
 const AUTH_SESSION_KEY = "bookstore-auth-session-user";
+const TOKEN_STORAGE_KEY = "bookstore-auth-token";
+const TOKEN_SESSION_KEY = "bookstore-auth-session-token";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 const API_URL = `${API_BASE_URL}/api/users`;
 
@@ -14,6 +16,24 @@ const authApi = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+});
+
+function readStoredToken() {
+  return localStorage.getItem(TOKEN_STORAGE_KEY) || sessionStorage.getItem(TOKEN_SESSION_KEY);
+}
+
+function isTokenStoredInLocalStorage() {
+  return Boolean(localStorage.getItem(TOKEN_STORAGE_KEY));
+}
+
+authApi.interceptors.request.use((config) => {
+  const token = readStoredToken();
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
 });
 
 function readStoredUser() {
@@ -41,9 +61,24 @@ function persistUser(user, rememberMe) {
   storage.setItem(key, JSON.stringify(user));
 }
 
+function persistToken(token, rememberMe) {
+  localStorage.removeItem(TOKEN_STORAGE_KEY);
+  sessionStorage.removeItem(TOKEN_SESSION_KEY);
+
+  if (!token) {
+    return;
+  }
+
+  const storage = rememberMe ? localStorage : sessionStorage;
+  const key = rememberMe ? TOKEN_STORAGE_KEY : TOKEN_SESSION_KEY;
+  storage.setItem(key, token);
+}
+
 function clearStoredUser() {
   localStorage.removeItem(AUTH_STORAGE_KEY);
   sessionStorage.removeItem(AUTH_SESSION_KEY);
+  localStorage.removeItem(TOKEN_STORAGE_KEY);
+  sessionStorage.removeItem(TOKEN_SESSION_KEY);
 }
 
 function normalizeAuthPayload({ name, email, password }) {
@@ -55,14 +90,39 @@ function normalizeAuthPayload({ name, email, password }) {
 }
 
 function validateAuthResponse(data) {
-  if (!data?.success || !data?.user) {
+  if (!data?.success || !data?.user || !data?.token) {
     throw new Error("Invalid authentication response");
   }
 }
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(readStoredUser);
+  const [token, setToken] = useState(readStoredToken);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const syncSession = async () => {
+      if (!token || token === "google-oauth-session") {
+        return;
+      }
+
+      try {
+        const { data } = await authApi.get("/me");
+
+        if (data?.success && data?.user) {
+          setUser(data.user);
+          persistUser(data.user, isTokenStoredInLocalStorage());
+          return;
+        }
+      } catch {
+        setUser(null);
+        setToken("");
+        clearStoredUser();
+      }
+    };
+
+    syncSession();
+  }, [token]);
 
   const register = async ({ name, email, password, rememberMe }) => {
     setLoading(true);
@@ -74,7 +134,9 @@ function AuthProvider({ children }) {
       validateAuthResponse(data);
 
       setUser(data.user);
+      setToken(data.token);
       persistUser(data.user, rememberMe);
+      persistToken(data.token, rememberMe);
       return data;
     } finally {
       setLoading(false);
@@ -91,7 +153,9 @@ function AuthProvider({ children }) {
       validateAuthResponse(data);
 
       setUser(data.user);
+      setToken(data.token);
       persistUser(data.user, rememberMe);
+      persistToken(data.token, rememberMe);
       return data;
     } finally {
       setLoading(false);
@@ -124,7 +188,9 @@ function AuthProvider({ children }) {
     };
 
     setUser(googleUser);
+    setToken("google-oauth-session");
     persistUser(googleUser, rememberMe);
+    persistToken("google-oauth-session", rememberMe);
 
     return {
       success: true,
@@ -135,6 +201,7 @@ function AuthProvider({ children }) {
 
   const logout = () => {
     setUser(null);
+    setToken("");
     clearStoredUser();
   };
 
@@ -142,8 +209,9 @@ function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
-        isAuthenticated: Boolean(user),
+        isAuthenticated: Boolean(user && token),
         loading,
+        token,
         register,
         login,
         logout,

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { signInWithPopup } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import BookStoreLogo from "../components/BookStoreLogo";
@@ -40,8 +40,11 @@ const initialForm = {
   rememberMe: true
 };
 
-function Login() {
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function Login({ initialMode = "login" }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     login,
     register,
@@ -50,9 +53,9 @@ function Login() {
     loading,
     isAuthenticated,
   } = useContext(AuthContext);
-  const [mode, setMode] = useState("login");
+  const [mode, setMode] = useState(initialMode);
   const [form, setForm] = useState(initialForm);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(location.state?.message || "");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -84,6 +87,10 @@ function Login() {
 
     if (!form.email.trim()) {
       return "Please enter your email address";
+    }
+
+    if (!emailPattern.test(form.email.trim().toLowerCase())) {
+      return "Please enter a valid email address";
     }
 
     if (mode !== "forgot" && form.password.length < 8) {

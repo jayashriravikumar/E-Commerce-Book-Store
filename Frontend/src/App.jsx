@@ -8,19 +8,22 @@ import Home from "./pages/Home";
 import Books from "./pages/Books";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import BookDetail from "./pages/BookDetail";
 import Checkout from "./pages/Checkout";
+import OrderConfirmation from "./pages/OrderConfirmation";
+import Orders from "./pages/Orders";
 
 function AppLayout() {
   const [search, setSearch] = useState("");
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
+  const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
 
   return (
     <div className="app-shell">
       <Navbar search={search} setSearch={setSearch} />
 
-      <main className={isLoginPage ? "page-container login-page-layout" : "page-container"}>
+      <main className={isAuthPage ? "page-container login-page-layout" : "page-container"}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -37,7 +40,10 @@ function AppLayout() {
           />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </main>
 

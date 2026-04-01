@@ -84,7 +84,10 @@ function Navbar({ search, setSearch }) {
               </button>
             </>
           ) : (
-            <Link to="/login">Login</Link>
+            <>
+              <Link to="/login">Login</Link>
+              
+            </>
           )}
 
           <Link to="/cart" className="cart-icon">
