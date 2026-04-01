@@ -1,41 +1,21 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
-
+import { BrowserRouter, Routes, Route } from 
+'react-router-dom';
 import Home from "./pages/Home";
-import BookDetail from "./pages/BookDetail";
+import About from "./pages/About";
 import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
+import { Contact } from 'lucide-react';
 
-function App() {
-  const [cart, setCart] = useState([]);
-
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-
-        <Route
-          path="/"
-          element={<Home cart={cart} setCart={setCart} />}
-        />
-
-        <Route
-          path="/book"
-          element={<BookDetail />}
-        />
-
-        <Route
-          path="/cart"
-          element={<Cart cart={cart} />}
-        />
-
-        <Route
-          path="/checkout"
-          element={<Checkout />}
-        />
-
+        <Route path="/" element={<Home />} />
+        <Route path="/about-us" element={<About />} />
+        <Route path="/contact-us" element={<Contact />} />
+        <Route path="/Cart" element={<Cart />} />
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
