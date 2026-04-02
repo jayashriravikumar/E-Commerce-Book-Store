@@ -51,6 +51,7 @@ export const loginUser = async (req, res, next) => {
     sendToken(user, 200, res);
 };
 
+// Logout User
 export const logout = async (req,res,next) => {
   const options = {
     expires:new Date(Date.now()),
@@ -63,6 +64,8 @@ export const logout = async (req,res,next) => {
   })
   };
 
+
+  // Forget user password
   export const forgetPassword= async(req,res,next) => {
 
     const {email} = req.body;
@@ -101,6 +104,7 @@ export const logout = async (req,res,next) => {
     }
   };
 
+  // Reset user password
   export const resetPassword = async(req,res,next) => {
     const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
     console.log(resetPasswordToken);
@@ -120,6 +124,41 @@ export const logout = async (req,res,next) => {
     user.resetPasswordExpire= undefined;
     await user.save();
     sendToken(user, 200, res);
-
   };
-  
+
+  // Get user profile
+  export const profile = async(req,res,next) => {
+    const user = await User.findById(req.user.id);
+    res.status(200).json({  
+      success:true,
+      user,
+    });
+  };
+
+  // Update user password
+  export const updatePassword = async(req,res,next) => {
+    const {oldPassword,newPassword,confirmPassword} = req.body;
+    const user = await User.findById(req.user.id).select("+password");
+    const isCorrect = await user.verifyPassword(oldPassword);
+    if(!isCorrect){
+      return next(new HandleError("Old password is incorrect", 400));
+    }
+    if(newPassword !== confirmPassword){
+      return next(new HandleError("New passwords do not match", 400));
+    }
+    user.password = newPassword;
+    await user.save();
+    sendToken(user, 200, res);
+  };
+
+  // Update user profile
+ export const updateProfile = async(req,res,next) => { 
+  const {name,email} = req.body;
+  const updatedUserDetails = {name,email};
+  const user = await User.findByIdAndUpdate(req.user.id, updatedUserDetails, { new: true,runValidators:true });
+  res.status(200).json({
+    success:true,
+    message:"Profile updated successfully",
+    user,
+  });
+ };
