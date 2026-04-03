@@ -162,3 +162,51 @@ export const logout = async (req,res,next) => {
     user,
   });
  };
+
+ export const getUsers = async(req,res) => {
+  const users = await User.find();
+  res.status(200).json({
+    success:true,
+    users,
+  });
+ }
+
+ export const getSingleUser = async(req,res,next) => {
+  const id = req.params.id;
+  const user = await User.findById(id);
+  if(!user){
+    return next(new HandleError("User not found", 400));
+  }
+  res.status(200).json({
+    success:true,
+    user,
+  });
+ };
+
+ export const updateUserRole = async(req,res,next) => {
+  const {role} = req.body;
+  const id = req.params.id;
+  const updatedRole={role};
+  const user = await User.findByIdAndUpdate(id, updatedRole, { new: true });
+  if(!user){
+    return next(new HandleError("User not found", 400));
+  }
+  res.status(200).json({
+    success:true,
+    user,
+  });
+ };
+
+ export const deleteUser = async(req,res,next) => {
+  const id = req.params.id;
+  const user = await User.findByIdAndDelete(id);
+  if(!user){
+    return next(new HandleError("User not found", 400));
+  }
+  res.status(200).json({
+    success:true,
+    message:"User deleted successfully",
+  });
+ };
+
+ 

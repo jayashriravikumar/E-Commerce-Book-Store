@@ -1,9 +1,19 @@
 import express from 'express';
-import { addProducts,getAllProducts, getSingleProduct,updateProduct,deleteProduct } from '../controller/productcontroller.js';
+import { addProducts,getAllProducts, getSingleProduct,updateProduct,deleteProduct,createProductReview,viewProductReviews } from '../controller/productcontroller.js';
 import { verifyUser,roleBasedAccess } from '../helper/userAuth.js';
 const router = express.Router();
 
-router.route("/products").get(verifyUser, getAllProducts).post(verifyUser,roleBasedAccess("admin"),addProducts);
-//   router.get("/product/:id",getSingleProduct);
-router.route("/product/:id").get(getSingleProduct).put(verifyUser,roleBasedAccess("admin"),updateProduct).delete(verifyUser,roleBasedAccess("admin"),deleteProduct);
+//User side
+router.route("/products").get( getAllProducts)
+router.route("/product/:id").get(getSingleProduct);
+//user review
+router.route("/review").put(verifyUser,createProductReview);
+
+//Admin side
+router.route("/admin/product/create").post(verifyUser,roleBasedAccess("admin"),addProducts);
+router.route("/admin/product/:id").put(verifyUser,roleBasedAccess("admin"),updateProduct).delete(verifyUser,roleBasedAccess("admin"),deleteProduct);
+//adminView all products
+//view review
+router.route("/admin/reviews").get(verifyUser,roleBasedAccess("admin"),viewProductReviews);  
+//delete review
 export default router;
