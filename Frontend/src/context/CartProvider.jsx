@@ -117,6 +117,10 @@ function CartProvider({ children }) {
     );
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -125,6 +129,7 @@ function CartProvider({ children }) {
         addToCart,
         removeFromCart,
         updateQuantity,
+        clearCart,
         books,
         booksLoading,
         booksError,

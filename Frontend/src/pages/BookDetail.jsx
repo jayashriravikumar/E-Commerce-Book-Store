@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import BookImage from "../components/BookImage";
@@ -10,6 +10,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000
 
 function BookDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
 
   const [book, setBook] = useState(null);
@@ -110,6 +111,11 @@ function BookDetail() {
     setCartMessage("Added to cart");
   };
 
+  const handleBuyNow = () => {
+    addToCart(book);
+    navigate("/checkout");
+  };
+
   return (
     <div className="book-detail-page">
       <section className="book-detail-hero">
@@ -153,7 +159,7 @@ function BookDetail() {
             {cartMessage || "Add to Cart"}
           </button>
 
-          <button className="book-buy-now" type="button">
+          <button className="book-buy-now" type="button" onClick={handleBuyNow}>
             Buy Now
           </button>
 

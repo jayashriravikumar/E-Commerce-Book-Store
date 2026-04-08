@@ -12,7 +12,7 @@ const TOKEN_SESSION_KEY = "bookstore-auth-session-token";
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const { cart, setCart } = useContext(CartContext);
+  const { cart, clearCart } = useContext(CartContext);
   const { user, logout } = useContext(AuthContext);
   const [feedback, setFeedback] = useState({ type: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,6 +34,9 @@ export default function Checkout() {
     () => cart.reduce((sum, item) => sum + (item.quantity || 1), 0),
     [cart]
   );
+
+  const inputClassName =
+    "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100";
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -73,26 +76,31 @@ export default function Checkout() {
       return;
     }
 
+    const orderItems = cart
+      .map((item) => ({
+        bookId: item?._id || item?.bookId,
+        qty: Number(item?.quantity) || 1,
+        price: Number(item?.price) || 0,
+      }))
+      .filter((item) => item.bookId && item.qty > 0 && item.price >= 0);
+
+    if (!orderItems.length || orderItems.length !== cart.length) {
+      setFeedback({
+        type: "error",
+        message: "Some cart items are invalid. Please refresh your cart and try again.",
+      });
+      return;
+    }
+
+    const shippingAddress = {
+      address: checkoutData.address.trim(),
+      city: checkoutData.city.trim(),
+      postalCode: checkoutData.postalCode.trim(),
+    };
+
     const payload = {
-      customer: {
-        name: checkoutData.fullName.trim(),
-        email: checkoutData.email.trim().toLowerCase(),
-      },
-      orderItems: cart.map((item) => ({
-        bookId: item._id,
-        title: item.title,
-        qty: item.quantity || 1,
-        price: item.price,
-      })),
-      shippingAddress: {
-        address: checkoutData.address.trim(),
-        city: checkoutData.city.trim(),
-        postalCode: checkoutData.postalCode.trim(),
-      },
-      payment: {
-        method: "card",
-        cardLast4: checkoutData.cardNumber.replace(/\s+/g, "").slice(-4),
-      },
+      orderItems,
+      shippingAddress,
       totalPrice,
     };
 
@@ -121,7 +129,7 @@ export default function Checkout() {
       );
 
       setFeedback({ type: "success", message: "Order placed successfully." });
-      setCart([]);
+      clearCart();
 
       navigate(`/order-confirmation/${data.order._id}`, {
         state: {
@@ -160,103 +168,118 @@ export default function Checkout() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-slate-200 p-6 md:p-10">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-6 md:mb-8 flex flex-wrap gap-3 items-end justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900">Secure Checkout</h1>
-            <p className="text-slate-600 mt-1">Complete your order in one final step.</p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#e0f2fe_0%,_#f8fafc_45%,_#ecfeff_100%)] px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+      <div className="mx-auto max-w-7xl">
+        <header className="mb-8 lg:mb-10">
+          <p className="inline-flex items-center rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-cyan-800">
+            Final step
+          </p>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            Checkout
+          </h1>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">
+            Review your information, confirm your shipping details, and place your order securely.
+          </p>
+        </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.35fr_0.85fr] lg:gap-8">
           <form
-            className="lg:col-span-2 bg-white border border-slate-200 shadow-sm rounded-2xl p-6 md:p-8"
+            className="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-[0_20px_60px_-40px_rgba(2,132,199,0.65)] backdrop-blur-sm sm:p-8 lg:p-10"
             onSubmit={handlePlaceOrder}
             noValidate
           >
             <div className="space-y-8">
-              <section>
-                <h2 className="text-lg font-semibold text-slate-900 mb-4">Contact Information</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
+              <section className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 sm:p-6">
+                <h2 className="text-lg font-semibold text-slate-900">Contact Information</h2>
+                <p className="mt-1 text-sm text-slate-500">We will send your order confirmation to this email.</p>
+                <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <label className="space-y-2 text-sm font-medium text-slate-700">
+                    Full name
                     <input
                       name="fullName"
                       value={checkoutData.fullName}
                       onChange={handleInputChange}
-                      placeholder="Full Name"
-                      className="w-full border p-3 rounded-lg border-slate-300"
+                      placeholder="Enter your full name"
+                      className={inputClassName}
                     />
-                  </div>
+                  </label>
 
-                  <div>
+                  <label className="space-y-2 text-sm font-medium text-slate-700">
+                    Email address
                     <input
                       name="email"
                       value={checkoutData.email}
                       onChange={handleInputChange}
-                      placeholder="Email"
-                      className="w-full border p-3 rounded-lg border-slate-300"
+                      placeholder="you@example.com"
+                      className={inputClassName}
                     />
-                  </div>
+                  </label>
                 </div>
               </section>
 
-              <section>
-                <h2 className="text-lg font-semibold text-slate-900 mb-4">Shipping Address</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="md:col-span-2">
+              <section className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 sm:p-6">
+                <h2 className="text-lg font-semibold text-slate-900">Shipping Address</h2>
+                <p className="mt-1 text-sm text-slate-500">Use the address where you want to receive your books.</p>
+                <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <label className="space-y-2 text-sm font-medium text-slate-700 md:col-span-2">
+                    Street address
                     <input
                       name="address"
                       value={checkoutData.address}
                       onChange={handleInputChange}
-                      placeholder="Street Address"
-                      className="w-full border p-3 rounded-lg border-slate-300"
+                      placeholder="123 Main St"
+                      className={inputClassName}
                     />
-                  </div>
+                  </label>
 
-                  <div>
+                  <label className="space-y-2 text-sm font-medium text-slate-700">
+                    City
                     <input
                       name="city"
                       value={checkoutData.city}
                       onChange={handleInputChange}
                       placeholder="City"
-                      className="w-full border p-3 rounded-lg border-slate-300"
+                      className={inputClassName}
                     />
-                  </div>
+                  </label>
 
-                  <div>
+                  <label className="space-y-2 text-sm font-medium text-slate-700">
+                    ZIP / Postal code
                     <input
                       name="postalCode"
                       value={checkoutData.postalCode}
                       onChange={handleInputChange}
-                      placeholder="ZIP Code"
-                      className="w-full border p-3 rounded-lg border-slate-300"
+                      placeholder="Postal code"
+                      className={inputClassName}
                     />
-                  </div>
+                  </label>
                 </div>
               </section>
 
-              <section>
-                <h2 className="text-lg font-semibold text-slate-900 mb-4">Payment Details</h2>
-                <div>
-                  <input
-                    name="cardNumber"
-                    value={checkoutData.cardNumber}
-                    onChange={handleInputChange}
-                    placeholder="Card Number"
-                    className="w-full border p-3 rounded-lg border-slate-300"
-                  />
+              <section className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 sm:p-6">
+                <h2 className="text-lg font-semibold text-slate-900">Payment Details</h2>
+                <p className="mt-1 text-sm text-slate-500">Used only for checkout simulation in this project.</p>
+                <div className="mt-5">
+                  <label className="space-y-2 text-sm font-medium text-slate-700">
+                    Card number
+                    <input
+                      name="cardNumber"
+                      value={checkoutData.cardNumber}
+                      onChange={handleInputChange}
+                      placeholder="1234 5678 9012 3456"
+                      className={inputClassName}
+                    />
+                  </label>
                 </div>
-                <p className="mt-2 text-xs text-slate-500">Card is used for UI simulation only. No real charge is made.</p>
               </section>
             </div>
 
             {feedback.message && (
               <p
-                className={`mt-6 rounded-lg px-3 py-2 text-sm ${
+                className={`mt-6 rounded-xl border px-4 py-3 text-sm font-medium ${
                   feedback.type === "error"
-                    ? "bg-red-50 text-red-700 border border-red-200"
-                    : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                    ? "border-red-200 bg-red-50 text-red-700"
+                    : "border-emerald-200 bg-emerald-50 text-emerald-700"
                 }`}
               >
                 {feedback.message}
@@ -266,7 +289,7 @@ export default function Checkout() {
             <button
               type="submit"
               disabled={isSubmitting || cart.length === 0}
-              className="mt-6 w-full bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="mt-6 w-full rounded-xl bg-cyan-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-cyan-700/25 transition hover:bg-cyan-800 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSubmitting ? "Placing Order..." : `Place Order • ${formatPrice(totalPrice)}`}
             </button>
@@ -278,42 +301,42 @@ export default function Checkout() {
             )}
           </form>
 
-          <aside className="bg-slate-900 text-slate-100 rounded-2xl p-6 h-fit lg:sticky lg:top-6">
-            <h3 className="text-xl font-semibold">Order Summary</h3>
-            <p className="text-slate-300 text-sm mt-1">{totalItems} item(s) in your cart</p>
+          <aside className="h-fit rounded-3xl border border-cyan-900/20 bg-gradient-to-br from-slate-900 via-cyan-950 to-slate-900 p-6 text-slate-100 shadow-[0_24px_70px_-40px_rgba(15,23,42,0.95)] lg:sticky lg:top-6 sm:p-7">
+            <h3 className="text-xl font-semibold tracking-tight">Order Summary</h3>
+            <p className="mt-1 text-sm text-cyan-100/80">{totalItems} item(s) in your cart</p>
 
-            <div className="mt-5 space-y-3 max-h-64 overflow-auto pr-1">
+            <div className="mt-5 space-y-3 max-h-72 overflow-auto pr-1">
               {cart.map((item) => (
-                <div key={item._id} className="flex justify-between gap-3 text-sm border-b border-slate-700 pb-2">
+                <div key={item._id} className="flex justify-between gap-3 rounded-xl border border-cyan-900/40 bg-white/5 p-3 text-sm">
                   <div>
                     <p className="font-medium text-slate-100">{item.title}</p>
-                    <p className="text-slate-400">Qty: {item.quantity || 1}</p>
+                    <p className="text-cyan-100/70">Qty: {item.quantity || 1}</p>
                   </div>
-                  <p className="text-slate-200">
+                  <p className="font-medium text-slate-200">
                     {formatPrice((item.price || 0) * (item.quantity || 1))}
                   </p>
                 </div>
               ))}
-              {cart.length === 0 && <p className="text-slate-400 text-sm">No items yet.</p>}
+              {cart.length === 0 && <p className="text-sm text-cyan-100/70">No items yet.</p>}
             </div>
 
-            <div className="mt-5 space-y-2 text-sm border-t border-slate-700 pt-4">
-              <div className="flex justify-between text-slate-300">
+            <div className="mt-6 space-y-3 rounded-2xl border border-cyan-900/40 bg-white/5 p-4 text-sm">
+              <div className="flex justify-between text-cyan-100/90">
                 <span>Subtotal</span>
                 <span>{formatPrice(totalPrice)}</span>
               </div>
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-cyan-100/90">
                 <span>Shipping</span>
                 <span>Free</span>
               </div>
-              <div className="flex justify-between text-base font-semibold text-white pt-1">
+              <div className="flex justify-between border-t border-cyan-900/50 pt-3 text-base font-semibold text-white">
                 <span>Total</span>
                 <span>{formatPrice(totalPrice)}</span>
               </div>
             </div>
 
-            <div className="mt-5 rounded-lg bg-slate-800 px-3 py-2 text-xs text-slate-300 border border-slate-700">
-              Encrypted checkout simulation with authenticated order API submission.
+            <div className="mt-5 rounded-xl border border-cyan-800/50 bg-cyan-900/30 px-4 py-3 text-xs text-cyan-100/90">
+              Secure checkout with authenticated API order placement.
             </div>
           </aside>
         </div>
