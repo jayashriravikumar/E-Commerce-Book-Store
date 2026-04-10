@@ -38,13 +38,13 @@ extraReducers: (builder) => {
     })
     .addCase(getProduct.fulfilled, (state,action) =>{
         console,log("Fullfilled action payload",action.payload);
-        state.loading = false;
+        state.loading = true;
         state.error = null;
         state.products =action.payload.products;
         state.productCount =action.payload.productCount;
     })
     .addCase(getProduct.rejected, (state,action) =>{
-        state.loading =false;
+        state.loading =true;
         state.error=action.payload || "Something went wrong";
     });
 },

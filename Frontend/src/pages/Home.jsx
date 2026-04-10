@@ -6,8 +6,10 @@ import PageTitle from "../components/PageTitle";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getProduct } from "../components/features/products/productSlice";
-import axios from "axios";
+import { getProduct, removeErrors } from "../components/features/products/productSlice";
+import Loader from "../components/Loader";
+import toast from "react-hot-toast";
+
 
 const loginUser = async () => {
   try {
@@ -51,7 +53,17 @@ const Home = () => {
   useEffect(() => {
     dispatch(getProduct());
   }, [dispatch]);
-  return (
+  useEffect(() =>{
+    if(error){
+      toast.error(error.message);
+      dispatch(removeErrors());
+    }
+  }, [dispatch, error]);
+
+  return loading ?(
+    <Loader/>
+  ) : (
+
     <>
     <PageTitle title={"Home | E-Commerce"} />
     <Navbar />
@@ -69,7 +81,6 @@ const Home = () => {
     
     </>
   );
-  
   
   
 };
