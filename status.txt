@@ -1,0 +1,10 @@
+// Backend                              //Completion Status(Yes/No)
+Order functionality                     In progress
+Inventory Stock Updates  
+
+//Frontend
+Dynamic product data fetching           In progress
+Review Page
+Search & category 
+Register,login,auth,logout
+user Profile page        

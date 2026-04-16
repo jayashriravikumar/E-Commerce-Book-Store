@@ -2,27 +2,40 @@ import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema({
     user:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.ObjectId,
         ref:"User",
-        required:[true,"Please provide user"],
+        required:true,
     },
     orderItems:[
         {
-            bookId:{
-                type:mongoose.Schema.Types.ObjectId,
-                ref:"Product",
-                required:true,
-            },
-            qty:{
-                type:Number,
+            name:{
+                type:String,
                 required:true,
             },
             price:{
                 type:Number,
                 required:true,
             },
-        }
+            quantity:{
+                type:Number,
+                required:true,
+            },
+            image:{
+                type:String,
+                required:true,
+            },
+            product:{
+                type:mongoose.Schema.Types.ObjectId,
+                ref:"Product",
+                required:true,
+            },
+        },
     ],
+    orderStatus:{
+        type:String,
+        default:"Processing",
+        required:true,
+    },
     shippingAddress:{
         address:{
             type:String,
@@ -32,23 +45,62 @@ const OrderSchema = new mongoose.Schema({
             type:String,
             required:true,
         },
-        postalCode:{
+        state:{
+            type:String,
+            required:true,
+        },
+        country:{
+            type:String,
+            required:true,
+        },
+        pinCode:{
+            type:String,
+            required:true,
+        },
+        phoneNo:{
             type:String,
             required:true,
         },
     },
+    paymentInfo:{
+    id:{
+        type:String,
+        required:true,
+    },
+    status:{
+        type:String,
+        required:true,
+    },},
+    paidAt:{
+        type:Date,
+        required:true,
+    },
+    itemPrice:{
+        type:Number,
+        required:true,
+        default:0,
+    },
+    taxPrice:{
+        type:Number,
+        required:true,
+        default:0,
+    },
+    shippingPrice:{
+        type:Number,
+        required:true,
+        default:0,
+    },
     totalPrice:{
         type:Number,
-        required:[true,"Please enter total price"],
+        required:true,
+        default:0,
     },
-    isPaid:{
-        type:Boolean,
-        default:false,
+    deliveredAt:Date,
+    createdAt:{
+        type:Date,
+        default:Date.now,
     },
-    isDelivered:{
-        type:Boolean,
-        default:false,
-    },
-},{timestamps:true});
+  
+});
 
 export default mongoose.model("Order",OrderSchema);
