@@ -2,17 +2,19 @@ import { BrowserRouter, Routes, Route } from
 'react-router-dom';
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Cart from "./pages/Cart";
-import { Contact } from 'lucide-react';
+import Contact from "./pages/Contact";
+import ProductDetails from "./pages/ProductDetails";
+
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+
         <Route path="/about-us" element={<About />} />
         <Route path="/contact-us" element={<Contact />} />
-        <Route path="/Cart" element={<Cart />} />
       </Routes>
     </BrowserRouter>
   );
