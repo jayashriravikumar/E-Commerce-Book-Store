@@ -5,11 +5,11 @@ import axios from "axios";
 export const getProduct = createAsyncThunk("product/getProduct", async (payload,
 { rejectWithValue }) => {
   try {
-    const link = "http://localhost:8000/api/v1/products";
+    const link = "/api/v1/products";
     const { data } = await axios.get(link, {
   withCredentials: true
 });
-    console.log(error.response?.data);
+    //console.log(error.response?.data);
     return data;
   } catch (error) {
     return rejectWithValue(error.response?.data || "Something went wrong..!");
@@ -37,14 +37,14 @@ extraReducers: (builder) => {
         state.error =null;
     })
     .addCase(getProduct.fulfilled, (state,action) =>{
-        console,log("Fullfilled action payload",action.payload);
-        state.loading = true;
+        console.log("Fullfilled action payload",action.payload);
+        state.loading = false;
         state.error = null;
         state.products =action.payload.products;
         state.productCount =action.payload.productCount;
     })
     .addCase(getProduct.rejected, (state,action) =>{
-        state.loading =true;
+        state.loading =false;
         state.error=action.payload || "Something went wrong";
     });
 },
