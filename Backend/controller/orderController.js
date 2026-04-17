@@ -1,5 +1,6 @@
 import HandleError from "../helper/handleError.js";
 import Order from "../models/orderModel.js";
+import Product from "../models/productModel.js";
 
 export const createNewOrder = async(req,res,next) =>{
     const {shippingAddress,orderItems,paymentInfo,itemPrice,taxPrice,shippingPrice,totalPrice} = req.body;
@@ -74,4 +75,41 @@ export const deleteOrder = async(req,res,next) =>{
         success:true,
         message:"Order deleted successfully",
     });
+};
+
+//admin order update
+export const updateOrderStatus = async(req,res,next) =>{
+
+const id = req.params.id;
+const order = await Order.findById(id);
+if(!order){
+    return next(new HandleError("No order found with this id",404));
+}
+if(order.orderStatus === "Delivered"){
+    return next(new HandleError("Order is already delivered",404));
+}
+
+// Update stock
+await Promise.all(order.orderItems.map((item) => updateQuantity(item.product, item.quantity)));
+
+
+order.orderStatus = req.body.status;
+if(order.orderStatus === "Delivered"){
+    order.deliveredAt = Date.now();         
+}
+await order.save({validationBeforeSave:false});
+res.status(200).json({
+    success:true,
+    order,
+});
+};
+
+async function updateQuantity(id,quantity){
+    const product = await Product.findById(id);
+
+    if(!product){
+        throw new HandleError("Product not found",404);
+    }
+    product.stock -= quantity;
+    await product.save({validateBeforeSave:false});
 };
