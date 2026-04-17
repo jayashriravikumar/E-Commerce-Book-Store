@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 const Rating = ({ value = 0, onRatingChange, disabled = false, showValue = true }) => {
 
   const [hover, setHover] = useState(0);
-  const [rating, setRating] = useState(value);
+  const [rating, setRating] = useState(value); //2
 
   useEffect(() => {
     setRating(value);
@@ -12,7 +12,7 @@ const Rating = ({ value = 0, onRatingChange, disabled = false, showValue = true 
 
   const handleClick = (star) => {
     if (disabled) return;
-    setRating(star);
+    setRating(star); //3
     onRatingChange?.(star);
   };
 

@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
-import { ShoppingBag, ShoppingCart } from "lucide-react";
-import {Search, Menu,X} from "lucide-react";
-import {User} from "lucide-react";
+import {Search, ShoppingBag, ShoppingCart,User } from "lucide-react";
 import {useState} from "react";
 
 const Navbar = () => {
@@ -18,15 +16,15 @@ const Navbar = () => {
       {/* Desktop Links */}
       <div className="hidden md:flex items-center gap-8">
         <Link className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Home</Link>
-        <Link className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Books</Link>
-        <Link className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Categories</Link>
-        <Link className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Cart</Link>
-        <Link className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Login</Link>
+        <Link className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Products</Link>
+        <Link className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/about-us">About Us</Link>
+        <Link to="/contact-us" className="text-gray-700 hover:text-blue-600 tradition font-semibold">Contact Us</Link>
       </div>
       {/* Right Section */}
       <div className="flex item-center gap-4">
-        <form>
-          <input type="text" placeholder="Search Product"/>
+        <form className="hidden sm:flex items-center border border-slate-300 rounded overflow-hidden">
+          <input type="text" placeholder="Search Product" className="px-3 py-2 text-sm w-40
+          focus:outline-none"/>
           <button className="px-3 text-gray-500 hover:text-blue-600 transition">
             <Search size={18} />
           </button>
@@ -42,7 +40,7 @@ const Navbar = () => {
 
         {/* Register */}
         {/* <Link to="/register" className="hidden sm:flex gap-2 items-center bg-blue-600
-        text-white px-2 rounded-lg hover:bg-blue-700 transition">
+        text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
           <User size={18} />
           Register
         </Link> */}
@@ -63,10 +61,9 @@ const Navbar = () => {
   <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${open ? "max-h-96 opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"}`}>
     <div className="flex flex-col p-4 gap-4">
       <Link  onClick={()=>setOpen(false)}className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Home</Link>
-        <Link onClick={()=>setOpen(false)}className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Books</Link>
-        <Link onClick={()=>setOpen(false)}className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Categories</Link>
-        <Link onClick={()=>setOpen(false)}className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Cart</Link>
-        <Link onClick={()=>setOpen(false)}className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Login</Link>
+        <Link onClick={()=>setOpen(false)}className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Products</Link>
+        <Link onClick={()=>setOpen(false)}className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">About Us</Link>
+        <Link onClick={()=>setOpen(false)}className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Contact Us</Link>
     </div>
   </div>
     </nav>
