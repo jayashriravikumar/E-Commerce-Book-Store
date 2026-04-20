@@ -1,6 +1,6 @@
 // Backend                              //Completion Status(Yes/No)
-Order functionality                     In progress
-Inventory Stock Updates  
+Order functionality                     Completed
+Inventory Stock Updates                 Completed  
 
 //Frontend
 Dynamic product data fetching           In progress
