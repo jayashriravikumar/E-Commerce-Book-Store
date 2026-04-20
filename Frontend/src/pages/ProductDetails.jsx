@@ -100,7 +100,7 @@ const ProductDetails = () =>{
              </button>
             </div>
             <button className="flex-1 bg-blue-600
-            hover:bg-blue-700 text-white font-bold py-
+            hover:bg-blue-700 text-white font-bold py-3
             px-8 rounded-xl flex items-center
             justify-center gap-3 transition-all
             shadow-xl shadow-blue-100 active:scale-95">
