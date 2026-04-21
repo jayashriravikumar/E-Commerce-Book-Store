@@ -39,7 +39,7 @@ import toast from "react-hot-toast";
 //   { title: "Harry Potter", author: "J.K. Rowling", description: "A young wizard's journey", price: 399, category: "Fantasy", stock: 20, image: [{ public_id: "book3", url: "https://m.media-amazon.com/images/I/81iqZ2HHD-L.jpg" }] },
 //   { title: "Rich Dad Poor Dad", author: "Robert Kiyosaki", description: "Lessons about money and investing", price: 349, category: "Finance", stock: 12, image: [{ public_id: "book4", url: "https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg" }] },
 //   { title: "The Great Gatsby", author: "F. Scott Fitzgerald", description: "A tale of wealth and obsession", price: 249, category: "Classic", stock: 8, image: [{ public_id: "book5", url: "https://m.media-amazon.com/images/I/81af+MCATTL.jpg" }] },
-//   { title: "Python Crash Course", author: "Eric Matthes", description: "Learn Python programming fast", price: 599, category: "Technology", stock: 18, image: [{ public_id: "book6", url:  "https://m.media-amazon.com/images/I/71wCs6q1v-L.jpg" }] },
+//   { title: "Python Crash Course", author: "Eric Matthes", description: "Learn Python programming fast", price: 599, category: "Technology", stock: 18, image: [{ public_id: "book6", url:  "https://m.media-amazon.com/images/I/41EJFAI-N2S._SY264_BO1,204,203,200_QL40_ML2_.jpg" }] },
 //   { title: "To Kill a Mockingbird", author: "Harper Lee", description: "A story of racial injustice", price: 279, category: "Classic", stock: 10, image: [{ public_id: "book7", url: "https://m.media-amazon.com/images/I/81Otwki3IxL.jpg" }] },
 //   { title: "The Lean Startup", author: "Eric Ries", description: "How to build a successful startup", price: 449, category: "Business", stock: 14, image: [{ public_id: "book8", url: "https://m.media-amazon.com/images/I/81-QB7nDh4L.jpg" }] },
 //   { title: "Deep Work", author: "Cal Newport", description: "Rules for focused success", price: 379, category: "Self Help", stock: 11, image: [{ public_id: "book9", url: "https://m.media-amazon.com/images/I/71g2ednj0JL.jpg" }] },
@@ -53,7 +53,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProduct());
+    dispatch(getProduct({ keyeord : ""}));
   }, [dispatch]);
   useEffect(() =>{
     if (error) {

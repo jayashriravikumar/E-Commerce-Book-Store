@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {Search, ShoppingBag, ShoppingCart,User } from "lucide-react";
 import {useState} from "react";
 
@@ -6,12 +6,13 @@ const Navbar = () => {
   const [open,setOpen]=useState(false)
   const isAuthenticated = true;
   const [searchQuery,setSearchQuery]=useState("");
+  const navigate = useNavigate();
   const handleSearch = (e) => {
     e.preventDefault();
     if(searchQuery.trim()){
+      navigate(`/products?keyword=${encodeURIComponent(searchQuery.trim())}`)
 
-    }else{
-
+    }else {  
     }
     setSearchQuery("");
   };

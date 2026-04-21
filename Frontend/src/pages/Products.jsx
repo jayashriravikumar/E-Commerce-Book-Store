@@ -10,13 +10,36 @@ import Loader from "../components/Loader";
 import { useEffect } from "react";
 import Product from "../components/Product";
 import Pagination from "../components/Pagination";
-const Products = () => {
-    const { products, productCount, loading, error } =useSelector((state) => state.product);
-  const dispatch = useDispatch();
+import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
 
-  useEffect(() => {
-    dispatch(getProduct());
-  }, [dispatch]);
+const Products = () => {
+    const { products, productCount, loading, error , resultPerPage } =useSelector((state) => state.product);
+    const dispatch = useDispatch();
+
+    const [searchParams] = useSearchParams();
+    const keyword = searchParams.get("keyword") || "";
+    const pageFromURL = parseInt(searchParams.get("page"), 10) || 1; 
+    const [currentPage, setCurrentPage] = useState(pageFromURL);
+    const totalPages = Math.ceil(productCount / (resultPerPage || 8));
+
+    const handlePageChange =(pageNumber) => {
+      if (pageNumber !== currentPage) {
+        setCurrentPage(pageNumber);
+        const newSearchParams = new URLSearchParams (location.search);
+        if (pageNumber === 1) {
+          newSearchParams.delete("page");
+        } else {
+          newSearchParams.set("page", pageNumber);
+        }
+        navigate(`?${newSearchParams.toString()}`);
+      }
+    };
+
+   useEffect(() => {
+    dispatch(getProduct({keyword,page: currentPage }));
+  }, [dispatch , keyword,currentPage ]);
+
   useEffect(() =>{
     if (error) {
       toast.error(error.message);
@@ -34,9 +57,9 @@ const Products = () => {
         <Navbar /> 
         <main className="grow container mx-auto px-4 py-8">
            <div className="flex flex-col md:flex-row gap-8">
-            <aside className="w-fell md:w-1/4">
+            <aside className="w-full md:w-1/4">
                <div className="bg-white p-6 rounded-lg shadow-sm sticky top-24">
-                <h3 className="text-xl font-semibold mb-4 text-gray-800 border-b border-r-slate-200
+                <h3 className="text-xl font-semibold mb-4 text-gray-800 border-b border-slate-200
                 pb-2">Categories</h3>
                 <ul className="space-y-2">
                     {["Electronics","Fashion","Home Decor","Books"].map((cat)=>(
@@ -48,20 +71,14 @@ const Products = () => {
                 </ul>
             </div>
             </aside>
-            <section className="w-full md:w-3/4"> 
+            <section className="w-full md:w-3/4 bg-white p-4 rounded"> 
             <div className="flex justify-between items-center mb-6">
             <h3 className="text-xl font-semibold mb-4 text-gray-800 pb-2">Our Products</h3>
-            <span className="text-gray-500 text-sm">{productCount || 0} items found</span>
+            <span className="text-gray-500 text-sm">{products?.length || 0} items found</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {products && products.map((product) =><Product key={product._id} product={product}/>)}
-            </div>
-            {/* No Products*/}
-            {products?.length===0 && (
-              <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">{`No Product found`}</p>
-            </div>
-          )}
+                {products && products.map((product) =><Product key={product._id} product={product}/>)}</div>
+          
             </section>
             </div>
             {/* Pagination Section */}
