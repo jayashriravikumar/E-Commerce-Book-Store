@@ -55,6 +55,8 @@ const productSlice=createSlice({
             state.error = null;
             state.products =action.payload.products;
             state.productCount = action.payload.productCount;
+            state.resultsPerPage = action.payload.resultsPerPage;
+            state.totalPages = action.payload.totalPages;
         })
         .addCase(getProduct.rejected, (state,action) => {
          state.loading = false; 
