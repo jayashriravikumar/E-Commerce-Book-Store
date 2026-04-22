@@ -1,10 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {Search, ShoppingBag, ShoppingCart,User } from "lucide-react";
 import {useState} from "react";
 
 const Navbar = () => {
   const [open,setOpen]=useState(false)
   const isAuthenticated = true;
+  const [searchQuery,setSearchQuery]=useState("");
+  const navigate = useNavigate();
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if(searchQuery.trim()){
+      navigate(`/products?keyword=${encodeURIComponent(searchQuery.trim())}`)
+
+    }else {  
+    }
+    setSearchQuery("");
+  };
   return (
   <nav className="sticky top-0 w-full bg-white shadow-md z-50">
     <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -16,16 +27,16 @@ const Navbar = () => {
       {/* Desktop Links */}
       <div className="hidden md:flex items-center gap-8">
         <Link className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Home</Link>
-        <Link className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/">Products</Link>
+        <Link className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/products">Products</Link>
         <Link className="text-gray-700 hover:text-blue-600 tradition font-semibold"to="/about-us">About Us</Link>
         <Link to="/contact-us" className="text-gray-700 hover:text-blue-600 tradition font-semibold">Contact Us</Link>
       </div>
       {/* Right Section */}
       <div className="flex item-center gap-4">
-        <form className="hidden sm:flex items-center border border-slate-300 rounded overflow-hidden">
+        <form onSubmit={handleSearch} className="hidden sm:flex items-center border border-slate-300 rounded overflow-hidden">
           <input type="text" placeholder="Search Product" className="px-3 py-2 text-sm w-40
-          focus:outline-none"/>
-          <button className="px-3 text-gray-500 hover:text-blue-600 transition">
+          focus:outline-none" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
+          <button type="submit" className="px-3 text-gray-500 hover:text-blue-600 transition">
             <Search size={18} />
           </button>
         </form>

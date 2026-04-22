@@ -45,7 +45,7 @@ export const updateProduct = async (req, res, next) => {
 
 export const getAllProducts = async (req, res, next) => {
   //const products = await Product.find();
-  const resultsPerPage = 4;
+  const resultsPerPage = 6;
   const apiHelper = new APIHelper(Product.find(), req.query).search().filter();
 
   const fliteredQuery = apiHelper.query.clone();
