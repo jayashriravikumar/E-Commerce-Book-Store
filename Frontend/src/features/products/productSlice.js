@@ -1,15 +1,23 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const getProduct =createAsyncThunk("product/getProduct", async ({ keyword, page = 1},{
+export const getProduct =createAsyncThunk("product/getProduct", async ({ keyword, page = 1,category},{
     rejectWithValue }) => {
     try {
         // const link="/api/v1/products";
-        const link = keyword
-  ? `/api/v1/products?keyword=${encodeURIComponent(keyword)}&page=${page}`
-  : `/api/v1/products?page=${page}`;
+//         const link = keyword
+//   ? `/api/v1/products?keyword=${encodeURIComponent(keyword)}&page=${page}`
+//   : `/api/v1/products?page=${page}`;
+        let link = "/api/v1/products?page=" + page;
+        if (category){
+            link +=`&category=${category}`;
+        }
+        if (keyword) {
+            link += `&keyword=${keyword}`;
+        }
+
         const { data } =await axios.get(link);
-        console.log(data);
+        // console.log(data);
         return data;
     } catch (error) {
         return rejectWithValue(error.response?.data ||"Something went wrong..!");
@@ -20,7 +28,7 @@ export const getProductDetails =createAsyncThunk("product/getProductDetails", as
     try {
         const link=`/api/v1/product/${id}`;
         const {data} =await axios.get(link);
-        console.log(data);
+        // console.log(data);
         return data;
     } catch (error) {
         return rejectWithValue(error.response?.data ||"Something went wrong..!");
@@ -50,7 +58,7 @@ const productSlice=createSlice({
             state.error = null;
         })
         .addCase(getProduct.fulfilled, (state, action) => {
-            console.log("Fullfilled action payload", action.payload);
+            // console.log("Fullfilled action payload", action.payload);
             state.loading = false;
             state.error = null;
             state.products =action.payload.products;
@@ -70,7 +78,7 @@ const productSlice=createSlice({
             state.error = null;
         })
         .addCase(getProductDetails.fulfilled, (state, action) => {
-            console.log("Fullfilled action payload", action.payload);
+            // console.log("Fullfilled action payload", action.payload);
              state.loading = false;
             state.error = null;
             state.product =action.payload.product;

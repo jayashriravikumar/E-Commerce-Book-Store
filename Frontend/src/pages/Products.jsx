@@ -10,16 +10,18 @@ import Loader from "../components/Loader";
 import { useEffect } from "react";
 import Product from "../components/Product";
 import Pagination from "../components/Pagination";
-import { useSearchParams } from "react-router-dom";
+import {useNavigate,useSearchParams } from "react-router-dom";
 import { useState } from "react";
 
 const Products = () => {
     const { products, productCount, loading, error , resultPerPage } =useSelector((state) => state.product);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
     const keyword = searchParams.get("keyword") || "";
     const pageFromURL = parseInt(searchParams.get("page"), 10) || 1; 
+    const category = searchParams.get("category") || "";
     const [currentPage, setCurrentPage] = useState(pageFromURL);
     const totalPages = Math.ceil(productCount / (resultPerPage || 8));
 
@@ -35,10 +37,21 @@ const Products = () => {
         navigate(`?${newSearchParams.toString()}`);
       }
     };
+   const handleCategory =(cat) => {
+    const newSearchParams = new URLSearchParams(location.search);
+    newSearchParams.delete("page");
+    if(cat == "All"){
+      newSearchParams.delete("category");
+    } else {
+      newSearchParams.set("category",cat)
+    }
+    console.log(newSearchParams.toString());
+    navigate(`?${newSearchParams.toString()}`);
+   };
 
    useEffect(() => {
-    dispatch(getProduct({keyword,page: currentPage }));
-  }, [dispatch , keyword,currentPage ]);
+    dispatch(getProduct({keyword,page: currentPage ,category}));
+  }, [dispatch , keyword,currentPage,category ]);
 
   useEffect(() =>{
     if (error) {
@@ -62,9 +75,9 @@ const Products = () => {
                 <h3 className="text-xl font-semibold mb-4 text-gray-800 border-b border-slate-200
                 pb-2">Categories</h3>
                 <ul className="space-y-2">
-                    {["Electronics","Fashion","Home Decor","Books"].map((cat)=>(
+                    {["All","Fiction","Non-Fiction","Self Help","Fantasy","Finance","Classic","Technology","Business",].map((cat)=>(
                         <li key={cat}>
-                         <button className="text-gray-600 hover:text-blue-600 transition-colors
+                         <button onClick={() => handleCategory(cat)} className="text-gray-600 hover:text-blue-600 transition-colors
                          font-semibold">{cat}</button>
                         </li>
                     ))}
