@@ -2,6 +2,7 @@ import { ChevronLeft,ChevronRight } from 'lucide-react';
 import React from 'react'
 import { useSelector } from 'react-redux';
 // import { useState } from 'react';
+import { FaAngleLeft, FaAngleRight, FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 
 const Pagination = ({
   currentPage,
@@ -13,12 +14,11 @@ const Pagination = ({
 }) => {
   const { totalPages, products } = useSelector((state) => state.product);
   if(!products || products?.length === 0 || totalPages <= 1) return null;
+
   const getPageNumbers = () => {
     const pageNumbers = [];
     const pageWindow =1;
-    
-    for (let i = Math.max(1, currentPage - pageWindow); i <= Math.min(totalPages, currentPage + pageWindow);
-  i++){
+    for (let i = Math.max(1, currentPage - pageWindow); i <= Math.min(totalPages, currentPage + pageWindow); i++){
     pageNumbers.push(i);
   }
   return pageNumbers;
@@ -35,21 +35,22 @@ const controlBtn = "bg-white border border-gray-200 text-gray-500 hover:border-b
       <button disabled={currentPage === 1} className={`${btnBase} ${controlBtn}
       disabled:opacity-30 disabled:hover:scale-100`} title='First Page'onClick={() =>
         onPageChange(1)}>
-        {firstPageText}
+        {/* {firstPageText} */}
+        <FaAngleDoubleLeft/>
         </button>
       <button disabled={currentPage === 1} onClick={() => onPageChange(currentPage-1)}
       classname={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
       title='Previous'>
-        {prevPagetext}
+        <FaAngleLeft/>
+        {/* {prevPagetext} */}
       </button>
       <div></div>
       {/* Page Number */}
       <div className='flex gap-1 mr-2 borded-r pr-2 borded-gray-100'>
         {getPageNumbers().map((number) => (
         <button key={number} onClick={() => onPageChange(number)} 
-        className={`${btnBase} $
-        {currentPage === number ? activeBtn : inactiveBtn}`}>
-          {number}
+        className={`${btnBase} ${currentPage === number ? activeBtn : inactiveBtn}`}>
+        {number}
         </button>
         ))}
       </div>
@@ -58,13 +59,14 @@ const controlBtn = "bg-white border border-gray-200 text-gray-500 hover:border-b
         <button disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)}
       classname={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
       title='Next'>
-        {nextPageText}
+        {/* {nextPageText} */}
+        <FaAngleRight/>
         </button>
 
         <button disabled={currentPage === totalPages} onClick={() => onPageChange(totalPages)}
       classname={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
       title='last Page'>
-        {lastPageText}
+       <FaAngleDoubleRight/>
         </button>
       </div>
     </div>
