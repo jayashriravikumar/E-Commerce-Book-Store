@@ -1,5 +1,11 @@
 import { useState } from "react";
-import {Link} from "react-router-dom"
+import { useDispatch,useSelector } from "react-redux";
+import {Link, useNavigate} from "react-router-dom";
+import toast from "react-hot-toast";
+import { register } from "../features/products/user/userSlice";
+import { removeErrors,removeSuccess} from "../features/products/productSlice";
+import { useEffect } from "react";
+
 const Register = () => {
    const [preview,setPreview] = useState("https://ui-avatars.com/api/?name=User&background=random");
    const [user, setUser] = useState({
@@ -9,6 +15,11 @@ const Register = () => {
    });
    const [avatar, setAvatar] = useState("")
    const { name, email, password } = user;
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const {success,error,loading} =useSelector((state) =>state.user);
+
+
    const handleChange = (e) => {
       if(e.target.name=="avatar"){
          const reader = new FileReader();
@@ -20,10 +31,11 @@ const Register = () => {
          };
         reader.readAsDataURL(e.target.files[0]);
 
-      }else{
+      } else{
          setUser({ ...user, [e.target.name]: e.target.value });
    } 
 };
+
 const registerNow = (e) => {
    e.preventDefault();
    if(!name || !email || !password){
@@ -37,13 +49,28 @@ const registerNow = (e) => {
    myForm.set("email",email);
    myForm.set("password",password);
    myForm.set("avatar",avatar);
-   console.log(myForm.entries());
+   // console.log(myForm.entries());
 
-   for(let pair of myForm.entries()){
-      console.log(pair[0] + " : " + pair(1));
-   }
+   // for(let pair of myForm.entries()){
+   //    console.log(pair[0] + " : " + pair(1));
+   // }
+   useDispatch(register(myForm));
    
 };
+  useEffect(() =>{
+    if (error) {
+      toast.error(error,{ position:"top-center", autoClose:3000 });
+      dispatch(removeErrors());
+    }
+  },[dispatch,error]);
+
+  useEffect(() =>{
+    if (success) {
+      toast.success("Registration SuccessFul",{ position:"top-center",autoClose:3000});
+      dispatch(removeSuccess());
+      navigate("/login")
+    }
+  },[dispatch,success]);
 
    return(
        <div className="bg-gray-50 flex items-center
@@ -115,7 +142,8 @@ const registerNow = (e) => {
                </div>
                <button className="w-full bh-indigo-600 hover:bg-indigo-700
                text-white font-semibold py-3 rounded-xl shadow-lg
-               shadow-indigo-200 transition-all active:scale-[0.98]">Sign UP</button>
+               shadow-indigo-200 transition-all active:scale-[0.98]">{loading ? "Please wait": "Sign Up"}
+               </button>
 
                <p className="text-center text-sm text-gray-600">
                   Already have an account? <Link className="text-indigo-600
