@@ -1,11 +1,41 @@
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch,useSelector } from"react-redux";
+import {login,removeErrors,removeSuccess} from "../features/products/user/userSlice";
+import toast from "react-hot-toast";
+
 
  
 const Login = () => {
   const [password,setPassword] = useState("")
-  const [email,setEmail] = useState("")
+  const [email,setEmail] = useState("");
+  
+
+
+  const{error,loading,success,isAuthenticated } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const loginSubmit = (e) => {
+   e.preventDefault();
+   dispatch(login({email,password}));
+  };
+  useEffect(() =>{
+    if (error) {
+      toast.error(error,{ position:"top-center", autoClose:3000 });
+      dispatch(removeErrors());
+    }
+  },[dispatch,error]);
+
+  useEffect(() =>{
+    if (success) {
+      toast.success("Login Successfully",{ position:"top-center",autoClose:3000});
+      dispatch(removeSuccess());
+      navigate("/home")
+    }
+  },[dispatch,success]);
+
 
 
   return (
@@ -13,7 +43,7 @@ const Login = () => {
        justify-center min-h-screen">
          <div className="w-full max-w-md p-8 bg-white
          rounded-2xl shadow-xl">
-            <form enctype="multipart/form-data" className="space-y-6">
+            <form onSubmit={loginSubmit}className="space-y-6">
                <div className="tect-center">
                   <h2 className="text-3xl font-bold text-gray-8000">Welcome Back</h2>
                   <p className="text-sm text-gary-500 mt-2">Please enter your details to sign in</p>
@@ -62,4 +92,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;

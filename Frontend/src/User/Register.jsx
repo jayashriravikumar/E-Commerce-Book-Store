@@ -66,7 +66,7 @@ const registerNow = (e) => {
 
   useEffect(() =>{
     if (success) {
-      toast.success("Registration SuccessFul",{ position:"top-center",autoClose:3000});
+      toast.success("Registration Successfully",{ position:"top-center",autoClose:3000});
       dispatch(removeSuccess());
       navigate("/login")
     }
