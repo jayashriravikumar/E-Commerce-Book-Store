@@ -9,6 +9,12 @@ import {connectDB} from './config/db.js';
 const PORT = process.env.PORT || 3000;
 
 connectDB();
+import {v2 as cloudinary } from "cloudinary";
+cloudinary.config({
+    cloud_name:process.env.CLOUDINARY_NAME,
+    api_key:process.env.CLOUDINARY_API_KEY,
+    api_secret:process.env.CLOUDINARY_API_SECRET,
+});
 
 process.on("UncaughtException",(err)=>{
     console.log(`Error: ${err.message}`);

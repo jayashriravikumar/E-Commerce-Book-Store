@@ -94,5 +94,5 @@ const productSlice=createSlice({
 });
 
 
-export const { removeErrors } = productSlice.actions;
+export const { removeErrors,removeSuccess } = productSlice.actions;
 export default productSlice.reducer;
