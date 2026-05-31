@@ -3,10 +3,11 @@ import { sendToken } from "../helper/jwtToken.js";
 import HandleError from "../helper/handleError.js";
 import {sendEmail} from "../helper/sendEmail.js";
 import crypto from "crypto";
+import { v2 as cloudinary } from "cloudinary";
 
 // Register User
 export const registerUser = async (req, res, next) => {
-    const { name, email, password } = req.body;
+    const { name, email, password,avatar } = req.body;
 
     if(!name){
       return next(new HandleError("Please enter your name", 400));  
@@ -18,13 +19,19 @@ export const registerUser = async (req, res, next) => {
       return next(new HandleError("Please enter your password", 400));  
     }
 
+   const myCloud = await cloudinary.uploader.upload(avatar,{
+    folder:"avatars",
+    width:150,
+    crop:"scale"
+   });
+
     const user = await User.create({
       name,
       email,
       password,
       avatar: {
-        public_id: "temp_id",
-        url: "temp_url",
+        public_id: myCloud.public_id,
+        url:myCloud.secure_url,
       },
     });
   
