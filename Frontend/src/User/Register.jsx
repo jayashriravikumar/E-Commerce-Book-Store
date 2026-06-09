@@ -7,31 +7,32 @@ import { removeErrors,removeSuccess} from "../features/products/productSlice";
 import { useEffect } from "react";
 
 const Register = () => {
+   
+
    const [preview,setPreview] = useState("https://ui-avatars.com/api/?name=User&background=random");
    const [user, setUser] = useState({
       name: "",
       email: "",
       password: "",
    });
-   const [avatar, setAvatar] = useState("")
+   const [avatar, setAvatar] = useState("");
    const { name, email, password } = user;
+
    const dispatch = useDispatch();
    const navigate = useNavigate();
-   const {success,error,loading} =useSelector((state) =>state.user);
-
+   const {success,error,loading} = useSelector((state) =>state.user);
 
    const handleChange = (e) => {
-      if(e.target.name=="avatar"){
+      if(e.target.name == "avatar") {
          const reader = new FileReader();
-         reader.onload=() => {
-            if(reader.resdyState === 2){
+         reader.onload = () => {
+            if(reader.readyState === 2) {
                setPreview(reader.result);
                setAvatar(reader.result);
             }
          };
         reader.readAsDataURL(e.target.files[0]);
-
-      } else{
+       } else{
          setUser({ ...user, [e.target.name]: e.target.value });
    } 
 };
@@ -39,8 +40,10 @@ const Register = () => {
 const registerNow = (e) => {
    e.preventDefault();
    if(!name || !email || !password){
-      TableRowsSplit.error("Please fill out all required fields",{
-         position: "top-center",autoClose: 3000});
+      toast.error("Please fill out all required fields",{
+         position: "top-center",
+         autoClose: 3000,
+      });
          return;
    }
 
@@ -49,26 +52,21 @@ const registerNow = (e) => {
    myForm.set("email",email);
    myForm.set("password",password);
    myForm.set("avatar",avatar);
-   // console.log(myForm.entries());
-
-   // for(let pair of myForm.entries()){
-   //    console.log(pair[0] + " : " + pair(1));
-   // }
-   useDispatch(register(myForm));
+   dispatch(register(myForm));
    
 };
   useEffect(() =>{
     if (error) {
-      toast.error(error,{ position:"top-center", autoClose:3000 });
+      toast.error(error, { position:"top-center", autoClose:3000 });
       dispatch(removeErrors());
     }
   },[dispatch,error]);
 
   useEffect(() =>{
     if (success) {
-      toast.success("Registration Successfully",{ position:"top-center",autoClose:3000});
+      toast.success("Registration SuccessFul",{ position:"top-center",autoClose:3000});
       dispatch(removeSuccess());
-      navigate("/login")
+      navigate("/login");
     }
   },[dispatch,success]);
 
@@ -77,7 +75,9 @@ const registerNow = (e) => {
        justify-center min-h-screen">
          <div className="w-full max-w-md p-8 bg-white
          rounded-2xl shadow-xl">
-            <form enctype="multipart/form-data" className="space-y-6">
+            <form 
+            encType="multipart/form-data" 
+            className="space-y-6" onSubmit={registerNow}>
                <div className="tect-center">
                   <h2 className="text-3xl font-bold text-gray-8000">Create Account</h2>
                   <p className="text-sm text-gary-500 mt-2">Join us and start your journey</p>
@@ -127,7 +127,7 @@ const registerNow = (e) => {
                      objext-cover rounded-sm bg-gray-100"/>
                   </div>
                   <label className="block">
-                     <span className="sr-only">Choose Profile Image</span>
+                     <span className="sr-only">Choose Profile photo</span>
                      <input
                       type="file"
                        name="avatar" 
@@ -140,7 +140,7 @@ const registerNow = (e) => {
                         />
                   </label>
                </div>
-               <button className="w-full bh-indigo-600 hover:bg-indigo-700
+               <button className="w-full bg-indigo-600 hover:bg-indigo-700
                text-white font-semibold py-3 rounded-xl shadow-lg
                shadow-indigo-200 transition-all active:scale-[0.98]">{loading ? "Please wait": "Sign Up"}
                </button>
@@ -157,3 +157,4 @@ const registerNow = (e) => {
 };
 
 export default Register;
+

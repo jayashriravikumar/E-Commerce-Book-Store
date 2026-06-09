@@ -18,7 +18,7 @@ export const registerUser = async (req, res, next) => {
     if(!password){
       return next(new HandleError("Please enter your password", 400));  
     }
-
+    
    const myCloud = await cloudinary.uploader.upload(avatar,{
     folder:"avatars",
     width:150,
