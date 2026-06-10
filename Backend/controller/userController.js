@@ -6,12 +6,17 @@ import crypto from "crypto";
 import { v2 as cloudinary } from "cloudinary";
 
 // Register User
+
 export const registerUser = async (req, res, next) => {
-    const { name, email, password,avatar } = req.body;
+
+    console.log("BODY:", req.body);
+
+    const { name, email, password, avatar } = req.body;
 
     if(!name){
       return next(new HandleError("Please enter your name", 400));  
     }
+
     if(!email){
       return next(new HandleError("Please enter your email", 400));  
     }
@@ -59,17 +64,18 @@ export const loginUser = async (req, res, next) => {
 };
 
 // Logout User
-export const logout = async (req,res,next) => {
-  const options = {
-    expires:new Date(Date.now()),
-    httpOnly:true,
-  }
-  res.cookie("token", null, options);
+// app.post("/logout", logout);
+export const logout = async (req, res, next) => {
+  res.cookie("token", null, {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
   res.status(200).json({
-    success:true,
-    message:"Logged out successfully",
-  })
-  };
+    success: true,
+    message: "Logged out successfully",
+  });
+};
 
 
   // Forget user password

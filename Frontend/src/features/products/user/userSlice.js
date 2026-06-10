@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 // Register API
-export const register=createAsyncThunk("user/register",async (userData, { rejectWithvalue }) =>{
+export const register=createAsyncThunk("user/register",async (userData, { rejectWithValue }) =>{
     try{
         const config={
             headers:{
@@ -13,7 +13,7 @@ export const register=createAsyncThunk("user/register",async (userData, { reject
         const { data } = await axios.post("/api/v1/register", userData,config);
         return data;
     } catch(error){
-        return rejectWithvalue(error.response?.data || "Registration failed. Please try again later");
+        return rejectWithValue(error.response?.data || "Registration failed. Please try again later");
     }
 });
 
