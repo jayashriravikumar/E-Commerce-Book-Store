@@ -6,15 +6,45 @@ import errorHandler from "./middleware/error.js";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 
+// Create app
 const app = express();
 
+// Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(fileUpload());
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "./tmp/",
+  })
+);
 
+// Test route (file receive check)
+import cloudinary from "./config/cloudinary.js";
+
+app.post("/test-upload", async (req, res) => {
+  try {
+    const file = req.files.image;
+
+    const result = await cloudinary.uploader.upload(file.tempFilePath);
+
+    res.json({
+      success: true,
+      url: result.secure_url,
+    });
+
+  } catch (error) {
+    console.log("UPLOAD ERROR:", error);
+    res.status(500).json({ message: "Upload failed" });
+  }
+});
+
+// Routes
 app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
+
+// Error handler
 app.use(errorHandler);
 
 export default app;

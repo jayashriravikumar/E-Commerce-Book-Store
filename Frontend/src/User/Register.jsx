@@ -3,7 +3,7 @@ import { useDispatch,useSelector } from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
 import { register } from "../features/products/user/userSlice";
-import { removeErrors,removeSuccess} from "../features/products/productSlice";
+import { removeErrors,removeSuccess} from "../features/products/user/userSlice";
 import { useEffect } from "react";
 
 const Register = () => {
@@ -20,7 +20,8 @@ const Register = () => {
 
    const dispatch = useDispatch();
    const navigate = useNavigate();
-   const {success,error,loading} = useSelector((state) =>state.user);
+   const userState = useSelector((state) => state.user || {});
+   const { success, error, loading } = userState;
 
    const handleChange = (e) => {
       if(e.target.name == "avatar") {
@@ -146,8 +147,9 @@ const registerNow = (e) => {
                </button>
 
                <p className="text-center text-sm text-gray-600">
-                  Already have an account? <Link className="text-indigo-600
-                  font-semibold hover:underline">Sign in Here</Link>
+                  Already have an account? <Link to="/login" className="text-indigo-600 font-semibold hover:underline">
+  Sign in Here
+</Link>
                   </p>
             </form>
          </div>

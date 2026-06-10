@@ -98,7 +98,7 @@ const Products = () => {
             <div className="mt-12 flex justify-center">
               <Pagination currentPage={currentPage} onPageChange={handlePageChange} totalPages={totalPages}/>
             </div>
-            </main>I
+            </main>
             <Footer />
         </div>
         </>

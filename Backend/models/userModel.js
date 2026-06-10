@@ -48,10 +48,12 @@ UserSchema.pre("save", async function(){
 });
 
 // Generate JWT token
-UserSchema.methods.getJWTToken = function(){
-    return jwt.sign({id: this._id}, process.env.JWT_SECRET_KEY, {
-        expiresIn: process.env.JWT_EXPIRE,
-    });
+UserSchema.methods.getJWTToken = function () {
+  console.log("JWT_EXPIRE =", process.env.JWT_EXPIRE);
+
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
 };
 
 // Compare password
