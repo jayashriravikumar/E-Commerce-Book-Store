@@ -1,10 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import {Search, ShoppingBag, ShoppingCart,User } from "lucide-react";
 import {useState} from "react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [open,setOpen]=useState(false)
-  const isAuthenticated = true;
+  const { isAuthenticated, user } = useSelector(
+  (state) => state.user
+);
   const [searchQuery,setSearchQuery]=useState("");
   const navigate = useNavigate();
   const handleSearch = (e) => {
@@ -55,11 +58,23 @@ const Navbar = () => {
           <User size={18} />
           Register
         </Link> */}
-        {isAuthenticated && (<Link to="/register" className="hidden sm:flex gap-2 items-center bg-blue-600
-        text-white px-2 rounded-lg hover:bg-blue-700 transition">
-          <User size={18}/>
-          Register
-          </Link>)}
+       {isAuthenticated ? (
+  <Link
+    to="/profile"
+    className="hidden sm:flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+  >
+    <User size={18} />
+    {user?.name || "Profile"}
+  </Link>
+) : (
+  <Link
+    to="/register"
+    className="hidden sm:flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+  >
+    <User size={18} />
+    Register
+  </Link>
+)}
 
           {/* Humburger */}
           <button onClick={()=>setOpen(!open)} className="md:hidden text-gray-700">

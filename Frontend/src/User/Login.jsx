@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../features/products/user/userSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { success, error, loading } = useSelector(
+    (state) => state.user
+  );
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -18,13 +25,29 @@ const Login = () => {
       return;
     }
 
-    // temporary success flow (replace with API later)
-    toast.success("Login successful!", {
-      position: "top-center",
-    });
-
-    navigate("/");
+    dispatch(
+      login({
+        email,
+        password,
+      })
+    );
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: "top-center",
+      });
+    }
+
+    if (success) {
+      toast.success("Login Successful", {
+        position: "top-center",
+      });
+
+      navigate("/");
+    }
+  }, [success, error, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -56,7 +79,7 @@ const Login = () => {
           type="submit"
           className="w-full bg-indigo-600 text-white py-3 rounded-xl hover:bg-indigo-700 transition"
         >
-          Login
+          {loading ? "Please wait..." : "Login"}
         </button>
       </form>
     </div>
