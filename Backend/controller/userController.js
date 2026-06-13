@@ -5,7 +5,7 @@ import {sendEmail} from "../helper/sendEmail.js";
 import crypto from "crypto";
 import { v2 as cloudinary } from "cloudinary";
 
-// Register User
+//Register User
 
 export const registerUser = async (req, res, next) => {
 
@@ -42,6 +42,8 @@ export const registerUser = async (req, res, next) => {
   
     sendToken(user, 201, res);
 };
+
+
 
 // Login User
 export const loginUser = async (req, res, next) => {

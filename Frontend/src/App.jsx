@@ -7,6 +7,8 @@ import ProductDetails from "./pages/ProductDetails";
 import Products from './pages/Products';
 import Register from './User/Register';
 import Login from './User/Login';
+import Profile from './User/Profile';
+import UpdateProfile from './User/UpdateProfile';
 
 
 const App = () => {
@@ -21,6 +23,8 @@ const App = () => {
         <Route path="/login" element={<Login/>} />
         <Route path="/about-us" element={<About />} />
         <Route path="/contact-us" element={<Contact />} />
+        <Route path="/profile" element={<Profile />} />
+         <Route path="/profile/update" element={<UpdateProfile />} />
       </Routes>
     </BrowserRouter>
   );
