@@ -53,14 +53,24 @@ const userSlice = createSlice({
         isAuthenticated:localStorage.getItem("isAuthenticated") === "true",
         message: null,
     },
-    reducers: {
-        removeErrors: (state) => {
-            state.error = null;
-        },
-        removeSuccess: (state) => {
-            state.success = null;
-        },
+  reducers: {
+    removeErrors: (state) => {
+        state.error = null;
     },
+
+    removeSuccess: (state) => {
+        state.success = null;
+    },
+
+    logout: (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.success = false;
+
+        localStorage.removeItem("user");
+        localStorage.removeItem("isAuthenticated");
+    },
+},
 extraReducers: (builder) => {
   builder
     .addCase(register.pending, (state) => {
@@ -121,5 +131,5 @@ extraReducers: (builder) => {
     });
 },
 });
-export const {removeErrors,removeSuccess } = userSlice.actions;
+export const {removeErrors,removeSuccess,logout} = userSlice.actions;
 export default userSlice.reducer;
