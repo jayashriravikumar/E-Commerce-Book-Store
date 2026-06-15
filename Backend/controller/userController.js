@@ -5,7 +5,7 @@ import {sendEmail} from "../helper/sendEmail.js";
 import crypto from "crypto";
 import { v2 as cloudinary } from "cloudinary";
 
-// Register User
+//Register User
 
 export const registerUser = async (req, res, next) => {
 
@@ -42,6 +42,8 @@ export const registerUser = async (req, res, next) => {
   
     sendToken(user, 201, res);
 };
+
+
 
 // Login User
 export const loginUser = async (req, res, next) => {
@@ -166,8 +168,28 @@ export const logout = async (req, res, next) => {
 
   // Update user profile
  export const updateProfile = async(req,res,next) => { 
-  const {name,email} = req.body;
+  const {name,email,avatar} = req.body;
   const updatedUserDetails = {name,email};
+  if(avatar && avatar !== "") {
+    const user = await User.findById(req.user.id);
+    const imageId = user.avatar?.public_id;
+
+    if (imageId) {
+      await cloudinary.uploader.destroy(imageId);
+    }
+
+    const myCloud = await cloudinary.uploader.upload(avatar, {
+      folder:"avatars",
+      width: 150,
+      crop:"scale",
+    });
+    updatedUserDetails.avatar = {
+      public_id:myCloud.public_id,
+      url:myCloud.secure_url,
+    };
+  }
+
+
   const user = await User.findByIdAndUpdate(req.user.id, updatedUserDetails, { new: true,runValidators:true });
   res.status(200).json({
     success:true,
