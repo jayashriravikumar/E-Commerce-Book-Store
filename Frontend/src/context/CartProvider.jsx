@@ -39,8 +39,14 @@ function CartProvider({ children }) {
     setBooksError("");
 
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/books`);
-      setBooks(getUniqueBooks(Array.isArray(response.data) ? response.data : []));
+      const response = await axios.get(`${API_BASE_URL}/api/products?limit=1000`);
+      const catalog = Array.isArray(response.data?.products)
+        ? response.data.products
+        : Array.isArray(response.data)
+          ? response.data
+          : [];
+
+      setBooks(getUniqueBooks(catalog));
     } catch (error) {
       console.error("Error fetching books:", error);
       setBooks([]);

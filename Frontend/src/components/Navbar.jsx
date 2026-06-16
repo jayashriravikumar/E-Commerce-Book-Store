@@ -1,15 +1,21 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import BookStoreLogo from "./BookStoreLogo";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 
-function Navbar({ search, setSearch }) {
+function Navbar() {
   const { cart } = useContext(CartContext);
   const { isAuthenticated, logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setSearch(params.get("keyword") || "");
+  }, [location.search]);
 
   const totalCartItems = cart.reduce(
     (sum, item) => sum + (item.quantity || 1),
@@ -21,15 +27,25 @@ function Navbar({ search, setSearch }) {
 
     const trimmedSearch = search.trim();
 
-    if (location.pathname !== "/books") {
-      navigate("/books");
+    const params = new URLSearchParams(location.search);
+
+    if (trimmedSearch) {
+      params.set("keyword", trimmedSearch);
+    } else {
+      params.delete("keyword");
     }
 
-    setSearch(trimmedSearch);
+    params.delete("page");
+    navigate(`/books${params.toString() ? `?${params.toString()}` : ""}`);
   };
 
   const clearSearch = () => {
     setSearch("");
+
+    const params = new URLSearchParams(location.search);
+    params.delete("keyword");
+    params.delete("page");
+    navigate(`/books${params.toString() ? `?${params.toString()}` : ""}`);
   };
 
   return (

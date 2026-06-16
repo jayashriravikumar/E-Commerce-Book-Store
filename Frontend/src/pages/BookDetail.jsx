@@ -31,17 +31,21 @@ function BookDetail() {
 
       try {
         const [bookResponse, booksResponse] = await Promise.all([
-          axios.get(`${API_BASE_URL}/api/books/${id}`),
-          axios.get(`${API_BASE_URL}/api/books`)
+          axios.get(`${API_BASE_URL}/api/products/${id}`),
+          axios.get(`${API_BASE_URL}/api/products?limit=1000`)
         ]);
 
         if (!isMounted) {
           return;
         }
 
-        const allBooks = Array.isArray(booksResponse.data) ? booksResponse.data : [];
+        const allBooks = Array.isArray(booksResponse.data?.products)
+          ? booksResponse.data.products
+          : Array.isArray(booksResponse.data)
+            ? booksResponse.data
+            : [];
 
-        setBook(bookResponse.data || null);
+        setBook(bookResponse.data?.product || bookResponse.data || null);
         setBooks(allBooks);
       } catch (err) {
         console.error(err);

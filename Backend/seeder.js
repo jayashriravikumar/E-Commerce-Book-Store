@@ -5,7 +5,9 @@ import { fileURLToPath } from "url";
 
 import { connectDB } from "./config/db.js";
 import Book from "./models/book.js";
+import Product from "./models/productModel.js";
 import books from "./data/books.js";
+import { buildProductCatalog } from "./utils/productCatalog.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,6 +17,7 @@ dotenv.config({ path: path.join(__dirname, "config", "config.env") });
 const seedBooks = async () => {
   try {
     await connectDB();
+    const products = buildProductCatalog(books);
 
     for (const book of books) {
       await Book.updateOne(
@@ -24,7 +27,15 @@ const seedBooks = async () => {
       );
     }
 
-    console.log(`Seeded ${books.length} books successfully.`);
+    for (const product of products) {
+      await Product.updateOne(
+        { title: product.title, author: product.author },
+        { $set: product },
+        { upsert: true }
+      );
+    }
+
+    console.log(`Seeded ${books.length} books and ${products.length} products successfully.`);
   } catch (error) {
     console.log(`Seeder error: ${error.message}`);
     process.exitCode = 1;
