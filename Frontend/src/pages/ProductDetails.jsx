@@ -77,12 +77,8 @@ const ProductDetails = () =>{
             text-green-600 bg-green-50 px-2 py-1
             rounded'>15% OFF</span>
           </div>
-          <p className='text-gray-600 leading-relaxed
-          mb-8 text-lg'>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-             Autem omnis ullam quisquam nesciunt magnam alias at beatae
-              delectus perferendis explicabo! Ex ad ea tenetur distinctio 
-              culpa libero deserunt ipsum dolorum.
+          <p className="text-gray-600 leading-relaxed">
+            {product?.description}
           </p>
           <div className='borded-t border-gray-100 pt-8
           mb-8'></div>
