@@ -43,12 +43,19 @@ const ProductDetails = () =>{
         {/* Image Gallery */}
         <div>
           <div className='aspect-square overflow-hidden rounded-xl'>
-            <img src={product?.image[0].url} alt={product?.name}
-            className='w-full h-full object-cover
-            transition-transform hover:scale-105
-            duration-700'
-            title={product?.name} />
-          </div>
+  <img
+    src={
+      product?.image?.[0]?.url ||
+      product?.coverImage?.[0]?.url ||
+      "https://via.placeholder.com/300x400?text=No+Image"
+    }
+    alt={product?.name}
+    className='w-full h-full object-cover
+    transition-transform hover:scale-105
+    duration-700'
+    title={product?.name}
+  />
+</div>
         </div>
         {/* Product Info */}
         <div className='flex flex-col'>

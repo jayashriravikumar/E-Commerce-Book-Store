@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Rating from "./Rating";
 
 const Product = ({ product }) => {
+  console.log(product);
   const [rating, setRating] = useState(product.ratings || 0);
 
   return (
