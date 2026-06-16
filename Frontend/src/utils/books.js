@@ -238,11 +238,28 @@ export function getBookImage(book) {
     return imageOverride;
   }
 
-  if (book?.image?.startsWith("data:image/") || book?.image?.startsWith("http")) {
-    return book.image;
+  // handle different image shapes: string, object {url}, or array of objects
+  const img = book?.image;
+
+  if (typeof img === "string") {
+    if (img.startsWith("data:image/") || img.startsWith("http")) return img;
   }
 
-  if (book?.coverImage?.startsWith("data:image/") || book?.coverImage?.startsWith("http")) {
+  if (Array.isArray(img) && img.length > 0) {
+    const first = img[0];
+    if (first && typeof first === "object" && first.url) {
+      return first.url;
+    }
+    if (typeof first === "string") {
+      return first;
+    }
+  }
+
+  if (img && typeof img === "object" && img.url) {
+    return img.url;
+  }
+
+  if (book?.coverImage && typeof book.coverImage === "string" && (book.coverImage.startsWith("data:image/") || book.coverImage.startsWith("http"))) {
     return book.coverImage;
   }
 

@@ -20,17 +20,39 @@ const seedBooks = async () => {
     const products = buildProductCatalog(books);
 
     for (const book of books) {
+      const bookDoc = { ...book };
+      if (bookDoc._id) delete bookDoc._id;
+
       await Book.updateOne(
         { title: book.title, author: book.author },
-        { $set: book },
+        { $set: bookDoc },
         { upsert: true }
       );
     }
 
     for (const product of products) {
+      const productDoc = { ...product };
+      if (productDoc._id) delete productDoc._id;
+
+      // normalize image field to array of objects { public_id, url }
+      if (productDoc.image) {
+        if (typeof productDoc.image === "string") {
+          productDoc.image = [
+            {
+              public_id: "",
+              url: productDoc.image,
+            },
+          ];
+        } else if (Array.isArray(productDoc.image)) {
+          productDoc.image = productDoc.image.map((img) =>
+            typeof img === "string" ? { public_id: "", url: img } : img
+          );
+        }
+      }
+
       await Product.updateOne(
         { title: product.title, author: product.author },
-        { $set: product },
+        { $set: productDoc },
         { upsert: true }
       );
     }
