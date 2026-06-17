@@ -1,8 +1,8 @@
 export const sendToken = (user, statusCode, res) => {
   const token = user.getJWTToken();
 
-  console.log("COOKIE EXPIRE RAW =", process.env.JWT_COOKIE_EXPIRE);
-  console.log("COOKIE EXPIRE NUMBER =", Number(process.env.JWT_COOKIE_EXPIRE));
+  //console.log("COOKIE EXPIRE RAW =", process.env.JWT_COOKIE_EXPIRE);
+  //console.log("COOKIE EXPIRE NUMBER =", Number(process.env.JWT_COOKIE_EXPIRE));
 
   const options = {
     httpOnly: true,
