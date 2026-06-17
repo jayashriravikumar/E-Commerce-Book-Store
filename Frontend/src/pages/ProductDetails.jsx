@@ -47,9 +47,14 @@ const decreaseQuantity = () => {
   },[dispatch,error]);
  
 
-   return (
+  const originalPrice = Math.round(product?.price * 1.25);
+  const discountPercentage = Math.round(
+  ((originalPrice - product?.price) / originalPrice) * 100
+  ); 
+  const rating = product?.title?.length % 2 === 0 ? 4 : 5;
+  return (
     <div className="min-h-screen bg-gray-50"> 
-    <PageTitle title= {`${product?.name} | Details `}/>
+    <PageTitle title={`${product?.title} | Details`}/>
     <Navbar />
     <main className="max-w-7xl mx-auto px-4 py-8 md:py-12">
       {/* Product Section */}
@@ -76,27 +81,32 @@ const decreaseQuantity = () => {
         {/* Product Info */}
         <div className='flex flex-col'>
           <h3 className='text-3xl font-semibold
-          text-gray-900 mb-2'>{product?.name}</h3>
+          text-gray-900 mb-2'>{product?.title}</h3>
+
+          <p className='text-lg text-gray-600 mb-3'>
+          by {product?.author}
+          </p>
           
           <div className='flex items-center gap-4
           mb-4'>
-            <Rating value={3} disabled={true}/>
+            <Rating value={rating} disabled={true}/>
             <span className='text-sm text-gray-500
             font-medium'>5 verified Reviews</span>
           </div>
           <div className='mb-6 flex items-baseline gap-3'>
-            <span className='text-4xl font-semibold text-amber-600'>
+             <span className='text-4xl font-semibold text-amber-600'>
   ₹{product?.price}
 </span>
             <span className='text-lg text-gray-400
-            line-through'>₹1900</span>
+            line-through'>₹{originalPrice}</span>
+
             <span className='text-sm font-bold
             text-green-600 bg-green-50 px-2 py-1
-            rounded'>15% OFF</span>
+            rounded'>{discountPercentage}% OFF</span>
           </div>
-          <p className='text-gray-600 leading-relaxed mb-8 text-lg'>
+            <p className='text-gray-600 leading-relaxed mb-8 text-lg'>
   {product?.description}
-</p>
+          </p>
           <div className='borded-t border-gray-100 pt-8
           mb-8'></div>
           <div className='flex items-center gap-2 mb-6'>
