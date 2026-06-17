@@ -9,13 +9,12 @@ import Register from './User/Register';
 import Login from './User/Login';
 import Profile from './User/Profile';
 import UpdateProfile from './User/UpdateProfile';
-
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 
 
 const App = () => {
-  
 
   return (
     <BrowserRouter>
@@ -30,6 +29,7 @@ const App = () => {
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/profile" element={<Profile />} />
          <Route path="/profile/update" element={<UpdateProfile />} />
+
       </Routes>
     </BrowserRouter>
   );

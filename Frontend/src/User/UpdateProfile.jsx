@@ -1,36 +1,55 @@
 import React, { useEffect, useState }from 'react';
 import Navbar from "../components/Navbar";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { removeErrors, removeSuccess,updateProfile } from '../features/products/user/userSlice';
+import toast from "react-hot-toast";
+
 
 const UpdateProfile = () => {
   const {user, error, success, loading } = useSelector((state) =>state.
 user);
+const dispatch = useDispatch();
+const navigate = useNavigate();
 
 const [name, setName] = useState("");
 const [email, setEmail] = useState("");
 const [avatar, setAvatar] = useState("");
-const [preview, setPreview] = useState("../src/assets/profile.jpg");
+const [preview, setPreview] = useState("../src/assets/profile.avif");
+
+
 
 useEffect(() =>{
   if (user) {
     setName(user.name);
     setEmail(user.email);
     if(user.avatar?.url){
-      setPreview(user.avatar.url);
+       setPreview(user.avatar.url);
 
     }
   }
-},[user]);
+
+  if(error) {
+    toast.error(error, { position: "top-center", autoClose: 3000});
+    dispatch(removeErrors());
+  }
+
+  if(success) {
+    toast.success("Profile updated Successfully",{position: "top-center", autoClose: 3000 });
+    // dispatch(loadUser());
+    navigate("/profile");
+    dispatch(removeSuccess());
+  }
+},[user,dispatch,error,success]);
 
 const handleChange = (e) => {
-  const reader=new FileReader();
+  const reader = new FileReader();
   reader.onload = () => {
     if(reader.readyState==2) {
       setPreview(reader.result);
-      setAvatar(reader.result);
+      setAvatar(reader.avatar);
     }
   };
-
   reader.readAsDataURL(e.target.files[0]);
 };
 
@@ -42,9 +61,12 @@ const updateProfileSubmit =(e) => {
   if (avatar) {
     myForm.set("avatar", avatar);
   }
-  for (const [key, value] of myForm.entries()){
-  console.log(myForm) 
-  }
+  // for (const [key, value] of myForm.entries()){
+  //   console.log(myForm)
+  // }
+dispatch(updateProfile(myForm))
+  
+ 
 };
 
 
@@ -62,11 +84,12 @@ const updateProfileSubmit =(e) => {
       sm:max-w-md'>
         <div className='bg-white py-10 px-6 shadow-xl
         rounded sm:px-10 border border-gray-100'>
-        <form encType="multipart/form-data" className='space-y-6'>
+        <form encType="multipart/form-data" 
+        onSubmit={updateProfileSubmit} className='space-y-6'>
         <div className='flex flex-col items-center mb-6'>
           <div className='w-28 h-28 mb-4'>
             <img 
-            src="https://res.cloudinary.com/dmgwgizxi/image/upload/v1781404073/avatars/gbqkgfhrjeuj8z65rptg.jpg"
+            src={ preview }
             alt="Avatar Preview"
             className='rounded-full w-full h-full
             object-cover border-4 border-indigo-100
@@ -113,9 +136,9 @@ const updateProfileSubmit =(e) => {
       id="email"
       name="email"
       type='email'
+      required
       value={email}
       onChange={(e) => setEmail(e.target.value)}
-      required
       className='appearance-none block w-full px-4 py-3
       border border-gray-200 rounded-xl shadow-sm
       placeholder-gray-400 focus:outline-none focus:ring-2

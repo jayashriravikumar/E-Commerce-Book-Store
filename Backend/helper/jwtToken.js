@@ -6,7 +6,7 @@ export const sendToken = (user, statusCode, res) => {
 
   const options = {
     httpOnly: true,
-    maxAge: Number(process.env.JWT_EXPIRE_COOKIE) * 24 * 60 * 60 * 1000,
+    maxAge: Number(process.env.JWT_COOKIE_EXPIRE) * 24 * 60 * 60 * 1000,
   };
 
   res.status(statusCode).cookie("token", token, options).json({
