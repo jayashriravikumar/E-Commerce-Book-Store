@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
 import toast from "react-hot-toast";
 import { register } from "../features/products/user/userSlice";
 import { removeErrors,removeSuccess} from "../features/products/user/userSlice";
@@ -16,6 +17,7 @@ const Register = () => {
       password: "",
    });
    const [avatar, setAvatar] = useState("");
+   const [captchaToken, setCaptchaToken] = useState(null);
    const { name, email, password } = user;
 
    const dispatch = useDispatch();
@@ -40,12 +42,12 @@ const Register = () => {
 
 const registerNow = (e) => {
    e.preventDefault();
-   if(!name || !email || !password){
-      toast.error("Please fill out all required fields",{
+   if(!name || !email || !password || !captchaToken){
+      toast.error("Please fill out all fields and verify you are human",{
          position: "top-center",
          autoClose: 3000,
       });
-         return;
+      return;
    }
 
    const myForm = new FormData();
@@ -53,6 +55,7 @@ const registerNow = (e) => {
    myForm.set("email",email);
    myForm.set("password",password);
    myForm.set("avatar",avatar);
+   myForm.set("captchaToken",captchaToken);
    dispatch(register(myForm));
    
 };
@@ -140,6 +143,12 @@ const registerNow = (e) => {
                        hover:file:bg-indigo-100"
                         />
                   </label>
+               </div>
+               <div className="flex justify-center w-full my-4">
+                  <ReCAPTCHA
+                     sitekey="6LcWCCQtAAAAAFlT1gs_JrbZHg3XJbF-1W-nSxGB" 
+                     onChange={(token) => setCaptchaToken(token)}
+                  />
                </div>
                <button className="w-full bg-indigo-600 hover:bg-indigo-700
                text-white font-semibold py-3 rounded-xl shadow-lg
