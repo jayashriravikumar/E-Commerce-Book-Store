@@ -39,6 +39,17 @@ const Navbar = () => {
     setSearchQuery("");
   };
 
+  //cart count
+  // Cart Count
+const { cartItems } = useSelector(
+  (state) => state.cart
+);
+
+const cartCount = cartItems.reduce(
+  (total, item) => total + item.quantity,
+  0
+);
+
   // Logout
   const handleLogout = () => {
     dispatch(logout());
@@ -139,7 +150,7 @@ const Navbar = () => {
             <ShoppingCart />
 
             <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-semibold min-w-5 h-5 rounded-full flex items-center justify-center">
-              6
+              {cartCount}
             </span>
           </Link>
 

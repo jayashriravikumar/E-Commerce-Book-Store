@@ -1,10 +1,22 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../features/cart/cartSlice";
 
 const Product = ({ product }) => {
   console.log(product);
   const [rating, setRating] = useState(product.ratings || 0);
+  const dispatch = useDispatch();
+  const { cartItems } = useSelector((state) => state.cart);
+
+const isInCart = cartItems.some(
+  (item) => item._id === product._id
+);
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-slate-100">
@@ -49,11 +61,12 @@ const Product = ({ product }) => {
             ₹{product.price}
           </span>
 
-          <button
-            className="bg-blue-600 text-white px-4 py-1.5 rounded-md text-sm hover:bg-blue-700 transition"
-          >
-            Add to Cart
-          </button>
+         <button
+  onClick={handleAddToCart}
+  className="bg-blue-600 text-white px-4 py-1.5 rounded-md text-sm hover:bg-blue-700 transition"
+>
+  Add to Cart
+</button>
         </div>
       </div>
     </div>

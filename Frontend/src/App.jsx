@@ -9,6 +9,8 @@ import Register from './User/Register';
 import Login from './User/Login';
 import Profile from './User/Profile';
 import UpdateProfile from './User/UpdateProfile';
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 
 
@@ -30,6 +32,8 @@ const App = () => {
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/profile" element={<Profile />} />
          <Route path="/profile/update" element={<UpdateProfile />} />
+         <Route path="/cart" element={<Cart />} />
+         <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </BrowserRouter>
   );

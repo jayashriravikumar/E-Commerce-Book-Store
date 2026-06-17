@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from "react";
 import PageTitle from "../components/PageTitle";
   import Navbar from "../components/Navbar";
   import Footer from "../components/Footer";
@@ -8,14 +8,30 @@ import {Minus, PackageCheck,Plus,ShoppingCart } from 'lucide-react';
 import { useDispatch, useSelector } from "react-redux";
   import { useParams } from "react-router-dom";
 import { getProductDetails,removeErrors }from "../features/products/productSlice";
+import { addToCart } from "../features/cart/cartSlice";
 import toast from "react-hot-toast";
 
 
 const ProductDetails = () =>{
   const { loading,error,product} =useSelector((state) => state.product);
   const {id} =useParams();
+  const [quantity, setQuantity] = useState(1);
 
   const dispatch =useDispatch();
+  const increaseQuantity = () => {
+  if (quantity < product?.stock) {
+    setQuantity(quantity + 1);
+  }
+};
+
+const decreaseQuantity = () => {
+  if (quantity > 1) {
+    setQuantity(quantity - 1);
+  }
+};
+  const handleAddToCart = () => {
+  dispatch(addToCart({...product, quantity}));
+};
 
   useEffect(() =>{
     if (id) {
@@ -69,51 +85,61 @@ const ProductDetails = () =>{
             font-medium'>5 verified Reviews</span>
           </div>
           <div className='mb-6 flex items-baseline gap-3'>
-            <span className='text-4xl font-semibold
-            text-amber-600'>₹1500</span>
+            <span className='text-4xl font-semibold text-amber-600'>
+  ₹{product?.price}
+</span>
             <span className='text-lg text-gray-400
             line-through'>₹1900</span>
             <span className='text-sm font-bold
             text-green-600 bg-green-50 px-2 py-1
             rounded'>15% OFF</span>
           </div>
-          <p className='text-gray-600 leading-relaxed
-          mb-8 text-lg'>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-             Autem omnis ullam quisquam nesciunt magnam alias at beatae
-              delectus perferendis explicabo! Ex ad ea tenetur distinctio 
-              culpa libero deserunt ipsum dolorum.
-          </p>
+          <p className='text-gray-600 leading-relaxed mb-8 text-lg'>
+  {product?.description}
+</p>
           <div className='borded-t border-gray-100 pt-8
           mb-8'></div>
           <div className='flex items-center gap-2 mb-6'>
             <PackageCheck className='text-green-600 w-5
             h-5'/>
-            <span className='font-semibold
-            text-green-700 text-sm'>IN STOCK (5 Available)</span>
+   <span className='font-semibold text-green-700 text-sm'>
+  IN STOCK ({product?.stock} Available)
+</span>
           </div>
           <div className='flex flex-wrap items-center
           gap-4'>
             <div className='flex items-center border-2
             border-gray-100 rounded-xl bg-white
             overflow-hidden'>
-             <button className='p-4 hover:bg-gray-50
-             hover:text-amber-600 transition-colors'>
-              <Minus size={18}/>
-             </button>
-             <span>1</span>
-             <button className='p-4 hover:bg-gray-50
-             hover:text-amber-600 transition-colors'>
-              <Plus />
-             </button>
+            <button
+  onClick={decreaseQuantity}
+  className='p-4 hover:bg-gray-50 hover:text-amber-600 transition-colors'
+>
+  <Minus size={18}/>
+</button>
+
+<span className='px-4 font-semibold'>
+  {quantity}
+</span>
+
+<button
+  onClick={increaseQuantity}
+  className='p-4 hover:bg-gray-50 hover:text-amber-600 transition-colors'
+>
+  <Plus size={18}/>
+</button>
             </div>
-            <button className="flex-1 bg-blue-600
-            hover:bg-blue-700 text-white font-bold py-3
-            px-8 rounded-xl flex items-center
-            justify-center gap-3 transition-all
-            shadow-xl shadow-blue-100 active:scale-95">
-              <ShoppingCart /> Add to Cart
-            </button>
+            <button
+  onClick={handleAddToCart}
+  className="flex-1 bg-blue-600
+  hover:bg-blue-700 text-white font-bold py-3
+  px-8 rounded-xl flex items-center
+  justify-center gap-3 transition-all
+  shadow-xl shadow-blue-100 active:scale-95"
+>
+  <ShoppingCart />
+  Add to Cart
+</button>
           </div>
         </div>
         </div>
