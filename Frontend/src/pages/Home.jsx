@@ -53,7 +53,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProduct({ keyeord : ""}));
+    dispatch(getProduct({ keyword : ""}));
   }, [dispatch]);
   useEffect(() =>{
     if (error) {

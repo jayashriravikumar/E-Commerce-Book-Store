@@ -1,56 +1,126 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-
-const images=[
-    "https://m.media-amazon.com/images/I/91bYsX41DVL.jpg",
-    "https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg",
-    "https://m.media-amazon.com/images/I/71g2ednj0JL.jpg",
+const slides = [
+  {
+    title: "The Psychology of Money",
+    subtitle: "Timeless lessons on wealth, greed and happiness.",
+    image:
+      "https://m.media-amazon.com/images/I/81Dky+tD+pL._SL1500_.jpg",
+  },
+  {
+    title: "Atomic Habits",
+    subtitle: "Tiny changes, remarkable results.",
+    image:
+      "https://m.media-amazon.com/images/I/91bYsX41DVL._SL1500_.jpg",
+  },
+  {
+    title: "Rich Dad Poor Dad",
+    subtitle: "What the rich teach their kids about money.",
+    image:
+      "https://m.media-amazon.com/images/I/81bsw6fnUiL._SL1500_.jpg",
+  },
 ];
 
 const ImageSlider = () => {
-    const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(0);
 
-    useEffect(() =>{
-        const interval=setInterval(() => {
-            setCurrent((prev) => (prev + 1)% images.length);
-        }, 4000);
-        return ()=> clearInterval(interval);
-    },[]);
-    const prevSlide = () => {
-      setCurrent((prev) => (prev === 0 ? images.length -1 : prev - 1));
-    };
-    const nextSlide =() => {
-      setCurrent((prev =>(prev + 1) % images.length));
-    };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) =>
+        prev === slides.length - 1 ? 0 : prev + 1
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const prevSlide = () => {
+    setCurrent((prev) =>
+      prev === 0 ? slides.length - 1 : prev - 1
+    );
+  };
+
+  const nextSlide = () => {
+    setCurrent((prev) =>
+      prev === slides.length - 1 ? 0 : prev + 1
+    );
+  };
+
   return (
-  <div className=" relative w-full shadow-lg overflow-hidden">
-    {/* Slides */}
-  <div className="flex transition-transform duration-700 ease-in-out" style=
-  {{transform:`translateX(-${current*100}%)`}}>
-    {images.map((image,index) =>(
-        <img src={image} key={index} className="h-200
-         w-full md:h-100 object-contain shrink-0"/>
-    ))}
-    </div>
-    {/* Previous */}
-    <button onClick={prevSlide} className="absolute left-4 top-1/2 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full
-    transition">
-      <ChevronLeft />  
+    <section className="max-w-[1500px] mx-auto px-5 mt-6">
+      <div className="relative bg-gradient-to-r from-white via-gray-50 to-gray-100 rounded-3xl overflow-hidden border border-gray-200">
+
+        {/* Left Arrow */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-8 top-1/2 -translate-y-1/2 z-20 bg-white shadow-lg w-14 h-14 rounded-full flex items-center justify-center hover:scale-105 transition"
+        >
+          <ChevronLeft size={28} />
         </button>
-    {/* Next */}
-    <button onClick={nextSlide} className="absolute right-4 top-1/2 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full
-    transition">
-      <ChevronRight />
-    </button>
-    {/* Indicators */}
-    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-      {images.map((_, index) => (
-        <button key={index} onClick={() => setCurrent(index)} className={`h-2 rounded-full transition-all $
-          {current === index? "w-6 bg-white": "w-2 bg-white/50"}`}></button>
-      ))}
-    </div>
-  </div>
+
+        {/* Right Arrow */}
+        <button
+          onClick={nextSlide}
+          className="absolute right-8 top-1/2 -translate-y-1/2 z-20 bg-white shadow-lg w-14 h-14 rounded-full flex items-center justify-center hover:scale-105 transition"
+        >
+          <ChevronRight size={28} />
+        </button>
+
+        {/* Main Content */}
+        <div className="h-[500px] flex items-center justify-between px-24">
+
+          {/* Left Content */}
+          <div className="max-w-xl">
+            <p className="text-blue-600 font-bold uppercase tracking-widest mb-5">
+              Best Seller Collection
+            </p>
+
+            <h1 className="text-6xl font-extrabold text-gray-900 leading-tight">
+              {slides[current].title}
+            </h1>
+
+            <p className="text-xl text-gray-500 mt-6 leading-relaxed">
+              {slides[current].subtitle}
+            </p>
+
+            <div className="flex gap-5 mt-10">
+              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold transition">
+                Shop Now
+              </button>
+
+              <button className="border border-gray-300 hover:bg-gray-100 px-8 py-4 rounded-xl font-semibold transition">
+                View Details
+              </button>
+            </div>
+          </div>
+
+          {/* Right Book Image */}
+          <div className="flex items-center justify-center">
+            <img
+              src={slides[current].image}
+              alt={slides[current].title}
+              className="w-[350px] h-[450px] object-contain drop-shadow-2xl"
+            />
+          </div>
+        </div>
+
+        {/* Indicators */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrent(index)}
+              className={`h-3 rounded-full transition-all ${
+                current === index
+                  ? "w-10 bg-blue-600"
+                  : "w-3 bg-gray-300"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 
