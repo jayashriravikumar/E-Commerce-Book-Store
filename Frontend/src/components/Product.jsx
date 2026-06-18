@@ -1,72 +1,110 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../features/cart/cartSlice";
 
 const Product = ({ product }) => {
-  console.log(product);
-  const [rating, setRating] = useState(product.ratings || 0);
   const dispatch = useDispatch();
-  const { cartItems } = useSelector((state) => state.cart);
 
-const isInCart = cartItems.some(
-  (item) => item._id === product._id
-);
+  const { cartItems } = useSelector(
+    (state) => state.cart
+  );
+
+  const isInCart = cartItems.some(
+    (item) => item._id === product._id
+  );
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden border border-slate-100">
-      <Link to={`/product/${product._id}`} className="group block">
-        <div className="h-56 overflow-hidden">
-          <img
+    <div
+      className="
+      bg-white
+      rounded-2xl
+      border
+      border-gray-200
+      shadow-sm
+      hover:shadow-xl
+      hover:-translate-y-1
+      transition-all
+      duration-300
+      overflow-hidden
+      flex
+      flex-col
+      h-full
+    "
+    >
+      <Link
+        to={`/product/${product._id}`}
+        className="block"
+      >
+<div className="h-80 bg-white flex items-center justify-center p-6">       <img
             src={
-              product.image?.[0]?.url ||
-              product.coverImage?.[0]?.url ||
-              "https://via.placeholder.com/300x400?text=No+Image"
+              product?.image?.[0]?.url ||
+              product?.coverImage?.[0]?.url ||
+              "https://via.placeholder.com/300x400"
             }
-            alt={product.name || product.title}
-            className="w-full h-48 object-cover group-hover:scale-105 transition"
+            alt={product?.name}
+           className="h-full object-contain"
           />
-        </div>
-
-        <div className="p-4 space-y-2">
-          <h3 className="text-lg font-semibold text-gray-800 line-clamp-1">
-            {product.name || product.title}
-          </h3>
-
-          <p className="text-sm text-gray-600 line-clamp-2">
-            {product.description}
-          </p>
         </div>
       </Link>
 
-      <div className="px-4 pb-4 space-y-2">
-        <div className="flex items-center gap-2">
+      <div className="p-4 flex flex-col flex-1">
+        <Link to={`/product/${product._id}`}>
+          <h3 className="font-bold text-xl text-gray-900 line-clamp-1 hover:text-blue-600">
+            {product?.name}
+          </h3>
+        </Link>
+
+        <p className="text-sm text-gray-500 mt-1 h-5 overflow-hidden">
+          {product?.author}
+        </p>
+
+        <p className="text-gray-600 text-sm mt-3 line-clamp-2 h-10">
+          {product?.description}
+        </p>
+
+        <div className="mt-4 flex items-center gap-2">
           <Rating
-            value={rating}
-            onRatingChange={(r) => setRating(r)}
+            value={product?.ratings || 0}
+            disabled={true}
+            showValue={false}
           />
 
-          <span className="text-xs text-gray-500 font-semibold">
-            ({product.numOfReviews || 0} reviews)
+          <span className="text-xs text-gray-500">
+            ({product?.numOfReviews || 0})
           </span>
         </div>
 
-        <div className="flex items-center justify-between">
-          <span className="text-blue-600 font-bold text-lg">
-            ₹{product.price}
-          </span>
+        <div className="mt-auto pt-5">
+          <div className="flex flex-col gap-3">
+            <span className="text-3xl font-bold text-blue-600">
+              ₹{product?.price}
+            </span>
 
-         <button
-  onClick={handleAddToCart}
-  className="bg-blue-600 text-white px-4 py-1.5 rounded-md text-sm hover:bg-blue-700 transition"
->
-  Add to Cart
-</button>
+            <button
+              onClick={handleAddToCart}
+              disabled={isInCart}
+              className={`
+                h-11
+                min-w-[120px]
+                rounded-xl
+                font-semibold
+                transition
+                ${
+                  isInCart
+                    ? "bg-green-100 text-green-700"
+                    : "bg-blue-600 hover:bg-blue-700 text-white"
+                }
+              `}
+            >
+              {isInCart ? "✓ " : "Add to Cart"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ export const registerUser = async (req, res, next) => {
 
     console.log("BODY:", req.body);
 
-    const { name, email, password, avatar } = req.body;
+    const { name, email, password, avatar, captchaToken } = req.body;
 
     if(!name){
       return next(new HandleError("Please enter your name", 400));  
@@ -22,6 +22,20 @@ export const registerUser = async (req, res, next) => {
     }
     if(!password){
       return next(new HandleError("Please enter your password", 400));  
+    }
+    if(!captchaToken){
+      return next(new HandleError("Please complete the human verification", 400));
+    }
+
+    // Verify token with Google
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaToken}`;
+    
+    const captchaResponse = await fetch(verifyUrl, { method: "POST" });
+    const captchaData = await captchaResponse.json();
+    
+    if (!captchaData.success) {
+        return next(new HandleError("Human verification failed. Please try again.", 400));
     }
     
    const myCloud = await cloudinary.uploader.upload(avatar,{

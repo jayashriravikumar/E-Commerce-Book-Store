@@ -5,7 +5,7 @@ import app from "./app.js";
 import { connectDB } from "./config/db.js";
 import { cloudinaryConfig } from "./config/cloudinary.js";
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 connectDB();
 cloudinaryConfig();
