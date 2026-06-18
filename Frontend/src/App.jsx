@@ -21,8 +21,11 @@ import ShippingPolicy from "./pages/ShippingPolicy";
 import CookieConsent from "./components/CookieConsent";
 import ProtectedRoute from './components/ProtectedRoute';
 import VerifyOTP from './User/VerifyOTP';
-
-
+import ConfirmOrder from "./pages/ConfirmOrder";
+import Payment from "./pages/Payment";
+import OrderSuccess from "./pages/OrderSuccess";
+import MyOrders from "./pages/MyOrders";
+import OrderDetails from "./pages/OrderDetails";
 
 const App = () => {
 
@@ -44,7 +47,11 @@ const App = () => {
          <Route path="/checkout" element={<Checkout />} />
          <Route path="/wishlist" element={<Wishlist />} />
          <Route path="/policies" element={<Policies />} />
-
+         <Route path="/order/confirm" element={<ConfirmOrder />} />
+         <Route path="/payment" element={<Payment />} />
+        <Route path="/order/success" element={<OrderSuccess />} />
+        <Route path="/orders" element={<MyOrders />} />
+        <Route path="/order/:id" element={<OrderDetails />} />
           <Route
             path="/privacy-policy"
             element={<PrivacyPolicy />}
