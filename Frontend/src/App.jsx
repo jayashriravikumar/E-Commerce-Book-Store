@@ -18,10 +18,12 @@ import TermsConditions from "./pages/TermsConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import CookieConsent from "./components/CookieConsent";
+import ProtectedRoute from './components/ProtectedRoute';
+
+
 
 
 const App = () => {
-  
 
   return (
     <BrowserRouter>
@@ -66,5 +68,10 @@ const App = () => {
               
             );
           };
+
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;
