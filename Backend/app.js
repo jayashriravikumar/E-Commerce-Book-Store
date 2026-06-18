@@ -6,7 +6,6 @@ import order from "./routes/orderRoutes.js";
 import errorHandler from "./middleware/error.js";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
-import couponRoutes from "./routes/couponRoutes.js";
 import cors from "cors";
 
 // Create app
