@@ -20,7 +20,7 @@ import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import CookieConsent from "./components/CookieConsent";
 import ProtectedRoute from './components/ProtectedRoute';
-
+import VerifyOTP from './User/VerifyOTP';
 
 
 
@@ -63,6 +63,10 @@ const App = () => {
           <Route
             path="/shipping-policy"
             element={<ShippingPolicy />}
+          />
+          <Route
+            path="/verify-email"
+            element={<VerifyOTP />}
           />
                 </Routes>
                 <CookieConsent />

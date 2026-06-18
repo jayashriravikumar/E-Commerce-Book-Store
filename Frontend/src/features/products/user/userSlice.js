@@ -17,6 +17,19 @@ export const register=createAsyncThunk("user/register",async (userData, { reject
     }
 });
 
+export const verifyOTP = createAsyncThunk(
+  "user/verifyOTP",
+  async (verificationData, { rejectWithValue }) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.post("/api/v1/verify/otp", verificationData, config);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Verification failed");
+    }
+  }
+);
+
 // Login API
 export const login = createAsyncThunk(
   "user/login",
@@ -45,7 +58,7 @@ export const login = createAsyncThunk(
 
 
 // Update Profile
-export const updateProfile = createAsyncThunk("user/updateProfile",async (userData,rejectWithValue)=>{
+export const updateProfile = createAsyncThunk("user/updateProfile",async (userData,{rejectWithValue})=>{
   try {
     const config = {
       headers: {
@@ -56,7 +69,7 @@ export const updateProfile = createAsyncThunk("user/updateProfile",async (userDa
     const {data}= await axios.put("/api/v1/profile/update",userData, config);
     return data;
   }catch (error){
-    return rejectWithValue(error.responce?.data || "Profile update failed");
+    return rejectWithValue(error.response?.data || "Profile update failed");
   }
 });
 
@@ -94,21 +107,22 @@ extraReducers: (builder) => {
       state.loading = true;
       state.error = null;
     })
+
     .addCase(register.fulfilled, (state, action) => {
       state.loading = false;
       state.error = null;
       state.success = action.payload.success;
-      state.user = action.payload?.user || null;
-      state.isAuthenticated = Boolean(action.payload?.user);
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(state.user)
-      );
-      localStorage.setItem(
-        "isAuthenticated",
-        JSON.stringify(state.isAuthenticated)
-      );
+      //state.user = action.payload?.user || null;
+      //state.isAuthenticated = Boolean(action.payload?.user);
+      
+      // localStorage.setItem(
+      //   "user",
+      //   JSON.stringify(state.user)
+      // );
+      // localStorage.setItem(
+      //   "isAuthenticated",
+      //   JSON.stringify(state.isAuthenticated)
+      // );
     })
     .addCase(register.rejected, (state, action) => {
       state.loading = false;
@@ -145,9 +159,25 @@ extraReducers: (builder) => {
         "Login failed. Please try again later";
       state.user = null;
       state.isAuthenticated = false;
-    });
+    })
 
-    builder
+    .addCase(verifyOTP.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(verifyOTP.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.user = action.payload?.user;
+      state.isAuthenticated = true;
+      localStorage.setItem("user", JSON.stringify(state.user));
+      localStorage.setItem("isAuthenticated", "true");
+    })
+    .addCase(verifyOTP.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload?.message || "Verification failed";
+    })
+
     .addCase(updateProfile.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -163,8 +193,8 @@ extraReducers: (builder) => {
       state.loading = false;
       state.error =  action.payload?.message || "Profile update failed";
     });
-
-},
+}
 });
+
 export const {removeErrors,removeSuccess,logout} = userSlice.actions;
 export default userSlice.reducer;
