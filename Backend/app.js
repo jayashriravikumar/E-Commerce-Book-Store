@@ -5,9 +5,16 @@ import order from "./routes/orderRoutes.js";
 import errorHandler from "./middleware/error.js";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
+import cors from "cors";
 
 // Create app
 const app = express();
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 // Middlewares
 app.use(express.json());

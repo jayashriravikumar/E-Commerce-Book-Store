@@ -9,6 +9,7 @@ import Register from './User/Register';
 import Login from './User/Login';
 import Profile from './User/Profile';
 import UpdateProfile from './User/UpdateProfile';
+import UpdatePassword from "./User/UpdatePassword";
 import ProtectedRoute from './components/ProtectedRoute';
 
 
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/profile" element={<Profile />} />
          <Route path="/profile/update" element={<UpdateProfile />} />
+         <Route path="/update-password" element={<UpdatePassword />} />
 
       </Routes>
     </BrowserRouter>
