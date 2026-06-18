@@ -82,27 +82,49 @@ const Product = ({ product }) => {
 
         <div className="mt-auto pt-5">
           <div className="flex flex-col gap-3">
-            <span className="text-3xl font-bold text-blue-600">
-              ₹{product?.price}
-            </span>
+           <span className="text-3xl font-bold text-blue-600">
+  ₹{product?.price}
+</span>
+
+{product?.stock > 10 ? (
+  <p className="text-green-600 text-sm font-medium">
+     In Stock
+  </p>
+) : product?.stock > 0 ? (
+  <p className="text-orange-500 text-sm font-medium">
+     Only {product.stock} left
+  </p>
+) : (
+  <p className="text-red-600 text-sm font-medium">
+     Out of Stock
+  </p>
+)}
 
             <button
               onClick={handleAddToCart}
-              disabled={isInCart}
+              disabled={isInCart || product?.stock === 0}
               className={`
                 h-11
                 min-w-[120px]
                 rounded-xl
                 font-semibold
                 transition
-                ${
-                  isInCart
-                    ? "bg-green-100 text-green-700"
-                    : "bg-blue-600 hover:bg-blue-700 text-white"
-                }
+              ${
+  product?.stock === 0
+    ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+    : isInCart
+    ? "bg-green-100 text-green-700"
+    : "bg-blue-600 hover:bg-blue-700 text-white"
+}
               `}
             >
-              {isInCart ? "✓ " : "Add to Cart"}
+              {
+  product?.stock === 0
+    ? "Out of Stock"
+    : isInCart
+    ? " Added"
+    : "Add to Cart"
+}
             </button>
           </div>
         </div>
