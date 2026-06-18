@@ -11,9 +11,13 @@ import Profile from './User/Profile';
 import UpdateProfile from './User/UpdateProfile';
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-
-
-
+import Wishlist from "./pages/Wishlist";
+import Policies from "./pages/Policies";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
+import RefundPolicy from "./pages/RefundPolicy";
+import ShippingPolicy from "./pages/ShippingPolicy";
+import CookieConsent from "./components/CookieConsent";
 
 
 const App = () => {
@@ -34,9 +38,33 @@ const App = () => {
          <Route path="/profile/update" element={<UpdateProfile />} />
          <Route path="/cart" element={<Cart />} />
          <Route path="/checkout" element={<Checkout />} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
+         <Route path="/wishlist" element={<Wishlist />} />
+         <Route path="/policies" element={<Policies />} />
+
+          <Route
+            path="/privacy-policy"
+            element={<PrivacyPolicy />}
+          />
+
+          <Route
+            path="/terms-conditions"
+            element={<TermsConditions />}
+          />
+
+          <Route
+            path="/refund-policy"
+            element={<RefundPolicy />}
+          />
+
+          <Route
+            path="/shipping-policy"
+            element={<ShippingPolicy />}
+          />
+                </Routes>
+                <CookieConsent />
+              </BrowserRouter>
+              
+            );
+          };
 
 export default App;

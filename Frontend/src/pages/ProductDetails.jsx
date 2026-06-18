@@ -4,12 +4,14 @@ import PageTitle from "../components/PageTitle";
   import Navbar from "../components/Navbar";
   import Footer from "../components/Footer";
  import Rating from "../components/Rating";
-import {Minus, PackageCheck,Plus,ShoppingCart } from 'lucide-react';
+import {Minus, PackageCheck, Plus, ShoppingCart, Heart} from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
   import { useParams } from "react-router-dom";
 import { getProductDetails,removeErrors }from "../features/products/productSlice";
 import { addToCart } from "../features/cart/cartSlice";
 import toast from "react-hot-toast";
+import axios from "axios";
+
 
 
 const ProductDetails = () =>{
@@ -23,7 +25,8 @@ const ProductDetails = () =>{
     setQuantity(quantity + 1);
   }
 };
-
+const [reviewRating, setReviewRating] = useState(5);
+const [comment, setComment] = useState("");
 const decreaseQuantity = () => {
   if (quantity > 1) {
     setQuantity(quantity - 1);
@@ -31,6 +34,26 @@ const decreaseQuantity = () => {
 };
   const handleAddToCart = () => {
   dispatch(addToCart({...product, quantity}));
+};
+const addWishlist = async () => {
+  try {
+    const { data } = await axios.post(
+      `/api/v1/wishlist/add/${product._id}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (data.success) {
+      toast.success("Added to Wishlist");
+    }
+  } catch (error) {
+    toast.error(
+      error?.response?.data?.message ||
+      "Failed to add wishlist"
+    );
+  }
 };
 
   useEffect(() =>{
@@ -51,10 +74,34 @@ const decreaseQuantity = () => {
   const discountPercentage = Math.round(
   ((originalPrice - product?.price) / originalPrice) * 100
   ); 
-  const rating = product?.title?.length % 2 === 0 ? 4 : 5;
-  return (
+  const submitReview = async () => {
+  try {
+    const { data } = await axios.put(
+      "/api/v1/review",
+      {
+        rating: reviewRating,
+        comment,
+        productId: product._id,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (data.success) {
+      toast.success("Review submitted successfully");
+      dispatch(getProductDetails(id));
+      setComment("");
+    }
+  } catch (error) {
+    toast.error(
+      error?.response?.data?.message || "Failed to submit review"
+    );
+  }
+};
+const rating = product?.ratings || 0;  return (
     <div className="min-h-screen bg-gray-50"> 
-    <PageTitle title={`${product?.title} | Details`}/>
+    <PageTitle title={`${product?.name} | Details`}/>
     <Navbar />
     <main className="max-w-7xl mx-auto px-4 py-8 md:py-12">
       {/* Product Section */}
@@ -71,7 +118,7 @@ const decreaseQuantity = () => {
       "https://via.placeholder.com/300x400?text=No+Image"
     }
     alt={product?.name}
-    className='w-full h-full object-cover
+    className='w-full h-full object-contain
     transition-transform hover:scale-105
     duration-700'
     title={product?.name}
@@ -81,7 +128,7 @@ const decreaseQuantity = () => {
         {/* Product Info */}
         <div className='flex flex-col'>
           <h3 className='text-3xl font-semibold
-          text-gray-900 mb-2'>{product?.title}</h3>
+          text-gray-900 mb-2'>{product?.name}</h3>
 
           <p className='text-lg text-gray-600 mb-3'>
           by {product?.author}
@@ -90,8 +137,9 @@ const decreaseQuantity = () => {
           <div className='flex items-center gap-4
           mb-4'>
             <Rating value={rating} disabled={true}/>
-            <span className='text-sm text-gray-500
-            font-medium'>5 verified Reviews</span>
+            <span className='text-sm text-gray-500 font-medium'>
+              {product?.numOfReviews || 0} Reviews
+            </span>
           </div>
           <div className='mb-6 flex items-baseline gap-3'>
              <span className='text-4xl font-semibold text-amber-600'>
@@ -139,21 +187,147 @@ const decreaseQuantity = () => {
   <Plus size={18}/>
 </button>
             </div>
-            <button
-  onClick={handleAddToCart}
-  className="flex-1 bg-blue-600
-  hover:bg-blue-700 text-white font-bold py-3
-  px-8 rounded-xl flex items-center
-  justify-center gap-3 transition-all
-  shadow-xl shadow-blue-100 active:scale-95"
->
-  <ShoppingCart />
-  Add to Cart
-</button>
+            <div className="flex gap-3 w-full">
+
+  <button
+    onClick={addWishlist}
+    className="bg-red-500 hover:bg-red-600
+    text-white px-4 rounded-xl"
+  >
+    <Heart size={22} />
+  </button>
+
+  <button
+    onClick={handleAddToCart}
+    className="flex-1 bg-blue-600
+    hover:bg-blue-700 text-white font-bold py-3
+    px-8 rounded-xl flex items-center
+    justify-center gap-3 transition-all
+    shadow-xl shadow-blue-100 active:scale-95"
+  >
+    <ShoppingCart />
+    Add to Cart
+  </button>
+
+</div>
           </div>
         </div>
         </div>
         </main>
+        <div className="max-w-7xl mx-auto px-4 pb-10">
+
+  <div className="bg-white p-6 rounded-lg shadow-sm">
+
+    <h2 className="text-2xl font-bold mb-4">
+      Customer Reviews
+    </h2>
+<div className="bg-gradient-to-r from-amber-50 to-yellow-50 border rounded-xl p-5 mb-6">
+  <div className="flex items-center justify-between">
+    <div>
+      <h3 className="text-lg font-bold">
+        Overall Rating
+      </h3>
+
+      <div className="flex items-center gap-2 mt-2">
+        <Rating
+          value={product?.ratings || 0}
+          disabled={true}
+        />
+
+        <span className="font-bold text-xl">
+          {product?.ratings?.toFixed(1) || 0}
+        </span>
+      </div>
+
+      <p className="text-gray-500 text-sm mt-1">
+        Based on {product?.numOfReviews || 0} reviews
+      </p>
+    </div>
+
+    <div className="text-right">
+      <p className="text-green-600 font-bold text-lg">
+        ★ Trusted Reviews
+      </p>
+    </div>
+  </div>
+</div>
+
+   <div className="mb-6">
+
+  <label className="block mb-3 font-semibold text-gray-700">
+    Your Rating
+  </label>
+
+  <Rating
+    value={reviewRating}
+    onRatingChange={(value) => setReviewRating(value)}
+  />
+
+</div>
+
+    <textarea
+      rows="4"
+      value={comment}
+      onChange={(e) => setComment(e.target.value)}
+      placeholder="Write your review..."
+      className="w-full border border-gray-300 p-4 rounded-xl mb-4 focus:ring-2 focus:ring-blue-500 outline-none"
+    />
+
+    <button
+      onClick={submitReview}
+      className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition shadow-md"
+    >
+      Submit Review
+    </button>
+
+    <hr className="my-6" />
+
+    {product?.reviews?.length > 0 ? (
+  <div className="space-y-4">
+    {product.reviews.map((review) => (
+      <div
+        key={review._id}
+        className="bg-gray-50 border rounded-xl p-5 hover:shadow-md transition"
+      >
+        <div className="flex items-center justify-between mb-2">
+          <h4 className="font-bold text-lg">
+            {review.name}
+          </h4>
+
+          <span className="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-medium">
+            Verified Purchase
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 mb-2">
+          <Rating
+            value={review.rating}
+            disabled={true}
+            showValue={false}
+          />
+
+          <span className="text-amber-600 font-semibold">
+            {review.rating}/5
+          </span>
+        </div>
+
+        <p className="text-gray-700 leading-relaxed">
+          {review.comment}
+        </p>
+      </div>
+    ))}
+  </div>
+) : (
+  <div className="text-center py-10">
+    <p className="text-gray-500">
+      No reviews yet. Be the first to review this book.
+    </p>
+  </div>
+)}
+
+  </div>
+
+</div>
         <Footer />
         </div>
    );
@@ -161,4 +335,3 @@ const decreaseQuantity = () => {
   };
 
   export default ProductDetails;
-       
