@@ -6,10 +6,15 @@ import {
   clearCart,
   increaseQuantity,
   decreaseQuantity,
+  saveForLater,
+   moveToCart,
+   removeSavedItem
 } from "../features/cart/cartSlice";
 
 const Cart = () => {
-  const { cartItems } = useSelector((state) => state.cart);
+  const { cartItems, savedItems } = useSelector(
+  (state) => state.cart
+);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,8 +62,8 @@ const Cart = () => {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">
-        Shopping Cart
-      </h1>
+  Shopping Cart ({cartItems.length})
+</h1>
 
       {cartItems.length === 0 ? (
         <h2 className="text-xl text-gray-600">
@@ -119,14 +124,25 @@ const Cart = () => {
                 </button>
               </div>
 
-              <button
-                onClick={() =>
-                  dispatch(removeFromCart(item._id))
-                }
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-              >
-                Remove
-              </button>
+              <div className="flex flex-col gap-2">
+  <button
+    onClick={() =>
+      dispatch(saveForLater(item._id))
+    }
+    className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+  >
+    Save For Later
+  </button>
+
+  <button
+    onClick={() =>
+      dispatch(removeFromCart(item._id))
+    }
+    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+  >
+    Remove
+  </button>
+</div>
             </div>
           ))}
 
@@ -186,6 +202,55 @@ const Cart = () => {
               </button>
             </div>
           </div>
+          {savedItems.length > 0 && (
+  <div className="mt-10">
+   <h2 className="text-2xl font-bold mb-4">
+  Saved For Later ({savedItems.length})
+</h2>
+
+    {savedItems.map((item) => (
+      <div
+        key={item._id}
+        className="flex items-center gap-4 border-b py-4"
+      >
+        <img
+          src={item.image?.[0]?.url}
+          alt={item.name}
+          className="w-20 h-28 object-cover"
+        />
+
+        <div>
+  <h3 className="font-semibold text-lg">
+    {item.name}
+  </h3>
+
+  <p className="text-gray-500">
+    {item.author}
+  </p>
+
+  <p className="text-blue-600 font-bold">
+    ₹{item.price}
+  </p>
+  <div className="flex gap-2 mt-3">
+  <button
+    onClick={() => dispatch(moveToCart(item._id))}
+    className="bg-green-600 text-white px-3 py-1 rounded text-sm"
+  >
+    Move To Cart
+  </button>
+
+  <button
+    onClick={() => dispatch(removeSavedItem(item._id))}
+    className="bg-red-600 text-white px-3 py-1 rounded text-sm"
+  >
+    Remove
+  </button>
+</div>
+</div>
+      </div>
+    ))}
+  </div>
+)}
         </>
       )}
     </div>
