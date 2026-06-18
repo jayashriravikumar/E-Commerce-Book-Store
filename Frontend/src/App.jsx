@@ -9,6 +9,15 @@ import Register from './User/Register';
 import Login from './User/Login';
 import Profile from './User/Profile';
 import UpdateProfile from './User/UpdateProfile';
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import Wishlist from "./pages/Wishlist";
+import Policies from "./pages/Policies";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
+import RefundPolicy from "./pages/RefundPolicy";
+import ShippingPolicy from "./pages/ShippingPolicy";
+import CookieConsent from "./components/CookieConsent";
 import ProtectedRoute from './components/ProtectedRoute';
 
 
@@ -29,6 +38,36 @@ const App = () => {
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/profile" element={<Profile />} />
          <Route path="/profile/update" element={<UpdateProfile />} />
+         <Route path="/cart" element={<Cart />} />
+         <Route path="/checkout" element={<Checkout />} />
+         <Route path="/wishlist" element={<Wishlist />} />
+         <Route path="/policies" element={<Policies />} />
+
+          <Route
+            path="/privacy-policy"
+            element={<PrivacyPolicy />}
+          />
+
+          <Route
+            path="/terms-conditions"
+            element={<TermsConditions />}
+          />
+
+          <Route
+            path="/refund-policy"
+            element={<RefundPolicy />}
+          />
+
+          <Route
+            path="/shipping-policy"
+            element={<ShippingPolicy />}
+          />
+                </Routes>
+                <CookieConsent />
+              </BrowserRouter>
+              
+            );
+          };
 
       </Routes>
     </BrowserRouter>

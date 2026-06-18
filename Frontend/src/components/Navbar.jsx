@@ -6,10 +6,20 @@ import {
   User,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/products/user/userSlice";
+import { Heart } from "lucide-react";
+
 
 const Navbar = () => {
+  const { t } = useTranslation();
+
+const changeLanguage = (lang) => {
+  i18n.changeLanguage(lang);
+  localStorage.setItem("language", lang);
+};
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -29,15 +39,26 @@ const Navbar = () => {
     e.preventDefault();
 
     if (searchQuery.trim()) {
-      navigate(
-        `/products?keyword=${encodeURIComponent(
-          searchQuery.trim()
-        )}`
-      );
+     navigate(
+  `/products?keyword=${encodeURIComponent(
+    searchQuery.trim()
+  )}`
+);
     }
 
     setSearchQuery("");
   };
+
+  //cart count
+  // Cart Count
+const { cartItems } = useSelector(
+  (state) => state.cart
+);
+
+const cartCount = cartItems.reduce(
+  (total, item) => total + item.quantity,
+  0
+);
 
   // Logout
   const handleLogout = () => {
@@ -66,8 +87,8 @@ const Navbar = () => {
 }, []);
 
   return (
-    <nav className="sticky top-0 w-full bg-white shadow-md z-50">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <nav className="sticky top-0 w-full bg-white border-b border-gray-200 z-50">
+      <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
         {/* Logo */}
         <Link
           to="/"
@@ -78,38 +99,80 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-10 ml-8">
           <Link
             className="text-gray-700 hover:text-blue-600 font-semibold"
             to="/"
           >
-            Home
+            {t("Home")}
           </Link>
 
           <Link
             className="text-gray-700 hover:text-blue-600 font-semibold"
             to="/products"
           >
-            Products
+            {t("Products")}
           </Link>
 
           <Link
-            className="text-gray-700 hover:text-blue-600 font-semibold"
+            className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
             to="/about-us"
           >
-            About Us
+            {t("AboutUs")}
           </Link>
 
           <Link
-            className="text-gray-700 hover:text-blue-600 font-semibold"
+            className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
             to="/contact-us"
           >
-            Contact Us
+            {t("ContactUs")}
+          </Link>
+          <Link
+            to="/policies"
+            className="text-lg font-medium hover:text-blue-600"
+          >
+            {t("Policies")}
           </Link>
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4">
+  {/* Cart */}
+  {/* Wishlist */}
+</div>
+         <div className="relative">
+  <select
+    onChange={(e) => changeLanguage(e.target.value)}
+    defaultValue={localStorage.getItem("language") || "en"}
+    className="
+      appearance-none
+      bg-gray-50
+      border border-gray-200
+      rounded-xl
+      pl-4 pr-10 py-2
+      text-sm
+      font-medium
+      text-gray-700
+      hover:bg-white
+      hover:border-blue-500
+      focus:ring-2
+      focus:ring-blue-500
+      focus:outline-none
+      transition-all
+      cursor-pointer
+    "
+  >
+    <option value="en">🇺🇸 English</option>
+    <option value="te">🇮🇳 తెలుగు</option>
+    <option value="hi">🇮🇳 हिन्दी</option>
+    <option value="ta">🇮🇳 தமிழ்</option>
+  </select>
+
+  <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+    ▼
+  </span>
+</div>
           {/* Search */}
           <form
             onSubmit={handleSearch}
@@ -117,8 +180,8 @@ const Navbar = () => {
           >
             <input
               type="text"
-              placeholder="Search Product"
-              className="px-3 py-2 text-sm w-40 focus:outline-none"
+              placeholder={t("searchProduct")}
+              className="px-4 py-2 text-sm w-56 focus:outline-none"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -132,15 +195,18 @@ const Navbar = () => {
           </form>
 
           {/* Cart */}
-          <Link
-            to="/cart"
-            className="relative text-gray-700 hover:text-blue-600 transition"
-          >
-            <ShoppingCart />
+          <Link to="/cart" className="relative">
+            <ShoppingCart size={24} />
 
-            <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-semibold min-w-5 h-5 rounded-full flex items-center justify-center">
-              6
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+
+          <Link to="/wishlist">
+            <Heart size={24} />
           </Link>
 
           {/* Authentication */}
@@ -238,7 +304,7 @@ const Navbar = () => {
             className="text-gray-700 hover:text-blue-600 font-semibold"
             to="/"
           >
-            Home
+            {t("Home")}
           </Link>
 
           <Link
@@ -246,7 +312,7 @@ const Navbar = () => {
             className="text-gray-700 hover:text-blue-600 font-semibold"
             to="/products"
           >
-            Products
+            {t("Products")}
           </Link>
 
           <Link
@@ -254,7 +320,7 @@ const Navbar = () => {
             className="text-gray-700 hover:text-blue-600 font-semibold"
             to="/about-us"
           >
-            About Us
+            {t("AboutUs")}
           </Link>
 
           <Link
@@ -262,7 +328,7 @@ const Navbar = () => {
             className="text-gray-700 hover:text-blue-600 font-semibold"
             to="/contact-us"
           >
-            Contact Us
+            {t("ContactUs")}
           </Link>
         </div>
       </div>
