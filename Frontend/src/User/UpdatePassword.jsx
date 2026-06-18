@@ -19,7 +19,7 @@ const UpdatePassword = () => {
     console.log("Sending request...");
 
     await axios.put(
-      "http://localhost:3000/api/v1/password/update",
+      "http://localhost:8000/api/v1/password/update",
       {
         oldPassword,
         newPassword,
