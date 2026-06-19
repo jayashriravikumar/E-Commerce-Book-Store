@@ -70,9 +70,9 @@ const registerNow = (e) => {
     if (success) {
       toast.success("Registration SuccessFul",{ position:"top-center",autoClose:3000});
       dispatch(removeSuccess());
-      navigate("/login");
+      navigate("/verify-email", { state: { email: user.email } });
     }
-  },[dispatch,success]);
+  },[dispatch,success, navigate, user.email]);
 
    return(
        <div className="bg-gray-50 flex items-center

@@ -77,6 +77,33 @@ export const deleteOrder = async(req,res,next) =>{
     });
 };
 
+// Cancel Order -- User
+export const cancelOrder = async (req, res, next) => {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+        return next(new HandleError("No order found with this id", 404));
+    }
+    
+    // Ensure the user actually owns this order
+    if (order.user.toString() !== req.user._id.toString()) {
+        return next(new HandleError("You are not authorized to cancel this order", 403));
+    }
+
+    if (order.orderStatus === "Delivered" || order.orderStatus === "Shipped") {
+        return next(new HandleError(`Cannot cancel an order that is already ${order.orderStatus}`, 400));
+    }
+
+    order.orderStatus = "Cancelled";
+    await order.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+        success: true,
+        message: "Order cancelled successfully",
+        order
+    });
+};
+
 //admin order update
 export const updateOrderStatus = async(req,res,next) =>{
 
