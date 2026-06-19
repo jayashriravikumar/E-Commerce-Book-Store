@@ -24,6 +24,8 @@ const Products = () => {
 const [searchText, setSearchText] = useState("");
 const [sortOption, setSortOption] = useState("Newest");
 const [inStockOnly, setInStockOnly] = useState(false);
+console.log("In Stock:", inStockOnly);
+const [minimumRating, setMinimumRating] = useState(0);
     const keyword = searchParams.get("keyword") || "";
     const pageFromURL = parseInt(searchParams.get("page"), 10) || 1; 
     const category = searchParams.get("category") || "";
@@ -42,21 +44,32 @@ const [inStockOnly, setInStockOnly] = useState(false);
         navigate(`?${newSearchParams.toString()}`);
       }
     };
-  const handleCategory = (cat) => {
+ const handleCategory = (cat) => {
   setCurrentPage(1);
 
-  
   const newSearchParams = new URLSearchParams(location.search);
 
   newSearchParams.delete("page");
 
-  if(cat === "All"){
+  if (cat === "All") {
     newSearchParams.delete("category");
   } else {
-    newSearchParams.set("category",cat);
+    newSearchParams.set("category", cat);
   }
 
   navigate(`?${newSearchParams.toString()}`);
+};
+
+const clearFilters = () => {
+  setPrice(1000);
+  setSearchText("");
+  setSortOption("Newest");
+  setInStockOnly(false);
+  setMinimumRating(0);
+
+  setCurrentPage(1);
+
+  navigate("/products");
 };
 
    useEffect(() => {
@@ -89,9 +102,13 @@ filteredProducts = filteredProducts.filter(
 );
 if (inStockOnly) {
   filteredProducts = filteredProducts.filter(
-    (product) => product.stock > 0
+    (product) => Number(product.stock) > 0
   );
 }
+filteredProducts = filteredProducts.filter(
+  (product) =>
+    (product.ratings || 0) >= minimumRating
+);
 
 // Sorting
 if (sortOption === "Price Low to High") {
@@ -165,19 +182,48 @@ if (sortOption === "Highest Rated") {
     </div>
 
     {/* Rating */}
-    <div>
-      <h3 className="font-semibold text-lg mb-3">
-        Customer Rating
-      </h3>
+<div>
+  <h3 className="font-semibold text-lg mb-3">
+    Customer Rating
+  </h3>
 
-      <button className="block w-full text-left p-2 rounded hover:bg-gray-100">
-        ⭐⭐⭐⭐ & Above
-      </button>
+  <button
+    onClick={() => setMinimumRating(4)}
+    className="block w-full text-left p-2 rounded hover:bg-gray-100"
+  >
+    ⭐⭐⭐⭐ & Above
+  </button>
 
-      <button className="block w-full text-left p-2 rounded hover:bg-gray-100">
-        ⭐⭐⭐ & Above
-      </button>
-    </div>
+  <button
+    onClick={() => setMinimumRating(3)}
+    className="block w-full text-left p-2 rounded hover:bg-gray-100"
+  >
+    ⭐⭐⭐ & Above
+  </button>
+
+  <button
+    onClick={() => setMinimumRating(0)}
+    className="block w-full text-left p-2 rounded hover:bg-gray-100 text-red-500"
+  >
+    Clear Rating
+  </button>
+</div>
+<button
+  onClick={clearFilters}
+  className="
+    w-full
+    mt-6
+    bg-red-500
+    hover:bg-red-600
+    text-white
+    py-2
+    rounded-xl
+    font-medium
+    transition
+  "
+>
+  Clear Filters
+</button>
 
   </div>
 </aside>
