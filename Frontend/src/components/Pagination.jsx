@@ -39,7 +39,7 @@ const controlBtn = "bg-white border border-gray-200 text-gray-500 hover:border-b
         <FaAngleDoubleLeft/>
         </button>
       <button disabled={currentPage === 1} onClick={() => onPageChange(currentPage-1)}
-      classname={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
+      className={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
       title='Previous'>
         <FaAngleLeft/>
         {/* {prevPagetext} */}
