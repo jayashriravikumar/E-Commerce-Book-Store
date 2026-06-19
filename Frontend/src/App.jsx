@@ -27,6 +27,7 @@ import OrderSuccess from "./pages/OrderSuccess";
 import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
 
+
 const App = () => {
 
   return (
@@ -80,7 +81,5 @@ const App = () => {
               </BrowserRouter>
               
             );
-          };
-
-      
+};
 export default App;

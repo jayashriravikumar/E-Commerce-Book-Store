@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import couponRoutes from "./routes/couponRoutes.js";
 import cors from "cors";
+import payment from "./routes/paymentRoutes.js";
 
 // Create app
 const app = express();
@@ -18,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173"] ,
     credentials: true,
   })
 );
@@ -55,6 +56,7 @@ app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1",wishlist);
+app.use("/api/v1", payment);
 // Error handler
 app.use(errorHandler);
 
