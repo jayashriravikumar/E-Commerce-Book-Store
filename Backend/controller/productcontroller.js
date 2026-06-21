@@ -2,7 +2,7 @@ import Product from "../models/productModel.js";
 import APIHelper from "../helper/APIHelper.js";
 import HandleError from "../helper/handleError.js";
 
-export const addProducts = async (req, res,next) => {
+export const addProducts = async (req, res, next) => {
   //console.log(req.body);
   req.body.user = req.user.id;
   const product = await Product.create(req.body);

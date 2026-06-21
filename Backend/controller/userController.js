@@ -13,15 +13,32 @@ export const registerUser = async (req, res, next) => {
 
     const { name, email, password, avatar, captchaToken } = req.body;
 
-    if(!name){
-      return next(new HandleError("Please enter your name", 400));  
+// ================= Register User =================
+export const registerUser = async (req, res, next) => {
+  try {
+    console.log("===== REGISTER API CALLED =====");
+
+    const { name, email, password } = req.body;
+
+    if (!name) {
+      return next(new HandleError("Please enter your name", 400));
     }
 
     if(!email){
       return next(new HandleError("Please enter your email", 400));  
+    if (!email) {
+      return next(new HandleError("Please enter your email", 400));
     }
-    if(!password){
-      return next(new HandleError("Please enter your password", 400));  
+
+    if (!password) {
+      return next(new HandleError("Please enter your password", 400));
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return next(new HandleError("User already exists", 400));
     }
     if(!captchaToken){
       return next(new HandleError("Please complete the human verification", 400));
@@ -86,12 +103,38 @@ export const registerUser = async (req, res, next) => {
 
 
 // Login User
+    const user = await User.create({
+      name,
+      email,
+      password,
+      avatar: {
+        public_id: "temp_id",
+        url: "temp_url",
+      },
+    });
+
+    console.log("User Registered Successfully");
+
+    sendToken(user, 201, res);
+  } catch (err) {
+    console.log("REGISTER ERROR:", err);
+    next(err);
+  }
+};
+
+// ================= Login User =================
 export const loginUser = async (req, res, next) => {
+  try {
+    console.log("===== LOGIN API CALLED =====");
+    console.log("Request Body:", req.body);
+
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return next(new HandleError("Email or password cannot be empty ", 400));
+      return next(new HandleError("Email or password cannot be empty", 400));
     }
+
+    console.log("Searching user...");
 
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
@@ -100,12 +143,30 @@ export const loginUser = async (req, res, next) => {
     if (!user.isVerified) {
       return next(new HandleError("Please verify your email first before logging in.", 401));
     }
+
+    console.log("User Found:", user);
+
+    if (!user) {
+      return next(new HandleError("Invalid email or password", 401));
+    }
+
+    console.log("Checking password...");
+
     const isValidPassword = await user.verifyPassword(password);
+
+    console.log("Password Valid:", isValidPassword);
+
     if (!isValidPassword) {
       return next(new HandleError("Invalid email or password", 401));
     }
-  
+
+    console.log("Sending Token...");
+
     sendToken(user, 200, res);
+  } catch (err) {
+    console.log("LOGIN ERROR:", err);
+    next(err);
+  }
 };
 
 // Logout User

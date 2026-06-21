@@ -1,0 +1,9 @@
+<Route
+    path="/customer-service"
+    element={<CustomerService />}
+/>
+
+<Route
+    path="/faq"
+    element={<FAQ />}
+/>

@@ -4,6 +4,7 @@ import product from "./routes/productRoutes.js";
 import user from "./routes/userRoutes.js";
 import order from "./routes/orderRoutes.js";
 import errorHandler from "./middleware/error.js";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import couponRoutes from "./routes/couponRoutes.js";
@@ -15,6 +16,14 @@ const app = express();
 
 // Middlewares
 
+import product from "./routes/productRoutes.js";
+import user from "./routes/userRoutes.js";
+import customerService from "./routes/customerServiceRoutes.js";
+import errorHandler from "./middleware/error.js";
+
+const app = express(); // ✅ MUST BE FIRST
+
+// Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -50,6 +59,12 @@ app.post("/test-upload", async (req, res) => {
     res.status(500).json({ message: "Upload failed" });
   }
 });
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 // Routes
 app.use("/api/v1", product);
@@ -57,6 +72,8 @@ app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1",wishlist);
 app.use("/api/v1", payment);
+app.use("/api/v1", customerService);
+
 // Error handler
 app.use(errorHandler);
 
