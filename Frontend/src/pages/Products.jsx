@@ -16,6 +16,8 @@ import { useState } from "react";
 
 const Products = () => {
     const { products, productCount, loading, error , resultPerPage } =useSelector((state) => state.product);
+    console.log("Total Products:", products.length);
+console.dir(products[0]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -156,7 +158,7 @@ if (sortOption === "Highest Rated") {
         min="0"
         max="2000"
         value={price}
-        onChange={(e) => setPrice(e.target.value)}
+        onChange={(e) => setPrice(Number(e.target.value))}
         className="w-full"
       />
 

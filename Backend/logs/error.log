@@ -1,0 +1,1 @@
+{"level":"error","message":"Route not found: /api/v1/test123","method":"GET","route":"/api/v1/test123","status":404,"timestamp":"2026-06-22T10:01:22.254Z"}
