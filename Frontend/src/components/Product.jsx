@@ -18,7 +18,7 @@ const Product = ({ product }) => {
   const handleAddToCart = () => {
     dispatch(addToCart(product));
   };
-
+console.log("Product Images:", product.image);
   return (
     <div
       className="
@@ -56,7 +56,7 @@ const Product = ({ product }) => {
       <div className="p-4 flex flex-col flex-1">
         <Link to={`/product/${product._id}`}>
           <h3 className="font-bold text-xl text-gray-900 line-clamp-1 hover:text-blue-600">
-            {product?.name}
+            {product?.name || product.title}
           </h3>
         </Link>
 

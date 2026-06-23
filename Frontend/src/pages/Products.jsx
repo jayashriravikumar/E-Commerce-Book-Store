@@ -81,8 +81,17 @@ const clearFilters = () => {
 };
 
    useEffect(() => {
-    dispatch(getProduct({keyword,page: currentPage ,category}));
-  }, [dispatch , keyword,currentPage,category ]);
+  console.log("Category Selected:", category);
+
+  dispatch(
+    getProduct({
+      keyword,
+      page: currentPage,
+      category,
+    })
+  );
+}, [dispatch, keyword, currentPage, category]);
+
 
   useEffect(() =>{
     if (error) {
@@ -215,6 +224,7 @@ if (sortOption === "Highest Rated") {
   >
     Clear Rating
   </button>
+  
 </div>
 <button
   onClick={clearFilters}

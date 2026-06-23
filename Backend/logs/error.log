@@ -1,3 +1,17 @@
 {"level":"error","message":"Route not found: /api/v1/test123","method":"GET","route":"/api/v1/test123","status":404,"timestamp":"2026-06-22T10:01:22.254Z"}
 {"level":"error","message":"Route not found: /productpage","method":"GET","route":"/productpage","status":404,"timestamp":"2026-06-22T10:37:36.554Z"}
 {"level":"error","message":"Route not found: /productpage","method":"GET","route":"/productpage","status":404,"timestamp":"2026-06-22T10:37:51.626Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-06-23T06:16:18.616Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-06-23T06:37:59.461Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-06-23T06:40:26.895Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-06-23T06:40:29.283Z"}
+{"level":"error","message":"Human verification failed. Please try again.","method":"POST","route":"/api/v1/register","status":400,"timestamp":"2026-06-23T07:47:44.864Z"}
+{"level":"error","message":"Human verification failed. Please try again.","method":"POST","route":"/api/v1/register","status":400,"timestamp":"2026-06-23T07:47:50.538Z"}
+{"level":"error","message":"Human verification failed. Please try again.","method":"POST","route":"/api/v1/register","status":400,"timestamp":"2026-06-23T07:48:47.154Z"}
+{"level":"error","message":"Human verification failed. Please try again.","method":"POST","route":"/api/v1/register","status":400,"timestamp":"2026-06-23T07:50:05.857Z"}
+{"level":"error","message":"Human verification failed. Please try again.","method":"POST","route":"/api/v1/register","status":400,"timestamp":"2026-06-23T07:56:05.237Z"}
+{"level":"error","message":"Human verification failed. Please try again.","method":"POST","route":"/api/v1/register","status":400,"timestamp":"2026-06-23T07:56:11.663Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-06-23T09:07:54.378Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-06-23T09:07:54.409Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-06-23T09:08:24.733Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-06-23T09:08:57.942Z"}

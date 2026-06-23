@@ -26,6 +26,8 @@ import Payment from "./pages/Payment";
 import OrderSuccess from "./pages/OrderSuccess";
 import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
+import SystemMonitor from "./pages/SystemMonitor";
+import Monitor from "./pages/Monitor";
 
 
 const App = () => {
@@ -75,6 +77,14 @@ const App = () => {
           <Route
             path="/verify-email"
             element={<VerifyOTP />}
+          />
+          <Route
+            path="/system-monitor"
+            element={<SystemMonitor />}
+          />
+          <Route
+            path="/monitor"
+            element={<Monitor />}
           />
                 </Routes>
                 <CookieConsent />

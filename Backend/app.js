@@ -7,10 +7,34 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import morgan from "morgan";
 import { errorLogger } from "./middleware/logger.js";
+import cors from "cors";
+
+const SERVER_START_TIME = new Date();
+
+let totalRequests = 0;
+const apiStats = {};
+let lastResponseTime = 0;
 
 // Create app
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(morgan("dev"));
+
+app.use((req, res, next) => {
+  totalRequests++;
+
+  const route = req.originalUrl;
+
+  apiStats[route] = (apiStats[route] || 0) + 1;
+
+  next();
+});
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -35,14 +59,31 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  const start = Date.now();
+
+  res.on("finish", () => {
+    lastResponseTime = Date.now() - start;
+
+    console.log(
+      `${req.method} ${req.originalUrl} - ${lastResponseTime}ms`
+    );
+  });
+
+  next();
+});
+
 // Health Check Route
 app.get("/health", (req, res) => {
   res.status(200).json({
     success: true,
+  
     status: "UP",
     serverTime: new Date(),
   });
 });
+
+
 
 // Test route (file receive check)
 import cloudinary from "./config/cloudinary.js";
@@ -63,13 +104,9 @@ app.post("/test-upload", async (req, res) => {
     res.status(500).json({ message: "Upload failed" });
   }
 });
-// Metrics
-let totalRequests = 0;
 
-app.use((req, res, next) => {
-  totalRequests++;
-  next();
-});
+
+
 
 app.get("/metrics", (req, res) => {
   res.status(200).json({
@@ -77,6 +114,10 @@ app.get("/metrics", (req, res) => {
     uptime: process.uptime(),
     totalRequests,
     memoryUsage: process.memoryUsage().heapUsed,
+    apiStats,
+    responseTime: lastResponseTime,
+    serverStatus: "UP",
+    serverStartedAt: SERVER_START_TIME,
     serverTime: new Date(),
   });
 });
