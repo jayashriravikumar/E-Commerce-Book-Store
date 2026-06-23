@@ -18,6 +18,12 @@ const Products = () => {
     const { products, productCount, loading, error , resultPerPage } =useSelector((state) => state.product);
     console.log("Total Products:", products.length);
 console.dir(products[0]);
+
+console.log("Products Array:", products);
+
+products.forEach((p) => {
+  console.log("FULL PRODUCT:", p);
+});
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -89,7 +95,7 @@ const clearFilters = () => {
 // Search Filter
 filteredProducts = filteredProducts.filter((product) =>
   [
-    product.name,
+    product.name || product.title,
     product.author,
     product.category,
   ]
