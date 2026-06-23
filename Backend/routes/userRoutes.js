@@ -1,23 +1,60 @@
 import express from "express";
-import { profile,registerUser,loginUser,logout,forgetPassword,resetPassword,updatePassword ,updateProfile,getUsers,getSingleUser, updateUserRole, deleteUser,verifyEmailOTP} from "../controller/userController.js";
-import { verifyUser,roleBasedAccess} from "../helper/userAuth.js";
+console.log("✅ userRoutes.js is loaded");
+import {
+  profile,
+  registerUser,
+  loginUser,
+  logout,
+  forgetPassword,
+  resetPassword,
+  updatePassword,
+  updateProfile,
+  getUsers,
+  getSingleUser,
+  updateUserRole,
+  deleteUser,
+  verifyEmailOTP,
+} from "../controller/userController.js"; // ✅ make sure path is correct
+console.log("✅ userRoutes.js is loaded");
+import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
 
 const router = express.Router();
 
-router.route("/register").post(registerUser);
-router.route("/login").post(loginUser);
-router.route("/logout").get(logout);
-router.route("/password/forget").post(forgetPassword);
-router.route("/reset/:token").post(resetPassword);
-router.route("/profile").get(verifyUser,profile);
-router.route("/password/update").put(verifyUser,updatePassword);
-router.route("/profile/update").put(verifyUser,updateProfile);
-router.route("/verify/otp").post(verifyEmailOTP);
+// 🔹 Auth routes
+router.post(
+  "/register",
+  (req, res, next) => {
+    console.log("✅ Register route was hit");
+    next();
+  },
+  registerUser,
+); // ✅ Register user (role respected now)
 
-router.route("/admin/users").get(verifyUser,roleBasedAccess("admin"),getUsers);
+router.post("/login", loginUser); // ✅ Login
+router.post("/logout", logout); // ✅ Logout
+router.post("/verify-email", verifyEmailOTP); // ✅ Single OTP route
+
+// 🔹 Password routes
+router.post("/password/forget", forgetPassword);
+router.post("/reset/:token", resetPassword);
+router.put("/password/update", verifyUser, updatePassword);
+
+// 🔹 Profile routes
+router.get("/profile", verifyUser, profile);
+router.put("/profile/update", verifyUser, updateProfile);
+
+// 🔹 Admin routes
+router.get("/admin/users", verifyUser, roleBasedAccess("admin"), getUsers);
 router
-.route("/admin/user/:id")
-.get(verifyUser,roleBasedAccess("admin"),getSingleUser)
-.put(verifyUser,roleBasedAccess("admin"),updateUserRole)
-.delete(verifyUser,roleBasedAccess("admin"),deleteUser);
+  .route("/admin/user/:id")
+  .get(verifyUser, roleBasedAccess("admin"), getSingleUser)
+  .put(verifyUser, roleBasedAccess("admin"), updateUserRole)
+  .delete(verifyUser, roleBasedAccess("admin"), deleteUser);
+router.get("/test", (req, res) => {
+  res.send("User routes working ✅");
+});
+console.log(router.stack.map(r => ({
+  path: r.route?.path,
+  methods: r.route?.methods
+})));
 export default router;
