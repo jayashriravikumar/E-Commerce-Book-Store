@@ -8,10 +8,25 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import couponRoutes from "./routes/couponRoutes.js";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
 import payment from "./routes/paymentRoutes.js";
 
 // Create app
 const app = express();
+
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 150, // Limit each IP to 150 requests per 15 minutes
+  message: { 
+    success: false, 
+    message: "Too many requests from this IP, please try again after 15 minutes." 
+  },
+  standardHeaders: true, 
+  legacyHeaders: false, 
+});
+
+
+app.use("/api", globalLimiter);
 
 // Middlewares
 
