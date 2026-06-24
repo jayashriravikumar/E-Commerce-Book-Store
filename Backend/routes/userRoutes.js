@@ -1,5 +1,6 @@
 import express from "express";
-console.log("✅ userRoutes.js is loaded");
+import rateLimit from "express-rate-limit";
+
 import {
   profile,
   registerUser,
@@ -14,47 +15,49 @@ import {
   updateUserRole,
   deleteUser,
   verifyEmailOTP,
-} from "../controller/userController.js"; // ✅ make sure path is correct
-console.log("✅ userRoutes.js is loaded");
+} from "../controller/userController.js";
+
 import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
 
 const router = express.Router();
 
-// 🔹 Auth routes
-router.post(
-  "/register",
-  (req, res, next) => {
-    console.log("✅ Register route was hit");
-    next();
+// 🔐 Rate limiter for auth
+const authLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  message: {
+    success: false,
+    message: "Too many requests, try again later.",
   },
-  registerUser,
-); // ✅ Register user (role respected now)
+});
 
-router.post("/login", loginUser); // ✅ Login
-router.post("/logout", logout); // ✅ Logout
-router.post("/verify-email", verifyEmailOTP); // ✅ Single OTP route
+// 🔹 Auth
+router.post("/register", authLimiter, registerUser);
+router.post("/login", authLimiter, loginUser);
+router.post("/logout", logout);
+router.post("/verify-email", verifyEmailOTP);
 
-// 🔹 Password routes
-router.post("/password/forget", forgetPassword);
+// 🔹 Password
+router.post("/password/forget", authLimiter, forgetPassword);
 router.post("/reset/:token", resetPassword);
 router.put("/password/update", verifyUser, updatePassword);
 
-// 🔹 Profile routes
+// 🔹 Profile
 router.get("/profile", verifyUser, profile);
 router.put("/profile/update", verifyUser, updateProfile);
 
-// 🔹 Admin routes
+// 🔹 Admin
 router.get("/admin/users", verifyUser, roleBasedAccess("admin"), getUsers);
+
 router
   .route("/admin/user/:id")
   .get(verifyUser, roleBasedAccess("admin"), getSingleUser)
   .put(verifyUser, roleBasedAccess("admin"), updateUserRole)
   .delete(verifyUser, roleBasedAccess("admin"), deleteUser);
+
+// 🔹 Test
 router.get("/test", (req, res) => {
   res.send("User routes working ✅");
 });
-console.log(router.stack.map(r => ({
-  path: r.route?.path,
-  methods: r.route?.methods
-})));
+
 export default router;
