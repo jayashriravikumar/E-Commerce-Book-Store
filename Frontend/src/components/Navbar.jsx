@@ -128,8 +128,9 @@ const cartCount = cartItems.reduce(
             {t("ContactUs")}
           </Link>
           <Link
+           className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
             to="/policies"
-            className="text-lg font-medium hover:text-blue-600"
+           
           >
             {t("Policies")}
           </Link>
