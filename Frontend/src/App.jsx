@@ -28,6 +28,9 @@ import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
 import SystemMonitor from "./pages/SystemMonitor";
 import Monitor from "./pages/Monitor";
+import AdminAnalytics from "./pages/AdminAnalytics";
+import NotFound from "./pages/NotFound";
+import ServerError from "./pages/ServerError";
 
 
 const App = () => {
@@ -86,10 +89,19 @@ const App = () => {
             path="/monitor"
             element={<Monitor />}
           />
-                </Routes>
-                <CookieConsent />
-              </BrowserRouter>
-              
-            );
+          <Route
+            path="/admin/analytics"
+            element={<AdminAnalytics />}
+          />
+          <Route
+            path="*"
+            element={<NotFound />}
+          />
+          <Route path="/500" element={<ServerError />} />
+        </Routes>
+        <CookieConsent />
+      </BrowserRouter>
+      
+    );
 };
 export default App;

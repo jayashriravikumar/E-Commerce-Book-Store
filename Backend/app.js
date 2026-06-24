@@ -8,6 +8,7 @@ import fileUpload from "express-fileupload";
 import morgan from "morgan";
 import { errorLogger } from "./middleware/logger.js";
 import cors from "cors";
+import adminAnalyticsRoutes from "./routes/adminAnalyticsRoutes.js";
 
 const SERVER_START_TIME = new Date();
 
@@ -146,7 +147,7 @@ app.get("/metrics", (req, res) => {
 app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
-
+app.use("/api/v1", adminAnalyticsRoutes);
 app.use((req, res, next) => {
   const error = new Error(
     `Route not found: ${req.originalUrl}`
