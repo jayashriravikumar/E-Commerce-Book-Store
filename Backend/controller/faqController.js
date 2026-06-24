@@ -33,14 +33,12 @@ export const deleteFAQ = async (req, res) => {
     const faq = await FAQ.findByIdAndDelete(req.params.id);
 
     if (!faq) {
-      return res
-        .status(404)
-        .json({ success: false, message: "FAQ not found" });
+      return res.status(404).json({ success: false, message: "FAQ not found" });
     }
 
     res
       .status(200)
-      .json({ success: true, message: "FAQ deleted successfully" });
+      .json({ success: true, message: "Sccessfully FAQ is deleted" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
