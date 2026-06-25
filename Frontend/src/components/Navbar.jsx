@@ -1,10 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Search,
-  ShoppingBag,
-  ShoppingCart,
-  User,
-} from "lucide-react";
+import { Search, ShoppingBag, ShoppingCart, User } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "../i18n";
@@ -12,22 +7,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/products/user/userSlice";
 import { Heart } from "lucide-react";
 
-
 const Navbar = () => {
   const { t } = useTranslation();
 
-const changeLanguage = (lang) => {
-  i18n.changeLanguage(lang);
-  localStorage.setItem("language", lang);
-};
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem("language", lang);
+  };
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const profileRef = useRef(null);
 
-  const { isAuthenticated, user } = useSelector(
-    (state) => state.user
-  );
+  const { isAuthenticated, user } = useSelector((state) => state.user);
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -39,11 +31,7 @@ const changeLanguage = (lang) => {
     e.preventDefault();
 
     if (searchQuery.trim()) {
-     navigate(
-  `/products?keyword=${encodeURIComponent(
-    searchQuery.trim()
-  )}`
-);
+      navigate(`/products?keyword=${encodeURIComponent(searchQuery.trim())}`);
     }
 
     setSearchQuery("");
@@ -51,14 +39,9 @@ const changeLanguage = (lang) => {
 
   //cart count
   // Cart Count
-const { cartItems } = useSelector(
-  (state) => state.cart
-);
+  const { cartItems } = useSelector((state) => state.cart);
 
-const cartCount = cartItems.reduce(
-  (total, item) => total + item.quantity,
-  0
-);
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   // Logout
   const handleLogout = () => {
@@ -67,24 +50,18 @@ const cartCount = cartItems.reduce(
     navigate("/");
   };
   useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (
-      profileRef.current &&
-      !profileRef.current.contains(event.target)
-    ) {
-      setProfileOpen(false);
-    }
-  };
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setProfileOpen(false);
+      }
+    };
 
-  document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
-  return () => {
-    document.removeEventListener(
-      "mousedown",
-      handleClickOutside
-    );
-  };
-}, []);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="sticky top-0 w-full bg-white border-b border-gray-200 z-50">
@@ -127,6 +104,7 @@ const cartCount = cartItems.reduce(
           >
             {t("ContactUs")}
           </Link>
+
           <Link
            className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
             to="/policies"
@@ -134,19 +112,27 @@ const cartCount = cartItems.reduce(
           >
             {t("Policies")}
           </Link>
+
+          {/* ✅ Unified Help */}
+          <Link
+            className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
+            to="/support"
+          >
+            {t("Help & Customer Service")}
+          </Link>
         </div>
 
         {/* Right Section */}
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-4">
-  {/* Cart */}
-  {/* Wishlist */}
-</div>
-         <div className="relative">
-  <select
-    onChange={(e) => changeLanguage(e.target.value)}
-    defaultValue={localStorage.getItem("language") || "en"}
-    className="
+            {/* Cart */}
+            {/* Wishlist */}
+          </div>
+          <div className="relative">
+            <select
+              onChange={(e) => changeLanguage(e.target.value)}
+              defaultValue={localStorage.getItem("language") || "en"}
+              className="
       appearance-none
       bg-gray-50
       border border-gray-200
@@ -163,17 +149,17 @@ const cartCount = cartItems.reduce(
       transition-all
       cursor-pointer
     "
-  >
-    <option value="en">🇺🇸 English</option>
-    <option value="te">🇮🇳 తెలుగు</option>
-    <option value="hi">🇮🇳 हिन्दी</option>
-    <option value="ta">🇮🇳 தமிழ்</option>
-  </select>
+            >
+              <option value="en">🇺🇸 English</option>
+              <option value="te">🇮🇳 తెలుగు</option>
+              <option value="hi">🇮🇳 हिन्दी</option>
+              <option value="ta">🇮🇳 தமிழ்</option>
+            </select>
 
-  <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
-    ▼
-  </span>
-</div>
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+              ▼
+            </span>
+          </div>
           {/* Search */}
           <form
             onSubmit={handleSearch}
@@ -212,10 +198,7 @@ const cartCount = cartItems.reduce(
 
           {/* Authentication */}
           {isAuthenticated ? (
-            <div
-  ref={profileRef}
-  className="relative hidden sm:block"
->
+            <div ref={profileRef} className="relative hidden sm:block">
               <button
                 type="button"
                 onClick={() => setProfileOpen(!profileOpen)}
@@ -228,9 +211,7 @@ const cartCount = cartItems.reduce(
               {profileOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50">
                   <div className="p-4 border-b">
-                    <p className="font-semibold">
-                      {user?.name || "User"}
-                    </p>
+                    <p className="font-semibold">{user?.name || "User"}</p>
 
                     <p className="text-sm text-gray-500 break-words">
                       {user?.email}
@@ -334,28 +315,27 @@ const cartCount = cartItems.reduce(
             {t("AboutUs")}
           </Link>
 
+          {/* ✅ Unified Help */}
           <Link
             onClick={() => setOpen(false)}
             className="text-gray-700 hover:text-blue-600 font-semibold"
-            to="/contact-us"
+            to="/support"
           >
-            {t("ContactUs")}
+            Help & Customer Service
           </Link>
         </div>
       </div>
 
       {showLogoutModal && (
         <div
-  className="fixed inset-0 bg-black/40 flex items-center justify-center z-[100]"
-  onClick={() => setShowLogoutModal(false)}
->
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-[100]"
+          onClick={() => setShowLogoutModal(false)}
+        >
           <div
-  className="bg-white rounded-xl shadow-xl p-6 w-80"
-  onClick={(e) => e.stopPropagation()}
->
-            <h2 className="text-xl font-bold mb-3">
-              Confirm Logout
-            </h2>
+            className="bg-white rounded-xl shadow-xl p-6 w-80"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-bold mb-3">Confirm Logout</h2>
 
             <p className="text-gray-600 mb-6">
               Are you sure you want to log out?
@@ -382,7 +362,6 @@ const cartCount = cartItems.reduce(
           </div>
         </div>
       )}
-
     </nav>
   );
 };
