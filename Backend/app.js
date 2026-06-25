@@ -6,39 +6,33 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import rateLimit from "express-rate-limit";
-import express from "express";
+import morgan from "morgan";
+
 import product from "./routes/productRoutes.js";
-import user from "./routes/userRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import order from "./routes/orderRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
 import wishlist from "./routes/wishlistRoutes.js";
-import errorHandler from "./middleware/error.js";
-import cookieParser from "cookie-parser";
-import fileUpload from "express-fileupload";
 import payment from "./routes/paymentRoutes.js";
-import morgan from "morgan";
-import { errorLogger } from "./middleware/logger.js";
-import cors from "cors";
 import adminAnalyticsRoutes from "./routes/adminAnalyticsRoutes.js";
+import customerServiceRoutes from "./routes/customerServiceRoutes.js";
+import faqRoutes from "./routes/faqRoutes.js";
+import ticketRoutes from "./routes/ticketRoutes.js";
+
+import cloudinary from "./config/cloudinary.js";
+import errorHandler from "./middleware/error.js";
+import { errorLogger } from "./middleware/logger.js";
+
+
+
 
 const SERVER_START_TIME = new Date();
 
 let totalRequests = 0;
 const apiStats = {};
 let lastResponseTime = 0;
-import rateLimit from "express-rate-limit";
 
-import product from "./routes/productRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import order from "./routes/orderRoutes.js";
-import wishlist from "./routes/wishlistRoutes.js";
-import payment from "./routes/paymentRoutes.js";
-import couponRoutes from "./routes/couponRoutes.js";
-import customerServiceRoutes from "./routes/customerServiceRoutes.js";
-import faqRoutes from "./routes/faqRoutes.js";
-import ticketRoutes from "./routes/ticketRoutes.js";
-import cloudinary from "./config/cloudinary.js";
-import errorHandler from "./middleware/error.js";
+
 
 // ✅ dotenv config
 dotenv.config();
@@ -136,7 +130,6 @@ app.get("/health", (req, res) => {
 });
 
 // Test route (file receive check)
-import cloudinary from "./config/cloudinary.js";
 
 app.post("/test-upload", async (req, res) => {
   try {
