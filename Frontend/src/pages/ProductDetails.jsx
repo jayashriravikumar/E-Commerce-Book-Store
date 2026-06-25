@@ -18,6 +18,7 @@ const ProductDetails = () =>{
   const { loading,error,product} =useSelector((state) => state.product);
   const {id} =useParams();
   const [quantity, setQuantity] = useState(1);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   const dispatch =useDispatch();
   const increaseQuantity = () => {
@@ -113,7 +114,7 @@ const rating = product?.ratings || 0;  return (
           <div className='aspect-square overflow-hidden rounded-xl'>
   <img
     src={
-      product?.image?.[0]?.url ||
+      product?.image?.[selectedImage]?.url ||
       product?.coverImage?.[0]?.url ||
       "https://via.placeholder.com/300x400?text=No+Image"
     }
@@ -123,6 +124,32 @@ const rating = product?.ratings || 0;  return (
     duration-700'
     title={product?.name}
   />
+</div>
+
+<div className="flex gap-3 mt-4 justify-center flex-wrap">
+
+  {product?.image?.map((img, index) => (
+    <img
+      key={index}
+      src={img.url}
+      alt="thumbnail"
+      onClick={() => setSelectedImage(index)}
+      className={`
+        w-16 h-20
+        object-cover
+        rounded-lg
+        cursor-pointer
+        border-2
+        transition-all
+        ${
+          selectedImage === index
+            ? "border-blue-500"
+            : "border-gray-200"
+        }
+      `}
+    />
+  ))}
+
 </div>
         </div>
         {/* Product Info */}

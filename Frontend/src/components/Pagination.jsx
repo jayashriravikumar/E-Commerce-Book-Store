@@ -57,14 +57,14 @@ const controlBtn = "bg-white border border-gray-200 text-gray-500 hover:border-b
       {/* Next & Last */}
       <div className='flex gap-1 ml-2 border-l pl-2 border-gray-100'>
         <button disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)}
-      classname={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
+      className={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
       title='Next'>
         {/* {nextPageText} */}
         <FaAngleRight/>
         </button>
 
         <button disabled={currentPage === totalPages} onClick={() => onPageChange(totalPages)}
-      classname={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
+      className={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
       title='last Page'>
        <FaAngleDoubleRight/>
         </button>

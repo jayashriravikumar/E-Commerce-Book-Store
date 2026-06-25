@@ -31,6 +31,11 @@ import Payment from "./pages/Payment";
 import OrderSuccess from "./pages/OrderSuccess";
 import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
+import SystemMonitor from "./pages/SystemMonitor";
+import Monitor from "./pages/Monitor";
+import AdminAnalytics from "./pages/AdminAnalytics";
+import NotFound from "./pages/NotFound";
+import ServerError from "./pages/ServerError";
 
 
 const App = () => {
@@ -108,10 +113,27 @@ export default App;
             path="/verify-email"
             element={<VerifyOTP />}
           />
-                </Routes>
-                <CookieConsent />
-              </BrowserRouter>
-              
-            );
+          <Route
+            path="/system-monitor"
+            element={<SystemMonitor />}
+          />
+          <Route
+            path="/monitor"
+            element={<Monitor />}
+          />
+          <Route
+            path="/admin/analytics"
+            element={<AdminAnalytics />}
+          />
+          <Route
+            path="*"
+            element={<NotFound />}
+          />
+          <Route path="/500" element={<ServerError />} />
+        </Routes>
+        <CookieConsent />
+      </BrowserRouter>
+      
+    );
 };
 export default App;
