@@ -33,7 +33,7 @@ export const registerUser = async (req, res, next) => {
     
     const captchaResponse = await fetch(verifyUrl, { method: "POST" });
     const captchaData = await captchaResponse.json();
-    
+    console.log("GOOGLE RECAPTCHA EXPLANATION:", captchaData);
     if (!captchaData.success) {
         return next(new HandleError("Human verification failed. Please try again.", 400));
     }
@@ -44,17 +44,43 @@ export const registerUser = async (req, res, next) => {
     crop:"scale"
    });
 
-    const user = await User.create({
-      name,
-      email,
-      password,
-      avatar: {
-        public_id: myCloud.public_id,
-        url:myCloud.secure_url,
-      },
-    });
-  
-    sendToken(user, 201, res);
+    // 1. Generate the 6-digit OTP FIRST
+   const otp = Math.floor(100000 + Math.random() * 900000).toString();
+   const hashedOTP = crypto.createHash("sha256").update(otp).digest("hex");
+
+   // 2. Create the user AND save the OTP in one single step
+   const user = await User.create({
+     name,
+     email,
+     password,
+     avatar: {
+       public_id: myCloud.public_id,
+       url: myCloud.secure_url,
+     },
+     emailVerificationOTP: hashedOTP,
+     emailVerificationExpire: Date.now() + 10 * 60 * 1000, 
+   });
+
+    // Send the email
+    const message = `Your verification code for BookStore is: ${otp}\n\nThis code will expire in 10 minutes.`;
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: "Verify your BookStore Account",
+            message
+        });
+
+        res.status(200).json({
+            success: true,
+            message: `Verification OTP sent to ${user.email}`,
+            email: user.email // Send email back to frontend to hold in state
+        });
+    } catch (error) {
+        user.emailVerificationOTP = undefined;
+        user.emailVerificationExpire = undefined;
+        await user.save({ validateBeforeSave: false });
+        return next(new HandleError(error.message, 500));
+    }
 };
 
 
@@ -70,6 +96,9 @@ export const loginUser = async (req, res, next) => {
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return next(new HandleError("Invalid email or password", 401));
+    }
+    if (!user.isVerified) {
+      return next(new HandleError("Please verify your email first before logging in.", 401));
     }
     const isValidPassword = await user.verifyPassword(password);
     if (!isValidPassword) {
@@ -258,4 +287,34 @@ export const logout = async (req, res, next) => {
   });
  };
 
- 
+// Verify Email via OTP
+export const verifyEmailOTP = async (req, res, next) => {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+        return next(new HandleError("Please provide email and OTP", 400));
+    }
+
+    // Forcefully convert to string and trim spaces to ensure a clean hash
+    const cleanOTP = String(otp).trim();
+    const hashedOTP = crypto.createHash("sha256").update(cleanOTP).digest("hex");
+
+    const user = await User.findOne({
+        email: String(email).trim(), // Trim the email just in case
+        emailVerificationOTP: hashedOTP,
+        emailVerificationExpire: { $gt: Date.now() },
+    });
+
+    if (!user) {
+        return next(new HandleError("OTP is invalid or has expired", 400));
+    }
+
+    // Mark as verified and clear OTP data
+    user.isVerified = true;
+    user.emailVerificationOTP = undefined;
+    user.emailVerificationExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    // Instantly log them in after successful verification
+    sendToken(user, 200, res);
+  };

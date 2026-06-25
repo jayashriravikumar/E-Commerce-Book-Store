@@ -25,6 +25,13 @@ import CreateProduct from "./pages/CreateProduct";
 import ProductManagement from "./pages/ProductManagement";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import VerifyOTP from './User/VerifyOTP';
+import ConfirmOrder from "./pages/ConfirmOrder";
+import Payment from "./pages/Payment";
+import OrderSuccess from "./pages/OrderSuccess";
+import MyOrders from "./pages/MyOrders";
+import OrderDetails from "./pages/OrderDetails";
+
 
 const App = () => {
   const { user } = useSelector((state) => state.user);
@@ -63,6 +70,26 @@ const App = () => {
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
       </Routes>
+         <Route path="/profile/update" element={<UpdateProfile />} />
+         <Route path="/update-password" element={<UpdatePassword />} />
+         <Route path="/cart" element={<Cart />} />
+         <Route path="/checkout" element={<Checkout />} />
+         <Route path="/wishlist" element={<Wishlist />} />
+         <Route path="/policies" element={<Policies />} />
+         <Route path="/order/confirm" element={<ConfirmOrder />} />
+         <Route path="/payment" element={<Payment />} />
+        <Route path="/order/success" element={<OrderSuccess />} />
+        <Route path="/orders" element={<MyOrders />} />
+        <Route path="/order/:id" element={<OrderDetails />} />
+          <Route
+            path="/privacy-policy"
+            element={<PrivacyPolicy />}
+          />
+
+          <Route
+            path="/terms-conditions"
+            element={<TermsConditions />}
+          />
 
       {/* ✅ These go INSIDE BrowserRouter but OUTSIDE Routes */}
       <CookieConsent />
@@ -72,4 +99,19 @@ const App = () => {
   );
 };
 
+export default App;
+          <Route
+            path="/shipping-policy"
+            element={<ShippingPolicy />}
+          />
+          <Route
+            path="/verify-email"
+            element={<VerifyOTP />}
+          />
+                </Routes>
+                <CookieConsent />
+              </BrowserRouter>
+              
+            );
+};
 export default App;
