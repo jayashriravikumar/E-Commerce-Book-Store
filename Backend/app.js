@@ -15,7 +15,7 @@ import payment from "./routes/paymentRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
 import customerServiceRoutes from "./routes/customerServiceRoutes.js";
 import faqRoutes from "./routes/faqRoutes.js";
-
+import ticketRoutes from "./routes/ticketRoutes.js";
 import cloudinary from "./config/cloudinary.js";
 import errorHandler from "./middleware/error.js";
 
@@ -91,7 +91,7 @@ app.use("/api/v1", payment);
 app.use("/api/v1", couponRoutes);
 app.use("/api/v1/customer-service", customerServiceRoutes);
 app.use("/api/v1/faqs", faqRoutes);
-
+app.use("/api/v1", ticketRoutes);
 // 🔹 error handler (must be last)
 app.use(errorHandler);
 

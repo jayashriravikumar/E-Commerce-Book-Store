@@ -60,4 +60,8 @@ router.get("/test", (req, res) => {
   res.send("User routes working ✅");
 });
 
+// 🔹 Ping (debug)
+router.post("/ping", (req, res) => {
+  res.json({ success: true, message: "Ping route works" });
+});
 export default router;

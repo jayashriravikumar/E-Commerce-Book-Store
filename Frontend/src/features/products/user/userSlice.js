@@ -8,7 +8,7 @@ export const register = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
-        "/api/v1/register",
+        "http://localhost:8000/api/v1/register",
         userData,
         {
           headers: {
@@ -34,7 +34,7 @@ export const verifyOTP = createAsyncThunk(
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axios.post(
-        "/api/v1/verify/otp",
+        "http://localhost:8000/api/v1/verify/otp",
         verificationData,
         config,
       );
@@ -50,7 +50,7 @@ export const login = createAsyncThunk(
   "user/login",
   async (userData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("/api/v1/login", userData, {
+      const { data } = await axios.post("http://localhost:8000/api/v1/login", userData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -83,7 +83,7 @@ export const updateProfile = createAsyncThunk(
       };
 
       const { data } = await axios.put(
-        "/api/v1/profile/update",
+        "http://localhost:8000/api/v1/profile/update",
         userData,
         config,
       );

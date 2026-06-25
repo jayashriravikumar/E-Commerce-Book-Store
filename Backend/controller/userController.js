@@ -5,71 +5,55 @@ import { sendEmail } from "../helper/sendEmail.js";
 import crypto from "crypto";
 import { v2 as cloudinary } from "cloudinary";
 
-// Register User
-export const registerUser = async (req, res, next, role) => {
+//Register User
+
+export const registerUser = async (req, res, next) => {
   console.log("BODY:", req.body);
 
-  const { name, email, password, avatar } = req.body;
-
+  const { name, email, password, avatar, captchaToken, role } = req.body;
   if (!name) {
     return next(new HandleError("Please enter your name", 400));
   }
+
   if (!email) {
     return next(new HandleError("Please enter your email", 400));
   }
   if (!password) {
     return next(new HandleError("Please enter your password", 400));
   }
-
-  // ✅ Skip captcha verification in dev mode
-  if (process.env.NODE_ENV !== "development") {
-    const { captchaToken } = req.body;
-    if (!captchaToken) {
-      return next(
-        new HandleError("Please complete the human verification", 400),
-      );
-    }
-
-    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
-    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaToken}`;
-
-    const captchaResponse = await fetch(verifyUrl, { method: "POST" });
-    const captchaData = await captchaResponse.json();
-    console.log("GOOGLE RECAPTCHA EXPLANATION:", captchaData);
-
-    if (!captchaData.success) {
-      return next(
-        new HandleError("Human verification failed. Please try again.", 400),
-      );
-    }
-  } else {
-    console.log("⚠️ Skipping captcha in development mode");
+  if (!captchaToken) {
+    return next(new HandleError("Please complete the human verification", 400));
   }
 
-  // Avatar upload with safe default
-  let myCloud = {
-    public_id: "default_id",
-    secure_url: "https://res.cloudinary.com/demo/image/upload/sample.jpg",
-  };
+  // Verify token with Google
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaToken}`;
 
-  if (avatar && typeof avatar === "string" && avatar.trim() !== "") {
-    myCloud = await cloudinary.uploader.upload(avatar, {
-      folder: "avatars",
-      width: 150,
-      crop: "scale",
-    });
+  const captchaResponse = await fetch(verifyUrl, { method: "POST" });
+  const captchaData = await captchaResponse.json();
+  console.log("GOOGLE RECAPTCHA EXPLANATION:", captchaData);
+  if (!captchaData.success) {
+    return next(
+      new HandleError("Human verification failed. Please try again.", 400),
+    );
   }
 
-  // Generate OTP
+  const myCloud = await cloudinary.uploader.upload(avatar, {
+    folder: "avatars",
+    width: 150,
+    crop: "scale",
+  });
+
+  // 1. Generate the 6-digit OTP FIRST
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   const hashedOTP = crypto.createHash("sha256").update(otp).digest("hex");
 
-  // Create user
+  // 2. Create the user AND save the OTP in one single step
   const user = await User.create({
     name,
     email,
     password,
-    role: role || "user", 
+    role: role || "user",
     avatar: {
       public_id: myCloud.public_id,
       url: myCloud.secure_url,
@@ -78,18 +62,7 @@ export const registerUser = async (req, res, next, role) => {
     emailVerificationExpire: Date.now() + 10 * 60 * 1000,
   });
 
-  // Dev mode: return OTP directly instead of sending email
-  if (process.env.NODE_ENV === "development") {
-    console.log("OTP:", otp);
-    return res.status(200).json({
-      success: true,
-      message: `Verification OTP generated for ${user.email}`,
-      email: user.email,
-      otp,
-    });
-  }
-
-  // Production: send OTP email
+  // Send the email
   const message = `Your verification code for BookStore is: ${otp}\n\nThis code will expire in 10 minutes.`;
   try {
     await sendEmail({
@@ -101,7 +74,7 @@ export const registerUser = async (req, res, next, role) => {
     res.status(200).json({
       success: true,
       message: `Verification OTP sent to ${user.email}`,
-      email: user.email,
+      email: user.email, // Send email back to frontend to hold in state
     });
   } catch (error) {
     user.emailVerificationOTP = undefined;
@@ -123,11 +96,9 @@ export const loginUser = async (req, res, next) => {
   if (!user) {
     return next(new HandleError("Invalid email or password", 401));
   }
-  if (!user.isVerified) {
-    return next(
-      new HandleError("Please verify your email first before logging in.", 401),
-    );
-  }
+  // if (!user.isVerified) {
+  //   return next(new HandleError("Please verify your email first before logging in.", 401));
+  // }
   const isValidPassword = await user.verifyPassword(password);
   if (!isValidPassword) {
     return next(new HandleError("Invalid email or password", 401));
@@ -137,6 +108,7 @@ export const loginUser = async (req, res, next) => {
 };
 
 // Logout User
+// app.post("/logout", logout);
 export const logout = async (req, res, next) => {
   res.cookie("token", null, {
     httpOnly: true,
@@ -149,7 +121,7 @@ export const logout = async (req, res, next) => {
   });
 };
 
-// Forget Password
+// Forget user password
 export const forgetPassword = async (req, res, next) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
@@ -160,6 +132,7 @@ export const forgetPassword = async (req, res, next) => {
   try {
     resetToken = user.createPasswordResetToken();
     await user.save();
+    //console.log(resetToken);
   } catch (error) {
     console.log(error);
     return next(
@@ -190,12 +163,13 @@ export const forgetPassword = async (req, res, next) => {
   }
 };
 
-// Reset Password
+// Reset user password
 export const resetPassword = async (req, res, next) => {
   const resetPasswordToken = crypto
     .createHash("sha256")
     .update(req.params.token)
     .digest("hex");
+  console.log(resetPasswordToken);
   const user = await User.findOne({
     resetPasswordToken,
     resetPasswordExpire: { $gt: Date.now() },
@@ -216,7 +190,7 @@ export const resetPassword = async (req, res, next) => {
   sendToken(user, 200, res);
 };
 
-// Profile
+// Get user profile
 export const profile = async (req, res, next) => {
   const user = await User.findById(req.user.id);
   res.status(200).json({
@@ -225,7 +199,7 @@ export const profile = async (req, res, next) => {
   });
 };
 
-// Update Password
+// Update user password
 export const updatePassword = async (req, res, next) => {
   const { oldPassword, newPassword, confirmPassword } = req.body;
   const user = await User.findById(req.user.id).select("+password");
@@ -241,7 +215,7 @@ export const updatePassword = async (req, res, next) => {
   sendToken(user, 200, res);
 };
 
-// Update Profile
+// Update user profile
 export const updateProfile = async (req, res, next) => {
   const { name, email, avatar } = req.body;
   const updatedUserDetails = { name, email };
@@ -275,7 +249,6 @@ export const updateProfile = async (req, res, next) => {
   });
 };
 
-// Get Users
 export const getUsers = async (req, res) => {
   const users = await User.find();
   res.status(200).json({
@@ -283,8 +256,6 @@ export const getUsers = async (req, res) => {
     users,
   });
 };
-
-// Get Single User
 
 export const getSingleUser = async (req, res, next) => {
   const id = req.params.id;

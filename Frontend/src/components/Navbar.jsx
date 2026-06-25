@@ -112,9 +112,10 @@ const Navbar = () => {
             {t("Policies")}
           </Link>
 
+          {/* ✅ Unified Help */}
           <Link
             className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
-            to="/faq"
+            to="/support"
           >
             {t("Help & Customer Service")}
           </Link>
@@ -303,10 +304,11 @@ const Navbar = () => {
             {t("AboutUs")}
           </Link>
 
+          {/* ✅ Unified Help */}
           <Link
             onClick={() => setOpen(false)}
             className="text-gray-700 hover:text-blue-600 font-semibold"
-            to="/faq"
+            to="/support"
           >
             Help & Customer Service
           </Link>

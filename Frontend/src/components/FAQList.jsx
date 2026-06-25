@@ -24,10 +24,10 @@ const FAQList = () => {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       {categories.map((cat) => (
         <div key={cat.id} id={cat.id} className="faq-category">
-          <h2 className="text-xl font-bold mb-4 border-b pb-2">{cat.name}</h2>
+          <h2 className="text-xl font-bold mb-2 border-b pb-1">{cat.name}</h2>
           {faqs
             .filter((faq) => faq.category === cat.name)
             .map((faq) => (
@@ -40,10 +40,11 @@ const FAQList = () => {
                   className="w-full text-left px-4 py-3 font-semibold text-lg flex justify-between items-center"
                 >
                   {faq.question}
-                  <span>{openFAQ === faq._id ? "−" : "+"}</span>  {/* ✅ fixed */}
+                  <span>{openFAQ === faq._id ? "−" : "+"}</span>{" "}
+                  {/* ✅ fixed */}
                 </button>
                 {openFAQ === faq._id && (
-                  <div className="px-4 pb-4 text-gray-600">{faq.answer}</div>
+                  <div className="px-3 pb-2 text-gray-600">{faq.answer}</div>
                 )}
               </div>
             ))}
