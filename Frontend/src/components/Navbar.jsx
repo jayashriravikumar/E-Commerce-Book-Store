@@ -261,6 +261,16 @@ const cartCount = cartItems.reduce(
                     ⚙️ Settings
                   </Link>
 
+                  {user?.role === "admin" && (
+                    <Link
+                      to="/admin/products"
+                      className="block px-4 py-3 hover:bg-gray-100 text-blue-600 font-semibold"
+                      onClick={() => setProfileOpen(false)}
+                    >
+                      👑 Product Management
+                    </Link>
+                  )}
+
                  <button
   type="button"
   onClick={() => setShowLogoutModal(true)}
