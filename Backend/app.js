@@ -2,9 +2,12 @@ import express from "express";
 import product from "./routes/productRoutes.js";
 import user from "./routes/userRoutes.js";
 import order from "./routes/orderRoutes.js";
+import couponRoutes from "./routes/couponRoutes.js";
+import wishlist from "./routes/wishlistRoutes.js";
 import errorHandler from "./middleware/error.js";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
+import payment from "./routes/paymentRoutes.js";
 import morgan from "morgan";
 import { errorLogger } from "./middleware/logger.js";
 import cors from "cors";
@@ -16,7 +19,7 @@ let totalRequests = 0;
 const apiStats = {};
 let lastResponseTime = 0;
 import rateLimit from "express-rate-limit";
-import payment from "./routes/paymentRoutes.js";
+
 
 // Create app
 const app = express();
@@ -34,6 +37,7 @@ const globalLimiter = rateLimit({
 
 
 app.use("/api", globalLimiter);
+app.use("/api/v1", couponRoutes);
 
 // Middlewares
 
@@ -147,6 +151,8 @@ app.get("/metrics", (req, res) => {
 app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
+app.use("/api/v1",wishlist);
+app.use("/api/v1", payment);
 app.use("/api/v1", adminAnalyticsRoutes);
 app.use((req, res, next) => {
   const error = new Error(
