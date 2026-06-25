@@ -18,7 +18,7 @@ const Product = ({ product }) => {
   const handleAddToCart = () => {
     dispatch(addToCart(product));
   };
-console.log("Product Images:", product.image);
+
   return (
     <div
       className="
