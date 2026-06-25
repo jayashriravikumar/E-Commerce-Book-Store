@@ -16,13 +16,24 @@ import { useState } from "react";
 
 const Products = () => {
     const { products, productCount, loading, error , resultPerPage } =useSelector((state) => state.product);
+    console.log("Total Products:", products.length);
+console.dir(products[0]);
+
+console.log("Products Array:", products);
+
+products.forEach((p) => {
+  console.log("FULL PRODUCT:", p);
+});
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
-    const [price, setPrice] = useState(1000);
-    const [searchText, setSearchText] = useState("");
+   const [price, setPrice] = useState(1000);
+const [searchText, setSearchText] = useState("");
 const [sortOption, setSortOption] = useState("Newest");
+const [inStockOnly, setInStockOnly] = useState(false);
+console.log("In Stock:", inStockOnly);
+const [minimumRating, setMinimumRating] = useState(0);
     const keyword = searchParams.get("keyword") || "";
     const pageFromURL = parseInt(searchParams.get("page"), 10) || 1; 
     const category = searchParams.get("category") || "";
@@ -41,21 +52,46 @@ const [sortOption, setSortOption] = useState("Newest");
         navigate(`?${newSearchParams.toString()}`);
       }
     };
-   const handleCategory =(cat) => {
-    const newSearchParams = new URLSearchParams(location.search);
-    newSearchParams.delete("page");
-    if(cat == "All"){
-      newSearchParams.delete("category");
-    } else {
-      newSearchParams.set("category",cat)
-    }
-    console.log(newSearchParams.toString());
-    navigate(`?${newSearchParams.toString()}`);
-   };
+ const handleCategory = (cat) => {
+  setCurrentPage(1);
+
+  const newSearchParams = new URLSearchParams(location.search);
+
+  newSearchParams.delete("page");
+
+  if (cat === "All") {
+    newSearchParams.delete("category");
+  } else {
+    newSearchParams.set("category", cat);
+  }
+
+  navigate(`?${newSearchParams.toString()}`);
+};
+
+const clearFilters = () => {
+  setPrice(1000);
+  setSearchText("");
+  setSortOption("Newest");
+  setInStockOnly(false);
+  setMinimumRating(0);
+
+  setCurrentPage(1);
+
+  navigate("/products");
+};
 
    useEffect(() => {
-    dispatch(getProduct({keyword,page: currentPage ,category}));
-  }, [dispatch , keyword,currentPage,category ]);
+  console.log("Category Selected:", category);
+
+  dispatch(
+    getProduct({
+      keyword,
+      page: currentPage,
+      category,
+    })
+  );
+}, [dispatch, keyword, currentPage, category]);
+
 
   useEffect(() =>{
     if (error) {
@@ -67,7 +103,12 @@ const [sortOption, setSortOption] = useState("Newest");
 
 // Search Filter
 filteredProducts = filteredProducts.filter((product) =>
-  (product.name || product.title || "")
+  [
+    product.name || product.title,
+    product.author,
+    product.category,
+  ]
+    .join(" ")
     .toLowerCase()
     .includes(searchText.toLowerCase())
 );
@@ -75,6 +116,15 @@ filteredProducts = filteredProducts.filter((product) =>
 // Price Filter
 filteredProducts = filteredProducts.filter(
   (product) => product.price <= price
+);
+if (inStockOnly) {
+  filteredProducts = filteredProducts.filter(
+    (product) => Number(product.stock) > 0
+  );
+}
+filteredProducts = filteredProducts.filter(
+  (product) =>
+    (product.ratings || 0) >= minimumRating
 );
 
 // Sorting
@@ -102,42 +152,15 @@ if (sortOption === "Highest Rated") {
         <Navbar /> 
         <main className="grow container mx-auto px-4 py-8">
            <div className="flex flex-col md:flex-row gap-8">
-            <aside className="w-full md:w-1/4">
+            <aside className="w-full md:w-64">
   <div className="bg-white p-6 rounded-xl shadow-md sticky top-24">
 
     <h2 className="text-2xl font-bold mb-6 border-b pb-3">
       Filters
     </h2>
 
-    {/* Categories */}
-    <div className="mb-6">
-      <h3 className="font-semibold text-lg mb-3">
-        Categories
-      </h3>
-
-      <ul className="space-y-2">
-        {[
-          "All",
-          "Fiction",
-          "Non-Fiction",
-          "Self Help",
-          "Fantasy",
-          "Finance",
-          "Classic",
-          "Technology",
-          "Business",
-        ].map((cat) => (
-          <li key={cat}>
-            <button
-              onClick={() => handleCategory(cat)}
-              className="hover:text-blue-600 transition"
-            >
-              {cat}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    
+    
 
     {/* Price */}
     <div className="mb-6">
@@ -150,7 +173,7 @@ if (sortOption === "Highest Rated") {
         min="0"
         max="2000"
         value={price}
-        onChange={(e) => setPrice(e.target.value)}
+        onChange={(e) => setPrice(Number(e.target.value))}
         className="w-full"
       />
 
@@ -166,73 +189,183 @@ if (sortOption === "Highest Rated") {
       </h3>
 
       <label className="flex items-center gap-2">
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          checked={inStockOnly}
+          onChange={(e) => setInStockOnly(e.target.checked)}
+        />
         In Stock
       </label>
     </div>
 
     {/* Rating */}
-    <div>
-      <h3 className="font-semibold text-lg mb-3">
-        Customer Rating
-      </h3>
+<div>
+  <h3 className="font-semibold text-lg mb-3">
+    Customer Rating
+  </h3>
 
-      <button className="block w-full text-left p-2 rounded hover:bg-gray-100">
-        ⭐⭐⭐⭐ & Above
-      </button>
+  <button
+    onClick={() => setMinimumRating(4)}
+    className="block w-full text-left p-2 rounded hover:bg-gray-100"
+  >
+    ⭐⭐⭐⭐ & Above
+  </button>
 
-      <button className="block w-full text-left p-2 rounded hover:bg-gray-100">
-        ⭐⭐⭐ & Above
-      </button>
-    </div>
+  <button
+    onClick={() => setMinimumRating(3)}
+    className="block w-full text-left p-2 rounded hover:bg-gray-100"
+  >
+    ⭐⭐⭐ & Above
+  </button>
+
+  <button
+    onClick={() => setMinimumRating(0)}
+    className="block w-full text-left p-2 rounded hover:bg-gray-100 text-red-500"
+  >
+    Clear Rating
+  </button>
+  
+</div>
+<button
+  onClick={clearFilters}
+  className="
+    w-full
+    mt-6
+    bg-red-500
+    hover:bg-red-600
+    text-white
+    py-2
+    rounded-xl
+    font-medium
+    transition
+  "
+>
+  Clear Filters
+</button>
 
   </div>
 </aside>
-            <section className="w-full md:w-3/4 bg-white p-4 rounded"> 
-<div className="flex justify-between items-center bg-gray-100 p-3 rounded-lg mb-6">
+<section className="flex-1 bg-white p-4 rounded">
 
-  <span className="text-sm text-gray-600">
-    {filteredProducts.length} results
-  </span>
+  {/* Search + Sort */}
+  <div className="flex justify-between items-center bg-gray-100 p-3 rounded-lg mb-6">
 
-  <div className="flex gap-3">
+    <span className="text-sm text-gray-600">
+      {filteredProducts.length} results
+    </span>
 
-    <input
-      type="text"
-      placeholder="Search books..."
-      value={searchText}
-      onChange={(e) => setSearchText(e.target.value)}
-      className="border p-2 rounded"
-    />
+    <div className="flex gap-3">
+      <input
+        type="text"
+        placeholder="Search books, authors..."
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        className="
+          border
+          border-gray-300
+          px-4
+          py-2
+          rounded-xl
+          w-64
+          focus:outline-none
+          focus:ring-2
+          focus:ring-blue-500
+        "
+      />
 
-    <select
-      value={sortOption}
-      onChange={(e) => setSortOption(e.target.value)}
-      className="border p-2 rounded"
-    >
-      <option>Newest</option>
-      <option>Price Low to High</option>
-      <option>Price High to Low</option>
-      <option>Highest Rated</option>
-    </select>
-
+      <select
+        value={sortOption}
+        onChange={(e) => setSortOption(e.target.value)}
+        className="
+          border
+          border-gray-300
+          px-4
+          py-2
+          rounded-xl
+          focus:outline-none
+          focus:ring-2
+          focus:ring-blue-500
+        "
+      >
+        <option>Newest</option>
+        <option>Price Low to High</option>
+        <option>Price High to Low</option>
+        <option>Highest Rated</option>
+      </select>
+    </div>
   </div>
 
-</div>
+  {/* Categories */}
+  <div
+    className="
+      bg-gradient-to-r
+      from-blue-50
+      to-indigo-50
+      rounded-2xl
+      p-4
+      mb-6
+      border
+      border-blue-100
+    "
+  >
+    <h3 className="font-semibold text-gray-700 mb-3">
+       Browse Categories
+    </h3>
 
-<div className="flex justify-between items-center mb-6">
-  <h3 className="text-xl font-semibold text-gray-800">
-    Our Products
-  </h3>
+    <div className="flex flex-wrap gap-3">
+      {[
+        "All",
+        "Fiction",
+        "Non-Fiction",
+        "Self Help",
+        "Fantasy",
+        "Finance",
+        "Classic",
+        "Technology",
+        "Business",
+      ].map((cat) => (
+        <button
+          key={cat}
+          onClick={() => handleCategory(cat)}
+          className={`
+            px-4 py-2 rounded-full text-sm font-medium transition-all
+            ${
+              category === cat ||
+              (category === "" && cat === "All")
+                ? "bg-blue-600 text-white shadow-md"
+                : "bg-white text-gray-700 hover:bg-blue-100"
+            }
+          `}
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+  </div>
 
-  <span className="text-gray-500 text-sm">
-    {filteredProducts.length} items found
-  </span>
-</div>
-<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {filteredProducts && filteredProducts.map((product) =><Product key={product._id} product={product}/>)}</div>
-          
-            </section>
+  {/* Heading */}
+  <div className="mb-6">
+    <h2 className="text-2xl font-bold text-gray-800">
+      Books Collection
+    </h2>
+
+    <p className="text-gray-500 mt-1">
+      Showing {filteredProducts.length} books
+    </p>
+  </div>
+
+  {/* Products */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    {filteredProducts &&
+      filteredProducts.map((product) => (
+        <Product
+          key={product._id}
+          product={product}
+        />
+      ))}
+  </div>
+
+</section>
             </div>
             {/* Pagination Section */}
             <div className="mt-12 flex justify-center">

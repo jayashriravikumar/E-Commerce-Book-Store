@@ -10,6 +10,13 @@ export const verifyUser = async (req, res, next) => {
   if (req.cookies && req.cookies.token) {
     token = req.cookies.token;
   }
+ export const roleBasedAccess = (...roles) => {
+    return(req,res,next) =>{
+        console.log("User Role:", req.user.role);
+        if (!roles.includes(req.user.role)) {
+            return next(new HandleError(`Role- ${req.user.role} not allowed to access this resource`, 403));
+        }
+        next();
 
   // If no cookie, check Authorization header
   if (!token && req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
