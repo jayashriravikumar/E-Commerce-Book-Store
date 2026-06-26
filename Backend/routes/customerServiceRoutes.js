@@ -13,7 +13,8 @@ const router = express.Router();
 
 // User creates ticket
 // User creates ticket (login required)
-router.post("/", createTicket);
+router.post("/", verifyUser, createTicket);
+
 
 // User views own tickets
 router.get("/customer-service/me", verifyUser, getMyTickets);

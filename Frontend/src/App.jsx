@@ -35,6 +35,7 @@ import Support from "./pages/Support";
 import YourMessages from "./pages/YourMessages";   
 import TicketDetails from "./pages/TicketDetails";
 import AdminTickets from "./pages/AdminTickets";
+import AdminAnalytics from "./pages/AdminAnalytics";
 
 
 const App = () => {
@@ -60,11 +61,12 @@ const App = () => {
         <Route path="/order/success" element={<OrderSuccess />} />
         <Route path="/orders" element={<MyOrders />} />
         <Route path="/order/:id" element={<OrderDetails />} />
-        
+      
         <Route path="/support" element={<Support />} />
         <Route path="/your-messages" element={<YourMessages />} />   
         <Route path="/ticket/:id" element={<TicketDetails />} />
         <Route path="/admin/tickets" element={<AdminTickets />} />
+        <Route path="/admin/analytics" element={<AdminAnalytics />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
