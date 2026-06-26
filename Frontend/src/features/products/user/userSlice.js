@@ -57,9 +57,6 @@ export const login = createAsyncThunk(
         withCredentials: true,
       });
 
-      // ✅ Debug log
-      console.log("Login API response:", data);
-
       return data;
     } catch (error) {
       return rejectWithValue(
