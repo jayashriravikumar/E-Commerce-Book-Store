@@ -8,10 +8,29 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import couponRoutes from "./routes/couponRoutes.js";
 import cors from "cors";
+<<<<<<< HEAD
 import inventoryRoutes from "./routes/inventoryRoutes.js";
+=======
+import rateLimit from "express-rate-limit";
+import payment from "./routes/paymentRoutes.js";
+>>>>>>> 2b583acaba007c88ee23af9da1f09a51446dd8a4
 
 // Create app
 const app = express();
+
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 150, // Limit each IP to 150 requests per 15 minutes
+  message: { 
+    success: false, 
+    message: "Too many requests from this IP, please try again after 15 minutes." 
+  },
+  standardHeaders: true, 
+  legacyHeaders: false, 
+});
+
+
+app.use("/api", globalLimiter);
 
 // Middlewares
 
@@ -19,7 +38,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173"] ,
     credentials: true,
   })
 );
@@ -56,7 +75,11 @@ app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1",wishlist);
+<<<<<<< HEAD
 app.use("/api/v1/inventory", inventoryRoutes);  
+=======
+app.use("/api/v1", payment);
+>>>>>>> 2b583acaba007c88ee23af9da1f09a51446dd8a4
 // Error handler
 app.use(errorHandler);
 
