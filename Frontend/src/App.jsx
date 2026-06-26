@@ -24,11 +24,11 @@ import Payment from "./pages/Payment";
 import OrderSuccess from "./pages/OrderSuccess";
 import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
-
 import Support from "./pages/Support";
 import YourMessages from "./pages/YourMessages";   // ✅ renamed import
 import TicketDetails from "./pages/TicketDetails";
 import AdminTickets from "./pages/AdminTickets";
+import AdminAnalytics from "./pages/AdminAnalytics";
 
 const App = () => {
   return (
@@ -58,6 +58,7 @@ const App = () => {
         <Route path="/your-messages" element={<YourMessages />} />   {/* ✅ updated route */}
         <Route path="/ticket/:id" element={<TicketDetails />} />
         <Route path="/admin/tickets" element={<AdminTickets />} />
+        <Route path="/admin/analytics" element={<AdminAnalytics />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
