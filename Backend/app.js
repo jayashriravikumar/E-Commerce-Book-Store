@@ -5,6 +5,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
+import couponRoutes from "./routes/couponRoutes.js";
+import cors from "cors";
+import inventoryRoutes from "./routes/inventoryRoutes.js";
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 
@@ -14,6 +17,7 @@ import order from "./routes/orderRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
 import wishlist from "./routes/wishlistRoutes.js";
 import payment from "./routes/paymentRoutes.js";
+
 import adminAnalyticsRoutes from "./routes/adminAnalyticsRoutes.js";
 import customerServiceRoutes from "./routes/customerServiceRoutes.js";
 import faqRoutes from "./routes/faqRoutes.js";
@@ -34,19 +38,19 @@ let lastResponseTime = 0;
 
 
 
-// ✅ dotenv config
+// dotenv config
 dotenv.config();
 
-// ✅ create express app (MISSING IN YOUR CODE)
+// create express app
 const app = express();
 
-// 🔹 request logger
+// request logger
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
   next();
 });
 
-// 🔹 rate limiter
+// rate limiter
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 150,
@@ -61,7 +65,7 @@ const globalLimiter = rateLimit({
 app.use("/api", globalLimiter);
 app.use("/api/v1", couponRoutes);
 
-// 🔹 middlewares
+//  middlewares
 app.use(express.json());
 app.use(cookieParser());
 
@@ -106,7 +110,7 @@ app.use(
   }),
 );
 
-// 🔹 test upload route
+// test upload route
 app.use((req, res, next) => {
   const start = Date.now();
 
@@ -146,7 +150,7 @@ app.post("/test-upload", async (req, res) => {
   }
 });
 
-// 🔹 routes
+// routes
 
 app.get("/metrics", (req, res) => {
   res.status(200).json({
@@ -162,20 +166,19 @@ app.get("/metrics", (req, res) => {
   });
 });
 
-// Routes
-app.use("/api/v1", product);
-console.log("Registering user routes...");
-app.use("/api/v1", userRoutes);
-console.log("User routes registered.");
 
+app.use("/api/v1", product);
+app.use("/api/v1", userRoutes);
 app.use("/api/v1", order);
+app.use("/api/v1",wishlist);
+app.use("/api/v1/inventory", inventoryRoutes);  
+app.use("/api/v1", payment);
 app.use("/api/v1", wishlist);
 app.use("/api/v1", payment);
 app.use("/api/v1", couponRoutes);
 app.use("/api/v1/customer-service", customerServiceRoutes);
 app.use("/api/v1/faqs", faqRoutes);
 app.use("/api/v1", ticketRoutes);
-// 🔹 error handler (must be last)
 app.use("/api/v1", adminAnalyticsRoutes);
 app.use((req, res, next) => {
   const error = new Error(`Route not found: ${req.originalUrl}`);
@@ -183,10 +186,10 @@ app.use((req, res, next) => {
   next(error);
 });
 
-// Error handler
 
+// Error handler
 app.use(errorLogger);
 app.use(errorHandler);
 
-// ✅ export app
+
 export default app;

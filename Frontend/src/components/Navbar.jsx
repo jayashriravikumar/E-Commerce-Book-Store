@@ -168,7 +168,7 @@ const Navbar = () => {
             <input
               type="text"
               placeholder={t("searchProduct")}
-              className="px-4 py-2 text-sm w-56 focus:outline-none"
+              className="px-4 py-2 text-sm w-64 focus:outline-none"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -209,6 +209,86 @@ const Navbar = () => {
               </button>
 
               {profileOpen && (
+  <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
+
+    {/* User Info */}
+    <div className="px-4 py-4 bg-gray-50 border-b">
+      <p className="font-semibold text-gray-800">
+        {user?.name || "User"}
+      </p>
+
+      <p className="text-sm text-gray-500 break-words">
+        {user?.email}
+      </p>
+    </div>
+
+    {/* Profile */}
+    <Link
+      to="/profile"
+      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors"
+      onClick={() => setProfileOpen(false)}
+    >
+      <span className="text-lg">👤</span>
+      <span>My Profile</span>
+    </Link>
+
+    {/* Orders */}
+    <Link
+      to="/orders"
+      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors"
+      onClick={() => setProfileOpen(false)}
+    >
+      <span className="text-lg">📦</span>
+      <span>My Orders</span>
+    </Link>
+
+    {/* Settings */}
+    <Link
+      to="/settings"
+      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors"
+      onClick={() => setProfileOpen(false)}
+    >
+      <span className="text-lg">⚙️</span>
+      <span>Settings</span>
+    </Link>
+
+    {/* Admin Section */}
+    {user?.role === "admin" && (
+      <>
+        <div className="border-t border-gray-200 my-1"></div>
+
+        <Link
+          to="/admin/products"
+          className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold transition-colors"
+          onClick={() => setProfileOpen(false)}
+        >
+          <span className="text-lg">👑</span>
+          <span>Product Management</span>
+        </Link>
+
+        <Link
+          to="/admin/inventory"
+          className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold transition-colors"
+          onClick={() => setProfileOpen(false)}
+        >
+          <span className="text-lg">📦</span>
+          <span>Inventory Management</span>
+        </Link>
+      </>
+    )}
+
+    <div className="border-t border-gray-200 mt-1"></div>
+
+    {/* Logout */}
+    <button
+      onClick={handleLogout}
+      className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors text-left"
+    >
+      <span className="text-lg">🚪</span>
+      <span>Logout</span>
+    </button>
+  </div>
+)}
                 <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50">
                   <div className="p-4 border-b">
                     <p className="font-semibold">{user?.name || "User"}</p>

@@ -17,6 +17,13 @@ import TermsConditions from "./pages/TermsConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import CookieConsent from "./components/CookieConsent";
+import ProtectedRoute from './components/ProtectedRoute';
+import CreateProduct from "./pages/CreateProduct";
+import ProductManagement from "./pages/ProductManagement";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import InventoryManagement from "./pages/InventoryManagement";
+import VerifyOTP from './User/VerifyOTP';
 import ProtectedRoute from "./components/ProtectedRoute";
 import VerifyOTP from "./User/VerifyOTP";
 import ConfirmOrder from "./pages/ConfirmOrder";
@@ -24,11 +31,11 @@ import Payment from "./pages/Payment";
 import OrderSuccess from "./pages/OrderSuccess";
 import MyOrders from "./pages/MyOrders";
 import OrderDetails from "./pages/OrderDetails";
-
 import Support from "./pages/Support";
-import YourMessages from "./pages/YourMessages";   // ✅ renamed import
+import YourMessages from "./pages/YourMessages";   
 import TicketDetails from "./pages/TicketDetails";
 import AdminTickets from "./pages/AdminTickets";
+
 
 const App = () => {
   return (
@@ -55,13 +62,23 @@ const App = () => {
         <Route path="/order/:id" element={<OrderDetails />} />
         
         <Route path="/support" element={<Support />} />
-        <Route path="/your-messages" element={<YourMessages />} />   {/* ✅ updated route */}
+        <Route path="/your-messages" element={<YourMessages />} />   
         <Route path="/ticket/:id" element={<TicketDetails />} />
         <Route path="/admin/tickets" element={<AdminTickets />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
+        <Route
+          path="/admin/inventory"
+          element={
+            user && user.role === "admin" ? (
+              <InventoryManagement />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
         <Route path="/verify-email" element={<VerifyOTP />} />
       </Routes>
 
