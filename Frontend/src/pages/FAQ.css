@@ -1,0 +1,91 @@
+.faq-page {
+  display: flex;
+  gap: 40px;
+  padding: 20px;
+}
+
+/* Mobile view: stack into one column */
+@media (max-width: 768px) {
+  .faq-page {
+    flex-direction: column;
+  }
+}
+
+/* FAQ Section */
+.faq-section {
+  flex: 1.5;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover effect on FAQ details */
+.faq-section details:hover {
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+/* Quick Help Buttons */
+.quick-help button {
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.quick-help button:hover {
+  background: #e6f0ff;
+}
+
+/* FAQ Category Styling */
+.faq-category button {
+  font-size: 14px; /* smaller questions */
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.faq-category button:hover {
+  background: #f1f5f9; /* light gray highlight */
+  transform: scale(1.01); /* subtle zoom */
+}
+
+.faq-category div {
+  font-size: 12.5px; /* smaller answers */
+  line-height: 1.5; /* better readability */
+  transition: all 0.2s ease-in-out; /* smooth expand/collapse */
+}
+
+/* Service Section */
+.service-section {
+  flex: 1.5;
+  background: #f8f9fa;
+  padding: 20px;
+  min-width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.service-section label {
+  font-size: 16px; /* bigger labels */
+  font-weight: 600;
+}
+
+.service-section input,
+.service-section textarea {
+  font-size: 16px; /* bigger input text */
+  padding: 10px; /* more breathing space */
+}
+
+.service-section button {
+  background: #ff9900; /* Amazon orange */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px; /* bigger button text */
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.service-section button:hover {
+  background: #e68a00; /* darker orange on hover */
+}
