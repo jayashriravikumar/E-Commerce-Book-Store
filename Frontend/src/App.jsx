@@ -25,6 +25,7 @@ import CreateProduct from "./pages/CreateProduct";
 import ProductManagement from "./pages/ProductManagement";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import InventoryManagement from "./pages/InventoryManagement";
 
 const App = () => {
   const { user } = useSelector((state) => state.user);
@@ -62,6 +63,16 @@ const App = () => {
         <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
+        <Route
+          path="/admin/inventory"
+          element={
+            user && user.role === "admin" ? (
+              <InventoryManagement />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
       </Routes>
 
       {/* ✅ These go INSIDE BrowserRouter but OUTSIDE Routes */}
