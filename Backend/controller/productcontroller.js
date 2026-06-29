@@ -37,30 +37,49 @@ export const createProduct = async (req, res, next) => {
 
 export const getAllProducts = async (req, res, next) => {
   try {
-    const products = await Product.find({
-      $or: [
-        { isDeleted: false },
-        { isDeleted: { $exists: false } },
-      ],
-    });
+   const filter = {
+  $or: [
+    { isDeleted: false },
+    { isDeleted: { $exists: false } },
+  ],
+};
 
-    const normalized = products.map((p) => {
-      const obj = p.toObject();
+if (req.query.category && req.query.category !== "All") {
+  filter.category = req.query.category;
+}
 
-      const url =
-        obj.image?.[0]?.url ||
-        obj.coverImage?.[0]?.url ||
-        "";
+if (req.query.keyword) {
+  filter.name = {
+    $regex: req.query.keyword,
+    $options: "i",
+  };
+}
 
-      return {
-        ...obj,
-        image: url ? [{ url }] : [],
-      };
-    });
+const resultsPerPage = Number(req.query.limit) || 8;
+const currentPage = Number(req.query.page) || 1;
+
+const productCount = await Product.countDocuments(filter);
+
+const totalPages = Math.ceil(productCount / resultsPerPage);
+
+const products = await Product.find(filter)
+  .skip((currentPage - 1) * resultsPerPage)
+  .limit(resultsPerPage);
+const normalized = products.map((p) => {
+  const obj = p.toObject();
+
+  return {
+    ...obj,
+    image: obj.image || obj.coverImage || [],
+  };
+});
 
     res.status(200).json({
       success: true,
       products: normalized,
+      productCount,
+      totalPages,
+      currentPage,
     });
   } catch (error) {
     next(error);
@@ -84,8 +103,11 @@ export const getSingleProduct = async (req, res, next) => {
 
     // Normalize coverImage → image (same as getAllProducts)
     const obj = product.toObject();
-    const url = obj.image?.[0]?.url || obj.coverImage?.[0]?.url || "";
-    const normalized = { ...obj, image: url ? [{ url }] : [] };
+
+const normalized = {
+  ...obj,
+  image: obj.image || obj.coverImage || [],
+};
 
     res.status(200).json({
       success: true,

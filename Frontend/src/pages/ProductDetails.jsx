@@ -16,9 +16,46 @@ import axios from "axios";
 
 const ProductDetails = () =>{
   const { loading,error,product} =useSelector((state) => state.product);
+  
   const {id} =useParams();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [zoomStyle, setZoomStyle] = useState({});
+
+  const nextImage = () => {
+  if (!product?.image?.length) return;
+
+  setSelectedImage((prev) =>
+    prev === product.image.length - 1 ? 0 : prev + 1
+  );
+};
+
+const previousImage = () => {
+  if (!product?.image?.length) return;
+
+  setSelectedImage((prev) =>
+    prev === 0 ? product.image.length - 1 : prev - 1
+  );
+};
+
+const handleMouseMove = (e) => {
+  const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+
+  const x = ((e.clientX - left) / width) * 100;
+  const y = ((e.clientY - top) / height) * 100;
+
+  setZoomStyle({
+    transformOrigin: `${x}% ${y}%`,
+    transform: "scale(2)",
+  });
+};
+
+const handleMouseLeave = () => {
+  setZoomStyle({
+    transform: "scale(1)",
+    transformOrigin: "center",
+  });
+};
 
   const dispatch =useDispatch();
   const increaseQuantity = () => {
@@ -109,54 +146,72 @@ const rating = product?.ratings || 0;  return (
 
       <div className="grid grid-cols-1 md:grid-cols-2
       gap-12 bg-white p-8">
-        {/* Image Gallery */}
-        <div>
-          <div className='aspect-square overflow-hidden rounded-xl'>
-  <img
-    src={
-      product?.image?.[selectedImage]?.url ||
-      product?.coverImage?.[0]?.url ||
-      "https://via.placeholder.com/300x400?text=No+Image"
-    }
-    alt={product?.name}
-    className='w-full h-full object-contain
-    transition-transform hover:scale-105
-    duration-700'
-    title={product?.name}
-  />
-</div>
+        
+       {/* Image Gallery */}
 
-<div className="flex gap-3 mt-4 justify-center flex-wrap">
+<div className="flex gap-5">
 
-  {product?.image?.map((img, index) => (
-    <img
-      key={index}
-      src={img.url}
-      alt="thumbnail"
-      onClick={() => setSelectedImage(index)}
-      className={`
-        w-16 h-20
-        object-cover
-        rounded-lg
-        cursor-pointer
-        border-2
-        transition-all
-        ${
-          selectedImage === index
-            ? "border-blue-500"
-            : "border-gray-200"
+  {/* Left Thumbnails */}
+
+  <div className="flex flex-col gap-3">
+
+    {product?.image?.map((img, index) => (
+
+     <img
+  key={index}
+  src={img.url}
+  alt={`thumbnail-${index}`}
+  onMouseEnter={() => setSelectedImage(index)}
+  onClick={() => setSelectedImage(index)}
+        className={`
+          w-16
+          h-20
+          object-cover
+          rounded-lg
+          cursor-pointer
+          border-2
+          transition-all
+
+          ${
+            selectedImage === index
+              ? "border-blue-600 shadow-lg scale-105"
+              : "border-gray-300 hover:border-blue-400"
+          }
+        `}
+      />
+
+    ))}
+
+  </div>
+
+  {/* Main Image */}
+
+  <div className="flex-1">
+
+    <div className="aspect-square border rounded-xl overflow-hidden bg-white">
+
+      <img
+        src={
+          product?.image?.[selectedImage]?.url ||
+          "https://via.placeholder.com/400x600?text=No+Image"
         }
-      `}
-    />
-  ))}
+        alt={product?.name}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={zoomStyle}
+        className="w-full h-full object-contain transition-all duration-200 hover:scale-105 duration-300 ease-in-out"
+      />
+
+    </div>
+
+  </div>
 
 </div>
-        </div>
         {/* Product Info */}
         <div className='flex flex-col'>
-          <h3 className='text-3xl font-semibold
-          text-gray-900 mb-2'>{product?.name}</h3>
-
+         <h3 className="text-3xl font-bold text-gray-900 mb-2">
+  {product?.title || product?.name}
+</h3>
           <p className='text-lg text-gray-600 mb-3'>
           by {product?.author}
           </p>
