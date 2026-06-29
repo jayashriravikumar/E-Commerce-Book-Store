@@ -25,12 +25,14 @@ const Login = () => {
       return;
     }
 
-    dispatch(
-      login({
-        email,
-        password,
-      })
-    );
+   dispatch(login({ email, password }))
+  .unwrap()
+  .then((res) => {
+    console.log("Login response in Login.jsx:", res);
+  })
+  .catch((err) => {
+    console.log("Login error in Login.jsx:", err);
+  });
   };
 
   useEffect(() => {
