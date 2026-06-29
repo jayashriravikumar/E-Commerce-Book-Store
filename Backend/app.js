@@ -18,7 +18,7 @@ import adminAnalyticsRoutes from "./routes/adminAnalyticsRoutes.js";
 import customerServiceRoutes from "./routes/customerServiceRoutes.js";
 import faqRoutes from "./routes/faqRoutes.js";
 import ticketRoutes from "./routes/ticketRoutes.js";
-
+import newsletterRoutes from "./routes/newsletterRoutes.js";
 import cloudinary from "./config/cloudinary.js";
 import errorHandler from "./middleware/error.js";
 import { errorLogger } from "./middleware/logger.js";
@@ -172,9 +172,11 @@ app.use("/api/v1", order);
 app.use("/api/v1", wishlist);
 app.use("/api/v1", payment);
 app.use("/api/v1", couponRoutes);
+app.use("/api/v1", newsletterRoutes);
 app.use("/api/v1/customer-service", customerServiceRoutes);
 app.use("/api/v1/faqs", faqRoutes);
 app.use("/api/v1", ticketRoutes);
+
 // 🔹 error handler (must be last)
 app.use("/api/v1", adminAnalyticsRoutes);
 app.use((req, res, next) => {

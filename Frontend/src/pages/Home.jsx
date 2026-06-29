@@ -2,6 +2,7 @@ import ImageSlider from "../components/ImageSlider";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Product from "../components/Product";
+import Newsletter from "../components/Newsletter";
 import PageTitle from "../components/PageTitle";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -68,7 +69,9 @@ const Home = () => {
    
  
   <>
-    <PageTitle title={"Home | E-Commerce"} />
+    <PageTitle title={"Home | E-Commerce"}
+     description="Explore the best books across fiction, finance, technology, self-help and more."
+     />
     <Navbar />
     <ImageSlider />
     <div className="mt-12 p-8 flex flex-col items-center justify-around
@@ -80,6 +83,7 @@ const Home = () => {
 ))}
       </div>
       </div>
+      <Newsletter />
     <Footer />
     
     </>
