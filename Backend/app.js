@@ -5,8 +5,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
-import couponRoutes from "./routes/couponRoutes.js";
-import cors from "cors";
+
+
 import inventoryRoutes from "./routes/inventoryRoutes.js";
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";

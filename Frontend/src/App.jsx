@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import ProductDetails from "./pages/ProductDetails";
@@ -8,7 +8,7 @@ import Login from "./User/Login";
 import Profile from "./User/Profile";
 import UpdateProfile from "./User/UpdateProfile";
 import UpdatePassword from "./User/UpdatePassword";
-import VerifyOTP from "./User/VerifyOTP";
+
 
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -25,7 +25,7 @@ import ProductManagement from "./pages/ProductManagement";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import InventoryManagement from "./pages/InventoryManagement";
-import VerifyOTP from './User/VerifyOTP';
+
 import ProtectedRoute from "./components/ProtectedRoute";
 import VerifyOTP from "./User/VerifyOTP";
 import ConfirmOrder from "./pages/ConfirmOrder";
@@ -40,11 +40,14 @@ import AdminTickets from "./pages/AdminTickets";
 import AdminAnalytics from "./pages/AdminAnalytics";
 
 import CookieConsent from "./components/CookieConsent";
+import { useSelector } from "react-redux";
 
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+
+
 
 const App = () => {
+  const { user } = useSelector((state) => state.user);
   return (
     <BrowserRouter>
       <Routes>
