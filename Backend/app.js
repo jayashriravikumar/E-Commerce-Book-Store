@@ -20,23 +20,18 @@ import adminAnalyticsRoutes from "./routes/adminAnalyticsRoutes.js";
 import customerServiceRoutes from "./routes/customerServiceRoutes.js";
 import faqRoutes from "./routes/faqRoutes.js";
 import ticketRoutes from "./routes/ticketRoutes.js";
-
+import newsletterRoutes from "./routes/newsletterRoutes.js";
 import cloudinary from "./config/cloudinary.js";
 import errorHandler from "./middleware/error.js";
 import { errorLogger } from "./middleware/logger.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import salesRoutes from "./routes/salesRoutes.js";
 
-
-
-
 const SERVER_START_TIME = new Date();
 
 let totalRequests = 0;
 const apiStats = {};
 let lastResponseTime = 0;
-
-
 
 // dotenv config
 dotenv.config();
@@ -77,8 +72,6 @@ app.use("/api/v1", couponRoutes);
 
 //  middlewares
 app.use("/api/v1", reviewRoutes);
-
-
 
 app.use(morgan("dev"));
 
@@ -123,8 +116,6 @@ app.use((req, res, next) => {
   });
 
   next();
-
-  
 });
 
 // Health Check Route
@@ -170,16 +161,19 @@ app.get("/metrics", (req, res) => {
   });
 });
 
-
 app.use("/api/v1", product);
 app.use("/api/v1", userRoutes);
-app.use("/api/v1", order);;
-app.use("/api/v1/inventory", inventoryRoutes);  
+app.use("/api/v1", order);
+app.use("/api/v1/inventory", inventoryRoutes);
 app.use("/api/v1", payment);
 app.use("/api/v1", wishlist);
+app.use("/api/v1", couponRoutes);
+app.use("/api/v1", newsletterRoutes);
 app.use("/api/v1/customer-service", customerServiceRoutes);
 app.use("/api/v1/faqs", faqRoutes);
 app.use("/api/v1", ticketRoutes);
+
+// 🔹 error handler (must be last)
 app.use("/api/v1", adminAnalyticsRoutes);
 app.use("/api/v1/sales", salesRoutes);
 
@@ -189,10 +183,8 @@ app.use((req, res, next) => {
   next(error);
 });
 
-
 // Error handler
 app.use(errorLogger);
 app.use(errorHandler);
-
 
 export default app;
