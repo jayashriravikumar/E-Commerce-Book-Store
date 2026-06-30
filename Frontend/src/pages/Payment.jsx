@@ -16,6 +16,8 @@ const Payment = () => {
   const { error, success, loading } = useSelector((state) => state.order);
 
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
+  if (!orderInfo) return <Navigate to="/cart" replace />
+  
 
   useEffect(() => {
     if (error) {
@@ -50,7 +52,13 @@ const Payment = () => {
       toast.error("Failed to load payment gateway. Check your internet.");
       return;
     }
-
+  }
+    const handleUPIPayment = async () => {
+  const scriptLoaded = await loadRazorpayScript();
+  if (!scriptLoaded) {
+    toast.error("Failed to load payment gateway.");
+    return;
+  }
     try {
       // 1. Create Razorpay order on your backend
       const { data } = await axios.post(
@@ -145,11 +153,20 @@ const Payment = () => {
           >
             {loading ? "Processing..." : "Pay with Razorpay"}
           </button>
+          <button
+            onClick={handleUPIPayment}
+            disabled={loading}
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95"
+         >
+           {loading ? "Processing..." : "Pay via UPI"}
+          </button>
+       
         </div>
       </div>
       <Footer />
     </>
   );
 };
+
 
 export default Payment;

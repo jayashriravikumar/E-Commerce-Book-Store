@@ -1,33 +1,67 @@
 import express from "express";
-import { profile,registerUser,loginUser,logout,forgetPassword,resetPassword,updatePassword ,updateProfile,getUsers,getSingleUser, updateUserRole, deleteUser,verifyEmailOTP} from "../controller/userController.js";
-import { verifyUser,roleBasedAccess} from "../helper/userAuth.js";
 import rateLimit from "express-rate-limit";
+
+import {
+  profile,
+  registerUser,
+  loginUser,
+  logout,
+  forgetPassword,
+  resetPassword,
+  updatePassword,
+  updateProfile,
+  getUsers,
+  getSingleUser,
+  updateUserRole,
+  deleteUser,
+  verifyEmailOTP,
+} from "../controller/userController.js";
+
+import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
 
 const router = express.Router();
 
+// 🔐 Rate limiter for auth
 const authLimiter = rateLimit({
-    windowMs: 60 * 60 * 1000, // 1 hour window
-    max: 5, // Start blocking after 5 requests
-    message: { 
-        success: false, 
-        message: "Too many login attempts from this IP, please try again after an hour." 
-    },
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  message: {
+    success: false,
+    message: "Too many requests, try again later.",
+  },
 });
 
-router.route("/register").post(authLimiter,registerUser);
-router.route("/login").post(authLimiter,loginUser);
-router.route("/logout").get(logout);
-router.route("/password/forget").post(authLimiter,forgetPassword);
-router.route("/reset/:token").post(resetPassword);
-router.route("/profile").get(verifyUser,profile);
-router.route("/password/update").put(verifyUser,updatePassword);
-router.route("/profile/update").put(verifyUser,updateProfile);
-router.route("/verify/otp").post(verifyEmailOTP);
+// 🔹 Auth
+router.post("/register", authLimiter, registerUser);
+router.post("/login", authLimiter, loginUser);
+router.post("/logout", logout);
+router.post("/verify-email", verifyEmailOTP);
 
-router.route("/admin/users").get(verifyUser,roleBasedAccess("admin"),getUsers);
+// 🔹 Password
+router.post("/password/forget", authLimiter, forgetPassword);
+router.post("/reset/:token", resetPassword);
+router.put("/password/update", verifyUser, updatePassword);
+
+// 🔹 Profile
+router.get("/profile", verifyUser, profile);
+router.put("/profile/update", verifyUser, updateProfile);
+
+// 🔹 Admin
+router.get("/admin/users", verifyUser, roleBasedAccess("admin"), getUsers);
+
 router
-.route("/admin/user/:id")
-.get(verifyUser,roleBasedAccess("admin"),getSingleUser)
-.put(verifyUser,roleBasedAccess("admin"),updateUserRole)
-.delete(verifyUser,roleBasedAccess("admin"),deleteUser);
+  .route("/admin/user/:id")
+  .get(verifyUser, roleBasedAccess("admin"), getSingleUser)
+  .put(verifyUser, roleBasedAccess("admin"), updateUserRole)
+  .delete(verifyUser, roleBasedAccess("admin"), deleteUser);
+
+// 🔹 Test
+router.get("/test", (req, res) => {
+  res.send("User routes working ✅");
+});
+
+// 🔹 Ping (debug)
+router.post("/ping", (req, res) => {
+  res.json({ success: true, message: "Ping route works" });
+});
 export default router;
