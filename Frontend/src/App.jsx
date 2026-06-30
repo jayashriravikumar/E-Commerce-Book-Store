@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
 import ProductDetails from "./pages/ProductDetails";
 import Products from "./pages/Products";
 import Register from "./User/Register";
@@ -19,6 +20,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
+import ServerError from "./pages/ServerError";
+import NotFound from "./pages/NotFound";
 
 import CreateProduct from "./pages/CreateProduct";
 import ProductManagement from "./pages/ProductManagement";
@@ -52,7 +55,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-
+        <Route path="/contact-us" element={<Contact />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:keyword" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
@@ -92,6 +95,8 @@ const App = () => {
         <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
+        <Route path="/500" element={<ServerError />} />
+        <Route path="*" element={<NotFound />} />
         <Route
           path="/admin/inventory"
           element={
