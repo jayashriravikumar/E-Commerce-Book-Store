@@ -97,9 +97,9 @@ export const loginUser = async (req, res, next) => {
     if (!user) {
       return next(new HandleError("Invalid email or password", 401));
     }
-    if (!user.isVerified) {
-      return next(new HandleError("Please verify your email first before logging in.", 401));
-    }
+    // if (!user.isVerified) {
+    //   return next(new HandleError("Please verify your email first before logging in.", 401));
+    // }
     const isValidPassword = await user.verifyPassword(password);
     if (!isValidPassword) {
       return next(new HandleError("Invalid email or password", 401));
