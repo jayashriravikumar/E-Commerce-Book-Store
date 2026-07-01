@@ -49,6 +49,10 @@ app.use(
   }),
 );
 
+// Parse request body FIRST
+app.use(express.json());
+app.use(cookieParser());
+
 // request logger
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
@@ -71,8 +75,6 @@ app.use("/api", globalLimiter);
 app.use("/api/v1", couponRoutes);
 
 //  middlewares
-app.use(express.json());
-app.use(cookieParser());
 app.use("/api/v1", reviewRoutes);
 
 

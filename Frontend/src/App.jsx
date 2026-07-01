@@ -36,6 +36,7 @@ import OrderManagement from "./pages/OrderManagement";
 import ProductReviews from "./pages/ProductReviews";
 import ReviewManagement from "./pages/ReviewManagement";
 import AdminDashboard from "./pages/AdminDashboard";
+import CouponManagement from "./pages/CouponManagement";
 
 
 const App = () => {
@@ -86,6 +87,7 @@ const App = () => {
             element={<ReviewManagement />}
           />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/coupons" element={<CouponManagement />} />
       </Routes>
 
       <CookieConsent />
