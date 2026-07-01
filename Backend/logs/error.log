@@ -1,2 +1,18 @@
 {"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-06-24T09:55:55.642Z"}
 {"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-06-24T09:55:55.668Z"}
+{"level":"error","message":"Please login to access this resource","method":"GET","route":"/api/v1/admin/orders","status":401,"timestamp":"2026-06-29T06:41:12.326Z"}
+{"level":"error","message":"Please login to access this resource","method":"GET","route":"/api/v1/admin/orders","status":401,"timestamp":"2026-06-29T06:41:12.339Z"}
+{"level":"error","message":"Please login to access this resource","method":"GET","route":"/api/v1/admin/orders","status":401,"timestamp":"2026-06-29T06:42:36.900Z"}
+{"level":"error","message":"Please login to access this resource","method":"GET","route":"/api/v1/admin/orders","status":401,"timestamp":"2026-06-29T06:42:36.930Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-06-29T08:13:56.909Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:55:11.922Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:35.221Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:36.513Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:37.760Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:52.997Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:55.101Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:56.563Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T09:00:10.365Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T09:04:23.224Z"}
+{"level":"error","message":"Route not found: /api/v1/products/69ae94412db6439b33d799b9","method":"GET","route":"/api/v1/products/69ae94412db6439b33d799b9","status":404,"timestamp":"2026-06-29T14:12:37.675Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-06-30T06:06:32.797Z"}
