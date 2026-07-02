@@ -37,7 +37,7 @@ import ProductReviews from "./pages/ProductReviews";
 import ReviewManagement from "./pages/ReviewManagement";
 import AdminDashboard from "./pages/AdminDashboard";
 import CouponManagement from "./pages/CouponManagement";
-
+import SalesReport from "./pages/SalesReport";
 
 const App = () => {
   return (
@@ -88,6 +88,7 @@ const App = () => {
           />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/coupons" element={<CouponManagement />} />
+        <Route path="/admin/sales" element={<SalesReport />} />
       </Routes>
 
       <CookieConsent />

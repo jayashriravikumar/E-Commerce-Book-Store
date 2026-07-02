@@ -40,3 +40,13 @@
 {"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:58:22.386Z"}
 {"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:58:27.334Z"}
 {"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:58:30.481Z"}
+{"level":"error","message":"E11000 duplicate key error collection: ecommerce.coupons index: code_1 dup key: { code: \"SAVE20\" }","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T09:06:39.097Z"}
+{"level":"error","message":"E11000 duplicate key error collection: ecommerce.coupons index: code_1 dup key: { code: \"SAVE20\" }","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T09:06:53.617Z"}
+{"level":"error","message":"E11000 duplicate key error collection: ecommerce.coupons index: code_1 dup key: { code: \"TAYLOR\" }","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T14:14:52.264Z"}
+{"level":"error","message":"E11000 duplicate key error collection: ecommerce.coupons index: code_1 dup key: { code: \"TAYLOR\" }","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T14:14:53.951Z"}
+{"level":"error","message":"E11000 duplicate key error collection: ecommerce.coupons index: code_1 dup key: { code: \"TAYLOR\" }","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T14:14:59.114Z"}
+{"level":"error","message":"Route not found: /api/v1/sales/summary","method":"GET","route":"/api/v1/sales/summary","status":404,"timestamp":"2026-07-02T06:51:54.747Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-07-02T06:51:54.884Z"}
+{"level":"error","message":"Route not found: /api/v1/sales","method":"GET","route":"/api/v1/sales","status":404,"timestamp":"2026-07-02T06:53:22.840Z"}
+{"level":"error","message":"Route not found: /api/v1/sales","method":"GET","route":"/api/v1/sales","status":404,"timestamp":"2026-07-02T06:59:45.941Z"}
+{"level":"error","message":"Route not found: /api/v1/sales","method":"GET","route":"/api/v1/sales","status":404,"timestamp":"2026-07-02T06:59:47.351Z"}

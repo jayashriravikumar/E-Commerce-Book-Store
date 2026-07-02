@@ -25,6 +25,7 @@ import cloudinary from "./config/cloudinary.js";
 import errorHandler from "./middleware/error.js";
 import { errorLogger } from "./middleware/logger.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
+import salesRoutes from "./routes/salesRoutes.js";
 
 
 
@@ -122,6 +123,8 @@ app.use((req, res, next) => {
   });
 
   next();
+
+  
 });
 
 // Health Check Route
@@ -178,6 +181,7 @@ app.use("/api/v1/customer-service", customerServiceRoutes);
 app.use("/api/v1/faqs", faqRoutes);
 app.use("/api/v1", ticketRoutes);
 app.use("/api/v1", adminAnalyticsRoutes);
+app.use("/api/v1/sales", salesRoutes);
 
 app.use((req, res, next) => {
   const error = new Error(`Route not found: ${req.originalUrl}`);

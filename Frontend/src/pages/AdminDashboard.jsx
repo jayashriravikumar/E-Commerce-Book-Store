@@ -59,6 +59,12 @@ const adminCards = [
     path: "/admin/faqs",
     color: "bg-indigo-500",
   },
+  {
+  title: "Sales Reports",
+  icon: "📊",
+  path: "/admin/sales",
+  color: "bg-emerald-500",
+},
 ];
 
 const AdminDashboard = () => {
