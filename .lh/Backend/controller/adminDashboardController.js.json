@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Backend/controller/adminDashboardController.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1782995511465,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1782995511465,
+            "name": "Commit-0",
+            "content": "import User from \"../models/userModel.js\";\r\nimport Product from \"../models/productModel.js\";\r\nimport Order from \"../models/orderModel.js\";\r\n\r\nexport const getAdminDashboard = async (req, res) => {\r\n  try {\r\n\r\n    const totalUsers = await User.countDocuments();\r\n\r\n    const totalProducts = await Product.countDocuments();\r\n\r\n    const totalOrders = await Order.countDocuments();\r\n\r\n    const orders = await Order.find();\r\n\r\n    const totalSales = orders.reduce(\r\n      (sum, order) => sum + order.totalPrice,\r\n      0\r\n    );\r\n\r\n    res.status(200).json({\r\n      success: true,\r\n      dashboard: {\r\n        totalUsers,\r\n        totalProducts,\r\n        totalOrders,\r\n        totalSales,\r\n      },\r\n    });\r\n\r\n  } catch (error) {\r\n\r\n    res.status(500).json({\r\n      success: false,\r\n      message: error.message,\r\n    });\r\n\r\n  }\r\n};"
+        }
+    ]
+}

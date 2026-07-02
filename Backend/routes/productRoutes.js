@@ -1,6 +1,7 @@
 import express from 'express';
-import { addProducts,getAllProducts, getSingleProduct,getAllProductsByAdmin,updateProduct,deleteProduct,createProductReview,viewProductReviews,adminDeleteReview } from '../controller/productcontroller.js';
+import { addProducts,getAllProducts, getSingleProduct,getAllProductsByAdmin,updateProduct,deleteProduct,createProductReview,viewProductReviews,adminDeleteReview } from '../controller/productController.js';
 import { verifyUser,roleBasedAccess } from '../helper/userAuth.js';
+
 const router = express.Router();
 
 //User side
@@ -15,7 +16,8 @@ router.route("/admin/product/:id").put(verifyUser,roleBasedAccess("admin"),updat
 //adminView all products
 //view review
 router.route("/admin/reviews").get(verifyUser,roleBasedAccess("admin"),viewProductReviews).delete(verifyUser,roleBasedAccess("admin"),adminDeleteReview);  
-router.route("/admin/products").get(verifyUser,roleBasedAccess("admin"),getAllProductsByAdmin);  
+router.route("/admin/products").get(verifyUser,roleBasedAccess("admin"),getAllProductsByAdmin); 
+
 
 //delete review
 

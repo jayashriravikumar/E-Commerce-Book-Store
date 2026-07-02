@@ -7,6 +7,9 @@ import restoreRoutes from "./routes/restoreRoutes.js";
 import backupHistoryRoutes from "./routes/backupHistoryRoutes.js";
 import downloadBackupRoutes from "./routes/downloadBackupRoutes.js";
 import uploadBackupRoutes from "./routes/uploadBackupRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
+import analyticsRoutes from "./routes/analyticsRoutes.js";
+import adminDashboardRoutes from "./routes/adminDashboardRoutes.js";
 import order from "./routes/orderRoutes.js";
 import errorHandler from "./middleware/error.js";
 import cookieParser from "cookie-parser";
@@ -65,6 +68,9 @@ app.use("/api/v1", restoreRoutes);
 app.use("/api/v1", backupHistoryRoutes);
 app.use("/api/v1", downloadBackupRoutes);
 app.use("/api/v1", uploadBackupRoutes);
+app.use("/api/v1", dashboardRoutes);
+app.use("/api/v1", analyticsRoutes);
+app.use("/api/v1", adminDashboardRoutes);
 // Error handler
 app.use(errorHandler);
 

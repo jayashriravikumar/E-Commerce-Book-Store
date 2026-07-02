@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1782973276111,
@@ -16,6 +16,34 @@
                 {
                     "date": 1782974747388,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,16 @@\n+import express from \"express\";\r\n+import { backupDatabase } from \"../controller/backupController.js\";\r\n+\r\n+const router = express.Router();\r\n+\r\n+// Backup Database\r\n+router.post(\"/admin/backup\", backupDatabase);\r\n+\r\n+router.get(\"/admin/backup-test\", (req, res) => {\r\n+  res.json({\r\n+    success: true,\r\n+    message: \"Backup Route Working\"\r\n+  });\r\n+});\r\n+\r\n+export default router;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1782994617151,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,18 @@\n+import express from \"express\";\r\n+import { backupDatabase } from \"../controller/backupController.js\";\r\n+import { isAuthenticated } from \"../middleware/auth.js\";\r\n+import { isAdmin } from \"../middleware/isAdmin.js\";\r\n+\r\n+const router = express.Router();\r\n+\r\n+// Backup Database\r\n+router.post(\"/admin/backup\", isAuthenticated, isAdmin, backupDatabase);\r\n+\r\n+router.get(\"/admin/backup-test\", (req, res) => {\r\n+  res.json({\r\n+    success: true,\r\n+    message: \"Backup Route Working\"\r\n+  });\r\n+});\r\n+\r\n+export default router;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1782994741977,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,18 @@\n+import express from \"express\";\r\n+import { backupDatabase } from \"../controller/backupController.js\";\r\n+import { isAuthenticated } from \"../middleware/auth.js\";\r\n+import { isAdmin } from \"../middleware/isAdmin.js\";\r\n+\r\n+const router = express.Router();\r\n+\r\n+// Backup Database\r\n+router.post(\"/admin/backup\", isAuthenticated, isAdmin, backupDatabase);\r\n+\r\n+router.get(\"/admin/backup-test\", isAuthenticated, isAdmin, (req, res) => {\r\n+  res.json({\r\n+    success: true,\r\n+    message: \"Backup Route Working\"\r\n+  });\r\n+});\r\n+\r\n+export default router;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1782995171854,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,21 @@\n+import express from \"express\";\r\n+import { backupDatabase } from \"../controller/backupController.js\";\r\n+import { isAuthenticated } from \"../middleware/auth.js\";\r\n+import { isAdmin } from \"../middleware/isAdmin.js\";\r\n+\r\n+const router = express.Router();\r\n+\r\n+// Backup Database\r\n+router.post(\r\n+  \"/admin/backup\",\r\n+  backupDatabase\r\n+);\r\n+\r\n+router.get(\"/admin/backup-test\", isAuthenticated, isAdmin, (req, res) => {\r\n+  res.json({\r\n+    success: true,\r\n+    message: \"Backup Route Working\"\r\n+  });\r\n+});\r\n+\r\n+export default router;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1782995179614,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,21 @@\n+import express from \"express\";\r\n+import { backupDatabase } from \"../controller/backupController.js\";\r\n+\r\n+import { isAdmin } from \"../middleware/isAdmin.js\";\r\n+\r\n+const router = express.Router();\r\n+\r\n+// Backup Database\r\n+router.post(\r\n+  \"/admin/backup\",\r\n+  backupDatabase\r\n+);\r\n+\r\n+router.get(\"/admin/backup-test\", isAuthenticated, isAdmin, (req, res) => {\r\n+  res.json({\r\n+    success: true,\r\n+    message: \"Backup Route Working\"\r\n+  });\r\n+});\r\n+\r\n+export default router;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1782995274133,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import express from \"express\";\r\n import { backupDatabase } from \"../controller/backupController.js\";\r\n \r\n-import { isAdmin } from \"../middleware/isAdmin.js\";\r\n \r\n+\r\n const router = express.Router();\r\n \r\n // Backup Database\r\n router.post(\r\n"
+                },
+                {
+                    "date": 1782995283102,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,18 @@\n+import express from \"express\";\r\n+import { backupDatabase } from \"../controller/backupController.js\";\r\n+\r\n+\r\n+\r\n+const router = express.Router();\r\n+\r\n+// Backup Database\r\n+\r\n+\r\n+router.get(\"/admin/backup-test\", isAuthenticated, isAdmin, (req, res) => {\r\n+  res.json({\r\n+    success: true,\r\n+    message: \"Backup Route Working\"\r\n+  });\r\n+});\r\n+\r\n+export default router;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1782995401772,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,18 @@\n+import express from \"express\";\r\n+import { backupDatabase } from \"../controller/backupController.js\";\r\n+\r\n+\r\n+\r\n+const router = express.Router();\r\n+\r\n+// Backup Database\r\n+\r\n+\r\n+router.get(\"/admin/backup-test\", (req, res) => {\r\n+  res.json({\r\n+    success: true,\r\n+    message: \"Backup Route Working\"\r\n+  });\r\n+});\r\n+\r\n+export default router;\n\\ No newline at end of file\n"
                 }
             ],
             "date": 1782973276111,

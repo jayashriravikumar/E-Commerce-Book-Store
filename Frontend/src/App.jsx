@@ -20,6 +20,11 @@ import ShippingPolicy from "./pages/ShippingPolicy";
 import CookieConsent from "./components/CookieConsent";
 import ProtectedRoute from './components/ProtectedRoute';
 import BackupRecovery from "./pages/BackupRecovery";
+import BackupDashboard from "./pages/BackupDashboard";
+import AdminLayout from "./components/AdminLayout";
+import AdminProducts from "./pages/admin/AdminProducts";
+import EditProduct from "./pages/admin/EditProduct";
+import AddProduct from "./pages/admin/AddProduct";
 
 
 
@@ -47,17 +52,41 @@ const App = () => {
         <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
-  {/* Backup & Recovery */}
-        <Route
-          path="/admin/backup"
-          element={<BackupRecovery />}
-        />
-      </Routes>
+        <Route path="/admin" element={<AdminLayout />}>
+
+  <Route
+    path="dashboard"
+    element={<BackupDashboard />}
+  />
+
+  <Route
+    path="backup"
+    element={<BackupRecovery />}
+  />
+
+  <Route
+    path="products"
+    element={<AdminProducts />}
+  />
+
+  <Route
+    path="add-product"
+    element={<AddProduct />}
+  />
+
+  <Route
+    path="edit-product/:id"
+    element={<EditProduct />}
+  />
+
+</Route>
+
+</Routes>
  
                 <CookieConsent />
               </BrowserRouter>
               
             );
           };
-          
+
 export default App;
