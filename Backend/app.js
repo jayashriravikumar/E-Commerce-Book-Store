@@ -2,6 +2,11 @@ import wishlist from "./routes/wishlistRoutes.js";
 import express from "express";
 import product from "./routes/productRoutes.js";
 import user from "./routes/userRoutes.js";
+import backupRoutes from "./routes/backupRoutes.js";
+import restoreRoutes from "./routes/restoreRoutes.js";
+import backupHistoryRoutes from "./routes/backupHistoryRoutes.js";
+import downloadBackupRoutes from "./routes/downloadBackupRoutes.js";
+import uploadBackupRoutes from "./routes/uploadBackupRoutes.js";
 import order from "./routes/orderRoutes.js";
 import errorHandler from "./middleware/error.js";
 import cookieParser from "cookie-parser";
@@ -55,6 +60,11 @@ app.use("/api/v1", product);
 app.use("/api/v1", user);
 app.use("/api/v1", order);
 app.use("/api/v1",wishlist);
+app.use("/api/v1", backupRoutes);
+app.use("/api/v1", restoreRoutes);
+app.use("/api/v1", backupHistoryRoutes);
+app.use("/api/v1", downloadBackupRoutes);
+app.use("/api/v1", uploadBackupRoutes);
 // Error handler
 app.use(errorHandler);
 

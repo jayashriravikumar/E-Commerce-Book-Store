@@ -19,6 +19,7 @@ import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import CookieConsent from "./components/CookieConsent";
 import ProtectedRoute from './components/ProtectedRoute';
+import BackupRecovery from "./pages/BackupRecovery";
 
 
 
@@ -42,36 +43,21 @@ const App = () => {
          <Route path="/checkout" element={<Checkout />} />
          <Route path="/wishlist" element={<Wishlist />} />
          <Route path="/policies" element={<Policies />} />
-
-          <Route
-            path="/privacy-policy"
-            element={<PrivacyPolicy />}
-          />
-
-          <Route
-            path="/terms-conditions"
-            element={<TermsConditions />}
-          />
-
-          <Route
-            path="/refund-policy"
-            element={<RefundPolicy />}
-          />
-
-          <Route
-            path="/shipping-policy"
-            element={<ShippingPolicy />}
-          />
-                </Routes>
+         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-conditions" element={<TermsConditions />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
+  {/* Backup & Recovery */}
+        <Route
+          path="/admin/backup"
+          element={<BackupRecovery />}
+        />
+      </Routes>
+ 
                 <CookieConsent />
               </BrowserRouter>
               
             );
           };
-
-      </Routes>
-    </BrowserRouter>
-  );
-};
-
+          
 export default App;
