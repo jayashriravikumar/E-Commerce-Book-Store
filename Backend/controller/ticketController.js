@@ -1,100 +1,266 @@
 import Ticket from "../models/ticketModel.js";
 import HandleError from "../helper/handleError.js";
 
-// Create ticket
+// ======================================
+// Create Complaint
+// ======================================
 export const createTicket = async (req, res, next) => {
-  const { subject, description, priority, category } = req.body;
-  if (!subject || !description) {
-    return next(new HandleError("Subject and description are required", 400));
-  }
-
-  const ticket = await Ticket.create({
-    subject,
-    description,
-    priority: priority || "medium",
-    category: category || "Other",
-    user: req.user.id,
-    status: "open"
-  });
-
-  res.status(201).json({ success: true, ticket });
-};
-
-// Get tickets
-export const getTickets = async (req, res, next) => {
-  let tickets;
-  if (req.user.role === "admin") {
-    tickets = await Ticket.find().populate("user", "name email");
-    
-  } else {
-    tickets = await Ticket.find({ user: req.user.id });
-  }
-  res.status(200).json({ success: true, tickets });
-};
-
-// Get single ticket
-export const getSingleTicket = async (req, res, next) => {
   try {
-    const ticket = await Ticket.findById(req.params.id)
-      .populate("user", "name email role") // include role of ticket owner
-      .populate("messages.sender", "name email role"); // include role of message sender
+    const {
+      subject,
+      description,
+      category,
+      order,
+      attachments,
+    } = req.body;
 
-    if (!ticket) return next(new HandleError("Ticket not found", 404));
+    if (!subject || !description) {
+      return next(
+        new HandleError("Subject and description are required", 400)
+      );
+    }
+
+    // Auto Priority
+    let priority = "medium";
+
+    if (
+      category === "Damaged Product" ||
+      category === "Wrong Product" ||
+      category === "Payment" ||
+      category === "Refund"
+    ) {
+      priority = "high";
+    }
+
+    if (
+      category === "Late Delivery" ||
+      category === "Missing Item"
+    ) {
+      priority = "medium";
+    }
+
+    if (
+      category === "Technical" ||
+      category === "Other"
+    ) {
+      priority = "low";
+    }
+    const ticketData = {
+  subject,
+  description,
+  category,
+  priority,
+  attachments,
+  user: req.user.id,
+
+  history: [
+    {
+      status: "open",
+      updatedBy: req.user.id,
+    },
+  ],
+};
+
+
+// Add order only if provided
+if (order && order.trim() !== "") {
+  ticketData.order = order;
+}
+
+const ticket = await Ticket.create(ticketData);
+
+    res.status(201).json({
+      success: true,
+      ticket,
+    });
+  } catch (error) {
+  console.log("CREATE TICKET ERROR:");
+  console.log(error);
+  return res.status(500).json({
+    success: false,
+    message: error.message,
+  });
+}
+};
+
+// ======================================
+// Get All Tickets
+// ======================================
+export const getTickets = async (req, res, next) => {
+  try {
+    let tickets;
+
+    if (req.user.role === "admin") {
+      tickets = await Ticket.find()
+        .populate("user", "name email")
+        .populate("assignedTo", "name")
+        .sort({ createdAt: -1 });
+    } else {
+      tickets = await Ticket.find({
+        user: req.user.id,
+      }).sort({
+        createdAt: -1,
+      });
+    }
 
     res.status(200).json({
       success: true,
-      ticket,
-      currentUser: { role: req.user.role } // ✅ send logged-in user role
+      tickets,
     });
   } catch (error) {
     next(error);
   }
 };
 
+// ======================================
+// Get Single Complaint
+// ======================================
+export const getSingleTicket = async (req, res, next) => {
+  try {
+    const ticket = await Ticket.findById(req.params.id)
+      .populate("user", "name email role")
+      .populate("assignedTo", "name email")
+      .populate("messages.sender", "name email role")
+      .populate("history.updatedBy", "name role");
 
+    if (!ticket) {
+      return next(new HandleError("Complaint not found", 404));
+    }
 
+    res.status(200).json({
+      success: true,
+      ticket,
+      currentUser: {
+        role: req.user.role,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-// Update ticket
+// ======================================
+// Update Complaint
+// ======================================
 export const updateTicket = async (req, res, next) => {
-  const { status, response, priority, category } = req.body;
-  const ticket = await Ticket.findById(req.params.id);
-  if (!ticket) return next(new HandleError("Ticket not found", 404));
+  try {
+    const {
+      status,
+      category,
+      resolution,
+      assignedTo,
+    } = req.body;
 
-  ticket.status = status || ticket.status;
-  ticket.response = response || ticket.response;
-  ticket.priority = priority || ticket.priority;
-  ticket.category = category || ticket.category;
-  await ticket.save();
+    const ticket = await Ticket.findById(req.params.id);
 
-  res.status(200).json({ success: true, ticket });
+    if (!ticket) {
+      return next(new HandleError("Complaint not found", 404));
+    }
+
+    if (status) {
+      ticket.status = status;
+
+      ticket.history.push({
+        status,
+        updatedBy: req.user.id,
+      });
+    }
+
+    if (category) {
+      ticket.category = category;
+    }
+
+    if (resolution) {
+      ticket.resolution = resolution;
+    }
+
+    if (assignedTo) {
+      ticket.assignedTo = assignedTo;
+    }
+
+    await ticket.save();
+
+    res.status(200).json({
+      success: true,
+      ticket,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-// Delete ticket
+// ======================================
+// Delete Complaint
+// ======================================
 export const deleteTicket = async (req, res, next) => {
-  const ticket = await Ticket.findByIdAndDelete(req.params.id);
-  if (!ticket) return next(new HandleError("Ticket not found", 404));
-  res.status(200).json({ success: true, message: "Ticket deleted successfully" });
+  try {
+    const ticket = await Ticket.findByIdAndDelete(req.params.id);
+
+    if (!ticket) {
+      return next(new HandleError("Complaint not found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Complaint deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-// Add message
+// ======================================
+// Add Chat Message
+// ======================================
 export const addMessage = async (req, res, next) => {
-  const { text } = req.body;
-  if (!text) return next(new HandleError("Message text is required", 400));
+  try {
+    const { text } = req.body;
 
-  const ticket = await Ticket.findById(req.params.id);
-  if (!ticket) return next(new HandleError("Ticket not found", 404));
+    if (!text) {
+      return next(new HandleError("Message is required", 400));
+    }
 
-  ticket.messages.push({ sender: req.user.id, text });
-  await ticket.save();
+    const ticket = await Ticket.findById(req.params.id);
 
-  res.status(200).json({ success: true, ticket });
+    if (!ticket) {
+      return next(new HandleError("Complaint not found", 404));
+    }
+
+    ticket.messages.push({
+      sender: req.user.id,
+      text,
+    });
+
+    await ticket.save();
+
+    res.status(200).json({
+      success: true,
+      ticket,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-// Get messages
+// ======================================
+// Get Chat Messages
+// ======================================
 export const getMessages = async (req, res, next) => {
-  const ticket = await Ticket.findById(req.params.id)
-    .populate("messages.sender", "name email role");
-  if (!ticket) return next(new HandleError("Ticket not found", 404));
+  try {
+    const ticket = await Ticket.findById(req.params.id).populate(
+      "messages.sender",
+      "name email role"
+    );
 
-  res.status(200).json({ success: true, messages: ticket.messages });
+    if (!ticket) {
+      return next(new HandleError("Complaint not found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      messages: ticket.messages,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
