@@ -1,5 +1,55 @@
 {"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-06-24T09:55:55.642Z"}
 {"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-06-24T09:55:55.668Z"}
+{"level":"error","message":"Please login to access this resource","method":"GET","route":"/api/v1/admin/orders","status":401,"timestamp":"2026-06-29T06:41:12.326Z"}
+{"level":"error","message":"Please login to access this resource","method":"GET","route":"/api/v1/admin/orders","status":401,"timestamp":"2026-06-29T06:41:12.339Z"}
+{"level":"error","message":"Please login to access this resource","method":"GET","route":"/api/v1/admin/orders","status":401,"timestamp":"2026-06-29T06:42:36.900Z"}
+{"level":"error","message":"Please login to access this resource","method":"GET","route":"/api/v1/admin/orders","status":401,"timestamp":"2026-06-29T06:42:36.930Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-06-29T08:13:56.909Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:55:11.922Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:35.221Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:36.513Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:37.760Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:52.997Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:55.101Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T08:57:56.563Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T09:00:10.365Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/reviews/test","method":"GET","route":"/api/v1/admin/reviews/test","status":404,"timestamp":"2026-06-29T09:04:23.224Z"}
+{"level":"error","message":"Route not found: /api/v1/products/69ae94412db6439b33d799b9","method":"GET","route":"/api/v1/products/69ae94412db6439b33d799b9","status":404,"timestamp":"2026-06-29T14:12:37.675Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-06-30T06:06:32.797Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/coupons","method":"GET","route":"/api/v1/admin/coupons","status":404,"timestamp":"2026-07-01T06:12:26.866Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/coupon","method":"GET","route":"/api/v1/admin/coupon","status":404,"timestamp":"2026-07-01T06:13:15.014Z"}
+{"level":"error","message":"Route not found: /api/v1/admin/coupons","method":"GET","route":"/api/v1/admin/coupons","status":404,"timestamp":"2026-07-01T06:13:24.971Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-07-01T06:17:02.759Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:22.503Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:25.520Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:27.511Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:28.510Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:29.313Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:29.531Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:31.165Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:33.127Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:33.923Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:34.142Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:34.969Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:48:42.006Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:50:56.777Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:51:54.113Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:54:24.606Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:54:35.185Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:57:30.305Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:58:22.386Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:58:27.334Z"}
+{"level":"error","message":"Coupon validation failed: discount: Path `discount` is required., code: Path `code` is required.","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T08:58:30.481Z"}
+{"level":"error","message":"E11000 duplicate key error collection: ecommerce.coupons index: code_1 dup key: { code: \"SAVE20\" }","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T09:06:39.097Z"}
+{"level":"error","message":"E11000 duplicate key error collection: ecommerce.coupons index: code_1 dup key: { code: \"SAVE20\" }","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T09:06:53.617Z"}
+{"level":"error","message":"E11000 duplicate key error collection: ecommerce.coupons index: code_1 dup key: { code: \"TAYLOR\" }","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T14:14:52.264Z"}
+{"level":"error","message":"E11000 duplicate key error collection: ecommerce.coupons index: code_1 dup key: { code: \"TAYLOR\" }","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T14:14:53.951Z"}
+{"level":"error","message":"E11000 duplicate key error collection: ecommerce.coupons index: code_1 dup key: { code: \"TAYLOR\" }","method":"POST","route":"/api/v1/coupon/create","status":500,"timestamp":"2026-07-01T14:14:59.114Z"}
+{"level":"error","message":"Route not found: /api/v1/sales/summary","method":"GET","route":"/api/v1/sales/summary","status":404,"timestamp":"2026-07-02T06:51:54.747Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-07-02T06:51:54.884Z"}
+{"level":"error","message":"Route not found: /api/v1/sales","method":"GET","route":"/api/v1/sales","status":404,"timestamp":"2026-07-02T06:53:22.840Z"}
+{"level":"error","message":"Route not found: /api/v1/sales","method":"GET","route":"/api/v1/sales","status":404,"timestamp":"2026-07-02T06:59:45.941Z"}
+{"level":"error","message":"Route not found: /api/v1/sales","method":"GET","route":"/api/v1/sales","status":404,"timestamp":"2026-07-02T06:59:47.351Z"}
 {"level":"error","message":"Route not found: /","method":"GET","route":"/","status":404,"timestamp":"2026-06-25T17:49:32.807Z"}
 {"level":"error","message":"Route not found: /","method":"GET","route":"/","status":404,"timestamp":"2026-06-25T17:49:47.471Z"}
 {"level":"error","message":"Route not found: /loginMsg.js","method":"GET","route":"/loginMsg.js","status":404,"timestamp":"2026-06-25T17:49:47.477Z"}

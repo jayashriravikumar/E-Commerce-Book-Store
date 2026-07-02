@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/products/user/userSlice";
 import { Heart } from "lucide-react";
 
+
 const Navbar = () => {
   const { t } = useTranslation();
 
@@ -61,6 +62,8 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+
+    const navigate = useNavigate();
   }, []);
 
   return (
@@ -252,30 +255,21 @@ const Navbar = () => {
       <span>Settings</span>
     </Link>
 
-    {/* Admin Section */}
-    {user?.role === "admin" && (
-      <>
-        <div className="border-t border-gray-200 my-1"></div>
+{/* Admin Section */}
+{user?.role === "admin" && (
+  <>
+    <div className="border-t border-gray-200 my-1"></div>
 
-        <Link
-          to="/admin/products"
-          className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold transition-colors"
-          onClick={() => setProfileOpen(false)}
-        >
-          <span className="text-lg">👑</span>
-          <span>Product Management</span>
-        </Link>
-
-        <Link
-          to="/admin/inventory"
-          className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold transition-colors"
-          onClick={() => setProfileOpen(false)}
-        >
-          <span className="text-lg">📦</span>
-          <span>Inventory Management</span>
-        </Link>
-      </>
-    )}
+    <Link
+      to="/admin/dashboard"
+      onClick={() => setProfileOpen(false)}
+      className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold transition-colors"
+    >
+      <span className="text-lg">🛠️</span>
+      <span>Admin Dashboard</span>
+    </Link>
+  </>
+)}
 
     <div className="border-t border-gray-200 mt-1"></div>
 
@@ -289,58 +283,7 @@ const Navbar = () => {
     </button>
   </div>
 )}
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50">
-                  <div className="p-4 border-b">
-                    <p className="font-semibold">{user?.name || "User"}</p>
-
-                    <p className="text-sm text-gray-500 break-words">
-                      {user?.email}
-                    </p>
-                  </div>
-
-                  <Link
-                    to="/profile"
-                    className="block px-4 py-3 hover:bg-gray-100"
-                    onClick={() => setProfileOpen(false)}
-                  >
-                    👤 My Profile
-                  </Link>
-
-                  <Link
-                    to="/orders"
-                    className="block px-4 py-3 hover:bg-gray-100"
-                    onClick={() => setProfileOpen(false)}
-                  >
-                    📦 My Orders
-                  </Link>
-
-                  <Link
-                    to="/settings"
-                    className="block px-4 py-3 hover:bg-gray-100"
-                    onClick={() => setProfileOpen(false)}
-                  >
-                    ⚙️ Settings
-                  </Link>
-
-                  {user?.role === "admin" && (
-                    <Link
-                      to="/admin/products"
-                      className="block px-4 py-3 hover:bg-gray-100 text-blue-600 font-semibold"
-                      onClick={() => setProfileOpen(false)}
-                    >
-                      👑 Product Management
-                    </Link>
-                  )}
-
-                 <button
-  type="button"
-  onClick={() => setShowLogoutModal(true)}
-  className="w-full text-left px-4 py-3 hover:bg-red-50 text-red-600"
->
-  🚪 Logout
-</button>
-                </div>
-              )}
+                
             </div>
           ) : (
             <Link
