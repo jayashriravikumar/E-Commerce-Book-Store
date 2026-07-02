@@ -2,10 +2,15 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 import express from "express";
 import product from "./routes/productRoutes.js";
-
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 import adminDashboardRoutes from "./routes/adminDashboardRoutes.js";
+
+import backupRoutes from "./routes/backupRoutes.js";
+import restoreRoutes from "./routes/restoreRoutes.js";
+import backupHistoryRoutes from "./routes/backupHistoryRoutes.js";
+import downloadBackupRoutes from "./routes/downloadBackupRoutes.js";
+import uploadBackupRoutes from "./routes/uploadBackupRoutes.js";
 import order from "./routes/orderRoutes.js";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
@@ -34,11 +39,10 @@ import errorHandler from "./middleware/error.js";
 import { errorLogger } from "./middleware/logger.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import salesRoutes from "./routes/salesRoutes.js";
-import backupRoutes from "./routes/backupRoutes.js";
-import restoreRoutes from "./routes/restoreRoutes.js";
-import backupHistoryRoutes from "./routes/backupHistoryRoutes.js";
-import downloadBackupRoutes from "./routes/downloadBackupRoutes.js";
-import uploadBackupRoutes from "./routes/uploadBackupRoutes.js";
+
+
+
+
 
 const SERVER_START_TIME = new Date();
 
@@ -179,6 +183,13 @@ app.use("/api/v1", product);
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", order);
 app.use("/api/v1",wishlist);
+app.use("/api/v1", payment);
+app.use("/api/v1", inventoryRoutes);
+app.use("/api/v1", ticketRoutes);
+app.use("/api/v1", salesRoutes);
+app.use("/api/v1", customerServiceRoutes);
+app.use("/api/v1", faqRoutes);
+app.use("/api/v1", newsletterRoutes);
 app.use("/api/v1", backupRoutes);
 app.use("/api/v1", restoreRoutes);
 app.use("/api/v1", backupHistoryRoutes);

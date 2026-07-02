@@ -50,6 +50,7 @@ import AdminAnalytics from "./pages/AdminAnalytics";
 import CustomerManagement from "./pages/CustomerManagement";
 
 import CookieConsent from "./components/CookieConsent";
+
 import { useSelector } from "react-redux";
 import BackupDashboard from "./pages/BackupDashboard";
 import BackupRecovery from "./pages/BackupRecovery";
@@ -78,6 +79,7 @@ const App = () => {
         <Route path="/about-us" element={<About />} />
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/profile" element={<Profile />} />
+
         <Route path="/profile/update" element={<UpdateProfile />} />
         <Route path="/update-password" element={<UpdatePassword />} />
 
@@ -230,11 +232,17 @@ const App = () => {
     />
   }
 />
+      
+
+
+        
       </Routes>
-
-      <CookieConsent />
-    </BrowserRouter>
-  );
-};
-
+      <ToastContainer />
+ 
+                <CookieConsent />
+              </BrowserRouter>
+              
+            );
+          };
+          
 export default App;
