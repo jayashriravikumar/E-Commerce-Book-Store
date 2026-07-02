@@ -15,4 +15,8 @@ router.get("/admin/backup-test", (req, res) => {
   });
 });
 
+// Actual backup route
+router.get("/admin/backup", backupDatabase);
+router.post("/admin/backup", backupDatabase);
+
 export default router;

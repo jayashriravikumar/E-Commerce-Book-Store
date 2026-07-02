@@ -203,7 +203,7 @@ const handleMouseLeave = () => {
               className="text-3xl font-semibold
           text-gray-900 mb-2"
             >
-              {product?.name}
+              {product?.title || product?.name}
             </h3>
 
             <p className="text-lg text-gray-600 mb-3">by {product?.author}</p>

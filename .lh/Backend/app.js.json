@@ -3,7 +3,11 @@
     "activeCommit": 0,
     "commits": [
         {
+<<<<<<< HEAD
             "activePatchIndex": 25,
+=======
+            "activePatchIndex": 16,
+>>>>>>> cb5d90f (Implement backup recovery, download backup, backup history, and improve admin product management UI)
             "patches": [
                 {
                     "date": 1782973937319,
@@ -72,6 +76,7 @@
                 {
                     "date": 1782995574659,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,77 @@\n+import wishlist from \"./routes/wishlistRoutes.js\";\r\n+import express from \"express\";\r\n+import product from \"./routes/productRoutes.js\";\r\n+import user from \"./routes/userRoutes.js\";\r\n+import backupRoutes from \"./routes/backupRoutes.js\";\r\n+import restoreRoutes from \"./routes/restoreRoutes.js\";\r\n+import backupHistoryRoutes from \"./routes/backupHistoryRoutes.js\";\r\n+import downloadBackupRoutes from \"./routes/downloadBackupRoutes.js\";\r\n+import uploadBackupRoutes from \"./routes/uploadBackupRoutes.js\";\r\n+import dashboardRoutes from \"./routes/dashboardRoutes.js\";\r\n+import analyticsRoutes from \"./routes/analyticsRoutes.js\";\r\n+import adminDashboardRoutes from \"./routes/adminDashboardRoutes.js\";\r\n+import order from \"./routes/orderRoutes.js\";\r\n+import errorHandler from \"./middleware/error.js\";\r\n+import cookieParser from \"cookie-parser\";\r\n+import fileUpload from \"express-fileupload\";\r\n+import couponRoutes from \"./routes/couponRoutes.js\";\r\n+import cors from \"cors\";\r\n+\r\n+// Create app\r\n+const app = express();\r\n+\r\n+// Middlewares\r\n+\r\n+app.use(express.json());\r\n+app.use(cookieParser());\r\n+app.use(\r\n+  cors({\r\n+    origin: \"http://localhost:5173\",\r\n+    credentials: true,\r\n+  })\r\n+);\r\n+app.use(\"/api/v1\", couponRoutes);\r\n+app.use(\r\n+  fileUpload({\r\n+    useTempFiles: true,\r\n+    tempFileDir: \"./tmp/\",\r\n+  })\r\n+);\r\n+\r\n+// Test route (file receive check)\r\n+import cloudinary from \"./config/cloudinary.js\";\r\n+\r\n+app.post(\"/test-upload\", async (req, res) => {\r\n+  try {\r\n+    const file = req.files.image;\r\n+\r\n+    const result = await cloudinary.uploader.upload(file.tempFilePath);\r\n+\r\n+    res.json({\r\n+      success: true,\r\n+      url: result.secure_url,\r\n+    });\r\n+\r\n+  } catch (error) {\r\n+    console.log(\"UPLOAD ERROR:\", error);\r\n+    res.status(500).json({ message: \"Upload failed\" });\r\n+  }\r\n+});\r\n+\r\n+// Routes\r\n+app.use(\"/api/v1\", product);\r\n+app.use(\"/api/v1\", user);\r\n+app.use(\"/api/v1\", order);\r\n+app.use(\"/api/v1\",wishlist);\r\n+app.use(\"/api/v1\", backupRoutes);\r\n+app.use(\"/api/v1\", restoreRoutes);\r\n+app.use(\"/api/v1\", backupHistoryRoutes);\r\n+app.use(\"/api/v1\", downloadBackupRoutes);\r\n+app.use(\"/api/v1\", uploadBackupRoutes);\r\n+app.use(\"/api/v1\", dashboardRoutes);\r\n+app.use(\"/api/v1\", analyticsRoutes);\r\n+app.use(\"/api/v1\", adminDashboardRoutes);\r\n+// Error handler\r\n+app.use(errorHandler);\r\n+\r\n+export default app;\n\\ No newline at end of file\n"
+<<<<<<< HEAD
                 },
                 {
                     "date": 1783174594969,
@@ -108,6 +113,8 @@
                 {
                     "date": 1783176657018,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -178,8 +178,14 @@\n app.use(\"/api/v1\", adminAnalyticsRoutes);\r\n app.use(\"/api/v1\", newsletterRoutes);\r\n app.use(\"/api/v1\", salesRoutes);\r\n // Error handler\r\n+\r\n+app.use((req, res, next) => {\r\n+  const error = new Error(`Route not found: ${req.originalUrl}`);\r\n+  error.statusCode = 404;\r\n+  next(error);\r\n+});\r\n app.use(errorLogger);\r\n app.use(errorHandler);\r\n \r\n export default app;\r\n"
+=======
+>>>>>>> cb5d90f (Implement backup recovery, download backup, backup history, and improve admin product management UI)
                 }
             ],
             "date": 1782973937319,
