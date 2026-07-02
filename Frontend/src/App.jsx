@@ -56,11 +56,6 @@ import BackupDashboard from "./pages/BackupDashboard";
 import BackupRecovery from "./pages/BackupRecovery";
 import EditProduct from "./pages/EditProduct";
 
-
-
-
-
-
 const App = () => {
   const { user } = useSelector((state) => state.user);
   return (
@@ -138,6 +133,7 @@ const App = () => {
         <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
+
         <Route path="/500" element={<ServerError />} />
         <Route path="*" element={<NotFound />} />
        <Route
@@ -233,16 +229,23 @@ const App = () => {
   }
 />
       
+        <Route
+  path="/admin/backup/recover"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<BackupRecovery />}
+    />
+  }
+/>
 
+</Routes>
 
-        
-      </Routes>
-      <ToastContainer />
- 
-                <CookieConsent />
-              </BrowserRouter>
-              
-            );
-          };
-          
+<ToastContainer />
+<CookieConsent />
+
+</BrowserRouter>
+);
+};
+
 export default App;
