@@ -40,6 +40,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import CouponManagement from "./pages/CouponManagement";
 import SalesReport from "./pages/SalesReport";
 import AdminAnalytics from "./pages/AdminAnalytics";
+import CustomerManagement from "./pages/CustomerManagement";
 
 
 const App = () => {
@@ -94,6 +95,10 @@ const App = () => {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/coupons" element={<CouponManagement />} />
         <Route path="/admin/sales" element={<SalesReport />} />
+        <Route
+          path="/admin/customers"
+          element={<CustomerManagement />}
+        />
       </Routes>
 
       <CookieConsent />

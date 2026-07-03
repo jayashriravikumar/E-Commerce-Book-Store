@@ -24,10 +24,10 @@ const adminCards = [
     color: "bg-orange-500",
   },
   {
-    title: "Customer Management",
-    icon: "👥",
-    path: "/admin/customers",
-    color: "bg-purple-500",
+  title: "Customer Management",
+  icon: "👥",
+  path: "/admin/customers",
+  color: "bg-pink-500",
   },
   {
     title: "Review Management",
