@@ -251,7 +251,7 @@ export const updateProfile = async (req, res, next) => {
 };
 
 export const getUsers = async (req, res) => {
-  const users = await User.find();
+  const users = await User.find().sort({ createdAt: -1 });
   res.status(200).json({
     success: true,
     users,
