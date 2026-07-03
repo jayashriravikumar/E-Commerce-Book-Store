@@ -86,6 +86,13 @@ const Product = ({ product }) => {
   ₹{product?.price}
 </span>
 
+<Link
+  to={`/product/${product._id}/reviews`}
+  className="text-sm text-blue-600 hover:underline font-medium"
+>
+  ⭐ View Reviews
+</Link>
+
 {product?.stock > 10 ? (
   <p className="text-green-600 text-sm font-medium">
      In Stock

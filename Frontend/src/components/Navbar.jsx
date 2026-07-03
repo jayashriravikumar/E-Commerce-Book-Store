@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/products/user/userSlice";
 import { Heart } from "lucide-react";
 
+
 const Navbar = () => {
   const { t } = useTranslation();
 
@@ -61,6 +62,8 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+
+    const navigate = useNavigate();
   }, []);
 
   return (
@@ -267,6 +270,31 @@ const Navbar = () => {
         </Link>
       </>
     )}
+    {/* Settings */}
+    <Link
+      to="/settings"
+      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors"
+      onClick={() => setProfileOpen(false)}
+    >
+      <span className="text-lg">⚙️</span>
+      <span>Settings</span>
+    </Link>
+
+{/* Admin Section */}
+{user?.role === "admin" && (
+  <>
+    <div className="border-t border-gray-200 my-1"></div>
+
+    <Link
+      to="/admin/dashboard"
+      onClick={() => setProfileOpen(false)}
+      className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold transition-colors"
+    >
+      <span className="text-lg">🛠️</span>
+      <span>Admin Dashboard</span>
+    </Link>
+  </>
+)}
 
     <div className="border-t" />
 
@@ -282,6 +310,10 @@ const Navbar = () => {
              )}
 </div>
 ) : (
+)}
+                
+            </div>
+          ) : (
             <Link
               to="/register"
               className="hidden sm:flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"

@@ -12,7 +12,6 @@ import UpdatePassword from "./User/UpdatePassword";
 
 
 import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
 import Wishlist from "./pages/Wishlist";
 
 import Policies from "./pages/Policies";
@@ -23,6 +22,7 @@ import ShippingPolicy from "./pages/ShippingPolicy";
 import ServerError from "./pages/ServerError";
 import NotFound from "./pages/NotFound";
 
+import CookieConsent from "./components/CookieConsent";
 import CreateProduct from "./pages/CreateProduct";
 import ProductManagement from "./pages/ProductManagement";
 import { ToastContainer } from "react-toastify";
@@ -30,7 +30,6 @@ import "react-toastify/dist/ReactToastify.css";
 import InventoryManagement from "./pages/InventoryManagement";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-import VerifyOTP from "./User/VerifyOTP";
 import ConfirmOrder from "./pages/ConfirmOrder";
 import Payment from "./pages/Payment";
 import OrderSuccess from "./pages/OrderSuccess";
@@ -40,6 +39,12 @@ import Support from "./pages/Support";
 import YourMessages from "./pages/YourMessages";   
 import TicketDetails from "./pages/TicketDetails";
 import AdminTickets from "./pages/AdminTickets";
+import OrderManagement from "./pages/OrderManagement";
+import ProductReviews from "./pages/ProductReviews";
+import ReviewManagement from "./pages/ReviewManagement";
+import AdminDashboard from "./pages/AdminDashboard";
+import CouponManagement from "./pages/CouponManagement";
+import SalesReport from "./pages/SalesReport";
 import AdminAnalytics from "./pages/AdminAnalytics";
 
 import CookieConsent from "./components/CookieConsent";
@@ -70,7 +75,6 @@ const App = () => {
         <Route path="/update-password" element={<UpdatePassword />} />
 
         <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
         <Route path="/wishlist" element={<Wishlist />} />
 
         <Route path="/order/confirm" element={<ConfirmOrder />} />
@@ -98,16 +102,25 @@ const App = () => {
         <Route path="/500" element={<ServerError />} />
         <Route path="*" element={<NotFound />} />
         <Route
+        <Route path="/admin/orders" element={<OrderManagement />} />
+       <Route
           path="/admin/inventory"
           element={
-            user && user.role === "admin" ? (
-              <InventoryManagement />
-            ) : (
-              <Navigate to="/" replace />
-            )
+            <ProtectedRoute
+              adminOnly={true}
+              element={<InventoryManagement />}
+            />
           }
         />
         <Route path="/verify-email" element={<VerifyOTP />} />
+        <Route path="/product/:id/reviews" element={<ProductReviews />} />
+        <Route
+            path="/admin/reviews"
+            element={<ReviewManagement />}
+          />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/coupons" element={<CouponManagement />} />
+        <Route path="/admin/sales" element={<SalesReport />} />
       </Routes>
 
       <CookieConsent />

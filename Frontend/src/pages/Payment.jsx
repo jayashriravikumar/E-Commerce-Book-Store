@@ -147,7 +147,7 @@ const Payment = () => {
           </p>
 
           <button
-            onClick={handleRazorpayPayment}
+            onClick={handleUPIPayment}
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95 mb-3"
           >

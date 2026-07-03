@@ -2,6 +2,7 @@ import HandleError from "../helper/handleError.js";
 import Order from "../models/orderModel.js";
 import Product from "../models/productModel.js";
 
+
 export const createNewOrder = async(req,res,next) =>{
     const {shippingAddress,orderItems,paymentInfo,itemPrice,taxPrice,shippingPrice,totalPrice} = req.body;
 
