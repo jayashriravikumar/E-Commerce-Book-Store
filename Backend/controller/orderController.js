@@ -125,7 +125,7 @@ order.orderStatus = req.body.status;
 if(order.orderStatus === "Delivered"){
     order.deliveredAt = Date.now();         
 }
-await order.save({validationBeforeSave:false});
+await order.save({ validateBeforeSave: false });
 res.status(200).json({
     success:true,
     order,
