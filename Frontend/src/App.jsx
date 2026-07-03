@@ -1,49 +1,62 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import ProductDetails from "./pages/ProductDetails";
-import Products from "./pages/Products";
-import Register from "./User/Register";
-import Login from "./User/Login";
-import Profile from "./User/Profile";
-import UpdateProfile from "./User/UpdateProfile";
-import UpdatePassword from "./User/UpdatePassword";
-import Cart from "./pages/Cart";
-import Wishlist from "./pages/Wishlist";
-import Policies from "./pages/Policies";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsConditions from "./pages/TermsConditions";
-import RefundPolicy from "./pages/RefundPolicy";
-import ShippingPolicy from "./pages/ShippingPolicy";
-import CookieConsent from "./components/CookieConsent";
-import CreateProduct from "./pages/CreateProduct";
-import ProductManagement from "./pages/ProductManagement";
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import InventoryManagement from "./pages/InventoryManagement";
-import VerifyOTP from './User/VerifyOTP';
 import ProtectedRoute from "./components/ProtectedRoute";
-import ConfirmOrder from "./pages/ConfirmOrder";
-import Payment from "./pages/Payment";
-import OrderSuccess from "./pages/OrderSuccess";
-import MyOrders from "./pages/MyOrders";
-import OrderDetails from "./pages/OrderDetails";
-import Support from "./pages/Support";
-import YourMessages from "./pages/YourMessages";   
-import TicketDetails from "./pages/TicketDetails";
-import AdminTickets from "./pages/AdminTickets";
-import OrderManagement from "./pages/OrderManagement";
-import ProductReviews from "./pages/ProductReviews";
-import ReviewManagement from "./pages/ReviewManagement";
-import AdminDashboard from "./pages/AdminDashboard";
-import CouponManagement from "./pages/CouponManagement";
-import SalesReport from "./pages/SalesReport";
-import AdminAnalytics from "./pages/AdminAnalytics";
+import CookieConsent from "./components/CookieConsent";
+
+// Lazy load pages
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const ProductDetails = lazy(() => import("./pages/ProductDetails"));
+const Products = lazy(() => import("./pages/Products"));
+const Register = lazy(() => import("./User/Register"));
+const Login = lazy(() => import("./User/Login"));
+const Profile = lazy(() => import("./User/Profile"));
+const UpdateProfile = lazy(() => import("./User/UpdateProfile"));
+const UpdatePassword = lazy(() => import("./User/UpdatePassword"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Wishlist = lazy(() => import("./pages/Wishlist"));
+const Policies = lazy(() => import("./pages/Policies"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsConditions = lazy(() => import("./pages/TermsConditions"));
+const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
+const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy"));
+const CreateProduct = lazy(() => import("./pages/CreateProduct"));
+const ProductManagement = lazy(() => import("./pages/ProductManagement"));
+const InventoryManagement = lazy(() => import("./pages/InventoryManagement"));
+const VerifyOTP = lazy(() => import("./User/VerifyOTP"));
+const ConfirmOrder = lazy(() => import("./pages/ConfirmOrder"));
+const Payment = lazy(() => import("./pages/Payment"));
+const OrderSuccess = lazy(() => import("./pages/OrderSuccess"));
+const MyOrders = lazy(() => import("./pages/MyOrders"));
+const OrderDetails = lazy(() => import("./pages/OrderDetails"));
+const Support = lazy(() => import("./pages/Support"));
+const YourMessages = lazy(() => import("./pages/YourMessages"));
+const TicketDetails = lazy(() => import("./pages/TicketDetails"));
+const AdminTickets = lazy(() => import("./pages/AdminTickets"));
+const OrderManagement = lazy(() => import("./pages/OrderManagement"));
+const ProductReviews = lazy(() => import("./pages/ProductReviews"));
+const ReviewManagement = lazy(() => import("./pages/ReviewManagement"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const CouponManagement = lazy(() => import("./pages/CouponManagement"));
+const SalesReport = lazy(() => import("./pages/SalesReport"));
+const AdminAnalytics = lazy(() => import("./pages/AdminAnalytics"));
 
 
 const App = () => {
   return (
     <BrowserRouter>
+     <Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="text-lg font-semibold animate-pulse">
+            Loading...
+            </div>
+          </div>
+        }
+        >
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />
@@ -93,8 +106,17 @@ const App = () => {
         <Route path="/admin/coupons" element={<CouponManagement />} />
         <Route path="/admin/sales" element={<SalesReport />} />
       </Routes>
+      </Suspense>
 
       <CookieConsent />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        newestOnTop
+        pauseOnHover
+        theme="light"
+      />
     </BrowserRouter>
   );
 };

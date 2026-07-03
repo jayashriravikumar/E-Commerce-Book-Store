@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Search, ShoppingBag, ShoppingCart, User } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "../i18n";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,28 +28,34 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   // Search
-  const handleSearch = (e) => {
+const handleSearch = useCallback(
+  (e) => {
     e.preventDefault();
 
     if (searchQuery.trim()) {
-      navigate(`/products?keyword=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(
+        `/products?keyword=${encodeURIComponent(searchQuery.trim())}`
+      );
     }
 
     setSearchQuery("");
-  };
+  },
+  [searchQuery, navigate]
+);
 
-  //cart count
   // Cart Count
   const { cartItems } = useSelector((state) => state.cart);
 
-  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-
+const cartCount = useMemo(
+  () => cartItems.reduce((total, item) => total + item.quantity, 0),
+  [cartItems]
+);
   // Logout
-  const handleLogout = () => {
-    dispatch(logout());
-    setProfileOpen(false);
-    navigate("/");
-  };
+ const handleLogout = useCallback(() => {
+  dispatch(logout());
+  setProfileOpen(false);
+  navigate("/");
+}, [dispatch, navigate]);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -63,7 +69,7 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
 
-    const navigate = useNavigate();
+    
   }, []);
 
   return (
