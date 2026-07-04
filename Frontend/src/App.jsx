@@ -51,6 +51,8 @@ import CustomerManagement from "./pages/CustomerManagement";
 
 import CookieConsent from "./components/CookieConsent";
 import { useSelector } from "react-redux";
+import BackupDashboard from "./pages/BackupDashboard";
+import BackupRecovery from "./pages/BackupRecovery";
 
 
 
@@ -124,6 +126,8 @@ const App = () => {
           path="/admin/customers"
           element={<CustomerManagement />}
         />
+        <Route path="/admin/backup" element={<BackupDashboard />} />
+        <Route path="/admin/backup/recover" element={<BackupRecovery />} />
       </Routes>
 
       <CookieConsent />
