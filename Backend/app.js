@@ -1,10 +1,14 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
+import product from "./routes/productRoutes.js";
+
+import order from "./routes/orderRoutes.js";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
+import dotenv from "dotenv";
+import cors from "cors";
+
 
 
 import couponRoutes from "./routes/couponRoutes.js";
@@ -12,9 +16,8 @@ import inventoryRoutes from "./routes/inventoryRoutes.js";
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 
-import product from "./routes/productRoutes.js";
+
 import userRoutes from "./routes/userRoutes.js";
-import order from "./routes/orderRoutes.js";
 import wishlist from "./routes/wishlistRoutes.js";
 import payment from "./routes/paymentRoutes.js";
 
@@ -166,26 +169,22 @@ app.get("/metrics", (req, res) => {
 app.use("/api/v1", product);
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", order);
+app.use("/api/v1",wishlist);
 app.use("/api/v1/inventory", inventoryRoutes);
 app.use("/api/v1", payment);
-app.use("/api/v1", wishlist);
-app.use("/api/v1", couponRoutes);
-app.use("/api/v1", newsletterRoutes);
 app.use("/api/v1/customer-service", customerServiceRoutes);
 app.use("/api/v1/faqs", faqRoutes);
 app.use("/api/v1", ticketRoutes);
-
-// 🔹 error handler (must be last)
 app.use("/api/v1", adminAnalyticsRoutes);
-app.use("/api/v1/sales", salesRoutes);
+app.use("/api/v1", newsletterRoutes);
+app.use("/api/v1", salesRoutes);
+// Error handler
 
 app.use((req, res, next) => {
   const error = new Error(`Route not found: ${req.originalUrl}`);
   error.statusCode = 404;
   next(error);
 });
-
-// Error handler
 app.use(errorLogger);
 app.use(errorHandler);
 
