@@ -105,7 +105,7 @@ const App = () => {
         <Route path="/500" element={<ServerError />} />
         <Route path="*" element={<NotFound />} />
         <Route
-        <Route path="/admin/orders" element={<OrderManagement />} />
+         path="/admin/orders" element={<OrderManagement />} />
        <Route
           path="/admin/inventory"
           element={

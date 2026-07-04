@@ -199,129 +199,112 @@ const Navbar = () => {
             <Heart size={24} />
           </Link>
 
-          {/* Authentication */}
-          {isAuthenticated ? (
-            <div ref={profileRef} className="relative hidden sm:block">
-              <button
-                type="button"
-                onClick={() => setProfileOpen(!profileOpen)}
-                className="flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-              >
-                <User size={18} />
-                {user?.name || "Profile"}
-              </button>
-
-             {profileOpen && (
-  <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
-
-    {/* User Info */}
-    <div className="px-4 py-4 bg-gray-50 border-b">
-      <p className="font-semibold text-gray-800">
-        {user?.name || "User"}
-      </p>
-
-      <p className="text-sm text-gray-500 break-words">
-        {user?.email}
-      </p>
-    </div>
-
-    <Link
-      to="/profile"
-      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100"
-      onClick={() => setProfileOpen(false)}
-    >
-      👤 My Profile
-    </Link>
-
-    <Link
-      to="/orders"
-      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100"
-      onClick={() => setProfileOpen(false)}
-    >
-      📦 My Orders
-    </Link>
-
-    {user?.role === "admin" && (
-      <>
-        <div className="border-t" />
-
-        <Link
-          to="/admin/products"
-          className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600"
-          onClick={() => setProfileOpen(false)}
-        >
-          👑 Product Management
-        </Link>
-
-        <Link
-          to="/admin/inventory"
-          className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600"
-          onClick={() => setProfileOpen(false)}
-        >
-          📦 Inventory Management
-        </Link>
-
-        <Link
-          to="/admin/analytics"
-          className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600"
-          onClick={() => setProfileOpen(false)}
-        >
-          📊 Analytics
-        </Link>
-      </>
-    )}
-    {/* Settings */}
-    <Link
-      to="/settings"
-      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors"
-      onClick={() => setProfileOpen(false)}
-    >
-      <span className="text-lg">⚙️</span>
-      <span>Settings</span>
-    </Link>
-
-{/* Admin Section */}
-{user?.role === "admin" && (
-  <>
-    <div className="border-t border-gray-200 my-1"></div>
-
-    <Link
-      to="/admin/dashboard"
-      onClick={() => setProfileOpen(false)}
-      className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold transition-colors"
-    >
-      <span className="text-lg">🛠️</span>
-      <span>Admin Dashboard</span>
-    </Link>
-  </>
-)}
-
-    <div className="border-t" />
-
+        {/* Authentication */}
+{isAuthenticated ? (
+  <div ref={profileRef} className="relative hidden sm:block">
     <button
       type="button"
-      onClick={() => setShowLogoutModal(true)}
-      className="w-full text-left px-4 py-3 hover:bg-red-50 text-red-600"
+      onClick={() => setProfileOpen(!profileOpen)}
+      className="flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
     >
-      🚪 Logout
+      <User size={18} />
+      {user?.name || "Profile"}
     </button>
 
-  </div>
-             )}
-</div>
-) : (
-)}
-                
-            </div>
-          ) : (
+    {profileOpen && (
+      <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
+        {/* User Info */}
+        <div className="px-4 py-4 bg-gray-50 border-b">
+          <p className="font-semibold text-gray-800">
+            {user?.name || "User"}
+          </p>
+
+          <p className="text-sm text-gray-500 break-words">
+            {user?.email}
+          </p>
+        </div>
+
+        {/* Profile */}
+        <Link
+          to="/profile"
+          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors"
+          onClick={() => setProfileOpen(false)}
+        >
+          <span className="text-lg">👤</span>
+          <span>My Profile</span>
+        </Link>
+
+        {/* Orders */}
+        <Link
+          to="/orders"
+          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors"
+          onClick={() => setProfileOpen(false)}
+        >
+          <span className="text-lg">📦</span>
+          <span>My Orders</span>
+        </Link>
+
+        {/* Settings */}
+        <Link
+          to="/settings"
+          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors"
+          onClick={() => setProfileOpen(false)}
+        >
+          <span className="text-lg">⚙️</span>
+          <span>Settings</span>
+        </Link>
+
+        {/* Admin */}
+        {user?.role === "admin" && (
+          <>
+            <div className="border-t border-gray-200 my-1"></div>
+
             <Link
-              to="/register"
-              className="hidden sm:flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+              to="/admin/products"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold transition-colors"
+              onClick={() => setProfileOpen(false)}
             >
-              <User size={18} />
-              Register
+              <span className="text-lg">👑</span>
+              <span>Product Management</span>
             </Link>
-          )}
+
+            <Link
+              to="/admin/inventory"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold transition-colors"
+              onClick={() => setProfileOpen(false)}
+            >
+              <span className="text-lg">📦</span>
+              <span>Inventory Management</span>
+            </Link>
+          </>
+        )}
+
+        <div className="border-t border-gray-200 mt-1"></div>
+
+        {/* Logout */}
+        <button
+          type="button"
+          onClick={() => {
+            setProfileOpen(false);
+            setShowLogoutModal(true);
+          }}
+          className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors text-left"
+        >
+          <span className="text-lg">🚪</span>
+          <span>Logout</span>
+        </button>
+      </div>
+    )}
+  </div>
+) : (
+  <Link
+    to="/register"
+    className="hidden sm:flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+  >
+    <User size={18} />
+    Register
+  </Link>
+)}
 
           {/* Mobile Menu */}
           <button
