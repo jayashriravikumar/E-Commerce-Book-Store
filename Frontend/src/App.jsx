@@ -3,10 +3,10 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import ProductDetails from "./pages/ProductDetails";
-import Contact from "./pages/Contact";
 import Products from "./pages/Products";
 import Register from "./User/Register";
 import Login from "./User/Login";
+import VerifyOTP from "./User/VerifyOTP";
 import Profile from "./User/Profile";
 import UpdateProfile from "./User/UpdateProfile";
 import UpdatePassword from "./User/UpdatePassword";
@@ -23,7 +23,7 @@ import ShippingPolicy from "./pages/ShippingPolicy";
 import ServerError from "./pages/ServerError";
 import NotFound from "./pages/NotFound";
 
-import CookieConsent from "./components/CookieConsent";
+
 import CreateProduct from "./pages/CreateProduct";
 import ProductManagement from "./pages/ProductManagement";
 import { ToastContainer } from "react-toastify";
@@ -51,6 +51,7 @@ import CustomerManagement from "./pages/CustomerManagement";
 
 import CookieConsent from "./components/CookieConsent";
 import { useSelector } from "react-redux";
+
 
 
 
@@ -87,11 +88,7 @@ const App = () => {
         <Route path="/order/:id" element={<OrderDetails />} />
 
         <Route path="/policies" element={<Policies />} />
-        <Route path="/order/confirm" element={<ConfirmOrder />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/order/success" element={<OrderSuccess />} />
-        <Route path="/orders" element={<MyOrders />} />
-        <Route path="/order/:id" element={<OrderDetails />} />
+        
       
         <Route path="/support" element={<Support />} />
         <Route path="/your-messages" element={<YourMessages />} />   
@@ -104,8 +101,7 @@ const App = () => {
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
         <Route path="/500" element={<ServerError />} />
         <Route path="*" element={<NotFound />} />
-        <Route
-         path="/admin/orders" element={<OrderManagement />} />
+        <Route path="/admin/orders" element={<OrderManagement />} />
        <Route
           path="/admin/inventory"
           element={

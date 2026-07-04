@@ -17,10 +17,7 @@ import axios from "axios";
 
 
 
-const ProductDetails = () =>{
-  const { loading,error,product} =useSelector((state) => state.product);
-  
-  const {id} =useParams();
+
 const ProductDetails = () => {
   const { loading, error, product } = useSelector((state) => state.product);
   const { id } = useParams();
@@ -114,24 +111,17 @@ const handleMouseLeave = () => {
   const discountPercentage = Math.round(
     ((originalPrice - product?.price) / originalPrice) * 100,
   );
-  const submitReview = async () => {
-    try {
-      const { data } = await axios.put(
-        "/api/v1/review",
-        {
-          rating: reviewRating,
-          comment,
-          productId: product._id,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-
-      if (data.success) {
-        toast.success("Review submitted successfully");
-        dispatch(getProductDetails(id));
-        setComment("");
+ const submitReview = async () => {
+  try {
+    const { data } = await axios.put(
+      "/api/v1/review",
+      {
+        rating: reviewRating,
+        comment,
+        productId: product._id,
+      },
+      {
+        withCredentials: true,
       }
     );
 
@@ -146,95 +136,8 @@ const handleMouseLeave = () => {
     );
   }
 };
-const rating = product?.ratings || 0;  return (
-    <div className="min-h-screen bg-gray-50"> 
-    <PageTitle title={`${product?.name} | Details`}/>
-    <Navbar />
-    <main className="max-w-7xl mx-auto px-4 py-8 md:py-12">
-      {/* Product Section */}
+  
 
-      <div className="grid grid-cols-1 md:grid-cols-2
-      gap-12 bg-white p-8">
-        
-       {/* Image Gallery */}
-
-<div className="flex gap-5">
-
-  {/* Left Thumbnails */}
-
-  <div className="flex flex-col gap-3">
-
-    {product?.image?.map((img, index) => (
-
-     <img
-  key={index}
-  src={img.url}
-  alt={`thumbnail-${index}`}
-  onMouseEnter={() => setSelectedImage(index)}
-  onClick={() => setSelectedImage(index)}
-        className={`
-          w-16
-          h-20
-          object-cover
-          rounded-lg
-          cursor-pointer
-          border-2
-          transition-all
-
-          ${
-            selectedImage === index
-              ? "border-blue-600 shadow-lg scale-105"
-              : "border-gray-300 hover:border-blue-400"
-          }
-        `}
-      />
-
-    ))}
-
-  </div>
-
-  {/* Main Image */}
-
-  <div className="flex-1">
-
-    <div className="aspect-square border rounded-xl overflow-hidden bg-white">
-
-      <img
-        src={
-          product?.image?.[selectedImage]?.url ||
-          "https://via.placeholder.com/400x600?text=No+Image"
-        }
-        alt={product?.name}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={zoomStyle}
-        className="w-full h-full object-contain transition-all duration-200 hover:scale-105 duration-300 ease-in-out"
-      />
-
-    </div>
-
-  </div>
-
-</div>
-        {/* Product Info */}
-        <div className='flex flex-col'>
-         <h3 className="text-3xl font-bold text-gray-900 mb-2">
-  {product?.title || product?.name}
-</h3>
-          <p className='text-lg text-gray-600 mb-3'>
-          by {product?.author}
-          </p>
-          
-          <div className='flex items-center gap-4
-          mb-4'>
-            <Rating value={rating} disabled={true}/>
-            <span className='text-sm text-gray-500 font-medium'>
-              {product?.numOfReviews || 0} Reviews
-            </span>
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Failed to submit review");
-    }
-  };
   const rating = product?.ratings || 0;
   return (
     <div className="min-h-screen bg-gray-50">
