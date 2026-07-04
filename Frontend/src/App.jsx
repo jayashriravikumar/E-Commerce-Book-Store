@@ -54,7 +54,9 @@ import CookieConsent from "./components/CookieConsent";
 import { useSelector } from "react-redux";
 import BackupDashboard from "./pages/BackupDashboard";
 import BackupRecovery from "./pages/BackupRecovery";
+
 import EditProduct from "./pages/EditProduct";
+
 
 const App = () => {
   const { user } = useSelector((state) => state.user);
@@ -175,6 +177,7 @@ const App = () => {
   }
 />
         <Route
+
   path="/admin/dashboard"
   element={
     <ProtectedRoute
@@ -183,7 +186,8 @@ const App = () => {
     />
   }
 />
-        <Route
+
+<Route
   path="/admin/coupons"
   element={
     <ProtectedRoute
@@ -192,7 +196,8 @@ const App = () => {
     />
   }
 />
-        <Route
+
+<Route
   path="/admin/sales"
   element={
     <ProtectedRoute
@@ -201,7 +206,8 @@ const App = () => {
     />
   }
 />
-        <Route
+
+<Route
   path="/admin/customers"
   element={
     <ProtectedRoute
@@ -210,7 +216,8 @@ const App = () => {
     />
   }
 />
-        <Route
+
+<Route
   path="/admin/backup"
   element={
     <ProtectedRoute
@@ -219,7 +226,8 @@ const App = () => {
     />
   }
 />
-        <Route
+
+<Route
   path="/admin/backup/recover"
   element={
     <ProtectedRoute
@@ -228,16 +236,8 @@ const App = () => {
     />
   }
 />
-      
-        <Route
-  path="/admin/backup/recover"
-  element={
-    <ProtectedRoute
-      adminOnly={true}
-      element={<BackupRecovery />}
-    />
-  }
-/>
+         
+     
 
 </Routes>
 
