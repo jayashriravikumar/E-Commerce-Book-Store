@@ -36,7 +36,15 @@ const ProductManagement = () => {
   // -----------------------------
   const fetchDeletedProducts = async () => {
     try {
-      const res = await axios.get("/api/v1/admin/products");
+      const res = await axios.get("/api/v1/admin/products", {
+  withCredentials: true,
+});
+
+const active = (res.data.products || []).filter(
+  (p) => !p.isDeleted
+);
+
+setProducts(active);
       const all = res.data.products || [];
       const deleted = all.filter((p) => p.isDeleted === true);
 
@@ -166,7 +174,7 @@ const ProductManagement = () => {
           </button>
           <button
             className="add-btn"
-            onClick={() => navigate("/admin/product/new")}
+            onClick={() => navigate("/admin/products/create")}
           >
             + Add Product
           </button>
@@ -244,7 +252,7 @@ const ProductManagement = () => {
                   <td>
                     <button
                       className="edit-btn"
-                      onClick={() => navigate(`/admin/product/${product._id}`)}
+                      onClick={() => navigate(`/admin/products/edit/${product._id}`)}
                     >
                       ✏️ Edit
                     </button>

@@ -6,6 +6,7 @@ export const getAnalytics = async (req, res) => {
   const totalProducts = await Product.countDocuments();
   const totalUsers = await User.countDocuments();
   const totalOrders = await Order.countDocuments();
+  const totalComplaints = await Ticket.countDocuments();
 
   const orders = await Order.find();
 
@@ -52,6 +53,10 @@ export const getAnalytics = async (req, res) => {
     status: "resolved",
   });
 
+  const closedComplaints = await Ticket.countDocuments({
+  status: "closed",
+});
+
   const highPriorityComplaints = await Ticket.countDocuments({
     priority: "high",
   });
@@ -70,7 +75,7 @@ export const getAnalytics = async (req, res) => {
     averageOrderValue,
 
     // Complaint Analytics
-    totalComplaints,
+    complaints: totalComplaints,
     openComplaints,
     assignedComplaints,
     inProgressComplaints,

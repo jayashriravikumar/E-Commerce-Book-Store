@@ -95,15 +95,57 @@ const App = () => {
         <Route path="/support" element={<Support />} />
         <Route path="/your-messages" element={<YourMessages />} />   
         <Route path="/ticket/:id" element={<TicketDetails />} />
-        <Route path="/admin/tickets" element={<AdminTickets />} />
-        <Route path="/admin/analytics" element={<AdminAnalytics />} />
+        <Route
+  path="/admin/tickets"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<AdminTickets />}
+    />
+  }
+/>
+<Route
+  path="/admin/products/create"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<CreateProduct />}
+    />
+  }
+/>
+<Route
+  path="/admin/products"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<ProductManagement />}
+    />
+  }
+/>
+        <Route
+  path="/admin/analytics"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<AdminAnalytics />}
+    />
+  }
+/>
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
         <Route path="/500" element={<ServerError />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/admin/orders" element={<OrderManagement />} />
+       <Route
+  path="/admin/orders"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<OrderManagement />}
+    />
+  }
+/>
        <Route
           path="/admin/inventory"
           element={
@@ -113,21 +155,71 @@ const App = () => {
             />
           }
         />
-        <Route path="/verify-email" element={<VerifyOTP />} />
+       
         <Route path="/product/:id/reviews" element={<ProductReviews />} />
         <Route
-            path="/admin/reviews"
-            element={<ReviewManagement />}
-          />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/coupons" element={<CouponManagement />} />
-        <Route path="/admin/sales" element={<SalesReport />} />
+  path="/admin/reviews"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<ReviewManagement />}
+    />
+  }
+/>
         <Route
-          path="/admin/customers"
-          element={<CustomerManagement />}
-        />
-        <Route path="/admin/backup" element={<BackupDashboard />} />
-        <Route path="/admin/backup/recover" element={<BackupRecovery />} />
+  path="/admin/dashboard"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<AdminDashboard />}
+    />
+  }
+/>
+        <Route
+  path="/admin/coupons"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<CouponManagement />}
+    />
+  }
+/>
+        <Route
+  path="/admin/sales"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<SalesReport />}
+    />
+  }
+/>
+        <Route
+  path="/admin/customers"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<CustomerManagement />}
+    />
+  }
+/>
+        <Route
+  path="/admin/backup"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<BackupDashboard />}
+    />
+  }
+/>
+        <Route
+  path="/admin/backup/recover"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<BackupRecovery />}
+    />
+  }
+/>
       </Routes>
 
       <CookieConsent />
