@@ -4,7 +4,15 @@ import Product from "../models/productModel.js";
 
 
 export const createNewOrder = async(req,res,next) =>{
-    const {shippingAddress,orderItems,paymentInfo,itemPrice,taxPrice,shippingPrice,totalPrice} = req.body;
+    const {
+    shippingAddress,
+    orderItems,
+    paymentInfo,
+    itemPrice,
+    taxPrice,
+    shippingPrice,
+    totalPrice,
+} = req.body;
 
     const order = await Order.create({
         shippingAddress,
@@ -14,7 +22,8 @@ export const createNewOrder = async(req,res,next) =>{
         taxPrice,
         shippingPrice,
         totalPrice,
-        paidAt:Date.now(),
+        paidAt: paymentInfo.method === "COD" ? null : Date.now(),
+        
         user:req.user._id,
     });
     res.status(201).json({
