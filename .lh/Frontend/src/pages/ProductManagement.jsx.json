@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1783408298373,
@@ -16,6 +16,26 @@
                 {
                     "date": 1783408505280,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,17 @@\n   // FETCH DELETED PRODUCTS\r\n   // -----------------------------\r\n   const fetchDeletedProducts = async () => {\r\n     try {\r\n-      const res = await axios.get(\"/api/v1/admin/products\");\r\n+      const res = await axios.get(\"/api/v1/admin/products\", {\r\n+  withCredentials: true,\r\n+});\r\n+\r\n+const active = (res.data.products || []).filter(\r\n+  (p) => !p.isDeleted\r\n+);\r\n+\r\n+setProducts(active);\r\n       const all = res.data.products || [];\r\n       const deleted = all.filter((p) => p.isDeleted === true);\r\n \r\n       const normalized = deleted.map((p) => ({\r\n"
+                },
+                {
+                    "date": 1783414891978,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -90,9 +90,14 @@\n     );\r\n     if (!confirmDelete) return;\r\n \r\n     try {\r\n-      await axios.delete(`/api/v1/admin/product/${id}`);\r\n+      await axios.delete(\r\n+  `/api/v1/admin/product/${id}`,\r\n+  {\r\n+    withCredentials: true,\r\n+  }\r\n+);\r\n       toast.success(\"Product deleted successfully!\");\r\n       fetchProducts();\r\n       fetchDeletedProducts();\r\n     } catch (err) {\r\n"
+                },
+                {
+                    "date": 1783414919107,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -115,9 +115,15 @@\n     );\r\n     if (!confirmRestore) return;\r\n \r\n     try {\r\n-      await axios.put(`/api/v1/admin/product/restore/${id}`);\r\n+      await axios.put(\r\n+  `/api/v1/admin/product/restore/${id}`,\r\n+  {},\r\n+  {\r\n+    withCredentials: true,\r\n+  }\r\n+);\r\n       toast.success(\"Product restored successfully!\");\r\n       fetchProducts();\r\n       fetchDeletedProducts();\r\n     } catch (err) {\r\n"
+                },
+                {
+                    "date": 1783414939006,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -139,9 +139,14 @@\n \r\n   if (!confirmDelete) return;\r\n \r\n   try {\r\n-    await axios.delete(`/api/v1/admin/product/permanent/${id}`);\r\n+    await axios.delete(\r\n+  `/api/v1/admin/product/permanent/${id}`,\r\n+  {\r\n+    withCredentials: true,\r\n+  }\r\n+);\r\n \r\n     toast.success(\"Product permanently deleted!\");\r\n \r\n     fetchDeletedProducts();\r\n"
+                },
+                {
+                    "date": 1783416294678,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,11 @@\n   const fetchProducts = async () => {\r\n     try {\r\n       setLoading(true);\r\n       setError(\"\");\r\n-      const res = await axios.get(\"/api/v1/products\");\r\n+       const { data } = await axios.get(\"/api/v1/admin/products\", {\r\n+    withCredentials: true,\r\n+  });\r\n       setProducts(res.data.products || []);\r\n     } catch (err) {\r\n       console.log(err);\r\n       setError(\"Failed to load products.\");\r\n"
+                },
+                {
+                    "date": 1783416332376,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,11 +20,9 @@\n   const fetchProducts = async () => {\r\n     try {\r\n       setLoading(true);\r\n       setError(\"\");\r\n-       const { data } = await axios.get(\"/api/v1/admin/products\", {\r\n-    withCredentials: true,\r\n-  });\r\n+      const res = await axios.get(\"/api/v1/products\");\r\n       setProducts(res.data.products || []);\r\n     } catch (err) {\r\n       console.log(err);\r\n       setError(\"Failed to load products.\");\r\n"
                 }
             ],
             "date": 1783408298373,

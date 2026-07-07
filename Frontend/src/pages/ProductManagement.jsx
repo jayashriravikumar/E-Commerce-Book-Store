@@ -91,7 +91,12 @@ setProducts(active);
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`/api/v1/admin/product/${id}`);
+      await axios.delete(
+  `/api/v1/admin/product/${id}`,
+  {
+    withCredentials: true,
+  }
+);
       toast.success("Product deleted successfully!");
       fetchProducts();
       fetchDeletedProducts();
@@ -111,7 +116,13 @@ setProducts(active);
     if (!confirmRestore) return;
 
     try {
-      await axios.put(`/api/v1/admin/product/restore/${id}`);
+      await axios.put(
+  `/api/v1/admin/product/restore/${id}`,
+  {},
+  {
+    withCredentials: true,
+  }
+);
       toast.success("Product restored successfully!");
       fetchProducts();
       fetchDeletedProducts();
@@ -129,7 +140,12 @@ setProducts(active);
   if (!confirmDelete) return;
 
   try {
-    await axios.delete(`/api/v1/admin/product/permanent/${id}`);
+    await axios.delete(
+  `/api/v1/admin/product/permanent/${id}`,
+  {
+    withCredentials: true,
+  }
+);
 
     toast.success("Product permanently deleted!");
 

@@ -170,7 +170,7 @@ export const deleteProduct = async (req, res, next) => {
     }
 
     product.isDeleted = true;
-    await product.save();
+    await product.save({ validateBeforeSave: false });
 
     res.status(200).json({
       success: true,
@@ -191,7 +191,7 @@ export const restoreProduct = async (req, res, next) => {
     }
 
     product.isDeleted = false;
-    await product.save();
+     await product.save({ validateBeforeSave: false });
 
     res.status(200).json({
       success: true,

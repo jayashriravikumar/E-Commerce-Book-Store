@@ -53,6 +53,7 @@ import CookieConsent from "./components/CookieConsent";
 import { useSelector } from "react-redux";
 import BackupDashboard from "./pages/BackupDashboard";
 import BackupRecovery from "./pages/BackupRecovery";
+import EditProduct from "./pages/EditProduct";
 
 
 
@@ -155,6 +156,15 @@ const App = () => {
             />
           }
         />
+        <Route
+  path="/admin/products/edit/:id"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<EditProduct />}
+    />
+  }
+/>
        
         <Route path="/product/:id/reviews" element={<ProductReviews />} />
         <Route
