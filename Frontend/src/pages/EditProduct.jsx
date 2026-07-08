@@ -75,21 +75,223 @@ const EditProduct = () => {
     }
   };
 
-  return (
-    <div style={{ padding: "30px", maxWidth: "600px", margin: "auto" }}>
-      <h2>Edit Product</h2>
+ const styles = {
+  page: {
+    padding: "30px",
+    background: "#f4f6f9",
+    minHeight: "100vh",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "25px",
+  },
+  headerTitle: {
+    color: "#222",
+    margin: 0,
+    fontSize: "24px",
+  },
+  backBtn: {
+    background: "#1f2937",
+    color: "white",
+    border: "none",
+    padding: "10px 18px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "bold",
+  },
+  card: {
+    background: "white",
+    borderRadius: "12px",
+    boxShadow: "0 5px 20px rgba(0,0,0,0.08)",
+    padding: "35px",
+    maxWidth: "850px",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+  },
+  formRow: {
+    display: "flex",
+    gap: "20px",
+  },
+  formGroup: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "7px",
+    flex: 1,
+  },
+  label: {
+    fontWeight: "600",
+    color: "#374151",
+  },
+  input: {
+    padding: "11px 14px",
+    border: "1px solid #d1d5db",
+    borderRadius: "8px",
+    background: "#f9fafb",
+  },
+  textarea: {
+    padding: "11px 14px",
+    border: "1px solid #d1d5db",
+    borderRadius: "8px",
+    background: "#f9fafb",
+    resize: "vertical",
+  },
+  preview: {
+    width: "100px",
+    height: "140px",
+    objectFit: "cover",
+    borderRadius: "8px",
+    border: "2px solid #e5e7eb",
+  },
+  actions: {
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: "12px",
+  },
+  cancelBtn: {
+    background: "#e5e7eb",
+    color: "#374151",
+    border: "none",
+    padding: "11px 22px",
+    borderRadius: "8px",
+    cursor: "pointer",
+  },
+  updateBtn: {
+    background: "#2563eb",
+    color: "white",
+    border: "none",
+    padding: "11px 25px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "bold",
+  },
+};
 
-      <form onSubmit={updateProduct} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-        <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <input type="text" placeholder="Author" value={author} onChange={(e) => setAuthor(e.target.value)} />
-        <input type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
-        <input type="number" placeholder="Stock" value={stock} onChange={(e) => setStock(e.target.value)} />
-        <input type="text" placeholder="Category" value={category} onChange={(e) => setCategory(e.target.value)} />
-        <textarea rows="5" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-        <button type="submit">Update Product</button>
+return (
+  <div style={styles.page}>
+    <div style={styles.header}>
+      <h2 style={styles.headerTitle}>✏️ Edit Product</h2>
+
+      <button
+        style={styles.backBtn}
+        onClick={() => navigate("/admin/products")}
+      >
+        ← Back
+      </button>
+    </div>
+
+    <div style={styles.card}>
+      <form onSubmit={updateProduct} style={styles.form}>
+
+        <div style={styles.formRow}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Book Title</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Author</label>
+            <input
+              type="text"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+        </div>
+
+        <div style={styles.formRow}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Price</label>
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Stock</label>
+            <input
+              type="number"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Category</label>
+            <input
+              type="text"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+        </div>
+
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Description</label>
+
+          <textarea
+            rows="4"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            style={styles.textarea}
+          />
+        </div>
+
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Image URL</label>
+
+          <input
+            type="text"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            style={styles.input}
+          />
+        </div>
+
+        {image && (
+          <img
+            src={image}
+            alt="Preview"
+            style={styles.preview}
+          />
+        )}
+
+        <div style={styles.actions}>
+          <button
+            type="button"
+            style={styles.cancelBtn}
+            onClick={() => navigate("/admin/products")}
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            style={styles.updateBtn}
+          >
+            ✅ Update Product
+          </button>
+        </div>
+
       </form>
     </div>
-  );
+  </div>
+);
 };
 
 export default EditProduct;
