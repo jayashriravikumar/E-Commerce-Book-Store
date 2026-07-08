@@ -8,6 +8,7 @@ import CookieConsent from "./components/CookieConsent";
 // Lazy load pages
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
 const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 const Products = lazy(() => import("./pages/Products"));
 const Register = lazy(() => import("./User/Register"));
@@ -27,6 +28,7 @@ const ProductManagement = lazy(() => import("./pages/ProductManagement"));
 const InventoryManagement = lazy(() => import("./pages/InventoryManagement"));
 const VerifyOTP = lazy(() => import("./User/VerifyOTP"));
 const ConfirmOrder = lazy(() => import("./pages/ConfirmOrder"));
+const Shipping = lazy(() => import("./pages/Shipping"));
 const Payment = lazy(() => import("./pages/Payment"));
 const OrderSuccess = lazy(() => import("./pages/OrderSuccess"));
 const MyOrders = lazy(() => import("./pages/MyOrders"));
@@ -42,6 +44,8 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const CouponManagement = lazy(() => import("./pages/CouponManagement"));
 const SalesReport = lazy(() => import("./pages/SalesReport"));
 const AdminAnalytics = lazy(() => import("./pages/AdminAnalytics"));
+const CustomerManagement = lazy(() => import("./pages/CustomerManagement"));
+
 
 
 const App = () => {
@@ -72,6 +76,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/policies" element={<Policies />} />
+        <Route path="/shipping" element={<Shipping />} />
         <Route path="/order/confirm" element={<ConfirmOrder />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/order/success" element={<OrderSuccess />} />

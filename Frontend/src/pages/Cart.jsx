@@ -102,7 +102,7 @@ duration-300
 "
     >
       <img
-        src={item.image?.[0]?.url}
+        src={item.image?.[0]?.url || item.coverImage?.[0]?.url}
         alt={item.name || item.title}
         className="w-28 h-40 object-contain bg-gray-50 rounded-xl p-2"
       />
@@ -262,7 +262,7 @@ transition
     
 </div>
     <button
-      onClick={() => navigate("/order/confirm")}
+      onClick={() => navigate("/shipping")}
       className="w-full mt-4 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 rounded"
     >
       Proceed to Checkout
@@ -317,7 +317,7 @@ transition
 
 >
        <img
-  src={item.image?.[0]?.url}
+    src={item.image?.[0]?.url || item.coverImage?.[0]?.url}
   alt={item.name}
   className="
 w-28
