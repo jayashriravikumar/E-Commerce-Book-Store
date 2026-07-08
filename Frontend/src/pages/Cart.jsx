@@ -262,7 +262,7 @@ transition
     
 </div>
     <button
-      onClick={() => navigate("/order/confirm")}
+      onClick={() => navigate("/checkout")}
       className="w-full mt-4 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 rounded"
     >
       Proceed to Checkout
