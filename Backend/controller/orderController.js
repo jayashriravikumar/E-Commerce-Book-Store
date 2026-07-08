@@ -1,7 +1,7 @@
 import HandleError from "../helper/handleError.js";
 import Order from "../models/orderModel.js";
 import Product from "../models/productModel.js";
-
+import PDFDocument from "pdfkit";
 export const createNewOrder = async (req, res, next) => {
   const {
     shippingAddress,
@@ -14,16 +14,7 @@ export const createNewOrder = async (req, res, next) => {
     totalPrice,
   } = req.body;
 
-export const createNewOrder = async(req,res,next) =>{
-    const {
-    shippingAddress,
-    orderItems,
-    paymentInfo,
-    itemPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-} = req.body;
+
 
     const order = await Order.create({
         shippingAddress,
@@ -189,3 +180,100 @@ async function updateQuantity(id, quantity) {
   product.stock -= quantity;
   await product.save({ validateBeforeSave: false });
 }
+// Download Invoice
+export const downloadInvoice = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id).populate(
+      "user",
+      "name email"
+    );
+
+    if (!order) {
+      return next(new HandleError("Order not found", 404));
+    }
+
+    const doc = new PDFDocument({ margin: 50 });
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=invoice-${order._id}.pdf`
+    );
+
+    doc.pipe(res);
+
+    // Title
+    doc
+      .fontSize(22)
+      .text("BOOK STORE", { align: "center" });
+
+    doc.moveDown();
+
+    doc.fontSize(14).text(`Invoice No: ${order._id}`);
+    doc.text(`Date: ${new Date(order.createdAt).toLocaleDateString()}`);
+
+    doc.moveDown();
+
+    // Customer Details
+    doc.fontSize(16).text("Customer Details");
+    doc.fontSize(12);
+    doc.text(`Name: ${order.user.name}`);
+    doc.text(`Email: ${order.user.email}`);
+
+    doc.moveDown();
+
+    // Shipping Address
+    doc.fontSize(16).text("Shipping Address");
+    doc.fontSize(12);
+    doc.text(order.shippingAddress.address);
+    doc.text(
+      `${order.shippingAddress.city}, ${order.shippingAddress.state}`
+    );
+    doc.text(
+      `${order.shippingAddress.country} - ${order.shippingAddress.pinCode}`
+    );
+
+    doc.moveDown();
+
+    // Order Items
+    doc.fontSize(16).text("Order Items");
+    doc.moveDown(0.5);
+
+    order.orderItems.forEach((item) => {
+      doc.text(
+        `${item.name}   x${item.quantity}   ₹${item.price * item.quantity}`
+      );
+    });
+
+    doc.moveDown();
+
+    // Summary
+    doc.fontSize(16).text("Summary");
+    doc.fontSize(12);
+
+    doc.text(`Items Total: ₹${order.itemPrice}`);
+    doc.text(`Tax: ₹${order.taxPrice}`);
+    doc.text(`Shipping: ₹${order.shippingPrice}`);
+
+    doc.moveDown();
+
+    doc.fontSize(16).text(`Grand Total: ₹${order.totalPrice}`);
+
+    doc.moveDown();
+
+    doc.text(`Payment Method: ${order.paymentInfo.method}`);
+    doc.text(`Payment Status: ${order.paymentInfo.status}`);
+
+    doc.moveDown(2);
+
+    doc
+      .fontSize(14)
+      .text("Thank you for shopping with Book Store!", {
+        align: "center",
+      });
+
+    doc.end();
+  } catch (error) {
+    next(error);
+  }
+};
