@@ -68,7 +68,7 @@ const OrderSchema = new mongoose.Schema({
     },
     method: {
       type: String,
-      enum: ["COD", "Online"],
+      enum: ["Cash on Delivery", "Online"],
       required: true,
     },
     status: {
