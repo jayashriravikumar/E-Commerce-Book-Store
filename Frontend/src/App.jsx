@@ -65,6 +65,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about-us" element={<About />} />
+        <Route path="/contact-us" element={<Contact />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/update" element={<UpdateProfile />} />
         <Route path="/update-password" element={<UpdatePassword />} />
@@ -105,6 +106,10 @@ const App = () => {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/coupons" element={<CouponManagement />} />
         <Route path="/admin/sales" element={<SalesReport />} />
+        <Route
+          path="/admin/customers"
+          element={<CustomerManagement />}
+        />
       </Routes>
       </Suspense>
 

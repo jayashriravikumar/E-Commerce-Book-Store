@@ -136,6 +136,36 @@ const Payment = () => {
     }
   };
 
+  const handleCODPayment = () => {
+
+    const orderData = {
+        shippingAddress: shippingInfo,
+
+        orderItems: cartItems.map((item) => ({
+            name: item.name || item.title,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image?.[0]?.url,
+            product: item._id,
+        })),
+
+        itemPrice: orderInfo.subtotal,
+        taxPrice: orderInfo.tax,
+        shippingPrice: orderInfo.shippingCharges,
+        totalPrice: orderInfo.totalPrice,
+
+        paymentInfo: {
+            method: "COD",
+            status: "Pending",
+        },
+    };
+
+    console.log("Shipping Info:", shippingInfo);
+    console.log("Cart Items:", cartItems);
+    console.log(orderData);
+    dispatch(createOrder(orderData));
+};
+
   return (
     <>
       <Navbar />
@@ -159,6 +189,14 @@ const Payment = () => {
             className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95"
          >
            {loading ? "Processing..." : "Pay via UPI"}
+          </button>
+
+          <button
+            onClick={handleCODPayment}
+            disabled={loading}
+            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95 mt-3"
+          >
+            {loading ? "Processing..." : "Cash on Delivery"}
           </button>
        
         </div>

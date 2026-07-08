@@ -158,7 +158,9 @@ const clearFilters = () => {
 
     <> 
       <div className="flex flex-col min-h-screen bg-gray-50">
-        <PageTitle title={"Products | E-Commerce"} />
+        <PageTitle title={"Products | E-Commerce"} 
+          description="Browse our collection of books by category, author and price."
+         />
         <Navbar /> 
         <main className="grow container mx-auto px-4 py-8">
            <div className="flex flex-col md:flex-row gap-8">

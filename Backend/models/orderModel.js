@@ -62,18 +62,23 @@ const OrderSchema = new mongoose.Schema({
             required:true,
         },
     },
-    paymentInfo:{
-    id:{
-        type:String,
-        required:true,
+   paymentInfo: {
+    id: {
+        type: String,
     },
-    status:{
-        type:String,
-        required:true,
-    },},
+    method: {
+        type: String,
+        enum: ["COD", "Online"],
+        required: true,
+    },
+    status: {
+        type: String,
+        required: true,
+    },
+},
     paidAt:{
         type:Date,
-        required:true,
+        
     },
     itemPrice:{
         type:Number,

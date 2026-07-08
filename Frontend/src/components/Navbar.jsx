@@ -17,6 +17,7 @@ const Navbar = () => {
   };
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [supportOpen, setSupportOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const profileRef = useRef(null);
 
@@ -78,14 +79,14 @@ const cartCount = useMemo(
         {/* Logo */}
         <Link
           to="/"
-          className="flex items-center gap-2 text-2xl font-bold text-blue-600"
+          className="flex items-center gap-2 text-xl lg:text-2xl font-bold text-blue-600"
         >
           <ShoppingBag />
           <span>BookStore</span>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-10 ml-8">
+        <div className="hidden lg:flex items-center gap-6 ml-6">
           <Link
             className="text-gray-700 hover:text-blue-600 font-semibold"
             to="/"
@@ -107,32 +108,46 @@ const cartCount = useMemo(
             {t("AboutUs")}
           </Link>
 
-          <Link
-            className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
-            to="/contact-us"
-          >
-            {t("ContactUs")}
-          </Link>
+          <div className="relative">
+  <button
+    onClick={() => setSupportOpen(!supportOpen)}
+    className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
+  >
+    Support ▼
+  </button>
 
-          <Link
-           className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
-            to="/policies"
-           
-          >
-            {t("Policies")}
-          </Link>
+  {supportOpen && (
+    <div className="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
+      <Link
+        to="/contact-us"
+        onClick={() => setSupportOpen(false)}
+        className="block px-4 py-2 hover:bg-gray-100"
+      >
+        Contact Us
+      </Link>
 
-          {/* ✅ Unified Help */}
-          <Link
-            className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
-            to="/support"
-          >
-            {t("Help & Customer Service")}
-          </Link>
+      <Link
+        to="/policies"
+        onClick={() => setSupportOpen(false)}
+        className="block px-4 py-2 hover:bg-gray-100"
+      >
+        Policies
+      </Link>
+
+      <Link
+        to="/support"
+        onClick={() => setSupportOpen(false)}
+        className="block px-4 py-2 hover:bg-gray-100"
+      >
+        Help & Customer Service
+      </Link>
+    </div>
+  )}
+</div>
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-3 lg:gap-5">
           <div className="flex items-center gap-4">
             {/* Cart */}
             {/* Wishlist */}
@@ -146,8 +161,8 @@ const cartCount = useMemo(
       bg-gray-50
       border border-gray-200
       rounded-xl
-      pl-4 pr-10 py-2
-      text-sm
+      pl-3 pr-8 py-2
+      text-xs lg:text-sm
       font-medium
       text-gray-700
       hover:bg-white
@@ -177,7 +192,7 @@ const cartCount = useMemo(
             <input
               type="text"
               placeholder={t("searchProduct")}
-              className="px-4 py-2 text-sm w-64 focus:outline-none"
+              className="px-3 py-2 text-sm w-32 lg:w-48 focus:outline-none"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -214,7 +229,10 @@ const cartCount = useMemo(
                 className="flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
               >
                 <User size={18} />
-                {user?.name || "Profile"}
+
+            <span className="hidden xl:inline">
+              {user?.name || "Profile"}
+            </span>
               </button>
 
               {profileOpen && (
@@ -302,59 +320,166 @@ const cartCount = useMemo(
           )}
 
           {/* Mobile Menu */}
-          <button
-            onClick={() => setOpen(!open)}
-            className="md:hidden text-gray-700"
-          >
-            {open ? "Close" : "Menu"}
-          </button>
-        </div>
-      </div>
+<button
+  onClick={() => setOpen(!open)}
+  className="lg:hidden text-gray-700"
+>
+  {open ? "Close" : "Menu"}
+</button>
 
-      {/* Mobile Navigation */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          open
-            ? "max-h-96 opacity-100 translate-y-0"
-            : "max-h-0 opacity-0 -translate-y-2"
-        }`}
+</div> {/* Right Section */}
+</div> {/* Navbar Container */}
+{/* Mobile Navigation */}
+<div
+  className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+    open
+      ? "max-h-screen opacity-100 translate-y-0"
+      : "max-h-0 opacity-0 -translate-y-2"
+  }`}
+>
+  <div className="flex flex-col p-4 gap-4 bg-white">
+
+    {/* Main Navigation */}
+    <Link
+      to="/"
+      onClick={() => setOpen(false)}
+      className="font-semibold text-gray-700 hover:text-blue-600"
+    >
+      {t("Home")}
+    </Link>
+
+    <Link
+      to="/products"
+      onClick={() => setOpen(false)}
+      className="font-semibold text-gray-700 hover:text-blue-600"
+    >
+      {t("Products")}
+    </Link>
+
+    <Link
+      to="/about-us"
+      onClick={() => setOpen(false)}
+      className="font-semibold text-gray-700 hover:text-blue-600"
+    >
+      {t("AboutUs")}
+    </Link>
+
+    {/* Support */}
+    <div className="border-t pt-3">
+      <p className="font-semibold text-gray-900 mb-2">
+        Support
+      </p>
+
+      <Link
+        to="/contact-us"
+        onClick={() => setOpen(false)}
+        className="block py-1 pl-3 text-gray-600 hover:text-blue-600"
       >
-        <div className="flex flex-col p-4 gap-4">
+        Contact Us
+      </Link>
+
+      <Link
+        to="/policies"
+        onClick={() => setOpen(false)}
+        className="block py-1 pl-3 text-gray-600 hover:text-blue-600"
+      >
+        Policies
+      </Link>
+
+      <Link
+        to="/support"
+        onClick={() => setOpen(false)}
+        className="block py-1 pl-3 text-gray-600 hover:text-blue-600"
+      >
+        Help & Customer Service
+      </Link>
+    </div>
+
+    {/* Quick Access */}
+    <div className="border-t pt-3">
+      <p className="font-semibold text-gray-900 mb-2">
+        Quick Access
+      </p>
+
+      <Link
+        to="/cart"
+        onClick={() => setOpen(false)}
+        className="flex items-center gap-2 py-2 text-gray-700 hover:text-blue-600"
+      >
+        <ShoppingCart size={18} />
+        Cart
+      </Link>
+
+      <Link
+        to="/wishlist"
+        onClick={() => setOpen(false)}
+        className="flex items-center gap-2 py-2 text-gray-700 hover:text-blue-600"
+      >
+        <Heart size={18} />
+        Wishlist
+      </Link>
+    </div>
+
+    {/* Account */}
+    <div className="border-t pt-3">
+      {isAuthenticated ? (
+        <>
+          <p className="font-semibold text-gray-900 mb-2">
+            {user?.name}
+          </p>
+
           <Link
-            onClick={() => setOpen(false)}
-            className="text-gray-700 hover:text-blue-600 font-semibold"
-            to="/"
+            to="/profile"
+            onClick={() => {
+              setOpen(false);
+              setProfileOpen(false);
+            }}
+            className="block py-2 text-gray-700 hover:text-blue-600"
           >
-            {t("Home")}
+            My Profile
           </Link>
 
           <Link
+            to="/orders"
             onClick={() => setOpen(false)}
-            className="text-gray-700 hover:text-blue-600 font-semibold"
-            to="/products"
+            className="block py-2 text-gray-700 hover:text-blue-600"
           >
-            {t("Products")}
+            My Orders
           </Link>
 
-          <Link
-            onClick={() => setOpen(false)}
-            className="text-gray-700 hover:text-blue-600 font-semibold"
-            to="/about-us"
-          >
-            {t("AboutUs")}
-          </Link>
+          {user?.role === "admin" && (
+            <Link
+              to="/admin/dashboard"
+              onClick={() => setOpen(false)}
+              className="block py-2 text-blue-600 font-semibold"
+            >
+              Admin Dashboard
+            </Link>
+          )}
 
-          {/* ✅ Unified Help */}
-          <Link
-            onClick={() => setOpen(false)}
-            className="text-gray-700 hover:text-blue-600 font-semibold"
-            to="/support"
+          <button
+            onClick={() => {
+              setOpen(false);
+              handleLogout();
+            }}
+            className="py-2 text-red-600 text-left"
           >
-            Help & Customer Service
-          </Link>
-        </div>
-      </div>
+            Logout
+          </button>
+        </>
+      ) : (
+        <Link
+          to="/register"
+          onClick={() => setOpen(false)}
+          className="block py-2 text-blue-600 font-semibold"
+        >
+          Register / Login
+        </Link>
+      )}
+    </div>
 
+  </div>
+</div>
       {showLogoutModal && (
         <div
           className="fixed inset-0 bg-black/40 flex items-center justify-center z-[100]"

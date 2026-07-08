@@ -6,12 +6,14 @@ import { Provider } from "react-redux";
 import { store } from "./app/store.js";
 import { Toaster } from "react-hot-toast";
 import "./i18n";
-
+import { HelmetProvider } from "react-helmet-async";
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <HelmetProvider>
     <Provider store={store}>
       <App />
       <Toaster position="top-center" />
     </Provider>
+   </HelmetProvider>
   </StrictMode>
 );
