@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,17 +7,19 @@ import { addToCart } from "../features/cart/cartSlice";
 const Product = ({ product }) => {
   const dispatch = useDispatch();
 
-  const { cartItems } = useSelector(
-    (state) => state.cart
-  );
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const isInCart = useMemo(
+  () =>
+    cartItems.some(
+      (item) => item._id === product._id
+    ),
+  [cartItems, product._id]
+);
 
-  const isInCart = cartItems.some(
-    (item) => item._id === product._id
-  );
 
-  const handleAddToCart = () => {
-    dispatch(addToCart(product));
-  };
+const handleAddToCart = useCallback(() => {
+  dispatch(addToCart(product));
+}, [dispatch, product]);
 
   return (
     <div
@@ -49,6 +51,8 @@ const Product = ({ product }) => {
             }
             alt={product?.name}
            className="h-full object-contain"
+            loading="lazy"
+            decoding="async"
           />
         </div>
       </Link>
@@ -139,5 +143,4 @@ const Product = ({ product }) => {
     </div>
   );
 };
-
-export default Product;
+export default memo(Product);
