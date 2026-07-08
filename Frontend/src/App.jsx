@@ -51,15 +51,49 @@ const CustomerManagement = lazy(() => import("./pages/CustomerManagement"));
 const App = () => {
   return (
     <BrowserRouter>
-     <Suspense
+      <Suspense
         fallback={
           <div className="min-h-screen flex items-center justify-center">
             <div className="text-lg font-semibold animate-pulse">
-            Loading...
+              Loading...
             </div>
           </div>
         }
-        >
+      >
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:keyword" element={<Products />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/about-us" element={<About />} />
+          <Route path="/contact-us" element={<Contact />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/update" element={<UpdateProfile />} />
+          <Route path="/update-password" element={<UpdatePassword />} />
+          <Route path="/cart" element={<Cart />} />
+
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/policies" element={<Policies />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order/confirm" element={<ConfirmOrder />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment/failure" element={<PaymentFailure />} />
+          <Route path="/order/success" element={<OrderSuccess />} />
+          <Route path="/orders" element={<MyOrders />} />
+          <Route path="/order/:id" element={<OrderDetails />} />
+
+          <Route path="/support" element={<Support />} />
+          <Route path="/your-messages" element={<YourMessages />} />
+          <Route path="/ticket/:id" element={<TicketDetails />} />
+          <Route path="/admin/tickets" element={<AdminTickets />} />
+          <Route path="/admin/analytics" element={<AdminAnalytics />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-conditions" element={<TermsConditions />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
+          <Route path="/admin/orders" element={<OrderManagement />} />
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -108,14 +142,14 @@ const App = () => {
             path="/admin/reviews"
             element={<ReviewManagement />}
           />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/coupons" element={<CouponManagement />} />
-        <Route path="/admin/sales" element={<SalesReport />} />
-        <Route
-          path="/admin/customers"
-          element={<CustomerManagement />}
-        />
-      </Routes>
+          <Route path="/verify-email" element={<VerifyOTP />} />
+          <Route path="/product/:id/reviews" element={<ProductReviews />} />
+          <Route path="/admin/reviews" element={<ReviewManagement />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/coupons" element={<CouponManagement />} />
+          <Route path="/admin/sales" element={<SalesReport />} />
+          <Route path="/admin/customers" element={<CustomerManagement />} />
+        </Routes>
       </Suspense>
 
       <CookieConsent />

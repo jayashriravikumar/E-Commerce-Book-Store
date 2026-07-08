@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { createOrder, clearOrderErrors } from "../features/orders/orderSlice";
@@ -16,8 +16,7 @@ const Payment = () => {
   const { error, success, loading } = useSelector((state) => state.order);
 
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
-  if (!orderInfo) return <Navigate to="/cart" replace />
-  
+  if (!orderInfo) return <Navigate to="/cart" replace />;
 
   useEffect(() => {
     if (error) {
@@ -45,27 +44,42 @@ const Payment = () => {
       document.body.appendChild(script);
     });
   };
+  const handleCOD = () => {
+    const orderData = {
+      shippingAddress: shippingInfo,
+      orderItems: cartItems.map((item) => ({
+        name: item.name || item.title,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image?.[0]?.url,
+        product: item._id,
+      })),
+      itemPrice: orderInfo.subtotal,
+      taxPrice: orderInfo.tax,
+      shippingPrice: orderInfo.shippingCharges,
+      totalPrice: orderInfo.totalPrice,
+      paymentInfo: {
+        status: "Pending",
+        method: "Cash on Delivery",
+      },
+    };
 
-  const handleRazorpayPayment = async () => {
+    dispatch(createOrder(orderData));
+  };
+
+  const handleUPIPayment = async () => {
     const scriptLoaded = await loadRazorpayScript();
     if (!scriptLoaded) {
-      toast.error("Failed to load payment gateway. Check your internet.");
+      toast.error("Failed to load payment gateway.");
       return;
     }
-  }
-    const handleUPIPayment = async () => {
-  const scriptLoaded = await loadRazorpayScript();
-  if (!scriptLoaded) {
-    toast.error("Failed to load payment gateway.");
-    return;
-  }
     try {
       // 1. Create Razorpay order on your backend
       const { data } = await axios.post(
         "/api/v1/payment/razorpay",
-  { amount: orderInfo.totalPrice },
-  { withCredentials: true }
-);
+        { amount: orderInfo.totalPrice },
+        { withCredentials: true },
+      );
 
       // 2. Open Razorpay checkout popup
       const options = {
@@ -86,7 +100,7 @@ const Payment = () => {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
               },
-              { withCredentials: true }
+              { withCredentials: true },
             );
 
             if (verifyRes.data.success) {
@@ -120,7 +134,7 @@ const Payment = () => {
         },
 
         prefill: {
-          name: shippingInfo.name || "",
+          name: shippingInfo.fullName || "",
           contact: shippingInfo.phoneNo || "",
         },
         theme: { color: "#2563EB" },
@@ -130,18 +144,23 @@ const Payment = () => {
       const rzp = new window.Razorpay(options);
 
       rzp.on("payment.failed", function (response) {
-        toast.error("Payment failed: " + response.error.description);
+        navigate("/payment/failure", {
+          state: {
+            reason: response.error.description,
+            code: response.error.code,
+            source: response.error.source,
+          },
+        });
       });
-
       rzp.open();
-
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Could not initiate payment.");
+      toast.error(
+        err?.response?.data?.message || "Could not initiate payment.",
+      );
     }
   };
 
   const handleCODPayment = () => {
-
     const orderData = {
         shippingAddress: shippingInfo,
 
@@ -168,7 +187,7 @@ const Payment = () => {
     console.log("Cart Items:", cartItems);
     console.log(orderData);
     dispatch(createOrder(orderData));
-};
+  };
 
   return (
     <>
@@ -179,36 +198,26 @@ const Payment = () => {
           <p className="text-gray-600 mb-6">
             Total Amount: <b>₹{orderInfo?.totalPrice}</b>
           </p>
-
           <button
             onClick={handleUPIPayment}
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95 mb-3"
           >
-            {loading ? "Processing..." : "Pay with Razorpay"}
-          </button>
-          <button
-            onClick={handleUPIPayment}
-            disabled={loading}
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95"
-         >
-           {loading ? "Processing..." : "Pay via UPI"}
+            {loading ? "Processing..." : "Pay Online"}
           </button>
 
           <button
-            onClick={handleCODPayment}
+            onClick={handleCOD}
             disabled={loading}
-            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95 mt-3"
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-95"
           >
             {loading ? "Processing..." : "Cash on Delivery"}
           </button>
-       
         </div>
       </div>
       <Footer />
     </>
   );
 };
-
 
 export default Payment;
