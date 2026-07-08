@@ -34,10 +34,15 @@ export const verifyOTP = createAsyncThunk(
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axios.post(
-        "http://localhost:8000/api/v1/verify/otp",
-        verificationData,
-        config,
-      );
+    "http://localhost:8000/api/v1/verify-email",
+    verificationData,
+    {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        withCredentials: true,
+    }
+);
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Verification failed");

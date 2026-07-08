@@ -49,7 +49,7 @@ const Contact = () => {
                      Phone
                   </h3>
                   <p className="text-gray-600">
-                    +91 98765 43210
+                    +91 9043017689
                   </p>
                 </div>
 

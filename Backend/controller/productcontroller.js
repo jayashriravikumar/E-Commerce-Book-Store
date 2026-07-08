@@ -37,30 +37,49 @@ export const createProduct = async (req, res, next) => {
 
 export const getAllProducts = async (req, res, next) => {
   try {
-    const products = await Product.find({
-      $or: [
-        { isDeleted: false },
-        { isDeleted: { $exists: false } },
-      ],
-    });
+   const filter = {
+  $or: [
+    { isDeleted: false },
+    { isDeleted: { $exists: false } },
+  ],
+};
 
-    const normalized = products.map((p) => {
-      const obj = p.toObject();
+if (req.query.category && req.query.category !== "All") {
+  filter.category = req.query.category;
+}
 
-      const url =
-        obj.image?.[0]?.url ||
-        obj.coverImage?.[0]?.url ||
-        "";
+if (req.query.keyword) {
+  filter.name = {
+    $regex: req.query.keyword,
+    $options: "i",
+  };
+}
 
-      return {
-        ...obj,
-        image: url ? [{ url }] : [],
-      };
-    });
+const resultsPerPage = Number(req.query.limit) || 8;
+const currentPage = Number(req.query.page) || 1;
+
+const productCount = await Product.countDocuments(filter);
+
+const totalPages = Math.ceil(productCount / resultsPerPage);
+
+const products = await Product.find(filter)
+  .skip((currentPage - 1) * resultsPerPage)
+  .limit(resultsPerPage);
+const normalized = products.map((p) => {
+  const obj = p.toObject();
+
+  return {
+    ...obj,
+    image: obj.image || obj.coverImage || [],
+  };
+});
 
     res.status(200).json({
       success: true,
       products: normalized,
+      productCount,
+      totalPages,
+      currentPage,
     });
   } catch (error) {
     next(error);
@@ -82,6 +101,11 @@ export const getSingleProduct = async (req, res, next) => {
     }
 
     const obj = product.toObject();
+
+const normalized = {
+  ...obj,
+  image: obj.image || obj.coverImage || [],
+};
     obj.numOfReviews = 999;
 obj.ratings = 999;
 
@@ -146,7 +170,7 @@ export const deleteProduct = async (req, res, next) => {
     }
 
     product.isDeleted = true;
-    await product.save();
+    await product.save({ validateBeforeSave: false });
 
     res.status(200).json({
       success: true,
@@ -167,7 +191,7 @@ export const restoreProduct = async (req, res, next) => {
     }
 
     product.isDeleted = false;
-    await product.save();
+     await product.save({ validateBeforeSave: false });
 
     res.status(200).json({
       success: true,
@@ -221,13 +245,22 @@ export const createProductReview = async (req, res) => {
     }
 
     const review = {
-      user: req.user._id,
-      name: req.user.name,
-      rating: Number(req.body.rating),
-      comment: req.body.comment,
-    };
+  user: req.user._id,
+  name: req.user.name,
+  rating: Number(req.body.rating),
+  comment: req.body.comment,
+};
 
-    product.reviews.push(review);
+const alreadyReviewed = product.reviews.find(
+  (r) => r.user.toString() === req.user._id.toString()
+);
+
+if (alreadyReviewed) {
+  alreadyReviewed.rating = Number(req.body.rating);
+  alreadyReviewed.comment = req.body.comment;
+} else {
+  product.reviews.push(review);
+}
 
     // 🔥 ALWAYS recalc fresh from array
     const reviews = product.reviews;
@@ -265,7 +298,7 @@ export const viewProductReviews = async (req, res) =>
 export const adminDeleteReview = async (req, res) => {
   console.log("🔥 adminDeleteReview called");
   try {
-    const { productId, reviewId } = req.body;
+   const { productId, userId } = req.body;
 
     const product = await Product.findById(productId);
 
@@ -276,10 +309,14 @@ export const adminDeleteReview = async (req, res) => {
       });
     }
 
-    // 🔥 Remove review by id
-    product.reviews = product.reviews.filter(
-      (rev) => rev._id.toString() !== reviewId
-    );
+
+
+
+
+// 🔥 Remove review by id
+product.reviews = product.reviews.filter(
+  (rev) => rev.user.toString() !== userId
+);
 
     // 🔥 Recalculate
     const count = product.reviews.length;
