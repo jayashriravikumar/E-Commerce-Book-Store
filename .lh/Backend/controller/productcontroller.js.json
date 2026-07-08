@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 6,
             "patches": [
                 {
                     "date": 1783415148279,
@@ -12,6 +12,26 @@
                 {
                     "date": 1783415944390,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -190,9 +190,9 @@\n       return next(new HandleError(\"Product not found\", 404));\r\n     }\r\n \r\n     product.isDeleted = false;\r\n-    await product.save();\r\n+     await product.save({ validateBeforeSave: false });\r\n \r\n     res.status(200).json({\r\n       success: true,\r\n       message: \"Product restored successfully\",\r\n"
+                },
+                {
+                    "date": 1783483886538,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -299,13 +299,19 @@\n         message: \"Product not found\",\r\n       });\r\n     }\r\n \r\n-    // 🔥 Remove review by id\r\n-    product.reviews = product.reviews.filter(\r\n-      (rev) => rev._id.toString() !== reviewId\r\n-    );\r\n+   console.log(\"Received Review ID:\", reviewId);\r\n \r\n+product.reviews.forEach((rev) => {\r\n+  console.log(\"Mongo Review ID:\", rev._id.toString());\r\n+});\r\n+\r\n+// 🔥 Remove review by id\r\n+product.reviews = product.reviews.filter(\r\n+  (rev) => rev._id.toString() !== reviewId\r\n+);\r\n+\r\n     // 🔥 Recalculate\r\n     const count = product.reviews.length;\r\n \r\n     const total = product.reviews.reduce(\r\n"
+                },
+                {
+                    "date": 1783485600572,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -244,16 +244,25 @@\n       });\r\n     }\r\n \r\n     const review = {\r\n-      user: req.user._id,\r\n-      name: req.user.name,\r\n-      rating: Number(req.body.rating),\r\n-      comment: req.body.comment,\r\n-    };\r\n+  user: req.user._id,\r\n+  name: req.user.name,\r\n+  rating: Number(req.body.rating),\r\n+  comment: req.body.comment,\r\n+};\r\n \r\n-    product.reviews.push(review);\r\n+const alreadyReviewed = product.reviews.find(\r\n+  (r) => r.user.toString() === req.user._id.toString()\r\n+);\r\n \r\n+if (alreadyReviewed) {\r\n+  alreadyReviewed.rating = Number(req.body.rating);\r\n+  alreadyReviewed.comment = req.body.comment;\r\n+} else {\r\n+  product.reviews.push(review);\r\n+}\r\n+\r\n     // 🔥 ALWAYS recalc fresh from array\r\n     const reviews = product.reviews;\r\n \r\n     const count = reviews.length;\r\n"
+                },
+                {
+                    "date": 1783485708912,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -297,9 +297,9 @@\n \r\n export const adminDeleteReview = async (req, res) => {\r\n   console.log(\"🔥 adminDeleteReview called\");\r\n   try {\r\n-    const { productId, reviewId } = req.body;\r\n+   const { productId, userId } = req.body;\r\n \r\n     const product = await Product.findById(productId);\r\n \r\n     if (!product) {\r\n"
+                },
+                {
+                    "date": 1783485784790,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -316,9 +316,9 @@\n });\r\n \r\n // 🔥 Remove review by id\r\n product.reviews = product.reviews.filter(\r\n-  (rev) => rev._id.toString() !== reviewId\r\n+  (rev) => rev.user.toString() !== userId\r\n );\r\n \r\n     // 🔥 Recalculate\r\n     const count = product.reviews.length;\r\n"
+                },
+                {
+                    "date": 1783485852350,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -308,14 +308,12 @@\n         message: \"Product not found\",\r\n       });\r\n     }\r\n \r\n-   console.log(\"Received Review ID:\", reviewId);\r\n \r\n-product.reviews.forEach((rev) => {\r\n-  console.log(\"Mongo Review ID:\", rev._id.toString());\r\n-});\r\n \r\n+\r\n+\r\n // 🔥 Remove review by id\r\n product.reviews = product.reviews.filter(\r\n   (rev) => rev.user.toString() !== userId\r\n );\r\n"
                 }
             ],
             "date": 1783415148279,

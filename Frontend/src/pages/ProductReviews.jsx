@@ -15,6 +15,7 @@ const ProductReviews = () => {
     const res = await axios.get(`/api/v1/product/${id}`);
 
     console.log("API Response:", res.data);
+    console.log("Reviews:", res.data.product.reviews);
 
     setProduct(res.data.product);
     setLoading(false);
@@ -34,14 +35,14 @@ const ProductReviews = () => {
 
   if (!product) return <h2>Product not found</h2>;
 
-  const deleteReview = async (reviewId) => {
-  console.log("Deleting review:", reviewId);
+  const deleteReview = async (userId) => {
+  console.log("Deleting review:", userId);
 
   try {
     const res = await axios.delete("/api/v1/admin/reviews", {
       data: {
         productId: product._id,
-        reviewId,
+        userId,
       },
       withCredentials: true,
     });
@@ -118,9 +119,10 @@ return (
 
                     <button
           onClick={() => {
-            console.log("Delete button clicked");
-            deleteReview(review._id);
-          }}
+  console.log("Delete button clicked");
+  console.log("Sending User ID:", review.user);
+  deleteReview(review.user);
+}}
           className="
             mt-5
             bg-red-600

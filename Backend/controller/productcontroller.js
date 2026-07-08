@@ -245,13 +245,22 @@ export const createProductReview = async (req, res) => {
     }
 
     const review = {
-      user: req.user._id,
-      name: req.user.name,
-      rating: Number(req.body.rating),
-      comment: req.body.comment,
-    };
+  user: req.user._id,
+  name: req.user.name,
+  rating: Number(req.body.rating),
+  comment: req.body.comment,
+};
 
-    product.reviews.push(review);
+const alreadyReviewed = product.reviews.find(
+  (r) => r.user.toString() === req.user._id.toString()
+);
+
+if (alreadyReviewed) {
+  alreadyReviewed.rating = Number(req.body.rating);
+  alreadyReviewed.comment = req.body.comment;
+} else {
+  product.reviews.push(review);
+}
 
     // 🔥 ALWAYS recalc fresh from array
     const reviews = product.reviews;
@@ -289,7 +298,7 @@ export const viewProductReviews = async (req, res) =>
 export const adminDeleteReview = async (req, res) => {
   console.log("🔥 adminDeleteReview called");
   try {
-    const { productId, reviewId } = req.body;
+   const { productId, userId } = req.body;
 
     const product = await Product.findById(productId);
 
@@ -300,10 +309,14 @@ export const adminDeleteReview = async (req, res) => {
       });
     }
 
-    // 🔥 Remove review by id
-    product.reviews = product.reviews.filter(
-      (rev) => rev._id.toString() !== reviewId
-    );
+
+
+
+
+// 🔥 Remove review by id
+product.reviews = product.reviews.filter(
+  (rev) => rev.user.toString() !== userId
+);
 
     // 🔥 Recalculate
     const count = product.reviews.length;
