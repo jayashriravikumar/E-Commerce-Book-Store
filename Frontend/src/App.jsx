@@ -41,8 +41,8 @@ import CouponManagement from "./pages/CouponManagement";
 import SalesReport from "./pages/SalesReport";
 import AdminAnalytics from "./pages/AdminAnalytics";
 import CustomerManagement from "./pages/CustomerManagement";
-
-
+import Checkout from "./pages/Checkout";
+import PaymentFailure from "./pages/PaymentFailure";
 const App = () => {
   return (
     <BrowserRouter>
@@ -59,10 +59,13 @@ const App = () => {
         <Route path="/profile/update" element={<UpdateProfile />} />
         <Route path="/update-password" element={<UpdatePassword />} />
         <Route path="/cart" element={<Cart />} />
+
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/policies" element={<Policies />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/order/confirm" element={<ConfirmOrder />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/payment/failure" element={<PaymentFailure />} />
         <Route path="/order/success" element={<OrderSuccess />} />
         <Route path="/orders" element={<MyOrders />} />
         <Route path="/order/:id" element={<OrderDetails />} />
@@ -77,6 +80,7 @@ const App = () => {
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
         <Route path="/admin/orders" element={<OrderManagement />} />
+        
        <Route
           path="/admin/inventory"
           element={
