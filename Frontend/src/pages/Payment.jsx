@@ -158,6 +158,36 @@ const Payment = () => {
     }
   };
 
+  const handleCODPayment = () => {
+
+    const orderData = {
+        shippingAddress: shippingInfo,
+
+        orderItems: cartItems.map((item) => ({
+            name: item.name || item.title,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image?.[0]?.url,
+            product: item._id,
+        })),
+
+        itemPrice: orderInfo.subtotal,
+        taxPrice: orderInfo.tax,
+        shippingPrice: orderInfo.shippingCharges,
+        totalPrice: orderInfo.totalPrice,
+
+        paymentInfo: {
+            method: "COD",
+            status: "Pending",
+        },
+    };
+
+    console.log("Shipping Info:", shippingInfo);
+    console.log("Cart Items:", cartItems);
+    console.log(orderData);
+    dispatch(createOrder(orderData));
+};
+
   return (
     <>
       <Navbar />
@@ -182,6 +212,7 @@ const Payment = () => {
           >
             {loading ? "Processing..." : "Cash on Delivery"}
           </button>
+       
         </div>
       </div>
       <Footer />

@@ -14,7 +14,8 @@ export const createNewOrder = async (req, res, next) => {
     totalPrice,
   } = req.body;
 
-  const order = await Order.create({
+export const createNewOrder = async(req,res,next) =>{
+    const {
     shippingAddress,
     orderItems,
     paymentInfo,
@@ -22,13 +23,24 @@ export const createNewOrder = async (req, res, next) => {
     taxPrice,
     shippingPrice,
     totalPrice,
-    paidAt: paidAt || null,
-    user: req.user._id,
-  });
-  res.status(201).json({
-    success: true,
-    order,
-  });
+} = req.body;
+
+    const order = await Order.create({
+        shippingAddress,
+        orderItems,
+        paymentInfo,
+        itemPrice,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+        paidAt: paymentInfo.method === "COD" ? null : Date.now(),
+        
+        user:req.user._id,
+    });
+    res.status(201).json({
+        success:true,
+        order,
+    });
 };
 
 // get single order details
