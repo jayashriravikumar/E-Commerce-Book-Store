@@ -1,12 +1,13 @@
 import express from "express";
 import { roleBasedAccess, verifyUser } from "../helper/userAuth.js";
-import { createNewOrder,getOrderDetails,getAllOrders,deleteOrder,getAllOrdersByAdmin,updateOrderStatus,cancelOrder } from "../controller/orderController.js";
+import { createNewOrder,getOrderDetails,getAllOrders,deleteOrder,getAllOrdersByAdmin,updateOrderStatus,cancelOrder,downloadInvoice } from "../controller/orderController.js";
 
 const router = express.Router();
 
 router.route("/new/order").post(verifyUser,createNewOrder);
 router.route("/order/:id").get(verifyUser,getOrderDetails);
 router.route("/orders/user").get(verifyUser,getAllOrders);
+router.route("/invoice/:id").get(verifyUser, downloadInvoice);
 router.route("/order/cancel/:id").put(verifyUser, cancelOrder);
 //admin
 router.route("/admin/orders").get(verifyUser,roleBasedAccess("admin") ,getAllOrdersByAdmin);
