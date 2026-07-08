@@ -3,7 +3,8 @@ import crypto from "crypto";
 export const createRazorpayOrder = async (req, res, next) => {
   try {
     const { default: Razorpay } = await import("razorpay");
-    
+    console.log("KEY ID:", process.env.RAZORPAY_KEY_ID);
+console.log("KEY SECRET:", process.env.RAZORPAY_KEY_SECRET);
     const razorpay = new Razorpay({
       key_id: process.env.RAZORPAY_KEY_ID,
       key_secret: process.env.RAZORPAY_KEY_SECRET,
@@ -16,15 +17,25 @@ export const createRazorpayOrder = async (req, res, next) => {
       receipt: "receipt_" + Date.now(),
     });
 
+    console.log("✅ Razorpay Order Created:", order);
     res.status(200).json({
       success: true,
       order,
       key: process.env.RAZORPAY_KEY_ID,
     });
+  }
 
-  } catch (error) {
-    console.log("PAYMENT ERROR:", error.message);
-    res.status(500).json({ success: false, message: error.message });
+ catch (error) {
+    console.log("========== PAYMENT ERROR ==========");
+    console.log(error);
+    console.log(error.message);
+    console.log(error.response?.data);
+    console.log("===================================");
+
+    return res.status(500).json({
+        success: false,
+        message: error.message
+    });
   }
 };
 

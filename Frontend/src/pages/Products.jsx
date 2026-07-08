@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useMemo } from "react";
 import PageTitle from "../components/PageTitle";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -16,14 +16,6 @@ import { useState } from "react";
 
 const Products = () => {
     const { products, productCount, loading, error , resultPerPage } =useSelector((state) => state.product);
-    console.log("Total Products:", products.length);
-console.dir(products[0]);
-
-console.log("Products Array:", products);
-
-products.forEach((p) => {
-  console.log("FULL PRODUCT:", p);
-});
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -32,7 +24,6 @@ products.forEach((p) => {
 const [searchText, setSearchText] = useState("");
 const [sortOption, setSortOption] = useState("Newest");
 const [inStockOnly, setInStockOnly] = useState(false);
-console.log("In Stock:", inStockOnly);
 const [minimumRating, setMinimumRating] = useState(0);
     const keyword = searchParams.get("keyword") || "";
     const pageFromURL = parseInt(searchParams.get("page"), 10) || 1; 
@@ -43,7 +34,7 @@ const [minimumRating, setMinimumRating] = useState(0);
     const handlePageChange =(pageNumber) => {
       if (pageNumber !== currentPage) {
         setCurrentPage(pageNumber);
-        const newSearchParams = new URLSearchParams (location.search);
+        const newSearchParams = new URLSearchParams (searchParams);
         if (pageNumber === 1) {
           newSearchParams.delete("page");
         } else {
@@ -55,7 +46,7 @@ const [minimumRating, setMinimumRating] = useState(0);
  const handleCategory = (cat) => {
   setCurrentPage(1);
 
-  const newSearchParams = new URLSearchParams(location.search);
+  const newSearchParams = new URLSearchParams(searchParams);
 
   newSearchParams.delete("page");
 
@@ -81,7 +72,6 @@ const clearFilters = () => {
 };
 
    useEffect(() => {
-  console.log("Category Selected:", category);
 
   dispatch(
     getProduct({
@@ -99,48 +89,68 @@ const clearFilters = () => {
       dispatch(removeErrors());
     }
   },[dispatch,error]);
-  let filteredProducts = [...products];
+   const filteredProducts = useMemo(() => {
+  let filtered = [...products];
 
-// Search Filter
-filteredProducts = filteredProducts.filter((product) =>
-  [
-    product.name || product.title,
-    product.author,
-    product.category,
-  ]
-    .join(" ")
-    .toLowerCase()
-    .includes(searchText.toLowerCase())
-);
-
-// Price Filter
-filteredProducts = filteredProducts.filter(
-  (product) => product.price <= price
-);
-if (inStockOnly) {
-  filteredProducts = filteredProducts.filter(
-    (product) => Number(product.stock) > 0
+  // Search Filter
+  filtered = filtered.filter((product) =>
+    [
+      product.name || product.title,
+      product.author,
+      product.category,
+    ]
+      .join(" ")
+      .toLowerCase()
+      .includes(searchText.toLowerCase())
   );
-}
-filteredProducts = filteredProducts.filter(
-  (product) =>
-    (product.ratings || 0) >= minimumRating
-);
 
-// Sorting
-if (sortOption === "Price Low to High") {
-  filteredProducts.sort((a, b) => a.price - b.price);
-}
-
-if (sortOption === "Price High to Low") {
-  filteredProducts.sort((a, b) => b.price - a.price);
-}
-
-if (sortOption === "Highest Rated") {
-  filteredProducts.sort(
-    (a, b) => (b.ratings || 0) - (a.ratings || 0)
+  // Price Filter
+  filtered = filtered.filter(
+    (product) => product.price <= price
   );
-}
+
+  // Stock Filter
+  if (inStockOnly) {
+    filtered = filtered.filter(
+      (product) => Number(product.stock) > 0
+    );
+  }
+
+  // Rating Filter
+  filtered = filtered.filter(
+    (product) => (product.ratings || 0) >= minimumRating
+  );
+
+  // Sorting
+  switch (sortOption) {
+    case "Price Low to High":
+      filtered.sort((a, b) => a.price - b.price);
+      break;
+
+    case "Price High to Low":
+      filtered.sort((a, b) => b.price - a.price);
+      break;
+
+    case "Highest Rated":
+      filtered.sort(
+        (a, b) => (b.ratings || 0) - (a.ratings || 0)
+      );
+      break;
+
+    default:
+      break;
+  }
+
+  return filtered;
+}, [
+  products,
+  searchText,
+  price,
+  inStockOnly,
+  minimumRating,
+  sortOption,
+]);
+
 
     return loading ?(
         <Loader />
