@@ -17,11 +17,8 @@ console.log("KEY SECRET:", process.env.RAZORPAY_KEY_SECRET);
       receipt: "receipt_" + Date.now(),
     });
 
-     console.log("========== RAZORPAY ORDER ==========");
-    console.log(order);
-    console.log("====================================");
-
-    return res.status(200).json({
+    console.log("✅ Razorpay Order Created:", order);
+    res.status(200).json({
       success: true,
       order,
       key: process.env.RAZORPAY_KEY_ID,
