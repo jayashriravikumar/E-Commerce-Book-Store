@@ -75,7 +75,7 @@ export const getAnalytics = async (req, res) => {
     averageOrderValue,
 
     // Complaint Analytics
-    complaints: totalComplaints,
+   totalComplaints,
     openComplaints,
     assignedComplaints,
     inProgressComplaints,

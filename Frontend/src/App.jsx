@@ -6,6 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CookieConsent from "./components/CookieConsent";
 import { useSelector } from "react-redux";
+import FAQ from "./pages/FAQ";
+import AdminFAQ from "./pages/AdminFAQ";
+import Shipping from "./pages/Shipping";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -97,6 +100,7 @@ const App = () => {
 
           {/* Cart */}
           <Route path="/cart" element={<Cart />} />
+          <Route path="/shipping" element={<Shipping />} />
           <Route path="/wishlist" element={<Wishlist />} />
 
           {/* Orders */}
@@ -122,6 +126,8 @@ const App = () => {
           <Route path="/500" element={<ServerError />} />
           <Route path="*" element={<NotFound />} />
 
+          <Route path="/faqs" element={<FAQ />} />
+
           {/* Admin */}
           <Route
             path="/admin/dashboard"
@@ -129,6 +135,15 @@ const App = () => {
               <ProtectedRoute adminOnly={true} element={<AdminDashboard />} />
             }
           />
+          <Route
+  path="/admin/faqs"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<AdminFAQ />}
+    />
+  }
+/>
 
           <Route
             path="/admin/analytics"

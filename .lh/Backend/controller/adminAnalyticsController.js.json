@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1783406336391,
@@ -20,6 +20,10 @@
                 {
                     "date": 1783406483542,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,17 +52,19 @@\n   const resolvedComplaints = await Ticket.countDocuments({\r\n     status: \"resolved\",\r\n   });\r\n \r\n+  const closedComplaints = await Ticket.countDocuments({\r\n+  status: \"closed\",\r\n+});\r\n+\r\n   const highPriorityComplaints = await Ticket.countDocuments({\r\n     priority: \"high\",\r\n   });\r\n \r\n-const closedComplaints = await Ticket.countDocuments({\r\n-  status: \"closed\",\r\n-});\r\n \r\n \r\n+\r\n   res.status(200).json({\r\n     success: true,\r\n     totalProducts,\r\n     totalUsers,\r\n"
+                },
+                {
+                    "date": 1783507871774,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -74,9 +74,9 @@\n     outOfStockProducts,\r\n     averageOrderValue,\r\n \r\n     // Complaint Analytics\r\n-    complaints: totalComplaints,\r\n+   totalComplaints,\r\n     openComplaints,\r\n     assignedComplaints,\r\n     inProgressComplaints,\r\n     waitingCustomerComplaints,\r\n"
                 }
             ],
             "date": 1783406336391,

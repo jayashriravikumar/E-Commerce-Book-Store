@@ -25,6 +25,7 @@ const [searchText, setSearchText] = useState("");
 const [sortOption, setSortOption] = useState("Newest");
 const [inStockOnly, setInStockOnly] = useState(false);
 const [minimumRating, setMinimumRating] = useState(0);
+const [showFilters, setShowFilters] = useState(false);
     const keyword = searchParams.get("keyword") || "";
     const pageFromURL = parseInt(searchParams.get("page"), 10) || 1; 
     const category = searchParams.get("category") || "";
@@ -162,10 +163,12 @@ const clearFilters = () => {
           description="Browse our collection of books by category, author and price."
          />
         <Navbar /> 
-        <main className="grow container mx-auto px-4 py-8">
-           <div className="flex flex-col md:flex-row gap-8">
-            <aside className="w-full md:w-64">
-  <div className="bg-white p-6 rounded-xl shadow-md sticky top-24">
+       <main className="grow container mx-auto px-3 md:px-4 py-4 md:py-8">
+           <div className="flex flex-col md:flex-row gap-4 md:gap-8">
+            
+           <aside className="hidden md:block md:w-64">
+
+  <div className="bg-white p-4 md:p-6 rounded-xl shadow-md md:sticky md:top-24">
 
     <h2 className="text-2xl font-bold mb-6 border-b pb-3">
       Filters
@@ -257,28 +260,28 @@ const clearFilters = () => {
 
   </div>
 </aside>
-<section className="flex-1 bg-white p-4 rounded">
+<section className="flex-1 bg-white p-3 md:p-4 rounded-xl">
 
   {/* Search + Sort */}
-  <div className="flex justify-between items-center bg-gray-100 p-3 rounded-lg mb-6">
+  <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-gray-100 p-3 rounded-lg mb-6">
 
     <span className="text-sm text-gray-600">
       {filteredProducts.length} results
     </span>
 
-    <div className="flex gap-3">
+   <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
       <input
         type="text"
         placeholder="Search books, authors..."
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
         className="
-          border
-          border-gray-300
-          px-4
-          py-2
-          rounded-xl
-          w-64
+border
+border-gray-300
+px-4
+py-2
+rounded-xl
+w-full md:w-64
           focus:outline-none
           focus:ring-2
           focus:ring-blue-500
@@ -289,11 +292,12 @@ const clearFilters = () => {
         value={sortOption}
         onChange={(e) => setSortOption(e.target.value)}
         className="
-          border
-          border-gray-300
-          px-4
-          py-2
-          rounded-xl
+border
+border-gray-300
+px-4
+py-2
+rounded-xl
+w-full md:w-auto
           focus:outline-none
           focus:ring-2
           focus:ring-blue-500
@@ -306,6 +310,68 @@ const clearFilters = () => {
       </select>
     </div>
   </div>
+  {/* Mobile Filter Toggle */}
+<div className="md:hidden mb-4">
+  <button
+    onClick={() => setShowFilters(!showFilters)}
+    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition"
+  >
+    {showFilters ? "Hide Filters" : "Show Filters"}
+  </button>
+  {showFilters && (
+  <div className="md:hidden bg-white rounded-xl shadow-md p-4 mb-4">
+    {/* Price */}
+    <div className="mb-6">
+      <h3 className="font-semibold mb-2">Price Range</h3>
+
+      <input
+        type="range"
+        min="0"
+        max="2000"
+        value={price}
+        onChange={(e) => setPrice(Number(e.target.value))}
+        className="w-full"
+      />
+
+      <p>₹0 - ₹{price}</p>
+    </div>
+
+    {/* Availability */}
+    <div className="mb-6">
+      <label className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={inStockOnly}
+          onChange={(e) => setInStockOnly(e.target.checked)}
+        />
+        In Stock
+      </label>
+    </div>
+
+    {/* Rating */}
+    <button
+      onClick={() => setMinimumRating(4)}
+      className="block w-full text-left p-2 hover:bg-gray-100 rounded"
+    >
+      ⭐⭐⭐⭐ & Above
+    </button>
+
+    <button
+      onClick={() => setMinimumRating(3)}
+      className="block w-full text-left p-2 hover:bg-gray-100 rounded"
+    >
+      ⭐⭐⭐ & Above
+    </button>
+
+    <button
+      onClick={clearFilters}
+      className="w-full mt-4 bg-red-500 text-white py-2 rounded-lg"
+    >
+      Clear Filters
+    </button>
+  </div>
+)}
+</div>
 
   {/* Categories */}
   <div
@@ -324,7 +390,9 @@ const clearFilters = () => {
        Browse Categories
     </h3>
 
-    <div className="flex flex-wrap gap-3">
+   <div
+  className="flex overflow-x-auto md:flex-wrap gap-3 pb-2 no-scrollbar"
+>
       {[
         "All",
         "Fiction",
@@ -340,7 +408,7 @@ const clearFilters = () => {
           key={cat}
           onClick={() => handleCategory(cat)}
           className={`
-            px-4 py-2 rounded-full text-sm font-medium transition-all
+            px-3 md:px-4 py-2 whitespace-nowrap rounded-full text-sm font-medium transition-all
             ${
               category === cat ||
               (category === "" && cat === "All")
@@ -357,17 +425,17 @@ const clearFilters = () => {
 
   {/* Heading */}
   <div className="mb-6">
-    <h2 className="text-2xl font-bold text-gray-800">
+    <h2 className="text-xl md:text-2xl font-bold text-gray-800">
       Books Collection
     </h2>
 
     <p className="text-gray-500 mt-1">
-      Showing {filteredProducts.length} books
+      Showing {filteredProducts.length} of {productCount} books
     </p>
   </div>
 
   {/* Products */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
     {filteredProducts &&
       filteredProducts.map((product) => (
         <Product
@@ -380,7 +448,7 @@ const clearFilters = () => {
 </section>
             </div>
             {/* Pagination Section */}
-            <div className="mt-12 flex justify-center">
+            <div className="mt-8 md:mt-12 flex justify-center overflow-x-auto">
               <Pagination currentPage={currentPage} onPageChange={handlePageChange} totalPages={totalPages}/>
             </div>
             </main>

@@ -116,7 +116,8 @@ const OrderManagement = () => {
             No orders available.
           </div>
         ) : (
-          <div className="bg-white rounded-xl shadow-md overflow-x-auto">
+          <>
+          <div className="hidden md:block bg-white rounded-xl shadow-md overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-100">
                 <tr>
@@ -201,12 +202,143 @@ const OrderManagement = () => {
               </tbody>
             </table>
           </div>
+          <div className="md:hidden space-y-4">
+
+  {filteredOrders.map((order) => (
+
+    <div
+      key={order._id}
+      className="bg-white rounded-xl shadow-md p-4"
+    >
+
+      {/* Header */}
+
+      <div className="flex justify-between items-start">
+
+        <div>
+
+          <p className="text-xs text-gray-500">
+            Order ID
+          </p>
+
+          <p className="font-semibold">
+            #{order._id.slice(-6)}
+          </p>
+
+        </div>
+
+        <span
+          className={`px-3 py-1 rounded-full text-white text-xs
+          ${
+            order.orderStatus === "Delivered"
+              ? "bg-green-600"
+              : order.orderStatus === "Shipped"
+              ? "bg-blue-600"
+              : order.orderStatus === "Cancelled"
+              ? "bg-red-600"
+              : "bg-yellow-500"
+          }`}
+        >
+          {order.orderStatus}
+        </span>
+
+      </div>
+
+      {/* Customer */}
+
+      <div className="mt-4 space-y-2">
+
+        <div className="flex justify-between">
+          <span className="text-gray-500">
+            Customer
+          </span>
+
+          <span>
+            {order.user?.name || "Unknown"}
+          </span>
+        </div>
+
+        <div className="flex justify-between">
+          <span className="text-gray-500">
+            Books
+          </span>
+
+          <span>
+            {order.orderItems.length}
+          </span>
+        </div>
+
+        <div className="flex justify-between">
+          <span className="text-gray-500">
+            Total
+          </span>
+
+          <span className="font-bold">
+            ₹{order.totalPrice}
+          </span>
+        </div>
+
+        <div className="flex justify-between">
+          <span className="text-gray-500">
+            Date
+          </span>
+
+          <span>
+            {new Date(order.createdAt).toLocaleDateString()}
+          </span>
+        </div>
+
+      </div>
+
+      {/* Buttons */}
+
+      <div className="grid grid-cols-3 gap-2 mt-5">
+
+        <button
+          onClick={() => {
+            setSelectedOrder(order);
+            setShowDetailsModal(true);
+          }}
+          className="bg-blue-600 text-white py-2 rounded-lg text-sm"
+        >
+          View
+        </button>
+
+        <button
+          onClick={() => {
+            setSelectedOrder(order);
+            setStatus(order.orderStatus);
+            setShowUpdateModal(true);
+          }}
+          className="bg-yellow-500 text-white py-2 rounded-lg text-sm"
+        >
+          Update
+        </button>
+
+        <button
+          onClick={() => {
+            setOrderToDelete(order);
+            setShowDeleteModal(true);
+          }}
+          className="bg-red-600 text-white py-2 rounded-lg text-sm"
+        >
+          Delete
+        </button>
+
+      </div>
+
+    </div>
+
+  ))}
+
+</div>
+</>
         )}
       </div>
 
       {showDetailsModal && selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl shadow-xl w-[500px] p-6">
+          <div className="bg-white rounded-xl shadow-xl w-[95%] md:w-[500px] max-h-[90vh] overflow-y-auto p-6">
             <h2 className="text-2xl font-bold mb-6">Order Details</h2>
 
             <div className="space-y-3">
@@ -305,7 +437,7 @@ const OrderManagement = () => {
 
       {showUpdateModal && selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-96">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-[95%] md:w-96">
             <h2 className="text-2xl font-bold mb-6">Update Order Status</h2>
 
             <select

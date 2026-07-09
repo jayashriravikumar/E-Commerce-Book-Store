@@ -189,7 +189,7 @@ app.use("/api/v1", inventoryRoutes);
 app.use("/api/v1", ticketRoutes);
 app.use("/api/v1", salesRoutes);
 app.use("/api/v1", customerServiceRoutes);
-app.use("/api/v1", faqRoutes);
+app.use("/api/v1/faqs", faqRoutes);
 app.use("/api/v1", newsletterRoutes);
 app.use("/api/v1", backupRoutes);
 app.use("/api/v1", restoreRoutes);

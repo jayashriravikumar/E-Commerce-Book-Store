@@ -24,55 +24,55 @@ const handleAddToCart = useCallback(() => {
   return (
     <div
       className="
-      bg-white
-      rounded-2xl
-      border
-      border-gray-200
-      shadow-sm
-      hover:shadow-xl
-      hover:-translate-y-1
-      transition-all
-      duration-300
-      overflow-hidden
-      flex
-      flex-col
-      h-full
-    "
+bg-white
+rounded-xl md:rounded-2xl
+border
+border-gray-200
+shadow-sm
+hover:shadow-xl
+hover:-translate-y-1
+transition-all
+duration-300
+overflow-hidden
+flex
+flex-col
+h-full
+"
     >
       <Link
         to={`/product/${product._id}`}
         className="block"
       >
-<div className="h-80 bg-white flex items-center justify-center p-6">       <img
+<div className="h-44 sm:h-56 md:h-80 bg-white flex items-center justify-center p-2 md:p-6">       <img
             src={
               product?.image?.[0]?.url ||
               product?.coverImage?.[0]?.url ||
               "https://via.placeholder.com/300x400"
             }
             alt={product?.name}
-           className="h-full object-contain"
+           className="h-full w-full object-contain transition-transform duration-300 hover:scale-105"
             loading="lazy"
             decoding="async"
           />
         </div>
       </Link>
 
-      <div className="p-4 flex flex-col flex-1">
+      <div className="p-2 md:p-4 flex flex-col flex-1">
         <Link to={`/product/${product._id}`}>
-          <h3 className="font-bold text-xl text-gray-900 line-clamp-1 hover:text-blue-600">
+          <h3 className="font-bold text-sm md:text-xl text-gray-900 line-clamp-2 md:line-clamp-1 hover:text-blue-600 min-h-[40px] md:min-h-0">
             {product?.name || product.title}
           </h3>
         </Link>
 
-        <p className="text-sm text-gray-500 mt-1 h-5 overflow-hidden">
+        <p className="text-xs md:text-sm text-gray-500 mt-1 h-4 md:h-5 overflow-hidden">
           {product?.author}
         </p>
 
-        <p className="text-gray-600 text-sm mt-3 line-clamp-2 h-10">
+        <p className="hidden md:block text-gray-600 text-sm mt-3 line-clamp-2 h-10">
           {product?.description}
         </p>
 
-        <div className="mt-4 flex items-center gap-2">
+        <div className="mt-2 md:mt-4 flex items-center gap-1 md:gap-2">
           <Rating
             value={product?.ratings || 0}
             disabled={true}
@@ -86,27 +86,27 @@ const handleAddToCart = useCallback(() => {
 
         <div className="mt-auto pt-5">
           <div className="flex flex-col gap-3">
-           <span className="text-3xl font-bold text-blue-600">
+           <span className="text-xl md:text-3xl font-bold text-blue-600">
   ₹{product?.price}
 </span>
 
 <Link
   to={`/product/${product._id}/reviews`}
-  className="text-sm text-blue-600 hover:underline font-medium"
+  className="text-xs md:text-sm text-blue-600 hover:underline font-medium"
 >
   ⭐ View Reviews
 </Link>
 
 {product?.stock > 10 ? (
-  <p className="text-green-600 text-sm font-medium">
+  <p className="text-green-600 text-xs md:text-sm font-medium">
      In Stock
   </p>
 ) : product?.stock > 0 ? (
-  <p className="text-orange-500 text-sm font-medium">
+  <p className="text-orange-500 text-xs md:text-sm font-medium">
      Only {product.stock} left
   </p>
 ) : (
-  <p className="text-red-600 text-sm font-medium">
+  <p className="text-red-600 text-xs md:text-sm font-medium">
      Out of Stock
   </p>
 )}
@@ -115,8 +115,9 @@ const handleAddToCart = useCallback(() => {
               onClick={handleAddToCart}
               disabled={isInCart || product?.stock === 0}
               className={`
-                h-11
-                min-w-[120px]
+                h-9 md:h-11
+w-full
+text-sm md:text-base
                 rounded-xl
                 font-semibold
                 transition
