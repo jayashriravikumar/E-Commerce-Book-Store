@@ -36,7 +36,7 @@ router.post("/register", authLimiter, registerUser);
 router.post("/login", authLimiter, loginUser);
 router.post("/logout", logout);
 router.post("/verify-email", verifyEmailOTP);
-
+router.post("/verify/otp", verifyEmailOTP);
 // 🔹 Password
 router.post("/password/forget", authLimiter, forgetPassword);
 router.post("/reset/:token", resetPassword);

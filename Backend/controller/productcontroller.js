@@ -1,3 +1,4 @@
+console.log("✅ PRODUCT CONTROLLER LOADED");
 import Product from "../models/productModel.js";
 import HandleError from "../helper/handleError.js";
 
