@@ -1,56 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 const slides = [
   {
+    id: "6a47911d2565ca1126529285",
     title: "The Psychology of Money",
     subtitle: "Timeless lessons on wealth, greed and happiness.",
-    image:
-      "https://m.media-amazon.com/images/I/81Dky+tD+pL._SL1500_.jpg",
+    image: "https://m.media-amazon.com/images/I/81Dky+tD+pL._SL1500_.jpg",
   },
   {
+    id: "6a422562d0cd6823cd2b256a",
     title: "Atomic Habits",
     subtitle: "Tiny changes, remarkable results.",
-    image:
-      "https://m.media-amazon.com/images/I/91bYsX41DVL._SL1500_.jpg",
+    image: "https://m.media-amazon.com/images/I/91bYsX41DVL._SL1500_.jpg",
   },
   {
+    id: "6a4790b82565ca1126529284",
     title: "Rich Dad Poor Dad",
     subtitle: "What the rich teach their kids about money.",
-    image:
-      "https://m.media-amazon.com/images/I/81bsw6fnUiL._SL1500_.jpg",
+    image: "https://m.media-amazon.com/images/I/81bsw6fnUiL._SL1500_.jpg",
   },
 ];
 
 const ImageSlider = () => {
   const [current, setCurrent] = useState(0);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrent((prev) =>
-        prev === slides.length - 1 ? 0 : prev + 1
-      );
+      setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
     }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
   const prevSlide = () => {
-    setCurrent((prev) =>
-      prev === 0 ? slides.length - 1 : prev - 1
-    );
+    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
 
   const nextSlide = () => {
-    setCurrent((prev) =>
-      prev === slides.length - 1 ? 0 : prev + 1
-    );
+    setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   };
 
   return (
     <section className="max-w-[1500px] mx-auto px-2 md:px-5 mt-2 md:mt-6">
       <div className="relative bg-gradient-to-r from-white via-gray-50 to-gray-100 rounded-3xl overflow-hidden border border-gray-200">
-
         {/* Left Arrow */}
         <button
           onClick={prevSlide}
@@ -68,7 +61,7 @@ const ImageSlider = () => {
         </button>
 
         {/* Main Content */}
-        <div className="min-h-[250px] md:h-[500px] flex flex-col-reverse md:flex-row items-center justify-between px-5 md:px-24 py-8 md:py-0">
+<div className="min-h-[250px] md:h-[500px] flex flex-col-reverse md:flex-row items-center justify-between px-5 md:px-24 py-8 md:py-0">
 
           {/* Left Content */}
           <div className="max-w-xl text-center md:text-left">
@@ -85,14 +78,22 @@ const ImageSlider = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 md:gap-5 mt-6 md:mt-10 justify-center md:justify-start">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold transition">
-                Shop Now
-              </button>
 
-              <button className="border border-gray-300 hover:bg-gray-100 px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold transition">
-                View Details
-              </button>
-            </div>
+  <button
+    onClick={() => navigate("/products")}
+    className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold transition"
+  >
+    Shop Now
+  </button>
+
+  <button
+    onClick={() => navigate(`/product/${slides[current].id}`)}
+    className="border border-gray-300 hover:bg-gray-100 px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold transition"
+  >
+    View Details
+  </button>
+
+</div>
           </div>
 
           {/* Right Book Image */}
@@ -112,9 +113,7 @@ const ImageSlider = () => {
               key={index}
               onClick={() => setCurrent(index)}
               className={`h-3 rounded-full transition-all ${
-                current === index
-                  ? "w-10 bg-blue-600"
-                  : "w-3 bg-gray-300"
+                current === index ? "w-10 bg-blue-600" : "w-3 bg-gray-300"
               }`}
             />
           ))}
