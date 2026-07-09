@@ -1,0 +1,26 @@
+{
+    "sourceFile": "Backend/controller/backupHistoryController.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1782976823754,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1782976849640,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,12 @@\n+import BackupLog from \"../models/BackupLog.js\";\r\n+\r\n+export const getBackupHistory = async (req, res) => {\r\n+  const history = await BackupLog.find().sort({\r\n+    createdAt: -1,\r\n+  });\r\n+\r\n+  res.status(200).json({\r\n+    success: true,\r\n+    history,\r\n+  });\r\n+};\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1782977699253,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,17 @@\n+import BackupLog from \"../models/BackupLog.js\";\r\n+\r\n+export const getBackupHistory = async (req, res) => {\r\n+  try {\r\n+    const history = await BackupLog.find().sort({ createdAt: -1 });\r\n+\r\n+    res.status(200).json({\r\n+      success: true,\r\n+      history,\r\n+    });\r\n+  } catch (error) {\r\n+    res.status(500).json({\r\n+      success: false,\r\n+      message: error.message,\r\n+    });\r\n+  }\r\n+};\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1782976823754,
+            "name": "Commit-0",
+            "content": "import BackupLog from \"../models/BackupLog.js\";\r\n\r\nexport const getBackupHistory = async (req, res) => {\r\n  const history = await BackupLog.find().sort({\r\n    createdAt: -1,\r\n  });\r\n\r\n  res.status(200).json({\r\n    success: true,\r\n    history,\r\n  });\r\n};"
+        }
+    ]
+}

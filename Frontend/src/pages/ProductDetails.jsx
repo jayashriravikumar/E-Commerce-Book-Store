@@ -15,11 +15,50 @@ import { addToCart } from "../features/cart/cartSlice";
 import toast from "react-hot-toast";
 import axios from "axios";
 
+
+
+
 const ProductDetails = () => {
   const { loading, error, product } = useSelector((state) => state.product);
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [zoomStyle, setZoomStyle] = useState({});
+
+  const nextImage = () => {
+  if (!product?.image?.length) return;
+
+  setSelectedImage((prev) =>
+    prev === product.image.length - 1 ? 0 : prev + 1
+  );
+};
+
+const previousImage = () => {
+  if (!product?.image?.length) return;
+
+  setSelectedImage((prev) =>
+    prev === 0 ? product.image.length - 1 : prev - 1
+  );
+};
+
+const handleMouseMove = (e) => {
+  const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+
+  const x = ((e.clientX - left) / width) * 100;
+  const y = ((e.clientY - top) / height) * 100;
+
+  setZoomStyle({
+    transformOrigin: `${x}% ${y}%`,
+    transform: "scale(2)",
+  });
+};
+
+const handleMouseLeave = () => {
+  setZoomStyle({
+    transform: "scale(1)",
+    transformOrigin: "center",
+  });
+};
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -77,29 +116,33 @@ const ProductDetails = () => {
   const discountPercentage = Math.round(
     ((originalPrice - product?.price) / originalPrice) * 100,
   );
-  const submitReview = async () => {
-    try {
-      const { data } = await axios.put(
-        "/api/v1/review",
-        {
-          rating: reviewRating,
-          comment,
-          productId: product._id,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-
-      if (data.success) {
-        toast.success("Review submitted successfully");
-        dispatch(getProductDetails(id));
-        setComment("");
+ const submitReview = async () => {
+  try {
+    const { data } = await axios.put(
+      "/api/v1/review",
+      {
+        rating: reviewRating,
+        comment,
+        productId: product._id,
+      },
+      {
+        withCredentials: true,
       }
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Failed to submit review");
+    );
+
+    if (data.success) {
+      toast.success("Review submitted successfully");
+      dispatch(getProductDetails(id));
+      setComment("");
     }
-  };
+  } catch (error) {
+    toast.error(
+      error?.response?.data?.message || "Failed to submit review"
+    );
+  }
+};
+  
+
   const rating = product?.ratings || 0;
   console.log("Product:", product);
 console.log("Image URL:", product?.image?.[0]?.url);
@@ -167,7 +210,7 @@ console.log("Image URL:", product?.image?.[0]?.url);
               className="text-3xl font-semibold
           text-gray-900 mb-2"
             >
-              {product?.name}
+              {product?.title || product?.name}
             </h3>
 
             <p className="text-lg text-gray-600 mb-3">by {product?.author}</p>

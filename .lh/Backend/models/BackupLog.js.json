@@ -1,0 +1,22 @@
+{
+    "sourceFile": "Backend/models/BackupLog.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1782976666567,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1782978606303,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,28 @@\n+import mongoose from \"mongoose\";\r\n+\r\n+const backupLogSchema = new mongoose.Schema(\r\n+  {\r\n+    backupDate: {\r\n+      type: Date,\r\n+      default: Date.now,\r\n+    },\r\n+  backupPath: {\r\n+  type: String,\r\n+  default: \"N/A\",\r\n+},\r\n+    status: {\r\n+      type: String,\r\n+      enum: [\"Success\", \"Failed\"],\r\n+      default: \"Success\",\r\n+    },\r\n+    database: {\r\n+      type: String,\r\n+      default: \"bookstore\",\r\n+    },\r\n+  },\r\n+  {\r\n+    timestamps: true,\r\n+  }\r\n+);\r\n+\r\n+export default mongoose.model(\"BackupLog\", backupLogSchema);\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1782976666567,
+            "name": "Commit-0",
+            "content": "import mongoose from \"mongoose\";\r\n\r\nconst backupLogSchema = new mongoose.Schema(\r\n  {\r\n    backupDate: {\r\n      type: Date,\r\n      default: Date.now,\r\n    },\r\n    backupPath: {\r\n      type: String,\r\n      required: true,\r\n    },\r\n    status: {\r\n      type: String,\r\n      enum: [\"Success\", \"Failed\"],\r\n      default: \"Success\",\r\n    },\r\n    database: {\r\n      type: String,\r\n      default: \"bookstore\",\r\n    },\r\n  },\r\n  {\r\n    timestamps: true,\r\n  }\r\n);\r\n\r\nexport default mongoose.model(\"BackupLog\", backupLogSchema);"
+        }
+    ]
+}

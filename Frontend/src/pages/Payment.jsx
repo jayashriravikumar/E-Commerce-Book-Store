@@ -104,6 +104,8 @@ const Payment = () => {
             );
 
             if (verifyRes.data.success) {
+            console.log("✅ Shipping Info:", JSON.stringify(shippingInfo, null, 2));
+            console.log("✅ Cart Items:", JSON.stringify(cartItems, null, 2));
               // 4. Place the actual order in your DB
               const orderData = {
                 shippingAddress: shippingInfo,
@@ -111,7 +113,7 @@ const Payment = () => {
                   name: item.name || item.title,
                   price: item.price,
                   quantity: item.quantity,
-                  image: item.image?.[0]?.url,
+                  image: item.image?.[0]?.url || item.coverImage?.[0]?.url,
                   product: item._id,
                 })),
                 itemPrice: orderInfo.subtotal,
@@ -120,10 +122,9 @@ const Payment = () => {
                 totalPrice: orderInfo.totalPrice,
                 paymentInfo: {
                   id: verifyRes.data.paymentId,
+                  method: "Online",
                   status: "Succeeded",
-                  method: "Razorpay",
-                },
-                paidAt: new Date(),
+              },
               };
               dispatch(createOrder(orderData));
             }
@@ -138,7 +139,8 @@ const Payment = () => {
         },
         theme: { color: "#2563EB" },
       };
-
+      
+      console.log("Razorpay Options:", options);
       const rzp = new window.Razorpay(options);
 
       rzp.on("payment.failed", function (response) {
@@ -160,25 +162,25 @@ const Payment = () => {
 
   const handleCODPayment = () => {
     const orderData = {
-      shippingAddress: shippingInfo,
+        shippingAddress: shippingInfo,
 
-      orderItems: cartItems.map((item) => ({
-        name: item.name || item.title,
-        price: item.price,
-        quantity: item.quantity,
-        image: item.image?.[0]?.url,
-        product: item._id,
-      })),
+        orderItems: cartItems.map((item) => ({
+            name: item.name || item.title,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image?.[0]?.url || item.coverImage?.[0]?.url,
+            product: item._id,
+        })),
 
-      itemPrice: orderInfo.subtotal,
-      taxPrice: orderInfo.tax,
-      shippingPrice: orderInfo.shippingCharges,
-      totalPrice: orderInfo.totalPrice,
+        itemPrice: orderInfo.subtotal,
+        taxPrice: orderInfo.tax,
+        shippingPrice: orderInfo.shippingCharges,
+        totalPrice: orderInfo.totalPrice,
 
-      paymentInfo: {
-        status: "Pending",
-        method: "ash on Delivery",
-      },
+        paymentInfo: {
+            method: "COD",
+            status: "Pending",
+        },
     };
 
     console.log("Shipping Info:", shippingInfo);

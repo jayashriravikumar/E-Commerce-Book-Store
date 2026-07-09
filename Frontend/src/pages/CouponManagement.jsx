@@ -9,6 +9,10 @@ const CouponManagement = () => {
   const [selectedCoupon, setSelectedCoupon] = useState(null);
   const [code, setCode] = useState("");
   const [discount, setDiscount] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+const [minimumOrderAmount, setMinimumOrderAmount] = useState("");
+const [usageLimit, setUsageLimit] = useState("");
+const [maximumDiscount, setMaximumDiscount] = useState("");
   const [active, setActive] = useState(true);
   const [editingCoupon, setEditingCoupon] = useState(null);
 
@@ -30,6 +34,10 @@ const CouponManagement = () => {
       code,
       discount,
       active,
+        expiryDate,
+  minimumOrderAmount,
+  usageLimit,
+  maximumDiscount
     });
 
     setShowModal(false);
@@ -64,6 +72,10 @@ const CouponManagement = () => {
       code,
       discount,
       active,
+       expiryDate,
+  minimumOrderAmount,
+  usageLimit,
+  maximumDiscount
     });
 
     setShowModal(false);
@@ -123,35 +135,67 @@ return (
       className="bg-white rounded-xl shadow-md p-5 flex justify-between items-center"
     >
       <div>
-        <h2 className="text-xl font-bold">
-          {coupon.code}
-        </h2>
+  <h2 className="text-xl font-bold">
+    {coupon.code}
+  </h2>
 
-        <p className="text-gray-600">
-          Discount: {coupon.discount}%
-        </p>
+  <p className="text-gray-600">
+    <strong>Discount:</strong> {coupon.discount}%
+  </p>
 
-        <p
-          className={`font-semibold ${
-            coupon.active ? "text-green-600" : "text-red-600"
-          }`}
-        >
-          {coupon.active ? "Active" : "Inactive"}
-        </p>
-      </div>
+  <p className="text-gray-600">
+    <strong>Expiry:</strong>{" "}
+    {coupon.expiryDate
+      ? new Date(coupon.expiryDate).toLocaleDateString()
+      : "Not Set"}
+  </p>
+
+  <p className="text-gray-600">
+    <strong>Minimum Order:</strong> ₹
+    {coupon.minimumOrderAmount ?? 0}
+  </p>
+
+  <p className="text-gray-600">
+    <strong>Usage:</strong>{" "}
+    {coupon.usedCount ?? 0} / {coupon.usageLimit ?? "Unlimited"}
+  </p>
+
+  <p className="text-gray-600">
+    <strong>Maximum Discount:</strong> ₹
+    {coupon.maximumDiscount ?? "Unlimited"}
+  </p>
+
+  <p
+    className={`font-semibold ${
+      coupon.active ? "text-green-600" : "text-red-600"
+    }`}
+  >
+    {coupon.active ? "Active" : "Inactive"}
+  </p>
+</div>
 
       <div className="flex gap-3">
 
   <button
   onClick={() => {
-    setEditingCoupon(coupon);
+  setEditingCoupon(coupon);
 
-    setCode(coupon.code);
-    setDiscount(coupon.discount);
-    setActive(coupon.active);
+  setCode(coupon.code);
+  setDiscount(coupon.discount);
+  setActive(coupon.active);
 
-    setShowModal(true);
-  }}
+  setExpiryDate(
+    coupon.expiryDate
+      ? new Date(coupon.expiryDate).toISOString().split("T")[0]
+      : ""
+  );
+
+  setMinimumOrderAmount(coupon.minimumOrderAmount || "");
+  setUsageLimit(coupon.usageLimit || "");
+  setMaximumDiscount(coupon.maximumDiscount || "");
+
+  setShowModal(true);
+}}
   className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg"
     >
     Edit
@@ -199,18 +243,72 @@ return (
   </div>
 
   <div>
-    <label className="block mb-1 font-medium">
-      Discount
-    </label>
+  <label className="block mb-1 font-medium">
+    Discount (%)
+  </label>
 
-    <input
-      type="number"
-      value={discount}
-      onChange={(e) => setDiscount(e.target.value)}
-      className="w-full border rounded-lg p-2"
-      placeholder="20"
-    />
-  </div>
+  <input
+    type="number"
+    value={discount}
+    onChange={(e) => setDiscount(e.target.value)}
+    className="w-full border rounded-lg p-2"
+    placeholder="20"
+  />
+</div>
+
+<div>
+  <label className="block mb-1 font-medium">
+    Expiry Date
+  </label>
+
+  <input
+    type="date"
+    value={expiryDate}
+    onChange={(e) => setExpiryDate(e.target.value)}
+    className="w-full border rounded-lg p-2"
+  />
+</div>
+
+<div>
+  <label className="block mb-1 font-medium">
+    Minimum Order Amount (₹)
+  </label>
+
+  <input
+    type="number"
+    value={minimumOrderAmount}
+    onChange={(e) => setMinimumOrderAmount(e.target.value)}
+    className="w-full border rounded-lg p-2"
+  />
+</div>
+
+<div>
+  <label className="block mb-1 font-medium">
+    Usage Limit
+  </label>
+
+  <input
+    type="number"
+    value={usageLimit}
+    onChange={(e) => setUsageLimit(e.target.value)}
+    className="w-full border rounded-lg p-2"
+  />
+</div>
+
+<div>
+  <label className="block mb-1 font-medium">
+    Maximum Discount (₹)
+  </label>
+
+  <input
+    type="number"
+    value={maximumDiscount}
+    onChange={(e) => setMaximumDiscount(e.target.value)}
+    className="w-full border rounded-lg p-2"
+  />
+</div>
+
+
 
   <div className="flex items-center gap-2">
     <input
