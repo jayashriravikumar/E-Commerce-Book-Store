@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   {
-    title: "The Psychology of Money",
-    subtitle: "Timeless lessons on wealth, greed and happiness.",
-    image:
-      "https://m.media-amazon.com/images/I/81Dky+tD+pL._SL1500_.jpg",
-  },
-  {
-    title: "Atomic Habits",
-    subtitle: "Tiny changes, remarkable results.",
-    image:
-      "https://m.media-amazon.com/images/I/91bYsX41DVL._SL1500_.jpg",
+    title: "Harry Potter",
+    subtitle: "A magical journey begins.",
+    image: "https://m.media-amazon.com/images/I/81iqZ2HHD-L.jpg",
+    productId: "69ae94412db6439b33d799b9",
   },
   {
     title: "Rich Dad Poor Dad",
-    subtitle: "What the rich teach their kids about money.",
-    image:
-      "https://m.media-amazon.com/images/I/81bsw6fnUiL._SL1500_.jpg",
+    subtitle: "Learn financial freedom.",
+    image: "https://m.media-amazon.com/images/I/81bsw6fnUiL._SL1500_.jpg",
+    productId: "69ae94412db6439b33d799bb",
+  },
+  {
+    title: "Clean Code",
+    subtitle: "Write better software.",
+    image: "https://m.media-amazon.com/images/I/41SH-SvWPxL.jpg",
+    productId: "69ae94412db6439b33d799c9",
   },
 ];
 
 const ImageSlider = () => {
   const [current, setCurrent] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -47,6 +49,7 @@ const ImageSlider = () => {
     );
   };
 
+  
   return (
     <section className="max-w-[1500px] mx-auto px-5 mt-6">
       <div className="relative bg-gradient-to-r from-white via-gray-50 to-gray-100 rounded-3xl overflow-hidden border border-gray-200">
@@ -85,13 +88,19 @@ const ImageSlider = () => {
             </p>
 
             <div className="flex gap-5 mt-10">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold transition">
+              <button
+                onClick={() => navigate("/products")}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold transition"
+              >
                 Shop Now
               </button>
 
-              <button className="border border-gray-300 hover:bg-gray-100 px-8 py-4 rounded-xl font-semibold transition">
-                View Details
-              </button>
+              <button
+              onClick={() => navigate(`/product/${slides[current].productId}`)}
+              className="border border-gray-300 hover:bg-gray-100 px-8 py-4 rounded-xl font-semibold transition"
+            >
+              View Details
+            </button>
             </div>
           </div>
 

@@ -47,6 +47,7 @@ export const registerUser = async (req, res, next) => {
 
   // 1. Generate the 6-digit OTP FIRST
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  console.log("Generated OTP:", otp);
   const hashedOTP = crypto.createHash("sha256").update(otp).digest("hex");
 
   // 2. Create the user AND save the OTP in one single step
@@ -140,8 +141,8 @@ export const forgetPassword = async (req, res, next) => {
       new HandleError("Could not save the reset token,Try again later", 500),
     );
   }
-  const resetPasswordURL = `${req.protocol}://${req.host}/reset/${resetToken}`;
-  const message = `Reset your password using the link below:\n${resetPasswordURL}\n\nThe link expires in 30 minutes.\nIf you did not request a password reset, please ignore this email.`;
+  const resetPasswordUrl = `http://localhost:5173/password/reset/${resetToken}`;
+ const message = `Reset your password using the link below:\n${resetPasswordUrl}\n\nThe link expires in 30 minutes.\nIf you did not request a password reset, please ignore this email.`;
 
   try {
     await sendEmail({

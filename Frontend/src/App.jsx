@@ -27,8 +27,12 @@ const CreateProduct = lazy(() => import("./pages/CreateProduct"));
 const ProductManagement = lazy(() => import("./pages/ProductManagement"));
 const InventoryManagement = lazy(() => import("./pages/InventoryManagement"));
 const VerifyOTP = lazy(() => import("./User/VerifyOTP"));
+const ForgotPassword = lazy(() => import("./User/ForgotPassword"));
+const ResetPassword = lazy(() => import("./User/ResetPassword"));
 const ConfirmOrder = lazy(() => import("./pages/ConfirmOrder"));
 const Shipping = lazy(() => import("./pages/Shipping"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const PaymentFailure = lazy(() => import("./pages/PaymentFailure"));
 const Payment = lazy(() => import("./pages/Payment"));
 const OrderSuccess = lazy(() => import("./pages/OrderSuccess"));
 const MyOrders = lazy(() => import("./pages/MyOrders"));
@@ -67,6 +71,11 @@ const App = () => {
           <Route path="/products/:keyword" element={<Products />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/password/forget" element={<ForgotPassword />} />
+          <Route
+            path="/password/reset/:token"
+            element={<ResetPassword />}
+          />
           <Route path="/about-us" element={<About />} />
           <Route path="/contact-us" element={<Contact />} />
           <Route path="/profile" element={<Profile />} />
@@ -77,6 +86,7 @@ const App = () => {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/policies" element={<Policies />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/shipping" element={<Shipping />} />
           <Route path="/order/confirm" element={<ConfirmOrder />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/payment/failure" element={<PaymentFailure />} />
@@ -95,38 +105,6 @@ const App = () => {
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
           <Route path="/admin/orders" element={<OrderManagement />} />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/:keyword" element={<Products />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/about-us" element={<About />} />
-        <Route path="/contact-us" element={<Contact />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/update" element={<UpdateProfile />} />
-        <Route path="/update-password" element={<UpdatePassword />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/policies" element={<Policies />} />
-        <Route path="/shipping" element={<Shipping />} />
-        <Route path="/order/confirm" element={<ConfirmOrder />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/order/success" element={<OrderSuccess />} />
-        <Route path="/orders" element={<MyOrders />} />
-        <Route path="/order/:id" element={<OrderDetails />} />
-      
-        <Route path="/support" element={<Support />} />
-        <Route path="/your-messages" element={<YourMessages />} />   
-        <Route path="/ticket/:id" element={<TicketDetails />} />
-        <Route path="/admin/tickets" element={<AdminTickets />} />
-        <Route path="/admin/analytics" element={<AdminAnalytics />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-conditions" element={<TermsConditions />} />
-        <Route path="/refund-policy" element={<RefundPolicy />} />
-        <Route path="/shipping-policy" element={<ShippingPolicy />} />
-        <Route path="/admin/orders" element={<OrderManagement />} />
        <Route
           path="/admin/inventory"
           element={
@@ -136,12 +114,7 @@ const App = () => {
             />
           }
         />
-        <Route path="/verify-email" element={<VerifyOTP />} />
-        <Route path="/product/:id/reviews" element={<ProductReviews />} />
-        <Route
-            path="/admin/reviews"
-            element={<ReviewManagement />}
-          />
+        
           <Route path="/verify-email" element={<VerifyOTP />} />
           <Route path="/product/:id/reviews" element={<ProductReviews />} />
           <Route path="/admin/reviews" element={<ReviewManagement />} />

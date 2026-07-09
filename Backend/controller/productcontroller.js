@@ -69,6 +69,14 @@ export const getAllProducts = async (req, res, next) => {
 
 /* ================= GET SINGLE PRODUCT ================= */
 export const getSingleProduct = async (req, res, next) => {
+  console.log("Requested ID:", req.params.id);
+
+const allProducts = await Product.find();
+
+console.log(
+  "Available IDs:",
+  allProducts.map((p) => p._id.toString())
+);
   console.log("🔥 NEW GET FUNCTION RUNNING");
   
   try {
