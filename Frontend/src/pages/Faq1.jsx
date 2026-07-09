@@ -174,7 +174,7 @@ return (
 FAQ Management
 </h1>
 
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+<div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
 
   <div className="bg-white rounded-xl shadow p-5">
     <p className="text-gray-500 text-sm">
@@ -217,7 +217,7 @@ FAQ Management
   </div>
 
 </div>
-<div  className="flex flex-col lg:flex-row gap-4 mb-8">
+<div className="flex flex-col md:flex-row gap-4 mb-8">
 
 <input
 type="text"
@@ -284,13 +284,19 @@ className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl"
 
 <div className="bg-white rounded-xl shadow p-10 text-center">
 
-  <h2 className="text-2xl font-bold">
-    📭 No FAQs Found
-  </h2>
+<h2 className="text-2xl font-bold">
+<div className="text-center py-16">
 
-  <p className="text-gray-500 mt-2">
-    Try another search or add a new FAQ.
-  </p>
+<h2 className="text-2xl font-bold">
+📭 No FAQs Found
+</h2>
+
+<p className="text-gray-500 mt-2">
+Try another search or add a new FAQ.
+</p>
+
+</div>
+</h2>
 
 </div>
 
@@ -301,9 +307,9 @@ className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl"
 
 <div className="hidden md:block bg-white rounded-xl shadow overflow-x-auto">
 
-<table className="w-full table-auto">
+<table className="min-w-full">
 
-<thead className="bg-gray-100 text-left">
+<thead className="bg-gray-100">
 
 <tr>
 
@@ -311,9 +317,7 @@ className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl"
 
 <th className="text-left p-4">Category</th>
 
-<th className="p-4 w-48 text-center">
-  Actions
-</th>
+<th className="text-center p-4">Actions</th>
 
 </tr>
 
@@ -346,7 +350,7 @@ className="border-b hover:bg-blue-50 transition duration-200"
 
 <td className="p-4">
 
-<div className="flex justify-center flex-wrap gap-2">
+<div className="flex justify-center gap-2">
 
 <button
 onClick={()=>{

@@ -145,16 +145,16 @@ useEffect(() => {
 }, []);
 
   return (
-    <div className="max-w-4xl mx-auto mt-10">
+    <div className="max-w-6xl mx-auto px-3 md:px-6 py-6">
 
-      <div className="bg-white rounded-xl shadow-lg p-8">
+      <div className="bg-white rounded-xl shadow-lg p-4 md:p-8">
 
-        <h1 className="text-3xl font-bold mb-8 flex items-center gap-3">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
           <Database size={32} />
           Backup & Recovery
         </h1>
 
-        <div className="space-y-6">
+       <div className="space-y-4 md:space-y-6">
 
           <div className="border rounded-lg p-4">
             <h2 className="font-semibold text-xl mb-2">
@@ -164,7 +164,7 @@ useEffect(() => {
             <button
   onClick={handleBackup}
   disabled={loading}
-  className={`px-6 py-3 rounded-lg text-white font-semibold ${
+ className={`w-full md:w-auto px-6 py-3 rounded-lg text-white font-semibold ${
     loading
       ? "bg-gray-400 cursor-not-allowed"
       : "bg-green-600 hover:bg-green-700"
@@ -212,10 +212,11 @@ useEffect(() => {
             </p>
           </div>
 
-          <div className="border rounded-lg p-4 mt-6">
+          <div className="border rounded-lg p-4 mt-6 overflow-hidden">
   <h2 className="text-xl font-semibold mb-4">
     Backup History
   </h2>
+  <div className="hidden md:block overflow-x-auto">
 
   <table className="w-full border-collapse">
     <thead>
@@ -278,6 +279,84 @@ useEffect(() => {
   </table>
 </div>
 
+<div className="md:hidden space-y-4">
+
+{history.length === 0 ? (
+
+<div className="text-center text-gray-500">
+No backups found.
+</div>
+
+) : (
+
+history.map((item)=>(
+
+<div
+key={item._id}
+className="border rounded-xl p-4 shadow-sm"
+>
+
+<p className="font-semibold">
+
+📅 {new Date(item.backupDate).toLocaleString()}
+
+</p>
+
+<p className="mt-2">
+
+Status:
+
+<span className="ml-2 font-semibold text-green-600">
+
+{item.status}
+
+</span>
+
+</p>
+
+<p className="mt-2">
+
+Database:
+
+<span className="ml-2">
+
+{item.database}
+
+</span>
+
+</p>
+
+<div className="flex gap-2 mt-4">
+
+<button
+onClick={()=>restoreBackup(item.backupPath)}
+className="flex-1 bg-blue-600 text-white py-2 rounded-lg"
+>
+
+Restore
+
+</button>
+
+<button
+onClick={()=>downloadBackup(item.backupPath)}
+className="flex-1 bg-green-600 text-white py-2 rounded-lg"
+>
+
+Download
+
+</button>
+
+</div>
+
+</div>
+
+
+))
+
+)}
+
+</div>
+</div>
         </div>
 
       </div>

@@ -14,3 +14,7 @@
 {"level":"error","message":"Please login to access this resource","method":"PUT","route":"/api/v1/profile/update","status":401,"timestamp":"2026-07-09T10:04:23.074Z"}
 {"level":"error","message":"Old password is incorrect","method":"PUT","route":"/api/v1/password/update","status":400,"timestamp":"2026-07-09T10:04:41.503Z"}
 {"level":"error","message":"Please login to access this resource","method":"PUT","route":"/api/v1/profile/update","status":401,"timestamp":"2026-07-09T10:05:01.467Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-07-09T14:48:35.981Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-07-09T14:48:36.046Z"}
+{"level":"error","message":"Route not found: /api/v1/sales/summary?days=0","method":"GET","route":"/api/v1/sales/summary?days=0","status":404,"timestamp":"2026-07-09T15:10:22.616Z"}
+{"level":"error","message":"Route not found: /api/v1/sales/summary?days=0","method":"GET","route":"/api/v1/sales/summary?days=0","status":404,"timestamp":"2026-07-09T15:10:22.647Z"}

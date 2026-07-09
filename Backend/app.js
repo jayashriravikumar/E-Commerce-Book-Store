@@ -11,6 +11,7 @@ import downloadBackupRoutes from "./routes/downloadBackupRoutes.js";
 import uploadBackupRoutes from "./routes/uploadBackupRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
+import adminanalyticsRoutes from "./routes/adminAnalyticsRoutes.js";
 import adminDashboardRoutes from "./routes/adminDashboardRoutes.js";
 import order from "./routes/orderRoutes.js";
 import cookieParser from "cookie-parser";

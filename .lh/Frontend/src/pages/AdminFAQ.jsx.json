@@ -3,11 +3,67 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 14,
             "patches": [
                 {
                     "date": 1783573448735,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783615875412,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,9 +62,9 @@\n     }\r\n   };\r\n \r\n   return (\r\n-    <div className=\"container mt-4\">\r\n+    <div className=\"max-w-7xl mx-auto p-4 md:p-8 bg-gray-100 min-h-screen\">\r\n \r\n       <h2>FAQ Management</h2>\r\n \r\n       <form onSubmit={addFAQ}>\r\n"
+                },
+                {
+                    "date": 1783615887903,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,9 +64,11 @@\n \r\n   return (\r\n     <div className=\"max-w-7xl mx-auto p-4 md:p-8 bg-gray-100 min-h-screen\">\r\n \r\n-      <h2>FAQ Management</h2>\r\n+      <h2 className=\"text-3xl font-bold mb-8\">\r\n+  FAQ Management\r\n+</h2>\r\n \r\n       <form onSubmit={addFAQ}>\r\n \r\n         <input\r\n"
+                },
+                {
+                    "date": 1783615903220,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -68,9 +68,12 @@\n       <h2 className=\"text-3xl font-bold mb-8\">\r\n   FAQ Management\r\n </h2>\r\n \r\n-      <form onSubmit={addFAQ}>\r\n+      <form\r\n+  onSubmit={addFAQ}\r\n+  className=\"bg-white rounded-xl shadow-md p-6 mb-8 space-y-4\"\r\n+>\r\n \r\n         <input\r\n           className=\"form-control mb-3\"\r\n           placeholder=\"Question\"\r\n"
+                },
+                {
+                    "date": 1783615937210,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -74,9 +74,9 @@\n   className=\"bg-white rounded-xl shadow-md p-6 mb-8 space-y-4\"\r\n >\r\n \r\n         <input\r\n-          className=\"form-control mb-3\"\r\n+          className=\"w-full border rounded-lg p-3\"\r\n           placeholder=\"Question\"\r\n           name=\"question\"\r\n           value={form.question}\r\n           onChange={handleChange}\r\n"
+                },
+                {
+                    "date": 1783615975524,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -83,9 +83,9 @@\n           required\r\n         />\r\n \r\n         <textarea\r\n-          className=\"form-control mb-3\"\r\n+          className=\"w-full border rounded-lg p-3\"\r\n           placeholder=\"Answer\"\r\n           rows=\"4\"\r\n           name=\"answer\"\r\n           value={form.answer}\r\n"
+                },
+                {
+                    "date": 1783615994047,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -93,9 +93,9 @@\n           required\r\n         />\r\n \r\n         <select\r\n-          className=\"form-control mb-3\"\r\n+          className=\"w-full border rounded-lg p-3\"\r\n           name=\"category\"\r\n           value={form.category}\r\n           onChange={handleChange}\r\n         >\r\n"
+                },
+                {
+                    "date": 1783616010853,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -106,9 +106,11 @@\n           <option>Support</option>\r\n           <option>Account</option>\r\n         </select>\r\n \r\n-        <button className=\"btn btn-primary\">\r\n+        <button\r\n+  className=\"bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold\"\r\n+>\r\n           Add FAQ\r\n         </button>\r\n \r\n       </form>\r\n"
+                },
+                {
+                    "date": 1783616023276,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -114,9 +114,9 @@\n         </button>\r\n \r\n       </form>\r\n \r\n-      <hr />\r\n+     \r\n \r\n       <table className=\"table table-bordered\">\r\n \r\n         <thead>\r\n"
+                },
+                {
+                    "date": 1783616091841,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -116,10 +116,12 @@\n       </form>\r\n \r\n      \r\n \r\n-      <table className=\"table table-bordered\">\r\n+      <div className=\"hidden md:block overflow-x-auto bg-white rounded-xl shadow\">\r\n \r\n+<table className=\"w-full\">\r\n+\r\n         <thead>\r\n           <tr>\r\n             <th>Question</th>\r\n             <th>Category</th>\r\n@@ -150,8 +152,9 @@\n \r\n         </tbody>\r\n \r\n       </table>\r\n+      </div>\r\n \r\n     </div>\r\n   );\r\n };\r\n"
+                },
+                {
+                    "date": 1783616108355,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -153,10 +153,43 @@\n         </tbody>\r\n \r\n       </table>\r\n       </div>\r\n+      <div className=\"md:hidden space-y-4\">\r\n \r\n+  {faqs.map((faq) => (\r\n+\r\n+    <div\r\n+      key={faq._id}\r\n+      className=\"bg-white rounded-xl shadow-md p-5\"\r\n+    >\r\n+\r\n+      <h2 className=\"font-bold text-lg\">\r\n+        {faq.question}\r\n+      </h2>\r\n+\r\n+      <p className=\"text-gray-600 mt-3\">\r\n+        {faq.answer}\r\n+      </p>\r\n+\r\n+      <span className=\"inline-block mt-3 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm\">\r\n+        {faq.category}\r\n+      </span>\r\n+\r\n+      <button\r\n+        onClick={() => deleteFAQ(faq._id)}\r\n+        className=\"mt-5 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg\"\r\n+      >\r\n+        Delete\r\n+      </button>\r\n+\r\n     </div>\r\n+\r\n+  ))}\r\n+\r\n+</div>\r\n+\r\n+    </div>\r\n   );\r\n };\r\n \r\n export default AdminFAQ;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1783616126149,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -120,9 +120,9 @@\n       <div className=\"hidden md:block overflow-x-auto bg-white rounded-xl shadow\">\r\n \r\n <table className=\"w-full\">\r\n \r\n-        <thead>\r\n+        <thead className=\"bg-gray-100\">\r\n           <tr>\r\n             <th>Question</th>\r\n             <th>Category</th>\r\n             <th>Delete</th>\r\n"
+                },
+                {
+                    "date": 1783616151321,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -121,9 +121,9 @@\n \r\n <table className=\"w-full\">\r\n \r\n         <thead className=\"bg-gray-100\">\r\n-          <tr>\r\n+          <tr className=\"text-left\">\r\n             <th>Question</th>\r\n             <th>Category</th>\r\n             <th>Delete</th>\r\n           </tr>\r\n"
+                },
+                {
+                    "date": 1783616170031,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -131,9 +131,12 @@\n \r\n         <tbody>\r\n \r\n           {faqs.map((faq) => (\r\n-            <tr key={faq._id}>\r\n+           <tr\r\n+  key={faq._id}\r\n+  className=\"border-b hover:bg-gray-50 transition\"\r\n+>\r\n \r\n               <td>{faq.question}</td>\r\n \r\n               <td>{faq.category}</td>\r\n"
+                },
+                {
+                    "date": 1783616186796,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -142,9 +142,9 @@\n               <td>{faq.category}</td>\r\n \r\n               <td>\r\n                 <button\r\n-                  className=\"btn btn-danger\"\r\n+className=\"bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg\"\r\n                   onClick={() => deleteFAQ(faq._id)}\r\n                 >\r\n                   Delete\r\n                 </button>\r\n"
                 }
             ],
             "date": 1783573448735,

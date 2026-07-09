@@ -243,17 +243,21 @@ setProducts(active);
               const imageUrl = getProductImage(product);
               return (
                 <tr key={product._id}>
-                  <td>
-                    <img
-                      src={imageUrl}
-                      alt={product.name}
-                      className="book-image"
-                      onError={(e) => {
-                        e.target.src =
-                          "https://via.placeholder.com/70x90?text=No+Image";
-                      }}
-                    />
-                  </td>
+                  
+                    <td>
+  {imageUrl ? (
+    <img
+      src={imageUrl}
+      alt={product.name}
+      className="book-image"
+    />
+  ) : (
+    <span className="text-gray-400 text-sm">
+      No Image
+    </span>
+  )}
+</td>
+                  
                   <td>{product.name || product.title}</td>
                   <td>{product.author}</td>
                   <td>₹{product.price}</td>
@@ -311,17 +315,21 @@ setProducts(active);
                   const imageUrl = getProductImage(product);
                   return (
                     <tr key={product._id}>
-                      <td>
-                        <img
-                          src={imageUrl}
-                          alt={product.name}
-                          className="book-image deleted-image"
-                          onError={(e) => {
-                            e.target.src =
-                              "https://via.placeholder.com/70x90?text=No+Image";
-                          }}
-                        />
-                      </td>
+                      
+                        <td>
+  {imageUrl ? (
+    <img
+      src={imageUrl}
+      alt={product.name}
+      className="book-image"
+    />
+  ) : (
+    <span className="text-gray-400 text-sm">
+      No Image
+    </span>
+  )}
+</td>
+                      
                       <td>{product.name || product.title}</td>
                       <td>{product.author}</td>
                       <td>₹{product.price}</td>

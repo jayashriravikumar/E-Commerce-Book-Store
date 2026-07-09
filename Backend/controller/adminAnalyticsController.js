@@ -60,7 +60,13 @@ export const getAnalytics = async (req, res) => {
   const highPriorityComplaints = await Ticket.countDocuments({
     priority: "high",
   });
-
+  const recentOrders = await Order.find()
+.populate("user","name")
+.sort({createdAt:-1})
+.limit(5);
+const topSellingProducts = await Product.find()
+.sort({ numOfReviews: -1, ratings: -1 })
+.limit(5);
 
 
 
@@ -73,6 +79,8 @@ export const getAnalytics = async (req, res) => {
     lowStockProducts,
     outOfStockProducts,
     averageOrderValue,
+    recentOrders,
+    topSellingProducts,
 
     // Complaint Analytics
    totalComplaints,

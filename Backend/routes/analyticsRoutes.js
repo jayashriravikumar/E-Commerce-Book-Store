@@ -4,7 +4,7 @@ import { getBackupAnalytics } from "../controller/analyticsController.js";
 const router = express.Router();
 
 router.get(
-  "/admin/analytics",
+  "/admin/backup-analytics",
   getBackupAnalytics
 );
 

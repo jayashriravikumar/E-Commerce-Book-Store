@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1783406336391,
@@ -24,6 +24,30 @@
                 {
                     "date": 1783507871774,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -74,9 +74,9 @@\n     outOfStockProducts,\r\n     averageOrderValue,\r\n \r\n     // Complaint Analytics\r\n-    complaints: totalComplaints,\r\n+   totalComplaints,\r\n     openComplaints,\r\n     assignedComplaints,\r\n     inProgressComplaints,\r\n     waitingCustomerComplaints,\r\n"
+                },
+                {
+                    "date": 1783605229757,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -59,8 +59,12 @@\n \r\n   const highPriorityComplaints = await Ticket.countDocuments({\r\n     priority: \"high\",\r\n   });\r\n+  const recentOrders = await Order.find()\r\n+.populate(\"user\",\"name\")\r\n+.sort({createdAt:-1})\r\n+.limit(5);\r\n \r\n \r\n \r\n \r\n"
+                },
+                {
+                    "date": 1783605261834,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -76,8 +76,9 @@\n     totalRevenue,\r\n     lowStockProducts,\r\n     outOfStockProducts,\r\n     averageOrderValue,\r\n+    recentOrders,\r\n \r\n     // Complaint Analytics\r\n    totalComplaints,\r\n     openComplaints,\r\n"
+                },
+                {
+                    "date": 1783605338103,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -63,12 +63,14 @@\n   const recentOrders = await Order.find()\r\n .populate(\"user\",\"name\")\r\n .sort({createdAt:-1})\r\n .limit(5);\r\n+const topSellingProducts = await Product.find()\r\n+.sort({sold:-1})\r\n+.limit(5);\r\n \r\n \r\n \r\n-\r\n   res.status(200).json({\r\n     success: true,\r\n     totalProducts,\r\n     totalUsers,\r\n"
+                },
+                {
+                    "date": 1783605347650,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -79,8 +79,9 @@\n     lowStockProducts,\r\n     outOfStockProducts,\r\n     averageOrderValue,\r\n     recentOrders,\r\n+    topSellingProducts,\r\n \r\n     // Complaint Analytics\r\n    totalComplaints,\r\n     openComplaints,\r\n"
+                },
+                {
+                    "date": 1783609272529,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,9 +64,9 @@\n .populate(\"user\",\"name\")\r\n .sort({createdAt:-1})\r\n .limit(5);\r\n const topSellingProducts = await Product.find()\r\n-.sort({sold:-1})\r\n+.sort({ ratings: -1, createdAt: -1 })\r\n .limit(5);\r\n \r\n \r\n \r\n"
+                },
+                {
+                    "date": 1783609289808,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,9 +64,9 @@\n .populate(\"user\",\"name\")\r\n .sort({createdAt:-1})\r\n .limit(5);\r\n const topSellingProducts = await Product.find()\r\n-.sort({ ratings: -1, createdAt: -1 })\r\n+.sort({ numOfReviews: -1, ratings: -1 })\r\n .limit(5);\r\n \r\n \r\n \r\n"
                 }
             ],
             "date": 1783406336391,

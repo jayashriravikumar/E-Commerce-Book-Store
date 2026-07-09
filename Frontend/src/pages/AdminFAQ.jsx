@@ -63,14 +63,19 @@ const AdminFAQ = () => {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="max-w-7xl mx-auto p-4 md:p-8 bg-gray-100 min-h-screen">
 
-      <h2>FAQ Management</h2>
+      <h2 className="text-3xl font-bold mb-8">
+  FAQ Management
+</h2>
 
-      <form onSubmit={addFAQ}>
+      <form
+  onSubmit={addFAQ}
+  className="bg-white rounded-xl shadow-md p-6 mb-8 space-y-4"
+>
 
         <input
-          className="form-control mb-3"
+          className="w-full border rounded-lg p-3"
           placeholder="Question"
           name="question"
           value={form.question}
@@ -79,7 +84,7 @@ const AdminFAQ = () => {
         />
 
         <textarea
-          className="form-control mb-3"
+          className="w-full border rounded-lg p-3"
           placeholder="Answer"
           rows="4"
           name="answer"
@@ -89,7 +94,7 @@ const AdminFAQ = () => {
         />
 
         <select
-          className="form-control mb-3"
+          className="w-full border rounded-lg p-3"
           name="category"
           value={form.category}
           onChange={handleChange}
@@ -102,18 +107,22 @@ const AdminFAQ = () => {
           <option>Account</option>
         </select>
 
-        <button className="btn btn-primary">
+        <button
+  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold"
+>
           Add FAQ
         </button>
 
       </form>
 
-      <hr />
+     
 
-      <table className="table table-bordered">
+      <div className="hidden md:block overflow-x-auto bg-white rounded-xl shadow">
 
-        <thead>
-          <tr>
+<table className="w-full">
+
+        <thead className="bg-gray-100">
+          <tr className="text-left">
             <th>Question</th>
             <th>Category</th>
             <th>Delete</th>
@@ -123,7 +132,10 @@ const AdminFAQ = () => {
         <tbody>
 
           {faqs.map((faq) => (
-            <tr key={faq._id}>
+           <tr
+  key={faq._id}
+  className="border-b hover:bg-gray-50 transition"
+>
 
               <td>{faq.question}</td>
 
@@ -131,7 +143,7 @@ const AdminFAQ = () => {
 
               <td>
                 <button
-                  className="btn btn-danger"
+className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
                   onClick={() => deleteFAQ(faq._id)}
                 >
                   Delete
@@ -144,6 +156,40 @@ const AdminFAQ = () => {
         </tbody>
 
       </table>
+      </div>
+      <div className="md:hidden space-y-4">
+
+  {faqs.map((faq) => (
+
+    <div
+      key={faq._id}
+      className="bg-white rounded-xl shadow-md p-5"
+    >
+
+      <h2 className="font-bold text-lg">
+        {faq.question}
+      </h2>
+
+      <p className="text-gray-600 mt-3">
+        {faq.answer}
+      </p>
+
+      <span className="inline-block mt-3 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+        {faq.category}
+      </span>
+
+      <button
+        onClick={() => deleteFAQ(faq._id)}
+        className="mt-5 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg"
+      >
+        Delete
+      </button>
+
+    </div>
+
+  ))}
+
+</div>
 
     </div>
   );
