@@ -18,7 +18,7 @@ const slides = [
     id: "6a4790b82565ca1126529284",
     title: "Rich Dad Poor Dad",
     subtitle: "What the rich teach their kids about money.",
-    image: "https://m.media-amazon.com/images/I/81bsw6fnUiL._SL1500_.jpg",
+    image: "https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg",
   },
 ];
 

@@ -6,7 +6,7 @@ import Rating from "../components/Rating";
 import SocialShare from "../components/SocialShare";
 import { Minus, PackageCheck, Plus, ShoppingCart, Heart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getProductDetails,
   removeErrors,
@@ -61,6 +61,7 @@ const handleMouseLeave = () => {
 };
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const increaseQuantity = () => {
     if (quantity < product?.stock) {
       setQuantity(quantity + 1);
@@ -76,6 +77,10 @@ const handleMouseLeave = () => {
   const handleAddToCart = () => {
     dispatch(addToCart({ ...product, quantity }));
   };
+  const handleBuyNow = () => {
+  dispatch(addToCart({ ...product, quantity }));
+  navigate("/checkout");
+};
   const addWishlist = async () => {
     try {
       const { data } = await axios.post(
@@ -139,6 +144,8 @@ const handleMouseLeave = () => {
   
 
   const rating = product?.ratings || 0;
+  console.log("Product:", product);
+console.log("Image URL:", product?.image?.[0]?.url);
   return (
     <div className="min-h-screen bg-gray-50">
       <PageTitle
@@ -239,67 +246,53 @@ const handleMouseLeave = () => {
             <p className="text-gray-600 leading-relaxed mb-8 text-lg">
               {product?.description}
             </p>
-            <div
-              className="borded-t border-gray-100 pt-8
-          mb-8"
-            ></div>
-            <div className="flex items-center gap-2 mb-6">
-              <PackageCheck
-                className="text-green-600 w-5
-            h-5"
-              />
-              <span className="font-semibold text-green-700 text-sm">
-                IN STOCK ({product?.stock} Available)
-              </span>
-            </div>
-            <div
-              className="flex flex-wrap items-center
-          gap-4"
-            >
-              <div
-                className="flex items-center border-2
-            border-gray-100 rounded-xl bg-white
-            overflow-hidden"
-              >
-                <button
-                  onClick={decreaseQuantity}
-                  className="p-4 hover:bg-gray-50 hover:text-amber-600 transition-colors"
-                >
-                  <Minus size={18} />
-                </button>
+            <div className="flex flex-wrap items-center gap-4">
+  <div
+    className="flex items-center border-2 border-gray-100 rounded-xl bg-white overflow-hidden"
+  >
+    <button
+      onClick={decreaseQuantity}
+      className="p-4 hover:bg-gray-50 hover:text-amber-600 transition-colors"
+    >
+      <Minus size={18} />
+    </button>
 
-                <span className="px-4 font-semibold">{quantity}</span>
+    <span className="px-4 font-semibold">{quantity}</span>
 
-                <button
-                  onClick={increaseQuantity}
-                  className="p-4 hover:bg-gray-50 hover:text-amber-600 transition-colors"
-                >
-                  <Plus size={18} />
-                </button>
-              </div>
-              <div className="flex gap-3 w-full">
-                <button
-                  onClick={addWishlist}
-                  className="bg-red-500 hover:bg-red-600
-    text-white px-4 rounded-xl"
-                >
-                  <Heart size={22} />
-                </button>
+    <button
+      onClick={increaseQuantity}
+      className="p-4 hover:bg-gray-50 hover:text-amber-600 transition-colors"
+    >
+      <Plus size={18} />
+    </button>
+  </div>
 
-                <button
-                  onClick={handleAddToCart}
-                  className="flex-1 bg-blue-600
-    hover:bg-blue-700 text-white font-bold py-3
-    px-8 rounded-xl flex items-center
-    justify-center gap-3 transition-all
-    shadow-xl shadow-blue-100 active:scale-95"
-                >
-                  <ShoppingCart />
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-            <SocialShare product={product} />
+  <div className="flex gap-3 w-full">
+    <button
+      onClick={addWishlist}
+      className="bg-red-500 hover:bg-red-600 text-white px-4 rounded-xl"
+    >
+      <Heart size={22} />
+    </button>
+
+    <button
+      onClick={handleAddToCart}
+      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-3 transition-all"
+    >
+      <ShoppingCart />
+      Add to Cart
+    </button>
+
+    <button
+      onClick={handleBuyNow}
+      className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition-all"
+    >
+      Buy Now
+    </button>
+  </div>
+</div>
+
+<SocialShare product={product} />
           </div>
         </div>
       </main>

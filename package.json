@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "pdfkit": "^0.19.1",
     "react-helmet-async": "^3.0.0"
   }
 }
