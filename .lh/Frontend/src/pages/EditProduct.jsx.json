@@ -3,11 +3,51 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1783487246758,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783598612692,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -76,9 +76,9 @@\n   };\r\n \r\n  const styles = {\r\n   page: {\r\n-    padding: \"30px\",\r\n+    padding: \"20px\",\r\n     background: \"#f4f6f9\",\r\n     minHeight: \"100vh\",\r\n   },\r\n   header: {\r\n"
+                },
+                {
+                    "date": 1783598635816,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -84,8 +84,10 @@\n   header: {\r\n     display: \"flex\",\r\n     justifyContent: \"space-between\",\r\n     alignItems: \"center\",\r\n+    flexWrap: \"wrap\",\r\n+  gap: \"12px\",\r\n     marginBottom: \"25px\",\r\n   },\r\n   headerTitle: {\r\n     color: \"#222\",\r\n"
+                },
+                {
+                    "date": 1783598672530,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -106,10 +106,12 @@\n   card: {\r\n     background: \"white\",\r\n     borderRadius: \"12px\",\r\n     boxShadow: \"0 5px 20px rgba(0,0,0,0.08)\",\r\n-    padding: \"35px\",\r\n+    padding: \"20px\",\r\n     maxWidth: \"850px\",\r\n+    width: \"100%\",\r\n+  margin: \"0 auto\",\r\n   },\r\n   form: {\r\n     display: \"flex\",\r\n     flexDirection: \"column\",\r\n"
+                },
+                {
+                    "date": 1783598699621,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -117,11 +117,12 @@\n     flexDirection: \"column\",\r\n     gap: \"20px\",\r\n   },\r\n   formRow: {\r\n-    display: \"flex\",\r\n-    gap: \"20px\",\r\n-  },\r\n+  display: \"grid\",\r\n+  gridTemplateColumns: \"repeat(auto-fit,minmax(250px,1fr))\",\r\n+  gap: \"20px\",\r\n+},\r\n   formGroup: {\r\n     display: \"flex\",\r\n     flexDirection: \"column\",\r\n     gap: \"7px\",\r\n"
+                },
+                {
+                    "date": 1783598722668,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -132,13 +132,15 @@\n     fontWeight: \"600\",\r\n     color: \"#374151\",\r\n   },\r\n   input: {\r\n-    padding: \"11px 14px\",\r\n-    border: \"1px solid #d1d5db\",\r\n-    borderRadius: \"8px\",\r\n-    background: \"#f9fafb\",\r\n-  },\r\n+  padding: \"11px 14px\",\r\n+  border: \"1px solid #d1d5db\",\r\n+  borderRadius: \"8px\",\r\n+  background: \"#f9fafb\",\r\n+  width: \"100%\",\r\n+  boxSizing: \"border-box\",\r\n+},\r\n   textarea: {\r\n     padding: \"11px 14px\",\r\n     border: \"1px solid #d1d5db\",\r\n     borderRadius: \"8px\",\r\n"
+                },
+                {
+                    "date": 1783598734834,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -139,15 +139,17 @@\n   background: \"#f9fafb\",\r\n   width: \"100%\",\r\n   boxSizing: \"border-box\",\r\n },\r\n-  textarea: {\r\n-    padding: \"11px 14px\",\r\n-    border: \"1px solid #d1d5db\",\r\n-    borderRadius: \"8px\",\r\n-    background: \"#f9fafb\",\r\n-    resize: \"vertical\",\r\n-  },\r\n+ textarea: {\r\n+  padding: \"11px 14px\",\r\n+  border: \"1px solid #d1d5db\",\r\n+  borderRadius: \"8px\",\r\n+  background: \"#f9fafb\",\r\n+  resize: \"vertical\",\r\n+  width: \"100%\",\r\n+  boxSizing: \"border-box\",\r\n+},\r\n   preview: {\r\n     width: \"100px\",\r\n     height: \"140px\",\r\n     objectFit: \"cover\",\r\n"
+                },
+                {
+                    "date": 1783598760190,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -149,14 +149,15 @@\n   width: \"100%\",\r\n   boxSizing: \"border-box\",\r\n },\r\n   preview: {\r\n-    width: \"100px\",\r\n-    height: \"140px\",\r\n-    objectFit: \"cover\",\r\n-    borderRadius: \"8px\",\r\n-    border: \"2px solid #e5e7eb\",\r\n-  },\r\n+  width: \"120px\",\r\n+  maxWidth: \"100%\",\r\n+  height: \"170px\",\r\n+  objectFit: \"contain\",\r\n+  borderRadius: \"8px\",\r\n+  border: \"2px solid #e5e7eb\",\r\n+},\r\n   actions: {\r\n     display: \"flex\",\r\n     justifyContent: \"flex-end\",\r\n     gap: \"12px\",\r\n"
+                },
+                {
+                    "date": 1783598775898,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -157,12 +157,13 @@\n   borderRadius: \"8px\",\r\n   border: \"2px solid #e5e7eb\",\r\n },\r\n   actions: {\r\n-    display: \"flex\",\r\n-    justifyContent: \"flex-end\",\r\n-    gap: \"12px\",\r\n-  },\r\n+  display: \"flex\",\r\n+  justifyContent: \"flex-end\",\r\n+  gap: \"12px\",\r\n+  flexWrap: \"wrap\",\r\n+},\r\n   cancelBtn: {\r\n     background: \"#e5e7eb\",\r\n     color: \"#374151\",\r\n     border: \"none\",\r\n"
+                },
+                {
+                    "date": 1783598846187,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -163,15 +163,17 @@\n   gap: \"12px\",\r\n   flexWrap: \"wrap\",\r\n },\r\n   cancelBtn: {\r\n-    background: \"#e5e7eb\",\r\n-    color: \"#374151\",\r\n-    border: \"none\",\r\n-    padding: \"11px 22px\",\r\n-    borderRadius: \"8px\",\r\n-    cursor: \"pointer\",\r\n-  },\r\n+  background: \"#e5e7eb\",\r\n+  color: \"#374151\",\r\n+  border: \"none\",\r\n+  padding: \"11px 22px\",\r\n+  borderRadius: \"8px\",\r\n+  cursor: \"pointer\",\r\n+  flex: 1,\r\n+  minWidth: \"150px\",\r\n+},\r\n   updateBtn: {\r\n     background: \"#2563eb\",\r\n     color: \"white\",\r\n     border: \"none\",\r\n"
+                },
+                {
+                    "date": 1783598866673,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -173,16 +173,18 @@\n   flex: 1,\r\n   minWidth: \"150px\",\r\n },\r\n   updateBtn: {\r\n-    background: \"#2563eb\",\r\n-    color: \"white\",\r\n-    border: \"none\",\r\n-    padding: \"11px 25px\",\r\n-    borderRadius: \"8px\",\r\n-    cursor: \"pointer\",\r\n-    fontWeight: \"bold\",\r\n-  },\r\n+  background: \"#2563eb\",\r\n+  color: \"white\",\r\n+  border: \"none\",\r\n+  padding: \"11px 25px\",\r\n+  borderRadius: \"8px\",\r\n+  cursor: \"pointer\",\r\n+  fontWeight: \"bold\",\r\n+  flex: 1,\r\n+  minWidth: \"180px\",\r\n+},\r\n };\r\n \r\n return (\r\n   <div style={styles.page}>\r\n"
                 }
             ],
             "date": 1783487246758,

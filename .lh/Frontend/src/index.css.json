@@ -1,0 +1,26 @@
+{
+    "sourceFile": "Frontend/src/index.css",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1783578358209,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783580562290,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,5 +4,21 @@\n }\r\n \r\n .no-scrollbar {\r\n   scrollbar-width: none;\r\n+}\r\n+\r\n+@keyframes fadeIn {\r\n+  from {\r\n+    opacity: 0;\r\n+    transform: translateY(-10px);\r\n+  }\r\n+\r\n+  to {\r\n+    opacity: 1;\r\n+    transform: translateY(0);\r\n+  }\r\n+}\r\n+\r\n+.animate-fadeIn {\r\n+  animation: fadeIn 0.25s ease;\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1783580614160,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,19 +6,4 @@\n .no-scrollbar {\r\n   scrollbar-width: none;\r\n }\r\n \r\n-@keyframes fadeIn {\r\n-  from {\r\n-    opacity: 0;\r\n-    transform: translateY(-10px);\r\n-  }\r\n-\r\n-  to {\r\n-    opacity: 1;\r\n-    transform: translateY(0);\r\n-  }\r\n-}\r\n-\r\n-.animate-fadeIn {\r\n-  animation: fadeIn 0.25s ease;\r\n-}\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1783578358209,
+            "name": "Commit-0",
+            "content": "@import \"tailwindcss\";\r\n.no-scrollbar::-webkit-scrollbar {\r\n  display: none;\r\n}\r\n\r\n.no-scrollbar {\r\n  scrollbar-width: none;\r\n}"
+        }
+    ]
+}

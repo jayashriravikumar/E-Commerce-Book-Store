@@ -1,0 +1,20 @@
+{"level":"error","message":"Route not found: /api/v1/faqs","method":"GET","route":"/api/v1/faqs","status":404,"timestamp":"2026-07-08T10:34:42.176Z"}
+{"level":"error","message":"Route not found: /api/v1/faqs","method":"GET","route":"/api/v1/faqs","status":404,"timestamp":"2026-07-08T10:34:42.189Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-07-08T10:52:48.427Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-07-08T10:52:48.443Z"}
+{"level":"error","message":"Route not found: /api/v1/sales/summary?days=0","method":"GET","route":"/api/v1/sales/summary?days=0","status":404,"timestamp":"2026-07-08T11:02:50.011Z"}
+{"level":"error","message":"Route not found: /api/v1/sales/summary?days=0","method":"GET","route":"/api/v1/sales/summary?days=0","status":404,"timestamp":"2026-07-08T11:02:50.019Z"}
+{"level":"error","message":"Route not found: /api/v1/sales/summary?days=1","method":"GET","route":"/api/v1/sales/summary?days=1","status":404,"timestamp":"2026-07-08T11:02:56.279Z"}
+{"level":"error","message":"Route not found: /api/v1/sales/summary?days=30","method":"GET","route":"/api/v1/sales/summary?days=30","status":404,"timestamp":"2026-07-08T11:02:59.398Z"}
+{"level":"error","message":"Route not found: /api/v1/faqs","method":"GET","route":"/api/v1/faqs","status":404,"timestamp":"2026-07-08T11:05:02.613Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-07-09T04:14:56.247Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-07-09T04:14:56.258Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-07-09T04:33:58.459Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-07-09T04:39:25.678Z"}
+{"level":"error","message":"Please login to access this resource","method":"PUT","route":"/api/v1/profile/update","status":401,"timestamp":"2026-07-09T10:04:23.074Z"}
+{"level":"error","message":"Old password is incorrect","method":"PUT","route":"/api/v1/password/update","status":400,"timestamp":"2026-07-09T10:04:41.503Z"}
+{"level":"error","message":"Please login to access this resource","method":"PUT","route":"/api/v1/profile/update","status":401,"timestamp":"2026-07-09T10:05:01.467Z"}
+{"level":"error","message":"Route not found: /.well-known/appspecific/com.chrome.devtools.json","method":"GET","route":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"timestamp":"2026-07-09T14:48:35.981Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-07-09T14:48:36.046Z"}
+{"level":"error","message":"Route not found: /api/v1/sales/summary?days=0","method":"GET","route":"/api/v1/sales/summary?days=0","status":404,"timestamp":"2026-07-09T15:10:22.616Z"}
+{"level":"error","message":"Route not found: /api/v1/sales/summary?days=0","method":"GET","route":"/api/v1/sales/summary?days=0","status":404,"timestamp":"2026-07-09T15:10:22.647Z"}

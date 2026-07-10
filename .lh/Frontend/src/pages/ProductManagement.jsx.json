@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 7,
+            "activePatchIndex": 11,
             "patches": [
                 {
                     "date": 1783408298373,
@@ -36,6 +36,22 @@
                 {
                     "date": 1783416332376,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,11 +20,9 @@\n   const fetchProducts = async () => {\r\n     try {\r\n       setLoading(true);\r\n       setError(\"\");\r\n-       const { data } = await axios.get(\"/api/v1/admin/products\", {\r\n-    withCredentials: true,\r\n-  });\r\n+      const res = await axios.get(\"/api/v1/products\");\r\n       setProducts(res.data.products || []);\r\n     } catch (err) {\r\n       console.log(err);\r\n       setError(\"Failed to load products.\");\r\n"
+                },
+                {
+                    "date": 1783596050290,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -243,17 +243,21 @@\n               const imageUrl = getProductImage(product);\r\n               return (\r\n                 <tr key={product._id}>\r\n                   <td>\r\n-                    <img\r\n-                      src={imageUrl}\r\n-                      alt={product.name}\r\n-                      className=\"book-image\"\r\n-                      onError={(e) => {\r\n-                        e.target.src =\r\n-                          \"https://via.placeholder.com/70x90?text=No+Image\";\r\n-                      }}\r\n-                    />\r\n+                    <td>\r\n+  {imageUrl ? (\r\n+    <img\r\n+      src={imageUrl}\r\n+      alt={product.name}\r\n+      className=\"book-image\"\r\n+    />\r\n+  ) : (\r\n+    <span className=\"text-gray-400 text-sm\">\r\n+      No Image\r\n+    </span>\r\n+  )}\r\n+</td>\r\n                   </td>\r\n                   <td>{product.name || product.title}</td>\r\n                   <td>{product.author}</td>\r\n                   <td>₹{product.price}</td>\r\n"
+                },
+                {
+                    "date": 1783596075909,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -315,17 +315,21 @@\n                   const imageUrl = getProductImage(product);\r\n                   return (\r\n                     <tr key={product._id}>\r\n                       <td>\r\n-                        <img\r\n-                          src={imageUrl}\r\n-                          alt={product.name}\r\n-                          className=\"book-image deleted-image\"\r\n-                          onError={(e) => {\r\n-                            e.target.src =\r\n-                              \"https://via.placeholder.com/70x90?text=No+Image\";\r\n-                          }}\r\n-                        />\r\n+                        <td>\r\n+  {imageUrl ? (\r\n+    <img\r\n+      src={imageUrl}\r\n+      alt={product.name}\r\n+      className=\"book-image\"\r\n+    />\r\n+  ) : (\r\n+    <span className=\"text-gray-400 text-sm\">\r\n+      No Image\r\n+    </span>\r\n+  )}\r\n+</td>\r\n                       </td>\r\n                       <td>{product.name || product.title}</td>\r\n                       <td>{product.author}</td>\r\n                       <td>₹{product.price}</td>\r\n"
+                },
+                {
+                    "date": 1783596363764,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -314,9 +314,9 @@\n                 deletedProducts.map((product) => {\r\n                   const imageUrl = getProductImage(product);\r\n                   return (\r\n                     <tr key={product._id}>\r\n-                      <td>\r\n+                      \r\n                         <td>\r\n   {imageUrl ? (\r\n     <img\r\n       src={imageUrl}\r\n@@ -328,9 +328,9 @@\n       No Image\r\n     </span>\r\n   )}\r\n </td>\r\n-                      </td>\r\n+                      \r\n                       <td>{product.name || product.title}</td>\r\n                       <td>{product.author}</td>\r\n                       <td>₹{product.price}</td>\r\n                       <td>\r\n"
+                },
+                {
+                    "date": 1783596447193,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -242,9 +242,9 @@\n             filteredProducts.map((product) => {\r\n               const imageUrl = getProductImage(product);\r\n               return (\r\n                 <tr key={product._id}>\r\n-                  <td>\r\n+                  \r\n                     <td>\r\n   {imageUrl ? (\r\n     <img\r\n       src={imageUrl}\r\n@@ -256,9 +256,9 @@\n       No Image\r\n     </span>\r\n   )}\r\n </td>\r\n-                  </td>\r\n+                  \r\n                   <td>{product.name || product.title}</td>\r\n                   <td>{product.author}</td>\r\n                   <td>₹{product.price}</td>\r\n                   <td>\r\n"
                 }
             ],
             "date": 1783408298373,

@@ -74,10 +74,9 @@ const Home = () => {
      />
     <Navbar />
     <ImageSlider />
-    <div className="mt-12 p-8 flex flex-col items-center justify-around
-      text-gray-900">
-      <h1 className="text-4xl font-semibold mb-8 text-blue-700 text-center drop-shadow-sm">Latest Collections</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    <div className="mt-8 md:mt-12 px-4 md:px-8 flex flex-col items-center justify-around text-gray-900">
+     <h1 className="text-2xl md:text-4xl font-semibold mb-6 md:mb-8 text-blue-700 text-center drop-shadow-sm">Latest Collections</h1>
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 w-full">
         {products.map((product, index) => (   
            <Product key={index} product={product} />
 ))}

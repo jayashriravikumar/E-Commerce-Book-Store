@@ -119,6 +119,13 @@ const cartCount = useMemo(
   {supportOpen && (
     <div className="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
       <Link
+  to="/faqs"
+  onClick={() => setOpen(false)}
+   className="block px-4 py-2 hover:bg-gray-100"
+>
+  FAQs
+</Link>
+      <Link
         to="/contact-us"
         onClick={() => setSupportOpen(false)}
         className="block px-4 py-2 hover:bg-gray-100"
@@ -351,13 +358,11 @@ const cartCount = useMemo(
 </div> {/* Navbar Container */}
 {/* Mobile Navigation */}
 <div
-  className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-    open
-      ? "max-h-screen opacity-100 translate-y-0"
-      : "max-h-0 opacity-0 -translate-y-2"
-  }`}
+  className={`fixed top-[72px] left-0 right-0 bottom-0 bg-white z-50 transition-transform duration-300 ${
+    open ? "translate-x-0" : "-translate-x-full"
+  } overflow-y-auto`}
 >
-  <div className="flex flex-col p-4 gap-4 bg-white">
+ <div className="flex flex-col p-4 gap-4 bg-white h-full overflow-y-auto">
 
     {/* Main Navigation */}
     <Link
@@ -396,6 +401,13 @@ const cartCount = useMemo(
         className="block py-1 pl-3 text-gray-600 hover:text-blue-600"
       >
         Contact Us
+      </Link>
+       <Link
+        to="/faqs"
+        onClick={() => setOpen(false)}
+        className="block py-1 pl-3 text-gray-600 hover:text-blue-600"
+      >
+        FAQs
       </Link>
 
       <Link

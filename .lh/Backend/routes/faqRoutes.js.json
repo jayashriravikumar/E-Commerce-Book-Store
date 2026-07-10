@@ -1,0 +1,22 @@
+{
+    "sourceFile": "Backend/routes/faqRoutes.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1783570043622,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783570258623,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n import { getFAQs, addFAQ, deleteFAQ } from \"../controller/faqController.js\";\r\n \r\n const router = express.Router();\r\n \r\n-router.get(\"/faqs\", getFAQs);\r\n-router.post(\"/faqs\", addFAQ);\r\n-router.delete(\"/faqs/:id\", deleteFAQ);\r\n+router.get(\"/\", getFAQs);\r\n+router.post(\"/\", addFAQ);\r\n+router.delete(\"/:id\", deleteFAQ);\r\n \r\n export default router;\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1783570043622,
+            "name": "Commit-0",
+            "content": "import express from \"express\";\r\nimport { getFAQs, addFAQ, deleteFAQ } from \"../controller/faqController.js\";\r\n\r\nconst router = express.Router();\r\n\r\nrouter.get(\"/faqs\", getFAQs);\r\nrouter.post(\"/faqs\", addFAQ);\r\nrouter.delete(\"/faqs/:id\", deleteFAQ);\r\n\r\nexport default router;"
+        }
+    ]
+}

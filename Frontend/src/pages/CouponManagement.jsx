@@ -106,18 +106,29 @@ const [maximumDiscount, setMaximumDiscount] = useState("");
 };
 
 return (
-  <div className="min-h-screen bg-gray-100 py-10">
+  <div className="min-h-screen bg-gray-100 py-6 md:py-10 px-3 md:px-6">
 
     <div className="max-w-6xl mx-auto">
 
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">
+      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold">
           Coupon Management
         </h1>
 
         <button
           onClick={() => setShowModal(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition"
+          className="
+w-full
+md:w-auto
+bg-blue-600
+hover:bg-blue-700
+text-white
+px-5
+py-3
+rounded-lg
+transition
+font-semibold
+"
         >
           + Create Coupon
         </button>
@@ -132,9 +143,22 @@ return (
   {coupons.map((coupon) => (
     <div
       key={coupon._id}
-      className="bg-white rounded-xl shadow-md p-5 flex justify-between items-center"
+      className="
+bg-white
+rounded-xl
+shadow-md
+p-5
+flex
+flex-col
+md:flex-row
+justify-between
+md:items-center
+gap-5
+hover:shadow-lg
+transition
+"
     >
-      <div>
+      <div className="w-full">
   <h2 className="text-xl font-bold">
     {coupon.code}
   </h2>
@@ -174,7 +198,7 @@ return (
   </p>
 </div>
 
-      <div className="flex gap-3">
+      <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
 
   <button
   onClick={() => {
@@ -196,7 +220,17 @@ return (
 
   setShowModal(true);
 }}
-  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg"
+  className="
+w-full
+md:w-auto
+bg-yellow-500
+hover:bg-yellow-600
+text-white
+px-4
+py-3
+rounded-lg
+font-medium
+"
     >
     Edit
     </button>
@@ -206,7 +240,17 @@ return (
   setSelectedCoupon(coupon);
   setShowDeleteModal(true);
 }}
-  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
+  className="
+w-full
+md:w-auto
+bg-red-600
+hover:bg-red-700
+text-white
+px-4
+py-3
+rounded-lg
+font-medium
+"
 >
   Delete
 </button>
@@ -220,8 +264,17 @@ return (
     </div>
 
     {showModal && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="bg-white rounded-xl shadow-lg p-6 w-96">
+      <div className="fixed inset-0 bg-white flex items-center justify-center">
+        <div className="
+bg-white
+rounded-xl
+shadow-lg
+p-5
+w-[95%]
+max-w-md
+max-h-[90vh]
+overflow-y-auto
+">
           <h2 className="text-2xl font-bold mb-4">
             {editingCoupon ? "Edit Coupon" : "Create Coupon"}
             </h2>
@@ -342,7 +395,14 @@ return (
     )}
     {showDeleteModal && (
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white rounded-xl shadow-xl p-6 w-96">
+    <div className="
+bg-white
+rounded-xl
+shadow-xl
+p-5
+w-[95%]
+max-w-md
+">
 
       <h2 className="text-2xl font-bold text-red-600 mb-4">
         Delete Coupon
@@ -362,7 +422,7 @@ return (
         </p>
       </div>
 
-      <div className="flex justify-end gap-3">
+      <div className="flex flex-col sm:flex-row justify-end gap-3">
         <button
           onClick={() => {
             setShowDeleteModal(false);

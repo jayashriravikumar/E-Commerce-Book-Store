@@ -46,14 +46,14 @@ const OrderDetails = () => {
   return (
     <>
       <Navbar />
-      <div className="max-w-5xl mx-auto px-4 py-10 min-h-screen">
-        <h1 className="text-3xl font-bold mb-2 text-gray-800">
+      <div className="max-w-5xl mx-auto px-3 md:px-4 py-6 md:py-10 min-h-screen">
+        <h1 className="text-2xl md:text-3xl font-bold mb-2 text-gray-800">
           Order Tracking
         </h1>
         <p className="text-gray-500 mb-8">Order ID: #{orderDetails._id}</p>
 
         {/* Tracking Timeline */}
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 mb-8">
+        <div className="bg-white p-4 md:p-8 rounded-2xl shadow-sm border border-gray-100 mb-6 md:mb-8">
           {isCancelled ? (
             <div className="flex flex-col items-center text-red-500">
               <XCircle size={60} className="mb-2" />
@@ -63,7 +63,47 @@ const OrderDetails = () => {
               </p>
             </div>
           ) : (
-            <div className="flex items-center justify-between relative">
+            <div className="hidden md:flex items-center justify-between relative">
+
+              <div className="md:hidden space-y-5">
+
+  <div className="flex items-center gap-3">
+    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+      statusStep >= 1
+        ? "bg-blue-600 text-white"
+        : "bg-gray-200 text-gray-400"
+    }`}>
+      <Package size={20}/>
+    </div>
+
+    <span className="font-medium">Processing</span>
+  </div>
+
+  <div className="flex items-center gap-3">
+    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+      statusStep >= 2
+        ? "bg-blue-600 text-white"
+        : "bg-gray-200 text-gray-400"
+    }`}>
+      <Truck size={20}/>
+    </div>
+
+    <span className="font-medium">Shipped</span>
+  </div>
+
+  <div className="flex items-center gap-3">
+    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+      statusStep >= 3
+        ? "bg-green-500 text-white"
+        : "bg-gray-200 text-gray-400"
+    }`}>
+      <CheckCircle size={20}/>
+    </div>
+
+    <span className="font-medium">Delivered</span>
+  </div>
+
+</div>
               {/* Progress Line */}
               <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-200 z-0"></div>
               <div
@@ -121,7 +161,7 @@ const OrderDetails = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Order Details & Address */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <div className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-gray-100">
             <h2 className="text-xl font-bold border-b pb-3 mb-4">
               Shipping Info
             </h2>
@@ -154,7 +194,7 @@ const OrderDetails = () => {
               href={`http://localhost:8000/api/v1/invoice/${orderDetails._id}`}
               target="_blank"
               rel="noreferrer"
-              className="block mt-5 bg-blue-600 text-white text-center py-3 rounded-xl hover:bg-blue-700 transition"
+              className="block w-full mt-5 bg-blue-600 text-white text-center py-3 rounded-xl hover:bg-blue-700 transition"
             >
               Download Invoice
             </a>
@@ -171,19 +211,22 @@ const OrderDetails = () => {
           </div>
 
           {/* Items List */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <div className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-gray-100">
             <h2 className="text-xl font-bold border-b pb-3 mb-4">
               Items Ordered
             </h2>
             <div className="space-y-4">
               {orderDetails.orderItems?.map((item) => (
-                <div key={item._id} className="flex items-center gap-4">
+                <div
+  key={item._id}
+  className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+>
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-16 h-20 object-cover rounded"
+                    className="w-20 h-24 md:w-16 md:h-20 object-cover rounded-lg"
                   />
-                  <div>
+                  <div className="flex-1">
                     <Link
                       to={`/product/${item.product}`}
                       className="text-blue-600 font-semibold hover:underline"
