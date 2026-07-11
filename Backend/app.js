@@ -41,6 +41,10 @@ import errorHandler from "./middleware/error.js";
 import { errorLogger } from "./middleware/logger.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import salesRoutes from "./routes/salesRoutes.js";
+import addressRoutes from "./routes/addressRoutes.js";
+import notificationRoutes from "./routes/notificationRoutes.js";
+import preferenceRoutes from "./routes/preferenceRoutes.js";
+import securityRoutes from "./routes/securityRoutes.js";
 
 
 
@@ -201,6 +205,10 @@ app.use("/api/v1", dashboardRoutes);
 app.use("/api/v1", analyticsRoutes);
 app.use("/api/v1", adminDashboardRoutes);
 app.use("/api/v1", adminAnalyticsRoutes);
+app.use("/api/v1", addressRoutes);
+app.use("/api/v1", notificationRoutes);
+app.use("/api/v1", preferenceRoutes);
+app.use("/api/v1", securityRoutes);
 // Error handler
 
 app.use((req, res, next) => {
@@ -212,3 +220,4 @@ app.use(errorLogger);
 app.use(errorHandler);
 
 export default app;
+

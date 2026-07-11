@@ -6,6 +6,7 @@ import i18n from "../i18n";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/products/user/userSlice";
 import { Heart } from "lucide-react";
+import axios from "axios";
 
 
 const Navbar = () => {
@@ -52,10 +53,35 @@ const cartCount = useMemo(
   [cartItems]
 );
   // Logout
- const handleLogout = useCallback(() => {
-  dispatch(logout());
-  setProfileOpen(false);
-  navigate("/");
+const handleLogout = useCallback(async () => {
+  try {
+    await axios.post(
+      "/api/v1/logout",
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+
+    
+
+    dispatch(logout());
+localStorage.removeItem("token");
+sessionStorage.clear();
+
+    setProfileOpen(false);
+    setOpen(false);
+
+    navigate("/login");
+
+  } catch (error) {
+    console.log(error);
+
+    alert(
+      error.response?.data?.message ||
+      "Logout failed"
+    );
+  }
 }, [dispatch, navigate]);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -107,6 +133,7 @@ const cartCount = useMemo(
           >
             {t("AboutUs")}
           </Link>
+          
 
           <div className="relative">
   <button
@@ -478,6 +505,13 @@ const cartCount = useMemo(
           >
             My Orders
           </Link>
+          <Link
+  to="/settings"
+  onClick={() => setOpen(false)}
+  className="block py-2 text-gray-700 hover:text-blue-600"
+>
+  Settings
+</Link>
 
           {user?.role === "admin" && (
             <Link

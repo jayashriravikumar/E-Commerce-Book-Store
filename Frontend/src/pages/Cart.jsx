@@ -339,52 +339,42 @@ flex-shrink-0
 />
 <div className="flex-1 min-w-0">
 
-        
-  <div className="mb-4">
-  <h3 className="font-semibold text-lg leading-tight">
-  {item.name || item.title || "Book Title"}
-</h3>
+  <h2 className="font-semibold text-xl">
+    {item.name || item.title}
+  </h2>
+
   <p className="text-gray-500 text-sm">
-    by {item.author || "Unknown"}
+    by {item.author || "Unknown Author"}
   </p>
 
-  <p className="text-orange-600 text-xl font-bold mt-2">
-    ₹{item.price}
-  </p>
-</div>
- <div className="flex flex-col gap-2 w-full">
-  <button
-    onClick={() => dispatch(moveToCart(item._id))}
- className="
-w-full
-bg-blue-500
-hover:bg-blue-600
-text-white
-py-2
-rounded-lg
-font-medium
-transition
-"
-  >
-    Move To Cart
-  </button>
+  <div className="mt-4">
+    <p className="text-orange-600 font-bold text-2xl">
+      ₹{item.price}
+    </p>
 
-  <button
-    onClick={() => dispatch(removeSavedItem(item._id))}
-  className="
-w-full
-bg-red-600
-hover:bg-red-700
-text-white
-py-2
-rounded-lg
-font-medium
-transition
-"
-  >
-    Remove
-  </button>
-</div>
+    <p className="text-sm text-green-600">
+      {item.stock} items available
+    </p>
+  </div>
+
+  <div className="flex gap-3 mt-5">
+
+    <button
+      onClick={() => dispatch(moveToCart(item._id))}
+      className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg"
+    >
+      Move To Cart
+    </button>
+
+    <button
+      onClick={() => dispatch(removeSavedItem(item._id))}
+      className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg"
+    >
+      Remove
+    </button>
+
+  </div>
+
 </div>
       </div>
     ))}
