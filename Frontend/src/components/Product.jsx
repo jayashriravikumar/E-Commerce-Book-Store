@@ -1,25 +1,24 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Rating from "./Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../features/cart/cartSlice";
-
 const Product = ({ product }) => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const isInCart = useMemo(
-  () =>
-    cartItems.some(
-      (item) => item._id === product._id
-    ),
-  [cartItems, product._id]
-);
+    () => cartItems.some((item) => item._id === product._id),
+    [cartItems, product._id],
+  );
 
-
-const handleAddToCart = useCallback(() => {
-  dispatch(addToCart(product));
-}, [dispatch, product]);
+  const handleAddToCart = useCallback(() => {
+    dispatch(addToCart(product));
+  }, [dispatch, product]);
+  const handleBuyNow = useCallback(() => {
+    dispatch(addToCart(product));
+    navigate("/checkout");
+  }, [dispatch, navigate, product]);
 
   return (
     <div
@@ -44,6 +43,10 @@ h-full
         className="block"
       >
 <div className="h-44 sm:h-56 md:h-80 bg-white flex items-center justify-center p-2 md:p-6">       <img
+      <Link to={`/product/${product._id}`} className="block">
+        <div className="h-80 bg-white flex items-center justify-center p-6">
+          {" "}
+          <img
             src={
               product?.image?.[0]?.url ||
               product?.coverImage?.[0]?.url ||
@@ -51,6 +54,7 @@ h-full
             }
             alt={product?.name}
            className="h-full w-full object-contain transition-transform duration-300 hover:scale-105"
+            className="h-full object-contain"
             loading="lazy"
             decoding="async"
           />
@@ -138,6 +142,70 @@ text-sm md:text-base
     : "Add to Cart"
 }
             </button>
+            <span className="text-3xl font-bold text-blue-600">
+              ₹{product?.price}
+            </span>
+
+            <Link
+              to={`/product/${product._id}/reviews`}
+              className="text-sm text-blue-600 hover:underline font-medium"
+            >
+              ⭐ View Reviews
+            </Link>
+
+            {product?.stock > 10 ? (
+              <p className="text-green-600 text-sm font-medium">In Stock</p>
+            ) : product?.stock > 0 ? (
+              <p className="text-orange-500 text-sm font-medium">
+                Only {product.stock} left
+              </p>
+            ) : (
+              <p className="text-red-600 text-sm font-medium">Out of Stock</p>
+            )}
+
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={handleAddToCart}
+                disabled={isInCart || product?.stock === 0}
+                className={`
+      h-11
+      rounded-xl
+      font-semibold
+      transition
+      ${
+        product?.stock === 0
+          ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+          : isInCart
+            ? "bg-green-100 text-green-700"
+            : "bg-blue-600 hover:bg-blue-700 text-white"
+      }
+    `}
+              >
+                {product?.stock === 0
+                  ? "Out of Stock"
+                  : isInCart
+                    ? "Added"
+                    : "Add to Cart"}
+              </button>
+
+              <button
+                onClick={handleBuyNow}
+                disabled={product?.stock === 0}
+                className={`
+      h-11
+      rounded-xl
+      font-semibold
+      transition
+      ${
+        product?.stock === 0
+          ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+          : "bg-orange-500 hover:bg-orange-600 text-white"
+      }
+    `}
+              >
+                Buy Now
+              </button>
+            </div>
           </div>
         </div>
       </div>

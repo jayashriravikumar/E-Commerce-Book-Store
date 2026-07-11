@@ -12,12 +12,19 @@ export const verifyUser = async (req, res, next) => {
   }
 
   // If no cookie, check Authorization header
-  if (!token && req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+  if (
+    !token &&
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
     token = req.headers.authorization.split(" ")[1];
   }
 
-  console.log("Token received in verifyUser:", token); // Debug log
-
+  console.log("========== VERIFY USER ==========");
+  console.log("Cookies:", req.cookies);
+  console.log("Authorization:", req.headers.authorization);
+  console.log("Token:", token);
+  console.log("===============================");
   if (!token) {
     return next(new HandleError("Please login to access this resource", 401));
   }
@@ -37,7 +44,10 @@ export const roleBasedAccess = (...roles) => {
     console.log("User Role:", req.user.role);
     if (!roles.includes(req.user.role)) {
       return next(
-        new HandleError(`Role- ${req.user.role} not allowed to access this resource`, 403)
+        new HandleError(
+          `Role- ${req.user.role} not allowed to access this resource`,
+          403,
+        ),
       );
     }
     next();
@@ -48,6 +58,13 @@ export const roleBasedAccess = (...roles) => {
 export const sendToken = (user, statusCode, res) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: "1d",
+  });
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: false, // true in production with HTTPS
+    sameSite: "lax",
+    maxAge: 24 * 60 * 60 * 1000,
   });
 
   res.status(statusCode).json({
