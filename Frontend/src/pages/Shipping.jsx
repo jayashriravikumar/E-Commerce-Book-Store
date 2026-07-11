@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { saveShippingInfo } from "../features/cart/cartSlice";
 
+
 const Shipping = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

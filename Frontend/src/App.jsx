@@ -62,6 +62,21 @@ const BackupRecovery = lazy(() => import("./pages/BackupRecovery"));
 
 const ServerError = lazy(() => import("./pages/ServerError"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const Settings = lazy(() => import("./pages/Settings"));
+const ManageAddress = lazy(() => import("./pages/ManageAddress"));
+const ManagePayment = lazy(() => import("./pages/ManagePayment"));
+const NotificationSettings = lazy(() => import("./pages/NotificationSettings"));
+const AppearanceSettings = lazy(() =>
+  import("./pages/AppearanceSettings")
+);
+const LanguageSettings = lazy(() =>
+  import("./pages/LanguageSettings")
+);
+const Security = lazy(() => import("./pages/Security"));
+const AboutSettings = lazy(() => import("./pages/AboutSettings"));
+const TwoFactor = lazy(() => import("./pages/TwoFactor"));
+const LoginDevices = lazy(() => import("./pages/LoginDevices"));
+const DeleteAccount = lazy(() => import("./pages/DeleteAccount"));
 
 const App = () => {
   const { user } = useSelector((state) => state.user);
@@ -102,7 +117,35 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/shipping" element={<Shipping />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route
+  path="/manage-address"
+  element={<ManageAddress />}
+/>
+<Route
+  path="/notification-settings"
+  element={<NotificationSettings />}
+/>
+          <Route path="/payment-methods" element={<ManagePayment />} />
+          <Route
+  path="/appearance"
+  element={<AppearanceSettings />}
+/>
+<Route
+  path="/language"
+  element={<LanguageSettings />}
 
+/>
+<Route path="/security" element={<Security />} />
+
+<Route
+  path="/about-settings"
+  element={<AboutSettings />}
+
+/>
+<Route path="/two-factor" element={<TwoFactor />} />
+<Route path="/login-devices" element={<LoginDevices />} />
+<Route path="/delete-account" element={<DeleteAccount />} />
           {/* Orders */}
           <Route path="/order/confirm" element={<ConfirmOrder />} />
           <Route path="/payment" element={<Payment />} />

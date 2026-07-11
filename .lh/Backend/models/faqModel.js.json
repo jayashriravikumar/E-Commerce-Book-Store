@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Backend/models/faqModel.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783675186506,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783675186506,
+            "name": "Commit-0",
+            "content": "import mongoose from \"mongoose\";\r\n\r\nconst faqSchema = new mongoose.Schema(\r\n  {\r\n    question: {\r\n      type: String,\r\n      required: true,\r\n      trim: true,\r\n    },\r\n    answer: {\r\n      type: String,\r\n      required: true,\r\n    },\r\n    category: {\r\n      type: String,\r\n      enum: [\r\n        \"Orders\",\r\n        \"Payment\",\r\n        \"Shipping\",\r\n        \"Returns\",\r\n        \"Coupons\",\r\n        \"Books\",\r\n        \"Account\",\r\n      ],\r\n      default: \"Orders\",\r\n    },\r\n  },\r\n  {\r\n    timestamps: true,\r\n  }\r\n);\r\n\r\nexport default mongoose.model(\"FAQ\", faqSchema);"
+        }
+    ]
+}
