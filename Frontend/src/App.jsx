@@ -105,6 +105,26 @@ const App = () => {
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
           <Route path="/admin/orders" element={<OrderManagement />} />
 
+          <Route
+          path="/admin/products"
+          element={
+            <ProtectedRoute
+              adminOnly={true}
+              element={<ProductManagement />}
+            />
+          }
+        />
+
+        <Route
+          path="/admin/product/new"
+          element={
+            <ProtectedRoute
+              adminOnly={true}
+              element={<CreateProduct />}
+            />
+          }
+        />
+
        <Route
           path="/admin/inventory"
           element={

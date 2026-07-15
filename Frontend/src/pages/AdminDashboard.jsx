@@ -41,24 +41,14 @@ const adminCards = [
     path: "/admin/coupons",
     color: "bg-pink-500",
   },
-  {
-    title: "Analytics",
-    icon: "📊",
-    path: "/admin/analytics",
-    color: "bg-cyan-500",
-  },
+  
   {
     title: "Support Tickets",
     icon: "🎫",
     path: "/admin/tickets",
     color: "bg-red-500",
   },
-  {
-    title: "FAQ Management",
-    icon: "❓",
-    path: "/admin/faqs",
-    color: "bg-indigo-500",
-  },
+  
   {
   title: "Sales Reports",
   icon: "📊",

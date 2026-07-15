@@ -262,7 +262,18 @@ transition
     
 </div>
     <button
-      onClick={() => navigate("/shipping")}
+      onClick={() => {
+  sessionStorage.setItem(
+    "couponInfo",
+    JSON.stringify({
+      discount,
+      discountAmount,
+      finalAmount,
+    })
+  );
+
+  navigate("/shipping");
+}}
       className="w-full mt-4 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 rounded"
     >
       Proceed to Checkout
