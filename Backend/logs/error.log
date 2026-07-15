@@ -97,3 +97,5 @@
 {"level":"error","message":"totalComplaints is not defined","method":"GET","route":"/api/v1/admin/analytics","status":500,"timestamp":"2026-07-10T04:51:53.090Z"}
 {"level":"error","message":"totalComplaints is not defined","method":"GET","route":"/api/v1/admin/analytics","status":500,"timestamp":"2026-07-10T04:52:29.609Z"}
 {"level":"error","message":"totalComplaints is not defined","method":"GET","route":"/api/v1/admin/analytics","status":500,"timestamp":"2026-07-10T04:52:29.654Z"}
+{"level":"error","message":"Order validation failed: orderItems.0.image: Path `image` is required.","method":"POST","route":"/api/v1/new/order","status":500,"timestamp":"2026-07-15T04:14:03.574Z"}
+{"level":"error","message":"Order validation failed: paymentInfo.method: `Online` is not a valid enum value for path `paymentInfo.method`.","method":"POST","route":"/api/v1/new/order","status":500,"timestamp":"2026-07-15T04:16:21.754Z"}
