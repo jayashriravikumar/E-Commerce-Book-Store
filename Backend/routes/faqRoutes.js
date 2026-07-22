@@ -12,6 +12,7 @@ router.post(
   addFAQ
 );
 
+
 router.delete(
   "/:id",
   verifyUser,

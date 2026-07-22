@@ -4,15 +4,22 @@ import Product from "../models/productModel.js";
 import PDFDocument from "pdfkit";
 export const createNewOrder = async (req, res, next) => {
   const {
-    shippingAddress,
-    orderItems,
-    paymentInfo,
-    paidAt,
-    itemPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  } = req.body;
+  shippingAddress,
+  orderItems,
+  paymentInfo,
+} = req.body;
+
+const itemPrice = orderItems.reduce(
+  (total, item) => total + item.price * item.quantity,
+  0
+);
+
+const taxPrice = itemPrice * 0.05;
+
+const shippingPrice = itemPrice > 999 ? 0 : 49;
+
+const totalPrice =
+  itemPrice + taxPrice + shippingPrice;
 
 
 

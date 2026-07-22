@@ -11,7 +11,7 @@ import { v2 as cloudinary } from "cloudinary";
 export const registerUser = async (req, res, next) => {
   console.log("BODY:", req.body);
 
-  const { name, email, password, avatar, captchaToken, role } = req.body;
+  const { name, email, password, avatar, captchaToken } = req.body;
   if (!name) {
     return next(new HandleError("Please enter your name", 400));
   }
@@ -55,7 +55,7 @@ export const registerUser = async (req, res, next) => {
     name,
     email,
     password,
-    role: role || "user",
+    role: "user",
     avatar: {
       public_id: myCloud.public_id,
       url: myCloud.secure_url,
