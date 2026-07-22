@@ -32,19 +32,10 @@ export const verifyOTP = createAsyncThunk(
   "user/verifyOTP",
   async (verificationData, { rejectWithValue }) => {
     try {
-<<<<<<< HEAD
-      const config = { headers: { "Content-Type": "application/json" } };
-      const { data } = await axios.post(
-    "/api/v1/verify-email",
-    verificationData,
-    {
-        headers: {
-            "Content-Type": "application/json",
-        },
-=======
       const config = {
-        headers: { "Content-Type": "application/json" },
->>>>>>> origin/main
+        headers: {
+          "Content-Type": "application/json",
+        },
         withCredentials: true,
       };
 
