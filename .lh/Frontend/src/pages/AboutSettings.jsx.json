@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Frontend/src/pages/AboutSettings.jsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783666278749,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783666278749,
+            "name": "Commit-0",
+            "content": "import React from \"react\";\r\nimport Navbar from \"../components/Navbar\";\r\nimport Footer from \"../components/Footer\";\r\n\r\nconst AboutSettings = () => {\r\n  return (\r\n    <>\r\n      <Navbar />\r\n\r\n      <div className=\"min-h-screen bg-gray-100 py-8\">\r\n\r\n        <div className=\"max-w-3xl mx-auto bg-white rounded-xl shadow p-8\">\r\n\r\n          <h1 className=\"text-3xl font-bold mb-6\">\r\n            ℹ️ About\r\n          </h1>\r\n\r\n          <div className=\"space-y-5\">\r\n\r\n            <div>\r\n              <h2 className=\"font-semibold\">Application</h2>\r\n              <p className=\"text-gray-500\">\r\n                Online Book Store\r\n              </p>\r\n            </div>\r\n\r\n            <div>\r\n              <h2 className=\"font-semibold\">Version</h2>\r\n              <p className=\"text-gray-500\">\r\n                Version 1.0.0\r\n              </p>\r\n            </div>\r\n\r\n            <div>\r\n              <h2 className=\"font-semibold\">Developer</h2>\r\n              <p className=\"text-gray-500\">\r\n                Tech Sakthi Solutions\r\n              </p>\r\n            </div>\r\n\r\n            <div>\r\n              <h2 className=\"font-semibold\">Support</h2>\r\n              <p className=\"text-blue-600\">\r\n                support@bookstore.com\r\n              </p>\r\n            </div>\r\n\r\n          </div>\r\n\r\n        </div>\r\n      </div>\r\n\r\n      <Footer />\r\n    </>\r\n  );\r\n};\r\n\r\nexport default AboutSettings;"
+        }
+    ]
+}

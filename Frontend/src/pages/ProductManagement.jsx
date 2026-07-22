@@ -36,7 +36,15 @@ const ProductManagement = () => {
   // -----------------------------
   const fetchDeletedProducts = async () => {
     try {
-      const res = await axios.get("/api/v1/admin/products");
+      const res = await axios.get("/api/v1/admin/products", {
+  withCredentials: true,
+});
+
+const active = (res.data.products || []).filter(
+  (p) => !p.isDeleted
+);
+
+setProducts(active);
       const all = res.data.products || [];
       const deleted = all.filter((p) => p.isDeleted === true);
 
@@ -83,7 +91,12 @@ const ProductManagement = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`/api/v1/admin/product/${id}`);
+      await axios.delete(
+  `/api/v1/admin/product/${id}`,
+  {
+    withCredentials: true,
+  }
+);
       toast.success("Product deleted successfully!");
       fetchProducts();
       fetchDeletedProducts();
@@ -103,7 +116,13 @@ const ProductManagement = () => {
     if (!confirmRestore) return;
 
     try {
-      await axios.put(`/api/v1/admin/product/restore/${id}`);
+      await axios.put(
+  `/api/v1/admin/product/restore/${id}`,
+  {},
+  {
+    withCredentials: true,
+  }
+);
       toast.success("Product restored successfully!");
       fetchProducts();
       fetchDeletedProducts();
@@ -121,7 +140,12 @@ const ProductManagement = () => {
   if (!confirmDelete) return;
 
   try {
-    await axios.delete(`/api/v1/admin/product/permanent/${id}`);
+    await axios.delete(
+  `/api/v1/admin/product/permanent/${id}`,
+  {
+    withCredentials: true,
+  }
+);
 
     toast.success("Product permanently deleted!");
 
@@ -166,7 +190,7 @@ const ProductManagement = () => {
           </button>
           <button
             className="add-btn"
-            onClick={() => navigate("/admin/product/new")}
+            onClick={() => navigate("/admin/products/create")}
           >
             + Add Product
           </button>
@@ -219,17 +243,21 @@ const ProductManagement = () => {
               const imageUrl = getProductImage(product);
               return (
                 <tr key={product._id}>
-                  <td>
-                    <img
-                      src={imageUrl}
-                      alt={product.name}
-                      className="book-image"
-                      onError={(e) => {
-                        e.target.src =
-                          "https://via.placeholder.com/70x90?text=No+Image";
-                      }}
-                    />
-                  </td>
+                  
+                    <td>
+  {imageUrl ? (
+    <img
+      src={imageUrl}
+      alt={product.name}
+      className="book-image"
+    />
+  ) : (
+    <span className="text-gray-400 text-sm">
+      No Image
+    </span>
+  )}
+</td>
+                  
                   <td>{product.name || product.title}</td>
                   <td>{product.author}</td>
                   <td>₹{product.price}</td>
@@ -244,7 +272,7 @@ const ProductManagement = () => {
                   <td>
                     <button
                       className="edit-btn"
-                      onClick={() => navigate(`/admin/product/${product._id}`)}
+                      onClick={() => navigate(`/admin/products/edit/${product._id}`)}
                     >
                       ✏️ Edit
                     </button>
@@ -287,17 +315,21 @@ const ProductManagement = () => {
                   const imageUrl = getProductImage(product);
                   return (
                     <tr key={product._id}>
-                      <td>
-                        <img
-                          src={imageUrl}
-                          alt={product.name}
-                          className="book-image deleted-image"
-                          onError={(e) => {
-                            e.target.src =
-                              "https://via.placeholder.com/70x90?text=No+Image";
-                          }}
-                        />
-                      </td>
+                      
+                        <td>
+  {imageUrl ? (
+    <img
+      src={imageUrl}
+      alt={product.name}
+      className="book-image"
+    />
+  ) : (
+    <span className="text-gray-400 text-sm">
+      No Image
+    </span>
+  )}
+</td>
+                      
                       <td>{product.name || product.title}</td>
                       <td>{product.author}</td>
                       <td>₹{product.price}</td>

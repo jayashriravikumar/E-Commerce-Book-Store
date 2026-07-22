@@ -315,6 +315,8 @@ export const verifyEmailOTP = async (req, res, next) => {
     emailVerificationExpire: { $gt: Date.now() },
   });
 
+ 
+
   if (!user) {
     return next(new HandleError("OTP is invalid or has expired", 400));
   }

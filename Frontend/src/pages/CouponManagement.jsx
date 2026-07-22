@@ -9,6 +9,10 @@ const CouponManagement = () => {
   const [selectedCoupon, setSelectedCoupon] = useState(null);
   const [code, setCode] = useState("");
   const [discount, setDiscount] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+const [minimumOrderAmount, setMinimumOrderAmount] = useState("");
+const [usageLimit, setUsageLimit] = useState("");
+const [maximumDiscount, setMaximumDiscount] = useState("");
   const [active, setActive] = useState(true);
   const [editingCoupon, setEditingCoupon] = useState(null);
 
@@ -30,6 +34,10 @@ const CouponManagement = () => {
       code,
       discount,
       active,
+        expiryDate,
+  minimumOrderAmount,
+  usageLimit,
+  maximumDiscount
     });
 
     setShowModal(false);
@@ -64,6 +72,10 @@ const CouponManagement = () => {
       code,
       discount,
       active,
+       expiryDate,
+  minimumOrderAmount,
+  usageLimit,
+  maximumDiscount
     });
 
     setShowModal(false);
@@ -94,18 +106,29 @@ const CouponManagement = () => {
 };
 
 return (
-  <div className="min-h-screen bg-gray-100 py-10">
+  <div className="min-h-screen bg-gray-100 py-6 md:py-10 px-3 md:px-6">
 
     <div className="max-w-6xl mx-auto">
 
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">
+      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold">
           Coupon Management
         </h1>
 
         <button
           onClick={() => setShowModal(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition"
+          className="
+w-full
+md:w-auto
+bg-blue-600
+hover:bg-blue-700
+text-white
+px-5
+py-3
+rounded-lg
+transition
+font-semibold
+"
         >
           + Create Coupon
         </button>
@@ -120,39 +143,94 @@ return (
   {coupons.map((coupon) => (
     <div
       key={coupon._id}
-      className="bg-white rounded-xl shadow-md p-5 flex justify-between items-center"
+      className="
+bg-white
+rounded-xl
+shadow-md
+p-5
+flex
+flex-col
+md:flex-row
+justify-between
+md:items-center
+gap-5
+hover:shadow-lg
+transition
+"
     >
-      <div>
-        <h2 className="text-xl font-bold">
-          {coupon.code}
-        </h2>
+      <div className="w-full">
+  <h2 className="text-xl font-bold">
+    {coupon.code}
+  </h2>
 
-        <p className="text-gray-600">
-          Discount: {coupon.discount}%
-        </p>
+  <p className="text-gray-600">
+    <strong>Discount:</strong> {coupon.discount}%
+  </p>
 
-        <p
-          className={`font-semibold ${
-            coupon.active ? "text-green-600" : "text-red-600"
-          }`}
-        >
-          {coupon.active ? "Active" : "Inactive"}
-        </p>
-      </div>
+  <p className="text-gray-600">
+    <strong>Expiry:</strong>{" "}
+    {coupon.expiryDate
+      ? new Date(coupon.expiryDate).toLocaleDateString()
+      : "Not Set"}
+  </p>
 
-      <div className="flex gap-3">
+  <p className="text-gray-600">
+    <strong>Minimum Order:</strong> ₹
+    {coupon.minimumOrderAmount ?? 0}
+  </p>
+
+  <p className="text-gray-600">
+    <strong>Usage:</strong>{" "}
+    {coupon.usedCount ?? 0} / {coupon.usageLimit ?? "Unlimited"}
+  </p>
+
+  <p className="text-gray-600">
+    <strong>Maximum Discount:</strong> ₹
+    {coupon.maximumDiscount ?? "Unlimited"}
+  </p>
+
+  <p
+    className={`font-semibold ${
+      coupon.active ? "text-green-600" : "text-red-600"
+    }`}
+  >
+    {coupon.active ? "Active" : "Inactive"}
+  </p>
+</div>
+
+      <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
 
   <button
   onClick={() => {
-    setEditingCoupon(coupon);
+  setEditingCoupon(coupon);
 
-    setCode(coupon.code);
-    setDiscount(coupon.discount);
-    setActive(coupon.active);
+  setCode(coupon.code);
+  setDiscount(coupon.discount);
+  setActive(coupon.active);
 
-    setShowModal(true);
-  }}
-  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg"
+  setExpiryDate(
+    coupon.expiryDate
+      ? new Date(coupon.expiryDate).toISOString().split("T")[0]
+      : ""
+  );
+
+  setMinimumOrderAmount(coupon.minimumOrderAmount || "");
+  setUsageLimit(coupon.usageLimit || "");
+  setMaximumDiscount(coupon.maximumDiscount || "");
+
+  setShowModal(true);
+}}
+  className="
+w-full
+md:w-auto
+bg-yellow-500
+hover:bg-yellow-600
+text-white
+px-4
+py-3
+rounded-lg
+font-medium
+"
     >
     Edit
     </button>
@@ -162,7 +240,17 @@ return (
   setSelectedCoupon(coupon);
   setShowDeleteModal(true);
 }}
-  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
+  className="
+w-full
+md:w-auto
+bg-red-600
+hover:bg-red-700
+text-white
+px-4
+py-3
+rounded-lg
+font-medium
+"
 >
   Delete
 </button>
@@ -176,8 +264,17 @@ return (
     </div>
 
     {showModal && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="bg-white rounded-xl shadow-lg p-6 w-96">
+      <div className="fixed inset-0 bg-white flex items-center justify-center">
+        <div className="
+bg-white
+rounded-xl
+shadow-lg
+p-5
+w-[95%]
+max-w-md
+max-h-[90vh]
+overflow-y-auto
+">
           <h2 className="text-2xl font-bold mb-4">
             {editingCoupon ? "Edit Coupon" : "Create Coupon"}
             </h2>
@@ -199,18 +296,72 @@ return (
   </div>
 
   <div>
-    <label className="block mb-1 font-medium">
-      Discount
-    </label>
+  <label className="block mb-1 font-medium">
+    Discount (%)
+  </label>
 
-    <input
-      type="number"
-      value={discount}
-      onChange={(e) => setDiscount(e.target.value)}
-      className="w-full border rounded-lg p-2"
-      placeholder="20"
-    />
-  </div>
+  <input
+    type="number"
+    value={discount}
+    onChange={(e) => setDiscount(e.target.value)}
+    className="w-full border rounded-lg p-2"
+    placeholder="20"
+  />
+</div>
+
+<div>
+  <label className="block mb-1 font-medium">
+    Expiry Date
+  </label>
+
+  <input
+    type="date"
+    value={expiryDate}
+    onChange={(e) => setExpiryDate(e.target.value)}
+    className="w-full border rounded-lg p-2"
+  />
+</div>
+
+<div>
+  <label className="block mb-1 font-medium">
+    Minimum Order Amount (₹)
+  </label>
+
+  <input
+    type="number"
+    value={minimumOrderAmount}
+    onChange={(e) => setMinimumOrderAmount(e.target.value)}
+    className="w-full border rounded-lg p-2"
+  />
+</div>
+
+<div>
+  <label className="block mb-1 font-medium">
+    Usage Limit
+  </label>
+
+  <input
+    type="number"
+    value={usageLimit}
+    onChange={(e) => setUsageLimit(e.target.value)}
+    className="w-full border rounded-lg p-2"
+  />
+</div>
+
+<div>
+  <label className="block mb-1 font-medium">
+    Maximum Discount (₹)
+  </label>
+
+  <input
+    type="number"
+    value={maximumDiscount}
+    onChange={(e) => setMaximumDiscount(e.target.value)}
+    className="w-full border rounded-lg p-2"
+  />
+</div>
+
+
 
   <div className="flex items-center gap-2">
     <input
@@ -244,7 +395,14 @@ return (
     )}
     {showDeleteModal && (
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white rounded-xl shadow-xl p-6 w-96">
+    <div className="
+bg-white
+rounded-xl
+shadow-xl
+p-5
+w-[95%]
+max-w-md
+">
 
       <h2 className="text-2xl font-bold text-red-600 mb-4">
         Delete Coupon
@@ -264,7 +422,7 @@ return (
         </p>
       </div>
 
-      <div className="flex justify-end gap-3">
+      <div className="flex flex-col sm:flex-row justify-end gap-3">
         <button
           onClick={() => {
             setShowDeleteModal(false);

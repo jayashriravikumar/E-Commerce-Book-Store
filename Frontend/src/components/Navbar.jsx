@@ -6,6 +6,7 @@ import i18n from "../i18n";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/products/user/userSlice";
 import { Heart } from "lucide-react";
+import axios from "axios";
 
 
 const Navbar = () => {
@@ -52,10 +53,35 @@ const cartCount = useMemo(
   [cartItems]
 );
   // Logout
- const handleLogout = useCallback(() => {
-  dispatch(logout());
-  setProfileOpen(false);
-  navigate("/");
+const handleLogout = useCallback(async () => {
+  try {
+    await axios.post(
+      "/api/v1/logout",
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+
+    
+
+    dispatch(logout());
+localStorage.removeItem("token");
+sessionStorage.clear();
+
+    setProfileOpen(false);
+    setOpen(false);
+
+    navigate("/login");
+
+  } catch (error) {
+    console.log(error);
+
+    alert(
+      error.response?.data?.message ||
+      "Logout failed"
+    );
+  }
 }, [dispatch, navigate]);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -107,6 +133,7 @@ const cartCount = useMemo(
           >
             {t("AboutUs")}
           </Link>
+          
 
           <div className="relative">
   <button
@@ -118,6 +145,13 @@ const cartCount = useMemo(
 
   {supportOpen && (
     <div className="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
+      <Link
+  to="/faqs"
+  onClick={() => setOpen(false)}
+   className="block px-4 py-2 hover:bg-gray-100"
+>
+  FAQs
+</Link>
       <Link
         to="/contact-us"
         onClick={() => setSupportOpen(false)}
@@ -220,104 +254,124 @@ const cartCount = useMemo(
             <Heart size={24} />
           </Link>
 
-          {/* Authentication */}
-          {isAuthenticated ? (
-            <div ref={profileRef} className="relative hidden sm:block">
-              <button
-                type="button"
-                onClick={() => setProfileOpen(!profileOpen)}
-                className="flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-              >
-                <User size={18} />
-
-            <span className="hidden xl:inline">
-              {user?.name || "Profile"}
-            </span>
-              </button>
-
-              {profileOpen && (
-  <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
-
-    {/* User Info */}
-    <div className="px-4 py-4 bg-gray-50 border-b">
-      <p className="font-semibold text-gray-800">
-        {user?.name || "User"}
-      </p>
-
-      <p className="text-sm text-gray-500 break-words">
-        {user?.email}
-      </p>
-    </div>
-
-    {/* Profile */}
-    <Link
-      to="/profile"
-      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors"
-      onClick={() => setProfileOpen(false)}
-    >
-      <span className="text-lg">👤</span>
-      <span>My Profile</span>
-    </Link>
-
-    {/* Orders */}
-    <Link
-      to="/orders"
-      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors"
-      onClick={() => setProfileOpen(false)}
-    >
-      <span className="text-lg">📦</span>
-      <span>My Orders</span>
-    </Link>
-
-    {/* Settings */}
-    <Link
-      to="/settings"
-      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors"
-      onClick={() => setProfileOpen(false)}
-    >
-      <span className="text-lg">⚙️</span>
-      <span>Settings</span>
-    </Link>
-
-{/* Admin Section */}
-{user?.role === "admin" && (
-  <>
-    <div className="border-t border-gray-200 my-1"></div>
-
-    <Link
-      to="/admin/dashboard"
-      onClick={() => setProfileOpen(false)}
-      className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold transition-colors"
-    >
-      <span className="text-lg">🛠️</span>
-      <span>Admin Dashboard</span>
-    </Link>
-  </>
-)}
-
-    <div className="border-t border-gray-200 mt-1"></div>
-
-    {/* Logout */}
+{/* Authentication */}
+{isAuthenticated ? (
+  <div ref={profileRef} className="relative hidden sm:block">
     <button
-      onClick={handleLogout}
-      className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors text-left"
+      type="button"
+      onClick={() => setProfileOpen(!profileOpen)}
+      className="flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
     >
-      <span className="text-lg">🚪</span>
-      <span>Logout</span>
+      <User size={18} />
+      <span className="hidden xl:inline">
+        {user?.name || "Profile"}
+      </span>
     </button>
-  </div>
-)}
-                
-            </div>
-          ) : (
+
+    {profileOpen && (
+      <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
+
+        {/* User Info */}
+        <div className="px-4 py-4 bg-gray-50 border-b">
+          <p className="font-semibold text-gray-800">
+            {user?.name || "User"}
+          </p>
+
+          <p className="text-sm text-gray-500 break-words">
+            {user?.email}
+          </p>
+        </div>
+
+        {/* Profile */}
+        <Link
+          to="/profile"
+          onClick={() => setProfileOpen(false)}
+          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100"
+        >
+          <span>👤</span>
+          <span>My Profile</span>
+        </Link>
+
+        {/* Orders */}
+        <Link
+          to="/orders"
+          onClick={() => setProfileOpen(false)}
+          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100"
+        >
+          <span>📦</span>
+          <span>My Orders</span>
+        </Link>
+
+        {/* Settings */}
+        <Link
+          to="/settings"
+          onClick={() => setProfileOpen(false)}
+          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100"
+        >
+          <span>⚙️</span>
+          <span>Settings</span>
+        </Link>
+
+        {/* Admin */}
+        {user?.role === "admin" && (
+          <>
+            <div className="border-t border-gray-200 my-1"></div>
+
             <Link
-              to="/register"
-              className="hidden sm:flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+              to="/admin/dashboard"
+              onClick={() => setProfileOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold"
             >
-              <User size={18} />
-              Register
+              <span>📊</span>
+              <span>Admin Dashboard</span>
             </Link>
-          )}
+
+            <Link
+              to="/admin/products"
+              onClick={() => setProfileOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold"
+            >
+              <span>👑</span>
+              <span>Product Management</span>
+            </Link>
+
+            <Link
+              to="/admin/inventory"
+              onClick={() => setProfileOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold"
+            >
+              <span>📦</span>
+              <span>Inventory Management</span>
+            </Link>
+          </>
+        )}
+
+        <div className="border-t border-gray-200"></div>
+
+        <button
+          type="button"
+          onClick={() => {
+            setProfileOpen(false);
+            setShowLogoutModal(true);
+          }}
+          className="w-full text-left flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50"
+        >
+          <span>🚪</span>
+          <span>Logout</span>
+        </button>
+
+      </div>
+    )}
+  </div>
+) : (
+  <Link
+    to="/register"
+    className="hidden sm:flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+  >
+    <User size={18} />
+    Register
+  </Link>
+)}
 
           {/* Mobile Menu */}
 <button
@@ -331,13 +385,11 @@ const cartCount = useMemo(
 </div> {/* Navbar Container */}
 {/* Mobile Navigation */}
 <div
-  className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-    open
-      ? "max-h-screen opacity-100 translate-y-0"
-      : "max-h-0 opacity-0 -translate-y-2"
-  }`}
+  className={`fixed top-[72px] left-0 right-0 bottom-0 bg-white z-50 transition-transform duration-300 ${
+    open ? "translate-x-0" : "-translate-x-full"
+  } overflow-y-auto`}
 >
-  <div className="flex flex-col p-4 gap-4 bg-white">
+ <div className="flex flex-col p-4 gap-4 bg-white h-full overflow-y-auto">
 
     {/* Main Navigation */}
     <Link
@@ -376,6 +428,13 @@ const cartCount = useMemo(
         className="block py-1 pl-3 text-gray-600 hover:text-blue-600"
       >
         Contact Us
+      </Link>
+       <Link
+        to="/faqs"
+        onClick={() => setOpen(false)}
+        className="block py-1 pl-3 text-gray-600 hover:text-blue-600"
+      >
+        FAQs
       </Link>
 
       <Link
@@ -446,6 +505,13 @@ const cartCount = useMemo(
           >
             My Orders
           </Link>
+          <Link
+  to="/settings"
+  onClick={() => setOpen(false)}
+  className="block py-2 text-gray-700 hover:text-blue-600"
+>
+  Settings
+</Link>
 
           {user?.role === "admin" && (
             <Link

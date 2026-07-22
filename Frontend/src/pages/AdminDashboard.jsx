@@ -55,6 +55,12 @@ const adminCards = [
   path: "/admin/sales",
   color: "bg-emerald-500",
 },
+{
+  title: "Backup & Recovery",
+  icon: "💾",
+  path: "/admin/backup/recover",
+  color: "bg-purple-500",
+},
 ];
 
 const AdminDashboard = () => {

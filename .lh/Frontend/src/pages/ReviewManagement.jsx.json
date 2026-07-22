@@ -1,0 +1,102 @@
+{
+    "sourceFile": "Frontend/src/pages/ReviewManagement.jsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 21,
+            "patches": [
+                {
+                    "date": 1783599564700,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783599598065,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -85,9 +85,9 @@\n     </h2>\r\n   </div>\r\n \r\n </div>\r\n-\r\n+const [search, setSearch] = useState(\"\");\r\n         {products.length === 0 ? (\r\n           <div className=\"bg-white rounded-xl shadow-md p-8 text-center\">\r\n             No products have reviews yet.\r\n           </div>\r\n"
+                },
+                {
+                    "date": 1783599890063,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,8 +4,9 @@\n \r\n const ReviewManagement = () => {\r\n   const [products, setProducts] = useState([]);\r\n   const [loading, setLoading] = useState(true);\r\n+  const [search, setSearch] = useState(\"\");\r\n \r\n   const navigate = useNavigate();\r\n \r\n   const fetchProducts = async () => {\r\n"
+                },
+                {
+                    "date": 1783599923572,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,8 +27,13 @@\n \r\n   useEffect(() => {\r\n     fetchProducts();\r\n   }, []);\r\n+  const filteredProducts = products.filter((product) =>\r\n+  (product.name || product.title || \"\")\r\n+    .toLowerCase()\r\n+    .includes(search.toLowerCase())\r\n+);\r\n \r\n   if (loading) {\r\n     return (\r\n       <div className=\"text-center mt-10\">\r\n"
+                },
+                {
+                    "date": 1783599961825,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -91,9 +91,9 @@\n     </h2>\r\n   </div>\r\n \r\n </div>\r\n-const [search, setSearch] = useState(\"\");\r\n+\r\n         {products.length === 0 ? (\r\n           <div className=\"bg-white rounded-xl shadow-md p-8 text-center\">\r\n             No products have reviews yet.\r\n           </div>\r\n"
+                },
+                {
+                    "date": 1783600010817,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -91,8 +91,15 @@\n     </h2>\r\n   </div>\r\n \r\n </div>\r\n+<input\r\n+  type=\"text\"\r\n+  placeholder=\"Search books...\"\r\n+  value={search}\r\n+  onChange={(e) => setSearch(e.target.value)}\r\n+  className=\"w-full mb-6 border rounded-xl p-3\"\r\n+/>\r\n \r\n         {products.length === 0 ? (\r\n           <div className=\"bg-white rounded-xl shadow-md p-8 text-center\">\r\n             No products have reviews yet.\r\n"
+                },
+                {
+                    "date": 1783600082645,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -105,9 +105,9 @@\n             No products have reviews yet.\r\n           </div>\r\n         ) : (\r\n           <div className=\"space-y-5\">\r\n-            {products.map((product) => (\r\n+            {pfilteredProducts.map((product) => (\r\n               <div\r\n                 key={product._id}\r\n                 className=\"bg-white rounded-xl shadow-md p-6 flex justify-between items-center\"\r\n               >\r\n"
+                },
+                {
+                    "date": 1783600092809,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -105,9 +105,9 @@\n             No products have reviews yet.\r\n           </div>\r\n         ) : (\r\n           <div className=\"space-y-5\">\r\n-            {pfilteredProducts.map((product) => (\r\n+            {filteredProducts.map((product) => (\r\n               <div\r\n                 key={product._id}\r\n                 className=\"bg-white rounded-xl shadow-md p-6 flex justify-between items-center\"\r\n               >\r\n"
+                },
+                {
+                    "date": 1783600452137,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -110,8 +110,25 @@\n               <div\r\n                 key={product._id}\r\n                 className=\"bg-white rounded-xl shadow-md p-6 flex justify-between items-center\"\r\n               >\r\n+                <div className=\"flex gap-4 items-center\">\r\n+\r\n+  <img\r\n+    src={product.image?.[0]?.url}\r\n+    alt={product.name}\r\n+    className=\"\r\n+      w-20\r\n+      h-28\r\n+      object-contain\r\n+      border\r\n+      rounded-lg\r\n+      bg-white\r\n+      p-1\r\n+    \"\r\n+  />\r\n+\r\n+  \r\n                 <div>\r\n                   <h2 className=\"text-xl font-bold\">\r\n                     {product.name || product.title}\r\n                   </h2>\r\n@@ -129,8 +146,9 @@\n                       💬 {product.numOfReviews} Reviews\r\n                     </span>\r\n                   </div>\r\n                 </div>\r\n+                </div>\r\n \r\n                 <button\r\n                   onClick={() =>\r\n                     navigate(`/product/${product._id}/reviews`)\r\n"
+                },
+                {
+                    "date": 1783600516359,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -137,11 +137,11 @@\n                     {product.author}\r\n                   </p>\r\n \r\n                   <div className=\"mt-2 flex gap-6 text-sm\">\r\n-                    <span>\r\n-                      ⭐ {product.ratings.toFixed(1)}\r\n-                    </span>\r\n+                    <span className=\"bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-medium\">\r\n+  ⭐ {(product.ratings || 0).toFixed(1)}\r\n+</span>\r\n \r\n                     <span>\r\n                       💬 {product.numOfReviews} Reviews\r\n                     </span>\r\n"
+                },
+                {
+                    "date": 1783600541212,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -141,11 +141,11 @@\n                     <span className=\"bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-medium\">\r\n   ⭐ {(product.ratings || 0).toFixed(1)}\r\n </span>\r\n \r\n-                    <span>\r\n-                      💬 {product.numOfReviews} Reviews\r\n-                    </span>\r\n+                    <span className=\"bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium\">\r\n+  💬 {product.numOfReviews} Reviews\r\n+</span>\r\n                   </div>\r\n                 </div>\r\n                 </div>\r\n \r\n"
+                },
+                {
+                    "date": 1783600858866,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n     );\r\n   }\r\n \r\n   return (\r\n-    <div className=\"min-h-screen bg-gray-100 py-10\">\r\n+    <div className=\"min-h-screen bg-gray-100 py-6 md:py-10 px-3 md:px-0\">\r\n       <div className=\"max-w-6xl mx-auto\">\r\n \r\n         <h1 className=\"text-3xl font-bold mb-8\">\r\n           Review Management\r\n"
+                },
+                {
+                    "date": 1783600908486,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,9 +45,9 @@\n   return (\r\n     <div className=\"min-h-screen bg-gray-100 py-6 md:py-10 px-3 md:px-0\">\r\n       <div className=\"max-w-6xl mx-auto\">\r\n \r\n-        <h1 className=\"text-3xl font-bold mb-8\">\r\n+        <h1 className=\"text-2xl md:text-3xl font-bold mb-6 md:mb-8\">\r\n           Review Management\r\n         </h1>\r\n         <div className=\"grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8\">\r\n \r\n"
+                },
+                {
+                    "date": 1783600932187,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -48,9 +48,9 @@\n \r\n         <h1 className=\"text-2xl md:text-3xl font-bold mb-6 md:mb-8\">\r\n           Review Management\r\n         </h1>\r\n-        <div className=\"grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8\">\r\n+        <div className=\"grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8\">\r\n \r\n   <div className=\"bg-white rounded-xl shadow p-5\">\r\n     <p className=\"text-gray-500 text-sm\">Products Reviewed</p>\r\n     <h2 className=\"text-3xl font-bold mt-2\">\r\n"
+                },
+                {
+                    "date": 1783600961372,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -96,9 +96,17 @@\n   type=\"text\"\r\n   placeholder=\"Search books...\"\r\n   value={search}\r\n   onChange={(e) => setSearch(e.target.value)}\r\n-  className=\"w-full mb-6 border rounded-xl p-3\"\r\n+  className=\"\r\n+w-full\r\n+mb-5\r\n+border\r\n+rounded-xl\r\n+p-3\r\n+text-sm\r\n+md:text-base\r\n+\"\r\n />\r\n \r\n         {products.length === 0 ? (\r\n           <div className=\"bg-white rounded-xl shadow-md p-8 text-center\">\r\n"
+                },
+                {
+                    "date": 1783601022964,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -116,9 +116,23 @@\n           <div className=\"space-y-5\">\r\n             {filteredProducts.map((product) => (\r\n               <div\r\n                 key={product._id}\r\n-                className=\"bg-white rounded-xl shadow-md p-6 flex justify-between items-center\"\r\n+                className=\"\r\n+bg-white\r\n+rounded-xl\r\n+shadow-md\r\n+p-4\r\n+md:p-6\r\n+flex\r\n+flex-col\r\n+md:flex-row\r\n+justify-between\r\n+md:items-center\r\n+gap-4\r\n+hover:shadow-lg\r\n+transition\r\n+\"\r\n               >\r\n                 <div className=\"flex gap-4 items-center\">\r\n \r\n   <img\r\n"
+                },
+                {
+                    "date": 1783601048560,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -132,9 +132,9 @@\n hover:shadow-lg\r\n transition\r\n \"\r\n               >\r\n-                <div className=\"flex gap-4 items-center\">\r\n+                <div className=\"flex flex-col sm:flex-row gap-4 items-center sm:items-start\">\r\n \r\n   <img\r\n     src={product.image?.[0]?.url}\r\n     alt={product.name}\r\n"
+                },
+                {
+                    "date": 1783601068619,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -138,16 +138,18 @@\n   <img\r\n     src={product.image?.[0]?.url}\r\n     alt={product.name}\r\n     className=\"\r\n-      w-20\r\n-      h-28\r\n-      object-contain\r\n-      border\r\n-      rounded-lg\r\n-      bg-white\r\n-      p-1\r\n-    \"\r\n+w-24\r\n+h-32\r\n+md:w-20\r\n+md:h-28\r\n+object-contain\r\n+border\r\n+rounded-lg\r\n+bg-white\r\n+p-1\r\n+\"\r\n   />\r\n \r\n   \r\n                 <div>\r\n"
+                },
+                {
+                    "date": 1783601118182,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -152,9 +152,9 @@\n   />\r\n \r\n   \r\n                 <div>\r\n-                  <h2 className=\"text-xl font-bold\">\r\n+                  <h2 className=\"text-lg md:text-xl font-bold text-center sm:text-left\">\r\n                     {product.name || product.title}\r\n                   </h2>\r\n \r\n                   <p className=\"text-gray-500\">\r\n"
+                },
+                {
+                    "date": 1783601131306,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -156,9 +156,9 @@\n                   <h2 className=\"text-lg md:text-xl font-bold text-center sm:text-left\">\r\n                     {product.name || product.title}\r\n                   </h2>\r\n \r\n-                  <p className=\"text-gray-500\">\r\n+                  <p className=\"text-gray-500 text-center sm:text-left\">\r\n                     {product.author}\r\n                   </p>\r\n \r\n                   <div className=\"mt-2 flex gap-6 text-sm\">\r\n"
+                },
+                {
+                    "date": 1783601168474,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -160,9 +160,9 @@\n                   <p className=\"text-gray-500 text-center sm:text-left\">\r\n                     {product.author}\r\n                   </p>\r\n \r\n-                  <div className=\"mt-2 flex gap-6 text-sm\">\r\n+                  <div className=\"mt-3 flex flex-wrap justify-center sm:justify-start gap-2 text-sm\">\r\n                     <span className=\"bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-medium\">\r\n   ⭐ {(product.ratings || 0).toFixed(1)}\r\n </span>\r\n \r\n"
+                },
+                {
+                    "date": 1783601210179,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -176,9 +176,20 @@\n                 <button\r\n                   onClick={() =>\r\n                     navigate(`/product/${product._id}/reviews`)\r\n                   }\r\n-                  className=\"bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg\"\r\n+                  className=\"\r\n+w-full\r\n+md:w-auto\r\n+bg-blue-600\r\n+hover:bg-blue-700\r\n+text-white\r\n+px-6\r\n+py-3\r\n+rounded-lg\r\n+font-semibold\r\n+transition\r\n+\"\r\n                 >\r\n                   View Reviews\r\n                 </button>\r\n               </div>\r\n"
+                }
+            ],
+            "date": 1783599564700,
+            "name": "Commit-0",
+            "content": "import { useEffect, useState } from \"react\";\r\nimport axios from \"axios\";\r\nimport { useNavigate } from \"react-router-dom\";\r\n\r\nconst ReviewManagement = () => {\r\n  const [products, setProducts] = useState([]);\r\n  const [loading, setLoading] = useState(true);\r\n\r\n  const navigate = useNavigate();\r\n\r\n  const fetchProducts = async () => {\r\n    try {\r\n      const { data } = await axios.get(\"/api/v1/products\");\r\n\r\n      const reviewedProducts = data.products.filter(\r\n        (product) => (product.numOfReviews || 0) > 0\r\n      );\r\n\r\n      setProducts(reviewedProducts);\r\n    } catch (error) {\r\n      console.error(error);\r\n    }\r\n\r\n    setLoading(false);\r\n  };\r\n\r\n  useEffect(() => {\r\n    fetchProducts();\r\n  }, []);\r\n\r\n  if (loading) {\r\n    return (\r\n      <div className=\"text-center mt-10\">\r\n        Loading Review Management...\r\n      </div>\r\n    );\r\n  }\r\n\r\n  return (\r\n    <div className=\"min-h-screen bg-gray-100 py-10\">\r\n      <div className=\"max-w-6xl mx-auto\">\r\n\r\n        <h1 className=\"text-3xl font-bold mb-8\">\r\n          Review Management\r\n        </h1>\r\n        <div className=\"grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8\">\r\n\r\n  <div className=\"bg-white rounded-xl shadow p-5\">\r\n    <p className=\"text-gray-500 text-sm\">Products Reviewed</p>\r\n    <h2 className=\"text-3xl font-bold mt-2\">\r\n      {products.length}\r\n    </h2>\r\n  </div>\r\n\r\n  <div className=\"bg-white rounded-xl shadow p-5\">\r\n    <p className=\"text-gray-500 text-sm\">Total Reviews</p>\r\n    <h2 className=\"text-3xl font-bold mt-2\">\r\n      {products.reduce(\r\n        (sum, p) => sum + (p.numOfReviews || 0),\r\n        0\r\n      )}\r\n    </h2>\r\n  </div>\r\n\r\n  <div className=\"bg-white rounded-xl shadow p-5\">\r\n    <p className=\"text-gray-500 text-sm\">Average Rating</p>\r\n    <h2 className=\"text-3xl font-bold mt-2\">\r\n      {(\r\n        products.reduce(\r\n          (sum, p) => sum + (p.ratings || 0),\r\n          0\r\n        ) / (products.length || 1)\r\n      ).toFixed(1)}\r\n    </h2>\r\n  </div>\r\n\r\n  <div className=\"bg-white rounded-xl shadow p-5\">\r\n    <p className=\"text-gray-500 text-sm\">5★ Books</p>\r\n    <h2 className=\"text-3xl font-bold mt-2\">\r\n      {\r\n        products.filter(\r\n          p => (p.ratings || 0) >= 4.5\r\n        ).length\r\n      }\r\n    </h2>\r\n  </div>\r\n\r\n</div>\r\n\r\n        {products.length === 0 ? (\r\n          <div className=\"bg-white rounded-xl shadow-md p-8 text-center\">\r\n            No products have reviews yet.\r\n          </div>\r\n        ) : (\r\n          <div className=\"space-y-5\">\r\n            {products.map((product) => (\r\n              <div\r\n                key={product._id}\r\n                className=\"bg-white rounded-xl shadow-md p-6 flex justify-between items-center\"\r\n              >\r\n                <div>\r\n                  <h2 className=\"text-xl font-bold\">\r\n                    {product.name || product.title}\r\n                  </h2>\r\n\r\n                  <p className=\"text-gray-500\">\r\n                    {product.author}\r\n                  </p>\r\n\r\n                  <div className=\"mt-2 flex gap-6 text-sm\">\r\n                    <span>\r\n                      ⭐ {product.ratings.toFixed(1)}\r\n                    </span>\r\n\r\n                    <span>\r\n                      💬 {product.numOfReviews} Reviews\r\n                    </span>\r\n                  </div>\r\n                </div>\r\n\r\n                <button\r\n                  onClick={() =>\r\n                    navigate(`/product/${product._id}/reviews`)\r\n                  }\r\n                  className=\"bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg\"\r\n                >\r\n                  View Reviews\r\n                </button>\r\n              </div>\r\n            ))}\r\n          </div>\r\n        )}\r\n      </div>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default ReviewManagement;"
+        }
+    ]
+}

@@ -32,8 +32,8 @@ const SalesReport = () => {
 
   const fetchSalesSummary = async () => {
     try {
-      const { data } = await axios.get(
-  `/api/v1/sales/summary?days=${days}`
+   const { data } = await axios.get(
+  `/api/v1/summary?days=${days}`
 );
 
       setSummary({
@@ -69,12 +69,12 @@ const SalesReport = () => {
     <>
       <Navbar />
 
-      <div className="min-h-screen bg-gray-100 p-8">
+      <div className="min-h-screen bg-gray-100 p-4 md:p-8">
         <PageTitle title="Sales Reports" />
 
         <div className="max-w-7xl mx-auto">
 
-                    <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+                    <h2 className="text-2xl md:text-4xl font-bold text-center text-gray-800 mb-8">
             📊 Sales Reports
             </h2>
 
@@ -82,7 +82,15 @@ const SalesReport = () => {
 
   <button
     onClick={() => setDays(1)}
-    className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+   className={`px-5 py-2 rounded-lg transition
+
+${
+days===1
+? "bg-blue-700 text-white"
+: "bg-blue-500 text-white hover:bg-blue-700"
+}
+
+`}
   >
     Today
   </button>
@@ -113,7 +121,16 @@ const SalesReport = () => {
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-            <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="
+bg-white
+rounded-xl
+shadow-md
+p-6
+hover:shadow-xl
+hover:-translate-y-1
+transition
+duration-300
+">
               <h3 className="text-gray-500 text-sm font-semibold">
                 Total Revenue
               </h3>
@@ -161,7 +178,7 @@ const SalesReport = () => {
     Revenue by Order
   </h2>
 
-  <div style={{ width: "100%", height: 350 }}>
+  <div className="w-full h-[250px] md:h-[350px]">
     <ResponsiveContainer>
       <BarChart data={chartData}>
         <CartesianGrid strokeDasharray="3 3" />
@@ -193,7 +210,7 @@ const SalesReport = () => {
                 No sales available.
               </div>
             ) : (
-              <div className="overflow-x-auto">
+              <div className="hidden md:block overflow-x-auto">
 
                 <table className="w-full border-collapse">
 
@@ -235,8 +252,28 @@ const SalesReport = () => {
                         </td>
 
                         <td className="p-3">
-                          {order.orderStatus}
-                        </td>
+
+<span
+className={`px-3 py-1 rounded-full text-white text-sm
+
+${
+order.orderStatus==="Delivered"
+? "bg-green-600"
+: order.orderStatus==="Processing"
+? "bg-blue-600"
+: order.orderStatus==="Cancelled"
+? "bg-red-600"
+: "bg-gray-600"
+}
+
+`}
+>
+
+{order.orderStatus}
+
+</span>
+
+</td>
                       </tr>
                     ))}
                   </tbody>
@@ -244,9 +281,89 @@ const SalesReport = () => {
                 </table>
 
               </div>
+              
             )}
 
           </div>
+          <div className="md:hidden space-y-4">
+
+{orders.map((order)=>(
+
+<div
+key={order._id}
+className="bg-white rounded-xl shadow-md p-5"
+>
+
+<h2 className="font-bold">
+
+Order #{order._id.slice(-6)}
+
+</h2>
+
+<p className="mt-2">
+
+Customer:
+<strong> {order.user?.name || "Unknown"}</strong>
+
+</p>
+
+<p>
+
+Date:
+<strong>
+{" "}
+{new Date(order.createdAt).toLocaleDateString()}
+</strong>
+
+</p>
+
+<p>
+
+Items:
+<strong> {order.orderItems.length}</strong>
+
+</p>
+
+<p>
+
+Total:
+<strong className="text-green-600">
+
+₹{order.totalPrice}
+
+</strong>
+
+</p>
+
+<div className="mt-3">
+
+<span
+className={`px-3 py-1 rounded-full text-white text-sm
+
+${
+order.orderStatus==="Delivered"
+? "bg-green-600"
+: order.orderStatus==="Processing"
+? "bg-blue-600"
+: order.orderStatus==="Cancelled"
+? "bg-red-600"
+: "bg-gray-600"
+}
+
+`}
+>
+
+{order.orderStatus}
+
+</span>
+
+</div>
+
+</div>
+
+))}
+
+</div>
 
         </div>
       </div>

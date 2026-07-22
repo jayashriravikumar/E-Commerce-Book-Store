@@ -24,7 +24,7 @@ export const createNewOrder = async (req, res, next) => {
         taxPrice,
         shippingPrice,
         totalPrice,
-        paidAt: paymentInfo.method === "COD" ? null : Date.now(),
+      paidAt: paymentInfo.method === "Cash on Delivery" ? null : Date.now(),
         
         user:req.user._id,
     });

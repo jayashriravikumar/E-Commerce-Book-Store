@@ -6,7 +6,7 @@ import Rating from "../components/Rating";
 import SocialShare from "../components/SocialShare";
 import { Minus, PackageCheck, Plus, ShoppingCart, Heart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getProductDetails,
   removeErrors,
@@ -15,13 +15,53 @@ import { addToCart } from "../features/cart/cartSlice";
 import toast from "react-hot-toast";
 import axios from "axios";
 
+
+
+
 const ProductDetails = () => {
   const { loading, error, product } = useSelector((state) => state.product);
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [zoomStyle, setZoomStyle] = useState({});
+
+  const nextImage = () => {
+  if (!product?.image?.length) return;
+
+  setSelectedImage((prev) =>
+    prev === product.image.length - 1 ? 0 : prev + 1
+  );
+};
+
+const previousImage = () => {
+  if (!product?.image?.length) return;
+
+  setSelectedImage((prev) =>
+    prev === 0 ? product.image.length - 1 : prev - 1
+  );
+};
+
+const handleMouseMove = (e) => {
+  const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+
+  const x = ((e.clientX - left) / width) * 100;
+  const y = ((e.clientY - top) / height) * 100;
+
+  setZoomStyle({
+    transformOrigin: `${x}% ${y}%`,
+    transform: "scale(2)",
+  });
+};
+
+const handleMouseLeave = () => {
+  setZoomStyle({
+    transform: "scale(1)",
+    transformOrigin: "center",
+  });
+};
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const increaseQuantity = () => {
     if (quantity < product?.stock) {
       setQuantity(quantity + 1);
@@ -37,6 +77,10 @@ const ProductDetails = () => {
   const handleAddToCart = () => {
     dispatch(addToCart({ ...product, quantity }));
   };
+  const handleBuyNow = () => {
+  dispatch(addToCart({ ...product, quantity }));
+  navigate("/checkout");
+};
   const addWishlist = async () => {
     try {
       const { data } = await axios.post(
@@ -72,30 +116,36 @@ const ProductDetails = () => {
   const discountPercentage = Math.round(
     ((originalPrice - product?.price) / originalPrice) * 100,
   );
-  const submitReview = async () => {
-    try {
-      const { data } = await axios.put(
-        "/api/v1/review",
-        {
-          rating: reviewRating,
-          comment,
-          productId: product._id,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-
-      if (data.success) {
-        toast.success("Review submitted successfully");
-        dispatch(getProductDetails(id));
-        setComment("");
+ const submitReview = async () => {
+  try {
+    const { data } = await axios.put(
+      "/api/v1/review",
+      {
+        rating: reviewRating,
+        comment,
+        productId: product._id,
+      },
+      {
+        withCredentials: true,
       }
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Failed to submit review");
+    );
+
+    if (data.success) {
+      toast.success("Review submitted successfully");
+      dispatch(getProductDetails(id));
+      setComment("");
     }
-  };
+  } catch (error) {
+    toast.error(
+      error?.response?.data?.message || "Failed to submit review"
+    );
+  }
+};
+  
+
   const rating = product?.ratings || 0;
+  console.log("Product:", product);
+console.log("Image URL:", product?.image?.[0]?.url);
   return (
     <div className="min-h-screen bg-gray-50">
       <PageTitle
@@ -110,28 +160,21 @@ const ProductDetails = () => {
         url={window.location.href}
       />
       <Navbar />
-      <main className="max-w-7xl mx-auto px-4 py-8 md:py-12">
+      <main className="max-w-7xl mx-auto px-3 md:px-4 py-4 md:py-12">
         {/* Product Section */}
 
         <div
-          className="grid grid-cols-1 md:grid-cols-2
-      gap-12 bg-white p-8"
-        >
+className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 bg-white p-4 md:p-8 rounded-xl"
+>
           {/* Image Gallery */}
           <div>
-            <div className="aspect-square overflow-hidden rounded-xl">
+            <div className="aspect-square overflow-hidden rounded-xl max-h-[320px] md:max-h-none">
               <img
-                src={
-                  product?.image?.[selectedImage]?.url ||
-                  product?.coverImage?.[0]?.url ||
-                  "https://via.placeholder.com/300x400?text=No+Image"
-                }
-                alt={product?.name}
-                className="w-full h-full object-contain
-    transition-transform hover:scale-105
-    duration-700"
-                title={product?.name}
-              />
+  src={product?.image?.[selectedImage]?.url}
+  alt={product?.name}
+  title={product?.name}
+  className="w-full h-full object-contain transition-transform hover:scale-105 duration-700"
+/>
             </div>
 
             <div className="flex gap-3 mt-4 justify-center flex-wrap">
@@ -142,7 +185,7 @@ const ProductDetails = () => {
                   alt="thumbnail"
                   onClick={() => setSelectedImage(index)}
                   className={`
-        w-16 h-20
+      w-12 h-16 md:w-16 md:h-20
         object-cover
         rounded-lg
         cursor-pointer
@@ -157,13 +200,13 @@ const ProductDetails = () => {
           {/* Product Info */}
           <div className="flex flex-col">
             <h3
-              className="text-3xl font-semibold
+              className="text-2xl md:text-3xl font-semibold
           text-gray-900 mb-2"
             >
-              {product?.name}
+              {product?.title || product?.name}
             </h3>
 
-            <p className="text-lg text-gray-600 mb-3">by {product?.author}</p>
+            <p className="text-base md:text-lg text-gray-600 mb-3">by {product?.author}</p>
 
             <div
               className="flex items-center gap-4
@@ -175,7 +218,7 @@ const ProductDetails = () => {
               </span>
             </div>
             <div className="mb-6 flex items-baseline gap-3">
-              <span className="text-4xl font-semibold text-amber-600">
+              <span className="text-3xl md:text-4xl font-semibold text-amber-600">
                 ₹{product?.price}
               </span>
               <span
@@ -193,7 +236,7 @@ const ProductDetails = () => {
                 {discountPercentage}% OFF
               </span>
             </div>
-            <p className="text-gray-600 leading-relaxed mb-8 text-lg">
+            <p className="text-gray-600 leading-relaxed mb-6 md:mb-8 text-base md:text-lg">
               {product?.description}
             </p>
             <div
@@ -210,13 +253,10 @@ const ProductDetails = () => {
               </span>
             </div>
             <div
-              className="flex flex-wrap items-center
-          gap-4"
-            >
+className="flex flex-col md:flex-row items-stretch md:items-center gap-4"
+>
               <div
-                className="flex items-center border-2
-            border-gray-100 rounded-xl bg-white
-            overflow-hidden"
+                className="flex items-center justify-center border-2 border-gray-100 rounded-xl bg-white overflow-hidden w-full md:w-auto"
               >
                 <button
                   onClick={decreaseQuantity}
@@ -234,18 +274,17 @@ const ProductDetails = () => {
                   <Plus size={18} />
                 </button>
               </div>
-              <div className="flex gap-3 w-full">
+              <div className="flex flex-col sm:flex-row gap-3 w-full">
                 <button
                   onClick={addWishlist}
-                  className="bg-red-500 hover:bg-red-600
-    text-white px-4 rounded-xl"
+                  className="bg-red-500 hover:bg-red-600 text-white py-3 px-4 rounded-xl sm:w-auto w-full flex justify-center"
                 >
                   <Heart size={22} />
                 </button>
 
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 bg-blue-600
+                  className="w-full sm:flex-1 bg-blue-600
     hover:bg-blue-700 text-white font-bold py-3
     px-8 rounded-xl flex items-center
     justify-center gap-3 transition-all
@@ -257,6 +296,53 @@ const ProductDetails = () => {
               </div>
             </div>
             <SocialShare product={product} />
+            <div className="flex flex-wrap items-center gap-4">
+  <div
+    className="flex items-center border-2 border-gray-100 rounded-xl bg-white overflow-hidden"
+  >
+    <button
+      onClick={decreaseQuantity}
+      className="p-4 hover:bg-gray-50 hover:text-amber-600 transition-colors"
+    >
+      <Minus size={18} />
+    </button>
+
+    <span className="px-4 font-semibold">{quantity}</span>
+
+    <button
+      onClick={increaseQuantity}
+      className="p-4 hover:bg-gray-50 hover:text-amber-600 transition-colors"
+    >
+      <Plus size={18} />
+    </button>
+  </div>
+
+  <div className="flex gap-3 w-full">
+    <button
+      onClick={addWishlist}
+      className="bg-red-500 hover:bg-red-600 text-white px-4 rounded-xl"
+    >
+      <Heart size={22} />
+    </button>
+
+    <button
+      onClick={handleAddToCart}
+      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-3 transition-all"
+    >
+      <ShoppingCart />
+      Add to Cart
+    </button>
+
+    <button
+      onClick={handleBuyNow}
+      className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition-all"
+    >
+      Buy Now
+    </button>
+  </div>
+</div>
+
+<SocialShare product={product} />
           </div>
         </div>
       </main>
@@ -264,7 +350,7 @@ const ProductDetails = () => {
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
           <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border rounded-xl p-5 mb-6">
-            <div className="flex items-center justify-between">
+            <div  className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div>
                 <h3 className="text-lg font-bold">Overall Rating</h3>
 
@@ -310,7 +396,7 @@ const ProductDetails = () => {
 
           <button
             onClick={submitReview}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition shadow-md"
+            className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl"
           >
             Submit Review
           </button>
@@ -324,7 +410,7 @@ const ProductDetails = () => {
                   key={review._id}
                   className="bg-gray-50 border rounded-xl p-5 hover:shadow-md transition"
                 >
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-2">
                     <h4 className="font-bold text-lg">{review.name}</h4>
 
                     <span className="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-medium">

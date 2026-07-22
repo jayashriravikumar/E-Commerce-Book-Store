@@ -43,3 +43,39 @@ export const deleteFAQ = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+// Update FAQ
+export const updateFAQ = async (req, res) => {
+  try {
+    const { question, answer, category } = req.body;
+
+    const faq = await FAQ.findByIdAndUpdate(
+      req.params.id,
+      {
+        question,
+        answer,
+        category,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!faq) {
+      return res.status(404).json({
+        success: false,
+        message: "FAQ not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      faq,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

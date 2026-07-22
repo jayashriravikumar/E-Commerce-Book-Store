@@ -6,6 +6,7 @@ export const getAnalytics = async (req, res) => {
   const totalProducts = await Product.countDocuments();
   const totalUsers = await User.countDocuments();
   const totalOrders = await Order.countDocuments();
+  const totalComplaints = await Ticket.countDocuments();
 
   const orders = await Order.find();
 
@@ -52,10 +53,20 @@ export const getAnalytics = async (req, res) => {
     status: "resolved",
   });
 
+  const closedComplaints = await Ticket.countDocuments({
+  status: "closed",
+});
+
   const highPriorityComplaints = await Ticket.countDocuments({
     priority: "high",
   });
-
+  const recentOrders = await Order.find()
+.populate("user","name")
+.sort({createdAt:-1})
+.limit(5);
+const topSellingProducts = await Product.find()
+.sort({ numOfReviews: -1, ratings: -1 })
+.limit(5);
 
 
 
@@ -68,9 +79,11 @@ export const getAnalytics = async (req, res) => {
     lowStockProducts,
     outOfStockProducts,
     averageOrderValue,
+    recentOrders,
+    topSellingProducts,
 
     // Complaint Analytics
-    totalComplaints,
+   totalComplaints,
     openComplaints,
     assignedComplaints,
     inProgressComplaints,

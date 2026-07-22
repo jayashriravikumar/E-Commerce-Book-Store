@@ -122,7 +122,7 @@ const Payment = () => {
                 totalPrice: orderInfo.totalPrice,
                 paymentInfo: {
                   id: verifyRes.data.paymentId,
-                  method: "Online",
+                  method: "Razorpay",
                   status: "Succeeded",
               },
               };
@@ -178,7 +178,7 @@ const Payment = () => {
         totalPrice: orderInfo.totalPrice,
 
         paymentInfo: {
-            method: "COD",
+          method: "Cash on Delivery",
             status: "Pending",
         },
     };

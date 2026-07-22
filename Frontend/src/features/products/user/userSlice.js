@@ -143,13 +143,15 @@ const userSlice = createSlice({
     },
 
     logout: (state) => {
-      state.user = null;
-      state.isAuthenticated = false;
-      state.success = false;
+  state.user = null;
+  state.isAuthenticated = false;
+  state.success = false;
+  state.error = null;
 
-      localStorage.removeItem("user");
-      localStorage.removeItem("isAuthenticated");
-    },
+  localStorage.removeItem("user");
+  localStorage.removeItem("isAuthenticated");
+  localStorage.removeItem("token");
+},
   },
   extraReducers: (builder) => {
     builder

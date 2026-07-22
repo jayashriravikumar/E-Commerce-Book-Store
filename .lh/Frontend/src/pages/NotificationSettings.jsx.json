@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Frontend/src/pages/NotificationSettings.jsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783665184229,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783665184229,
+            "name": "Commit-0",
+            "content": "import React, { useState } from \"react\";\r\nimport Navbar from \"../components/Navbar\";\r\nimport Footer from \"../components/Footer\";\r\n\r\nconst NotificationSettings = () => {\r\n\r\n  const [settings, setSettings] = useState({\r\n    email: true,\r\n    sms: false,\r\n    orderUpdates: true,\r\n    offers: true,\r\n    wishlist: true,\r\n    newsletter: false,\r\n  });\r\n\r\n  const toggle = (key) => {\r\n    setSettings((prev) => ({\r\n      ...prev,\r\n      [key]: !prev[key],\r\n    }));\r\n  };\r\n\r\n  const items = [\r\n    [\"Email Notifications\", \"email\"],\r\n    [\"SMS Notifications\", \"sms\"],\r\n    [\"Order Updates\", \"orderUpdates\"],\r\n    [\"Special Offers\", \"offers\"],\r\n    [\"Wishlist Alerts\", \"wishlist\"],\r\n    [\"Newsletter\", \"newsletter\"],\r\n  ];\r\n\r\n  return (\r\n    <>\r\n      <Navbar />\r\n\r\n      <div className=\"min-h-screen bg-gray-100 py-8\">\r\n\r\n        <div className=\"max-w-4xl mx-auto\">\r\n\r\n          <h1 className=\"text-3xl font-bold mb-8\">\r\n            🔔 Notification Settings\r\n          </h1>\r\n\r\n          <div className=\"space-y-4\">\r\n\r\n            {items.map(([label, key]) => (\r\n\r\n              <div\r\n                key={key}\r\n                className=\"bg-white rounded-xl shadow p-5 flex justify-between items-center\"\r\n              >\r\n                <h2>{label}</h2>\r\n\r\n                <input\r\n                  type=\"checkbox\"\r\n                  checked={settings[key]}\r\n                  onChange={() => toggle(key)}\r\n                  className=\"w-5 h-5\"\r\n                />\r\n\r\n              </div>\r\n\r\n            ))}\r\n\r\n          </div>\r\n\r\n        </div>\r\n\r\n      </div>\r\n\r\n      <Footer />\r\n\r\n    </>\r\n  );\r\n};\r\n\r\nexport default NotificationSettings;"
+        }
+    ]
+}

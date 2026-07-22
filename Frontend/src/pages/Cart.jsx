@@ -61,9 +61,9 @@ const Cart = () => {
 
   return (
   <div className="min-h-screen bg-gray-50">
-    <div className="max-w-7xl mx-auto px-6 py-8">
-     <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8 shadow-sm">
-  <h1 className="text-4xl font-bold text-gray-900">
+    <div className="max-w-7xl mx-auto px-3 md:px-6 py-4 md:py-8">
+     <div className="bg-white border border-gray-200 rounded-xl p-4 md:p-6 mb-6 md:mb-8 shadow-sm">
+  <h1 className="text-2xl md:text-4xl font-bold text-gray-900">
     Shopping Cart
   </h1>
 
@@ -79,37 +79,39 @@ const Cart = () => {
         </h2>
       ) : (
         <>
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-8">
         
        
 <div className="lg:col-span-2">
   {cartItems.map((item) => (
     <div
       key={item._id}
-   className="
+  className="
 bg-white
 border
 rounded-xl
-p-4
+p-3 md:p-4
 mb-4
 flex
-items-center
-gap-4
+flex-row
+items-start
+gap-3
 shadow-sm
 hover:shadow-lg
 transition-all
 duration-300
 "
+
     >
       <img
         src={item.image?.[0]?.url || item.coverImage?.[0]?.url}
         alt={item.name || item.title}
-        className="w-28 h-40 object-contain bg-gray-50 rounded-xl p-2"
+        className="w-24 h-32 md:w-28 md:h-40 object-contain bg-gray-50 rounded-xl p-2 flex-shrink-0"
       />
 
-     <div className="flex-1">
+     <div className="flex-1 min-w-0">
 
-  <div className="flex justify-between items-start">
+  <div className="flex flex-col md:flex-row justify-between items-start gap-4">
 
     <div>
       <h2 className="font-semibold text-lg">
@@ -121,7 +123,7 @@ duration-300
       </p>
     </div>
 
-    <div className="flex items-center border rounded-lg overflow-hidden">
+    <div className="flex items-center border rounded-lg overflow-hidden w-full md:w-auto justify-center">
       <button
         onClick={() => dispatch(decreaseQuantity(item._id))}
         className="px-3 py-2 bg-gray-100 hover:bg-gray-200"
@@ -143,7 +145,7 @@ duration-300
 
   </div>
 
-  <div className="flex justify-between items-center mt-3">
+  <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mt-3">
 
     <div>
       <p className="text-orange-600 font-bold text-xl">
@@ -155,11 +157,12 @@ duration-300
       </p>
     </div>
 
-    <div className="flex items-center gap-2">
+    <div className="flex flex-col sm:flex-row w-full md:w-auto gap-2">
 
   <button
     onClick={() => dispatch(saveForLater(item._id))}
    className="
+w-full sm:w-auto
 px-4 py-2
 bg-blue-600
 text-white
@@ -174,6 +177,7 @@ transition
   <button
     onClick={() => dispatch(removeFromCart(item._id))}
    className="
+w-full sm:w-auto
 px-4 py-2
 bg-red-600
 text-white
@@ -195,7 +199,7 @@ transition
 </div>
 
 <div className="lg:col-span-1">
- <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 sticky top-24">
+ <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 md:p-6 lg:sticky lg:top-24">
 
     <p className="text-sm text-gray-500 mb-4">
   Free delivery on eligible orders
@@ -208,7 +212,7 @@ transition
 ✓ Free Delivery
 </p>
 
-    <h2 className="text-2xl font-bold mb-4">
+    <h2 className="text-xl md:text-2xl font-bold mb-4">
       Order Summary
     </h2>
 
@@ -313,80 +317,75 @@ transition
      <div
   key={item._id}
   className="
-  bg-white
-  border
-  rounded-xl
-  p-4
-  mb-4
-  flex
-  items-center
-  gap-5
-  shadow-sm
+bg-white
+border
+rounded-xl
+p-3 md:p-4
+mb-4
+flex
+flex-row
+items-start
+gap-3
+ shadow-sm
   hover:shadow-md
   transition
-  "
+"
+  
 
 >
        <img
     src={item.image?.[0]?.url || item.coverImage?.[0]?.url}
   alt={item.name}
   className="
-w-28
-h-40
+w-24
+h-32
+md:w-28
+md:h-40
 object-contain
 bg-gray-50
 rounded-lg
 p-2
+flex-shrink-0
 "
 />
-<div className="flex-1 flex justify-between items-center">
+<div className="flex-1 min-w-0">
 
-        
-  <div>
-  <h3 className="font-semibold text-lg">
-  {item.name || item.title || "Book Title"}
-</h3>
+  <h2 className="font-semibold text-xl">
+    {item.name || item.title}
+  </h2>
+
   <p className="text-gray-500 text-sm">
-    by {item.author || "Unknown"}
+    by {item.author || "Unknown Author"}
   </p>
 
-  <p className="text-orange-600 text-xl font-bold mt-2">
-    ₹{item.price}
-  </p>
-</div>
-  <div className="flex gap-3">
-  <button
-    onClick={() => dispatch(moveToCart(item._id))}
- className="
-bg-blue-500
-hover:bg-blue-600
-text-white
-px-4
-py-2
-rounded-lg
-font-medium
-transition
-"
-  >
-    Move To Cart
-  </button>
+  <div className="mt-4">
+    <p className="text-orange-600 font-bold text-2xl">
+      ₹{item.price}
+    </p>
 
-  <button
-    onClick={() => dispatch(removeSavedItem(item._id))}
-  className="
-bg-red-600
-hover:bg-red-700
-text-white
-px-4
-py-2
-rounded-lg
-font-medium
-transition
-"
-  >
-    Remove
-  </button>
-</div>
+    <p className="text-sm text-green-600">
+      {item.stock} items available
+    </p>
+  </div>
+
+  <div className="flex gap-3 mt-5">
+
+    <button
+      onClick={() => dispatch(moveToCart(item._id))}
+      className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg"
+    >
+      Move To Cart
+    </button>
+
+    <button
+      onClick={() => dispatch(removeSavedItem(item._id))}
+      className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg"
+    >
+      Remove
+    </button>
+
+  </div>
+
 </div>
       </div>
     ))}
