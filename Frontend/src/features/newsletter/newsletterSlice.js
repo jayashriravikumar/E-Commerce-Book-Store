@@ -6,7 +6,7 @@ export const subscribeNewsletter = createAsyncThunk(
   async (email, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:8000/api/v1/newsletter/subscribe",
+        "/api/v1/newsletter/subscribe",
         { email },
         {
           headers: {
