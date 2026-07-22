@@ -15,23 +15,35 @@ const ConfirmOrder = () => {
     0
   );
 
+  const couponInfo = JSON.parse(
+  sessionStorage.getItem("couponInfo")
+);
+
+const discount = couponInfo?.discount || 0;
+const discountAmount = couponInfo?.discountAmount || 0;
+
+const discountedSubtotal = subtotal - discountAmount;
+
   // Apply your official Shipping Policy rules
-  const shippingCharges = subtotal > 999 ? 0 : 49;
+  const shippingCharges =
+  discountedSubtotal > 999 ? 0 : 49;
   
   // Standard 5% GST for books
-  const tax = Math.round(subtotal * 0.05);
+  const tax = Math.round(discountedSubtotal * 0.05);
   
-  const totalPrice = subtotal + shippingCharges + tax;
+  const totalPrice = discountedSubtotal + shippingCharges + tax;
 
   const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.pinCode}, ${shippingInfo.country}`;
 
   const proceedToPayment = () => {
     const data = {
-      subtotal,
-      shippingCharges,
-      tax,
-      totalPrice,
-    };
+  subtotal: discountedSubtotal,
+  discount,
+  discountAmount,
+  shippingCharges,
+  tax,
+  totalPrice,
+};
     // Save the final calculated math to sessionStorage so the Payment gateway can access it
     sessionStorage.setItem("orderInfo", JSON.stringify(data));
     
@@ -111,25 +123,39 @@ const ConfirmOrder = () => {
           {/* Right Column: Order Summary & Math */}
           <div className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-gray-100 h-fit lg:sticky lg:top-24">
             <h2 className="text-xl font-bold mb-6 text-center border-b pb-4">Order Summary</h2>
-            
             <div className="space-y-4 text-gray-700 border-b pb-4 mb-4">
-              <div className="flex justify-between">
-                <span>Subtotal:</span>
-                <span className="font-medium">₹{subtotal}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Shipping Estimate:</span>
-                <span className="font-medium">₹{shippingCharges}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>GST (5%):</span>
-                <span className="font-medium">₹{tax}</span>
-              </div>
-            </div>
 
-            <div className="flex justify-between text-lg md:text-xl font-bold text-gray-900 mb-6 md:mb-8">
+                <div className="flex justify-between">
+                  <span>Subtotal:</span>
+                  <span className="font-medium">
+                    ₹{subtotal.toFixed(2)}
+                  </span>
+                </div>
+
+                <div className="flex justify-between text-green-600">
+                  <span>Coupon ({discount}%):</span>
+                  <span>-₹{discountAmount.toFixed(2)}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>Shipping Estimate:</span>
+                  <span className="font-medium">
+                    ₹{shippingCharges}
+                  </span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>GST (5%):</span>
+                  <span className="font-medium">
+                    ₹{tax}
+                  </span>
+                </div>
+
+              </div>
+         
+            <div className="flex justify-between text-xl font-bold text-gray-900 mb-8">
               <span>Total:</span>
-              <span>₹{totalPrice}</span>
+              <span>₹{totalPrice.toFixed(2)}</span>
             </div>
 
             <button
