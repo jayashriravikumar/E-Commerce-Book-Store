@@ -95,7 +95,7 @@ app.use("/api/v1", couponRoutes);
 
 
 //  middlewares
-app.use("/api/v1", reviewRoutes);
+
 
 app.use(morgan("dev"));
 
@@ -186,6 +186,7 @@ app.get("/metrics", (req, res) => {
 });
 
 app.use("/api/v1", product);
+app.use("/api/v1", reviewRoutes);
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", order);
 app.use("/api/v1",wishlist);

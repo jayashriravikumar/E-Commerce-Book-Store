@@ -31,6 +31,7 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsConditions = lazy(() => import("./pages/TermsConditions"));
 const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
 const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy"));
+const Checkout = lazy(() => import("./pages/Checkout"));
 
 const ConfirmOrder = lazy(() => import("./pages/ConfirmOrder"));
 const Payment = lazy(() => import("./pages/Payment"));
@@ -152,6 +153,7 @@ const App = () => {
           <Route path="/order/success" element={<OrderSuccess />} />
           <Route path="/orders" element={<MyOrders />} />
           <Route path="/order/:id" element={<OrderDetails />} />
+          <Route path="/checkout" element={<Checkout />} />
 
           {/* Support */}
           <Route path="/support" element={<Support />} />

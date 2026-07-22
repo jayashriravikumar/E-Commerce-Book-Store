@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1783570343320,
@@ -12,6 +12,10 @@
                 {
                     "date": 1783604115129,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,8 +10,9 @@\n import downloadBackupRoutes from \"./routes/downloadBackupRoutes.js\";\r\n import uploadBackupRoutes from \"./routes/uploadBackupRoutes.js\";\r\n import dashboardRoutes from \"./routes/dashboardRoutes.js\";\r\n import analyticsRoutes from \"./routes/analyticsRoutes.js\";\r\n+import adminanalyticsRoutes from \"./routes/adminAnalyticsRoutes.js\";\r\n import adminDashboardRoutes from \"./routes/adminDashboardRoutes.js\";\r\n import order from \"./routes/orderRoutes.js\";\r\n import cookieParser from \"cookie-parser\";\r\n import fileUpload from \"express-fileupload\";\r\n"
+                },
+                {
+                    "date": 1784695551463,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,8 +40,12 @@\n import errorHandler from \"./middleware/error.js\";\r\n import { errorLogger } from \"./middleware/logger.js\";\r\n import reviewRoutes from \"./routes/reviewRoutes.js\";\r\n import salesRoutes from \"./routes/salesRoutes.js\";\r\n+import addressRoutes from \"./routes/addressRoutes.js\";\r\n+import notificationRoutes from \"./routes/notificationRoutes.js\";\r\n+import preferenceRoutes from \"./routes/preferenceRoutes.js\";\r\n+import securityRoutes from \"./routes/securityRoutes.js\";\r\n \r\n \r\n \r\n \r\n@@ -90,10 +94,10 @@\n app.use(\"/api/v1\", couponRoutes);\r\n \r\n \r\n //  middlewares\r\n-app.use(\"/api/v1\", reviewRoutes);\r\n \r\n+\r\n app.use(morgan(\"dev\"));\r\n \r\n app.use((req, res, next) => {\r\n   totalRequests++;\r\n@@ -181,8 +185,9 @@\n   });\r\n });\r\n \r\n app.use(\"/api/v1\", product);\r\n+app.use(\"/api/v1\", reviewRoutes);\r\n app.use(\"/api/v1\", userRoutes);\r\n app.use(\"/api/v1\", order);\r\n app.use(\"/api/v1\",wishlist);\r\n app.use(\"/api/v1\", payment);\r\n@@ -200,8 +205,12 @@\n app.use(\"/api/v1\", dashboardRoutes);\r\n app.use(\"/api/v1\", analyticsRoutes);\r\n app.use(\"/api/v1\", adminDashboardRoutes);\r\n app.use(\"/api/v1\", adminAnalyticsRoutes);\r\n+app.use(\"/api/v1\", addressRoutes);\r\n+app.use(\"/api/v1\", notificationRoutes);\r\n+app.use(\"/api/v1\", preferenceRoutes);\r\n+app.use(\"/api/v1\", securityRoutes);\r\n // Error handler\r\n \r\n app.use((req, res, next) => {\r\n   const error = new Error(`Route not found: ${req.originalUrl}`);\r\n@@ -211,4 +220,5 @@\n app.use(errorLogger);\r\n app.use(errorHandler);\r\n \r\n export default app;\r\n+\r\n"
                 }
             ],
             "date": 1783570343320,

@@ -73,12 +73,14 @@ router
 router.get(
   "/admin/reviews",
   verifyUser,
+  roleBasedAccess("admin"),
   viewProductReviews
 );
 
 router.delete(
   "/admin/reviews",
   verifyUser,
+  roleBasedAccess("admin"),
   adminDeleteReview
 );
 
