@@ -39,7 +39,6 @@ import newsletterRoutes from "./routes/newsletterRoutes.js";
 import cloudinary from "./config/cloudinary.js";
 import errorHandler from "./middleware/error.js";
 import { errorLogger } from "./middleware/logger.js";
-import reviewRoutes from "./routes/reviewRoutes.js";
 import salesRoutes from "./routes/salesRoutes.js";
 import addressRoutes from "./routes/addressRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
@@ -91,7 +90,7 @@ const globalLimiter = rateLimit({
 });
 
 app.use("/api", globalLimiter);
-app.use("/api/v1", couponRoutes);
+
 
 
 //  middlewares

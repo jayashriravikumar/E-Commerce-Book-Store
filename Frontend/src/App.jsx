@@ -31,9 +31,16 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsConditions = lazy(() => import("./pages/TermsConditions"));
 const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
 const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy"));
-const Checkout = lazy(() => import("./pages/Checkout"));
-
+const CreateProduct = lazy(() => import("./pages/CreateProduct"));
+const ProductManagement = lazy(() => import("./pages/ProductManagement"));
+const InventoryManagement = lazy(() => import("./pages/InventoryManagement"));
+const VerifyOTP = lazy(() => import("./User/VerifyOTP"));
+const ForgotPassword = lazy(() => import("./User/ForgotPassword"));
+const ResetPassword = lazy(() => import("./User/ResetPassword"));
 const ConfirmOrder = lazy(() => import("./pages/ConfirmOrder"));
+const Shipping = lazy(() => import("./pages/Shipping"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const PaymentFailure = lazy(() => import("./pages/PaymentFailure"));
 const Payment = lazy(() => import("./pages/Payment"));
 const OrderSuccess = lazy(() => import("./pages/OrderSuccess"));
 const MyOrders = lazy(() => import("./pages/MyOrders"));
@@ -109,7 +116,13 @@ const App = () => {
           {/* User */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/verify-email" element={<VerifyOTP />} />
+          <Route path="/password/forget" element={<ForgotPassword />} />
+          <Route
+            path="/password/reset/:token"
+            element={<ResetPassword />}
+          />
+          <Route path="/about-us" element={<About />} />
+          <Route path="/contact-us" element={<Contact />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/update" element={<UpdateProfile />} />
           <Route path="/update-password" element={<UpdatePassword />} />
@@ -118,36 +131,9 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/shipping" element={<Shipping />} />
           <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route
-  path="/manage-address"
-  element={<ManageAddress />}
-/>
-<Route
-  path="/notification-settings"
-  element={<NotificationSettings />}
-/>
-          <Route path="/payment-methods" element={<ManagePayment />} />
-          <Route
-  path="/appearance"
-  element={<AppearanceSettings />}
-/>
-<Route
-  path="/language"
-  element={<LanguageSettings />}
-
-/>
-<Route path="/security" element={<Security />} />
-
-<Route
-  path="/about-settings"
-  element={<AboutSettings />}
-
-/>
-<Route path="/two-factor" element={<TwoFactor />} />
-<Route path="/login-devices" element={<LoginDevices />} />
-<Route path="/delete-account" element={<DeleteAccount />} />
-          {/* Orders */}
+          <Route path="/policies" element={<Policies />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/shipping" element={<Shipping />} />
           <Route path="/order/confirm" element={<ConfirmOrder />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/order/success" element={<OrderSuccess />} />
@@ -166,122 +152,45 @@ const App = () => {
           <Route path="/terms-conditions" element={<TermsConditions />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
-
-          {/* Error Pages */}
-          <Route path="/500" element={<ServerError />} />
-          <Route path="*" element={<NotFound />} />
-
-          <Route path="/faqs" element={<FAQ />} />
-
-          {/* Admin */}
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedRoute adminOnly={true} element={<AdminDashboard />} />
-            }
-          />
-          <Route
-  path="/admin/faqs"
-  element={
-    <ProtectedRoute
-      adminOnly={true}
-      element={<AdminFAQ />}
-    />
-  }
-/>
+          <Route path="/admin/orders" element={<OrderManagement />} />
 
           <Route
-            path="/admin/analytics"
-            element={
-              <ProtectedRoute adminOnly={true} element={<AdminAnalytics />} />
-            }
-          />
+          path="/admin/products"
+          element={
+            <ProtectedRoute
+              adminOnly={true}
+              element={<ProductManagement />}
+            />
+          }
+        />
 
-          <Route
-            path="/admin/products"
-            element={
-              <ProtectedRoute adminOnly={true} element={<ProductManagement />} />
-            }
-          />
+        <Route
+          path="/admin/product/new"
+          element={
+            <ProtectedRoute
+              adminOnly={true}
+              element={<CreateProduct />}
+            />
+          }
+        />
 
-          <Route
-            path="/admin/products/create"
-            element={
-              <ProtectedRoute adminOnly={true} element={<CreateProduct />} />
-            }
-          />
-
-          <Route
-            path="/admin/products/edit/:id"
-            element={
-              <ProtectedRoute adminOnly={true} element={<EditProduct />} />
-            }
-          />
-
-          <Route
-            path="/admin/orders"
-            element={
-              <ProtectedRoute adminOnly={true} element={<OrderManagement />} />
-            }
-          />
-
-          <Route
-            path="/admin/inventory"
-            element={
-              <ProtectedRoute adminOnly={true} element={<InventoryManagement />} />
-            }
-          />
-
-          <Route
-            path="/admin/reviews"
-            element={
-              <ProtectedRoute adminOnly={true} element={<ReviewManagement />} />
-            }
-          />
-
-          <Route
-            path="/admin/tickets"
-            element={
-              <ProtectedRoute adminOnly={true} element={<AdminTickets />} />
-            }
-          />
-
-          <Route
-            path="/admin/coupons"
-            element={
-              <ProtectedRoute adminOnly={true} element={<CouponManagement />} />
-            }
-          />
-
-          <Route
-            path="/admin/sales"
-            element={
-              <ProtectedRoute adminOnly={true} element={<SalesReport />} />
-            }
-          />
-
-          <Route
-            path="/admin/customers"
-            element={
-              <ProtectedRoute adminOnly={true} element={<CustomerManagement />} />
-            }
-          />
-
-          {/* Backup & Recovery */}
-          <Route
-            path="/admin/backup"
-            element={
-              <ProtectedRoute adminOnly={true} element={<BackupDashboard />} />
-            }
-          />
-
-          <Route
-            path="/admin/backup/recover"
-            element={
-              <ProtectedRoute adminOnly={true} element={<BackupRecovery />} />
-            }
-          />
-
+       <Route
+          path="/admin/inventory"
+          element={
+            <ProtectedRoute
+              adminOnly={true}
+              element={<InventoryManagement />}
+            />
+          }
+        />
+        
+          <Route path="/verify-email" element={<VerifyOTP />} />
+          <Route path="/product/:id/reviews" element={<ProductReviews />} />
+          <Route path="/admin/reviews" element={<ReviewManagement />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/coupons" element={<CouponManagement />} />
+          <Route path="/admin/sales" element={<SalesReport />} />
+          <Route path="/admin/customers" element={<CustomerManagement />} />
         </Routes>
       </Suspense>
 

@@ -4,11 +4,7 @@ import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
 
 const router = express.Router();
 
-router.get(
-  "/admin/reviews",
-  verifyUser,
-  roleBasedAccess("admin"),
-  getAllReviews
-);
+// GET all reviews
+
 
 export default router;

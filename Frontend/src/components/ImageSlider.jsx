@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 const slides = [
   {
-    id: "6a47911d2565ca1126529285",
-    title: "The Psychology of Money",
-    subtitle: "Timeless lessons on wealth, greed and happiness.",
-    image: "https://m.media-amazon.com/images/I/81Dky+tD+pL._SL1500_.jpg",
+    title: "Harry Potter",
+    subtitle: "A magical journey begins.",
+    image: "https://m.media-amazon.com/images/I/81iqZ2HHD-L.jpg",
+    productId: "69ae94412db6439b33d799b9",
   },
   {
-    id: "6a422562d0cd6823cd2b256a",
-    title: "Atomic Habits",
-    subtitle: "Tiny changes, remarkable results.",
-    image: "https://m.media-amazon.com/images/I/91bYsX41DVL._SL1500_.jpg",
-  },
-  {
-    id: "6a4790b82565ca1126529284",
     title: "Rich Dad Poor Dad",
-    subtitle: "What the rich teach their kids about money.",
-    image: "https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg",
+    subtitle: "Learn financial freedom.",
+    image: "https://m.media-amazon.com/images/I/81bsw6fnUiL._SL1500_.jpg",
+    productId: "69ae94412db6439b33d799bb",
+  },
+  {
+    title: "Clean Code",
+    subtitle: "Write better software.",
+    image: "https://m.media-amazon.com/images/I/41SH-SvWPxL.jpg",
+    productId: "69ae94412db6439b33d799c9",
   },
 ];
 
 const ImageSlider = () => {
   const [current, setCurrent] = useState(0);
   const navigate = useNavigate();
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -41,6 +43,7 @@ const ImageSlider = () => {
     setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   };
 
+  
   return (
     <section className="max-w-[1500px] mx-auto px-2 md:px-5 mt-2 md:mt-6">
       <div className="relative bg-gradient-to-r from-white via-gray-50 to-gray-100 rounded-3xl overflow-hidden border border-gray-200">
@@ -77,23 +80,21 @@ const ImageSlider = () => {
               {slides[current].subtitle}
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-5 mt-6 md:mt-10 justify-center md:justify-start">
+            <div className="flex gap-5 mt-10">
+              <button
+                onClick={() => navigate("/products")}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold transition"
+              >
+                Shop Now
+              </button>
 
-  <button
-    onClick={() => navigate("/products")}
-    className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold transition"
-  >
-    Shop Now
-  </button>
-
-  <button
-    onClick={() => navigate(`/product/${slides[current].id}`)}
-    className="border border-gray-300 hover:bg-gray-100 px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold transition"
-  >
-    View Details
-  </button>
-
-</div>
+              <button
+              onClick={() => navigate(`/product/${slides[current].productId}`)}
+              className="border border-gray-300 hover:bg-gray-100 px-8 py-4 rounded-xl font-semibold transition"
+            >
+              View Details
+            </button>
+            </div>
           </div>
 
           {/* Right Book Image */}

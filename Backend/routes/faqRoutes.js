@@ -1,16 +1,22 @@
 import express from "express";
-import { getFAQs, addFAQ, updateFAQ,deleteFAQ } from "../controller/faqController.js";
+import { getFAQs, addFAQ, deleteFAQ } from "../controller/faqController.js";
+import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
 
 const router = express.Router();
 
-router
-  .route("/")
-  .get(getFAQs)
-  .post(addFAQ);
+router.get("/", getFAQs);
+router.post(
+  "/",
+  verifyUser,
+  roleBasedAccess("admin"),
+  addFAQ
+);
 
-router
-  .route("/:id")
-  .put(updateFAQ)
-  .delete(deleteFAQ);
+router.delete(
+  "/:id",
+  verifyUser,
+  roleBasedAccess("admin"),
+  deleteFAQ
+);
 
 export default router;
