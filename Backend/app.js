@@ -1,6 +1,10 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 import express from "express";
+
+import cors from "cors";
+import dotenv from "dotenv";
+
 import product from "./routes/productRoutes.js";
 
 
@@ -11,13 +15,14 @@ import downloadBackupRoutes from "./routes/downloadBackupRoutes.js";
 import uploadBackupRoutes from "./routes/uploadBackupRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
-import adminanalyticsRoutes from "./routes/adminAnalyticsRoutes.js";
+import adminAnalyticsRoutes from "./routes/adminAnalyticsRoutes.js";
 import adminDashboardRoutes from "./routes/adminDashboardRoutes.js";
 import order from "./routes/orderRoutes.js";
+
+
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
-import dotenv from "dotenv";
-import cors from "cors";
+
 
 
 
@@ -30,8 +35,6 @@ import morgan from "morgan";
 import userRoutes from "./routes/userRoutes.js";
 import wishlist from "./routes/wishlistRoutes.js";
 import payment from "./routes/paymentRoutes.js";
-
-import adminAnalyticsRoutes from "./routes/adminAnalyticsRoutes.js";
 import customerServiceRoutes from "./routes/customerServiceRoutes.js";
 import faqRoutes from "./routes/faqRoutes.js";
 import ticketRoutes from "./routes/ticketRoutes.js";
@@ -44,6 +47,9 @@ import addressRoutes from "./routes/addressRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
 import preferenceRoutes from "./routes/preferenceRoutes.js";
 import securityRoutes from "./routes/securityRoutes.js";
+import reviewRoutes from "./routes/reviewRoutes.js";
+
+
 
 
 
@@ -93,7 +99,6 @@ app.use("/api", globalLimiter);
 
 
 
-//  middlewares
 
 
 app.use(morgan("dev"));
@@ -204,11 +209,14 @@ app.use("/api/v1", uploadBackupRoutes);
 app.use("/api/v1", dashboardRoutes);
 app.use("/api/v1", analyticsRoutes);
 app.use("/api/v1", adminDashboardRoutes);
-app.use("/api/v1", adminAnalyticsRoutes);
 app.use("/api/v1", addressRoutes);
 app.use("/api/v1", notificationRoutes);
 app.use("/api/v1", preferenceRoutes);
 app.use("/api/v1", securityRoutes);
+
+// 🔹 error handler (must be last)
+
+app.use("/api/v1", adminAnalyticsRoutes);
 // Error handler
 
 app.use((req, res, next) => {
