@@ -1,0 +1,22 @@
+{
+    "sourceFile": "Backend/routes/adminAnalyticsRoutes.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1784709602307,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1784709626776,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,7 +3,7 @@\n import { verifyUser, roleBasedAccess } from \"../helper/userAuth.js\";\r\n \r\n const router = express.Router();\r\n \r\n-router.get(\"/admin/analytics\", getAnalytics);\r\n+router.get(\"/admin/analytics\", verifyUser, roleBasedAccess(\"admin\"), getAnalytics);\r\n \r\n export default router;\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1784709602307,
+            "name": "Commit-0",
+            "content": "import express from \"express\";\r\nimport { getAnalytics } from \"../controller/adminAnalyticsController.js\";\r\nimport { verifyUser, roleBasedAccess } from \"../helper/userAuth.js\";\r\n\r\nconst router = express.Router();\r\n\r\nrouter.get(\"/admin/analytics\", getAnalytics);\r\n\r\nexport default router;"
+        }
+    ]
+}

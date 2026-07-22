@@ -1,0 +1,18 @@
+{
+    "sourceFile": ".gitignore",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1784709985142,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1784709985142,
+            "name": "Commit-0",
+            "content": "# Ignore ALL node_modules folders anywhere in the project\r\n**/node_modules/\r\n\r\n# Ignore ALL .env files anywhere in the project\r\n**/*.env\r\n**/.env\r\nBackend/config/config.env\r\n\r\n# Generated MongoDB backups\r\nBackend/backup/"
+        }
+    ]
+}
