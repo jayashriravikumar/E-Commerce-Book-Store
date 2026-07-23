@@ -1,5 +1,5 @@
 import { ChevronLeft,ChevronRight } from 'lucide-react';
-import React from 'react'
+import React, { memo, useMemo } from "react";
 import { useSelector } from 'react-redux';
 // import { useState } from 'react';
 import { FaAngleLeft, FaAngleRight, FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
@@ -15,14 +15,20 @@ const Pagination = ({
   const { totalPages, products } = useSelector((state) => state.product);
   if(!products || products?.length === 0 || totalPages <= 1) return null;
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    const pageWindow =1;
-    for (let i = Math.max(1, currentPage - pageWindow); i <= Math.min(totalPages, currentPage + pageWindow); i++){
-    pageNumbers.push(i);
+  const pageNumbers = useMemo(() => {
+  const numbers = [];
+  const pageWindow = 1;
+
+  for (
+    let i = Math.max(1, currentPage - pageWindow);
+    i <= Math.min(totalPages, currentPage + pageWindow);
+    i++
+  ) {
+    numbers.push(i);
   }
-  return pageNumbers;
-};
+
+  return numbers;
+}, [currentPage, totalPages]);
 const btnBase = "relative inline-flex items-center justify-center w-10 h-10 text-sm font-semibold transition-all duration-300 ease-in-out rounded-full mx-1";
 const activeBtn = "bg-blue-600 text-white shadow-lg shadow-blue-200 ring-2 ring-blue-600 ring-offset-2 scale-110";
 const inactiveBtn = "text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:scale-105 border border-transparent";
@@ -39,7 +45,7 @@ const controlBtn = "bg-white border border-gray-200 text-gray-500 hover:border-b
         <FaAngleDoubleLeft/>
         </button>
       <button disabled={currentPage === 1} onClick={() => onPageChange(currentPage-1)}
-      classname={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
+      className={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
       title='Previous'>
         <FaAngleLeft/>
         {/* {prevPagetext} */}
@@ -47,7 +53,7 @@ const controlBtn = "bg-white border border-gray-200 text-gray-500 hover:border-b
       <div></div>
       {/* Page Number */}
       <div className='flex gap-1 mr-2 borded-r pr-2 borded-gray-100'>
-        {getPageNumbers().map((number) => (
+        {pageNumbers.map((number) => (
         <button key={number} onClick={() => onPageChange(number)} 
         className={`${btnBase} ${currentPage === number ? activeBtn : inactiveBtn}`}>
         {number}
@@ -57,14 +63,14 @@ const controlBtn = "bg-white border border-gray-200 text-gray-500 hover:border-b
       {/* Next & Last */}
       <div className='flex gap-1 ml-2 border-l pl-2 border-gray-100'>
         <button disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)}
-      classname={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
+      className={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
       title='Next'>
         {/* {nextPageText} */}
         <FaAngleRight/>
         </button>
 
         <button disabled={currentPage === totalPages} onClick={() => onPageChange(totalPages)}
-      classname={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
+      className={`${btnBase} ${controlBtn} disabled:opacity-30 disabled:hover:scale-100`} 
       title='last Page'>
        <FaAngleDoubleRight/>
         </button>
@@ -77,4 +83,4 @@ const controlBtn = "bg-white border border-gray-200 text-gray-500 hover:border-b
   );
 };
 
-export default Pagination;
+export default memo(Pagination);

@@ -1,0 +1,50 @@
+{
+    "sourceFile": "Frontend/src/index.css",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 8,
+            "patches": [
+                {
+                    "date": 1783578358209,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783580562290,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,5 +4,21 @@\n }\r\n \r\n .no-scrollbar {\r\n   scrollbar-width: none;\r\n+}\r\n+\r\n+@keyframes fadeIn {\r\n+  from {\r\n+    opacity: 0;\r\n+    transform: translateY(-10px);\r\n+  }\r\n+\r\n+  to {\r\n+    opacity: 1;\r\n+    transform: translateY(0);\r\n+  }\r\n+}\r\n+\r\n+.animate-fadeIn {\r\n+  animation: fadeIn 0.25s ease;\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1783580614160,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,19 +6,4 @@\n .no-scrollbar {\r\n   scrollbar-width: none;\r\n }\r\n \r\n-@keyframes fadeIn {\r\n-  from {\r\n-    opacity: 0;\r\n-    transform: translateY(-10px);\r\n-  }\r\n-\r\n-  to {\r\n-    opacity: 1;\r\n-    transform: translateY(0);\r\n-  }\r\n-}\r\n-\r\n-.animate-fadeIn {\r\n-  animation: fadeIn 0.25s ease;\r\n-}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1783667884140,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,12 @@\n @import \"tailwindcss\";\r\n+\r\n+/* Enable class-based dark mode */\r\n+@custom-variant dark (&:where(.dark, .dark *));\r\n+\r\n .no-scrollbar::-webkit-scrollbar {\r\n   display: none;\r\n }\r\n \r\n .no-scrollbar {\r\n   scrollbar-width: none;\r\n-}\r\n-\r\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1783672011701,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n @import \"tailwindcss\";\r\n \r\n /* Enable class-based dark mode */\r\n-@custom-variant dark (&:where(.dark, .dark *));\r\n \r\n+\r\n .no-scrollbar::-webkit-scrollbar {\r\n   display: none;\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1783672099699,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n @import \"tailwindcss\";\r\n \r\n /* Enable class-based dark mode */\r\n+@custom-variant dark (&:where(.dark, .dark *));\r\n \r\n-\r\n .no-scrollbar::-webkit-scrollbar {\r\n   display: none;\r\n }\r\n \r\n"
+                },
+                {
+                    "date": 1783672131739,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n @import \"tailwindcss\";\r\n \r\n /* Enable class-based dark mode */\r\n-@custom-variant dark (&:where(.dark, .dark *));\r\n+@custom-variant dark (&:is(.dark *));\r\n \r\n .no-scrollbar::-webkit-scrollbar {\r\n   display: none;\r\n }\r\n"
+                },
+                {
+                    "date": 1783672144597,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n @import \"tailwindcss\";\r\n \r\n /* Enable class-based dark mode */\r\n-@custom-variant dark (&:is(.dark *));\r\n+@custom-variant dark (&:where(.dark));\r\n \r\n .no-scrollbar::-webkit-scrollbar {\r\n   display: none;\r\n }\r\n"
+                },
+                {
+                    "date": 1783672215384,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n @import \"tailwindcss\";\r\n \r\n /* Enable class-based dark mode */\r\n-@custom-variant dark (&:where(.dark));\r\n \r\n+\r\n .no-scrollbar::-webkit-scrollbar {\r\n   display: none;\r\n }\r\n \r\n"
+                }
+            ],
+            "date": 1783578358209,
+            "name": "Commit-0",
+            "content": "@import \"tailwindcss\";\r\n.no-scrollbar::-webkit-scrollbar {\r\n  display: none;\r\n}\r\n\r\n.no-scrollbar {\r\n  scrollbar-width: none;\r\n}"
+        }
+    ]
+}

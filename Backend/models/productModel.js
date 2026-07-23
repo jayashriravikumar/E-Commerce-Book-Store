@@ -22,16 +22,16 @@ const ProductSchema = new mongoose.Schema({
     default: 0,
   },
   image: [
-    {
-      public_id: {
-        type: String,
-        required: [true],
-      },
-      url: {
-        type: String, required: [true],
-      },
+  {
+    public_id: {
+      type: String,
     },
-  ],
+    url: {
+      type: String,
+      required: true,
+    },
+  },
+],
   category: {
     type: String,
     required: [true, "Please enter product category"],
@@ -54,10 +54,10 @@ const ProductSchema = new mongoose.Schema({
     
     },
 ],
-user:{
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: true,
+
+isDeleted: {
+  type: Boolean,
+  default: false,
 },
   createdAt:{
     type: Date,

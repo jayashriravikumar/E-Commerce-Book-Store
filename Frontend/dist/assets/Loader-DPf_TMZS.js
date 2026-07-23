@@ -1,0 +1,2 @@
+import{n as e,t}from"./jsx-runtime-n5LQ9ujS.js";e();var n=t(),r=()=>(0,n.jsx)(`div`,{className:`w-full h-screen flex justify-center items-center`,children:(0,n.jsx)(`div`,{className:`h-10 w-10 border-4\r
+ border-blue-500 rounded-full border-t-transparent animate-spin`,children:(0,n.jsx)(`span`,{className:`sr-only`,children:`Loading..`})})});export{r as t};

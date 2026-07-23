@@ -7,31 +7,32 @@ import {
   deleteAddress,
 } from "../controller/addressController.js";
 
-import { isAuthenticatedUser } from "../middleware/auth.js"; // use your real auth middleware
-
 const router = express.Router();
+
+// Temporary auth middleware
+import { verifyUser } from "../helper/user.auth.js";
 
 router.post(
   "/address/new",
-  isAuthenticatedUser,
+  verifyUser,
   addAddress
 );
 
 router.get(
   "/addresses/me",
-  isAuthenticatedUser,
+  verifyUser,
   getMyAddresses
 );
 
 router.put(
   "/address/:id",
-  isAuthenticatedUser,
+  verifyUser,
   updateAddress
 );
 
 router.delete(
   "/address/:id",
-  isAuthenticatedUser,
+  verifyUser,
   deleteAddress
 );
 

@@ -10,6 +10,7 @@ export default (err, req, res, next) => {
     err = new HandleError(message, 400);
   }
 
+  console.error(err);
   res.status(err.statusCode).json({
     success: false,
     message: err.message,

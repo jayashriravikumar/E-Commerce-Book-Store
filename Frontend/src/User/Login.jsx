@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../features/products/user/userSlice";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,12 +26,14 @@ const Login = () => {
       return;
     }
 
-    dispatch(
-      login({
-        email,
-        password,
-      })
-    );
+   dispatch(login({ email, password }))
+  .unwrap()
+  .then((res) => {
+    console.log("Login response in Login.jsx:", res);
+  })
+  .catch((err) => {
+    console.log("Login error in Login.jsx:", err);
+  });
   };
 
   useEffect(() => {
@@ -74,6 +77,15 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
+
+        <div className="flex justify-end mb-4">
+        <Link
+          to="/password/forget"
+          className="text-blue-600 hover:underline text-sm"
+        >
+          Forgot Password?
+        </Link>
+      </div>
 
         <button
           type="submit"

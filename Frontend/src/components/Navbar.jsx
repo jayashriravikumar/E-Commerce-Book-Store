@@ -1,33 +1,28 @@
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Search,
-  ShoppingBag,
-  ShoppingCart,
-  User,
-} from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { Search, ShoppingBag, ShoppingCart, User } from "lucide-react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "../i18n";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/products/user/userSlice";
 import { Heart } from "lucide-react";
+import axios from "axios";
 
 
 const Navbar = () => {
   const { t } = useTranslation();
 
-const changeLanguage = (lang) => {
-  i18n.changeLanguage(lang);
-  localStorage.setItem("language", lang);
-};
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem("language", lang);
+  };
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [supportOpen, setSupportOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const profileRef = useRef(null);
 
-  const { isAuthenticated, user } = useSelector(
-    (state) => state.user
-  );
+  const { isAuthenticated, user } = useSelector((state) => state.user);
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -35,56 +30,74 @@ const changeLanguage = (lang) => {
   const dispatch = useDispatch();
 
   // Search
-  const handleSearch = (e) => {
+const handleSearch = useCallback(
+  (e) => {
     e.preventDefault();
 
     if (searchQuery.trim()) {
-     navigate(
-  `/products?keyword=${encodeURIComponent(
-    searchQuery.trim()
-  )}`
-);
+      navigate(
+        `/products?keyword=${encodeURIComponent(searchQuery.trim())}`
+      );
     }
 
     setSearchQuery("");
-  };
+  },
+  [searchQuery, navigate]
+);
 
-  //cart count
   // Cart Count
-const { cartItems } = useSelector(
-  (state) => state.cart
-);
+  const { cartItems } = useSelector((state) => state.cart);
 
-const cartCount = cartItems.reduce(
-  (total, item) => total + item.quantity,
-  0
+const cartCount = useMemo(
+  () => cartItems.reduce((total, item) => total + item.quantity, 0),
+  [cartItems]
 );
-
   // Logout
-  const handleLogout = () => {
-    dispatch(logout());
-    setProfileOpen(false);
-    navigate("/");
-  };
-  useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (
-      profileRef.current &&
-      !profileRef.current.contains(event.target)
-    ) {
-      setProfileOpen(false);
-    }
-  };
-
-  document.addEventListener("mousedown", handleClickOutside);
-
-  return () => {
-    document.removeEventListener(
-      "mousedown",
-      handleClickOutside
+const handleLogout = useCallback(async () => {
+  try {
+    await axios.post(
+      "/api/v1/logout",
+      {},
+      {
+        withCredentials: true,
+      }
     );
-  };
-}, []);
+
+    
+
+    dispatch(logout());
+localStorage.removeItem("token");
+sessionStorage.clear();
+
+    setProfileOpen(false);
+    setOpen(false);
+
+    navigate("/login");
+
+  } catch (error) {
+    console.log(error);
+
+    alert(
+      error.response?.data?.message ||
+      "Logout failed"
+    );
+  }
+}, [dispatch, navigate]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setProfileOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+
+    
+  }, []);
 
   return (
     <nav className="sticky top-0 w-full bg-white border-b border-gray-200 z-50">
@@ -92,14 +105,14 @@ const cartCount = cartItems.reduce(
         {/* Logo */}
         <Link
           to="/"
-          className="flex items-center gap-2 text-2xl font-bold text-blue-600"
+          className="flex items-center gap-2 text-xl lg:text-2xl font-bold text-blue-600"
         >
           <ShoppingBag />
           <span>BookStore</span>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-10 ml-8">
+        <div className="hidden lg:flex items-center gap-6 ml-6">
           <Link
             className="text-gray-700 hover:text-blue-600 font-semibold"
             to="/"
@@ -120,38 +133,70 @@ const cartCount = cartItems.reduce(
           >
             {t("AboutUs")}
           </Link>
+          
 
-          <Link
-            className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
-            to="/contact-us"
-          >
-            {t("ContactUs")}
-          </Link>
-          <Link
-            to="/policies"
-            className="text-lg font-medium hover:text-blue-600"
-          >
-            {t("Policies")}
-          </Link>
+          <div className="relative">
+  <button
+    onClick={() => setSupportOpen(!supportOpen)}
+    className="text-gray-700 hover:text-blue-600 font-semibold whitespace-nowrap"
+  >
+    Support ▼
+  </button>
+
+  {supportOpen && (
+    <div className="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
+      <Link
+  to="/faqs"
+  onClick={() => setOpen(false)}
+   className="block px-4 py-2 hover:bg-gray-100"
+>
+  FAQs
+</Link>
+      <Link
+        to="/contact-us"
+        onClick={() => setSupportOpen(false)}
+        className="block px-4 py-2 hover:bg-gray-100"
+      >
+        Contact Us
+      </Link>
+
+      <Link
+        to="/policies"
+        onClick={() => setSupportOpen(false)}
+        className="block px-4 py-2 hover:bg-gray-100"
+      >
+        Policies
+      </Link>
+
+      <Link
+        to="/support"
+        onClick={() => setSupportOpen(false)}
+        className="block px-4 py-2 hover:bg-gray-100"
+      >
+        Help & Customer Service
+      </Link>
+    </div>
+  )}
+</div>
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-3 lg:gap-5">
           <div className="flex items-center gap-4">
-  {/* Cart */}
-  {/* Wishlist */}
-</div>
-         <div className="relative">
-  <select
-    onChange={(e) => changeLanguage(e.target.value)}
-    defaultValue={localStorage.getItem("language") || "en"}
-    className="
+            {/* Cart */}
+            {/* Wishlist */}
+          </div>
+          <div className="relative">
+            <select
+              onChange={(e) => changeLanguage(e.target.value)}
+              defaultValue={localStorage.getItem("language") || "en"}
+              className="
       appearance-none
       bg-gray-50
       border border-gray-200
       rounded-xl
-      pl-4 pr-10 py-2
-      text-sm
+      pl-3 pr-8 py-2
+      text-xs lg:text-sm
       font-medium
       text-gray-700
       hover:bg-white
@@ -162,17 +207,17 @@ const cartCount = cartItems.reduce(
       transition-all
       cursor-pointer
     "
-  >
-    <option value="en">🇺🇸 English</option>
-    <option value="te">🇮🇳 తెలుగు</option>
-    <option value="hi">🇮🇳 हिन्दी</option>
-    <option value="ta">🇮🇳 தமிழ்</option>
-  </select>
+            >
+              <option value="en">🇺🇸 English</option>
+              <option value="te">🇮🇳 తెలుగు</option>
+              <option value="hi">🇮🇳 हिन्दी</option>
+              <option value="ta">🇮🇳 தமிழ்</option>
+            </select>
 
-  <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
-    ▼
-  </span>
-</div>
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+              ▼
+            </span>
+          </div>
           {/* Search */}
           <form
             onSubmit={handleSearch}
@@ -181,7 +226,7 @@ const cartCount = cartItems.reduce(
             <input
               type="text"
               placeholder={t("searchProduct")}
-              className="px-4 py-2 text-sm w-56 focus:outline-none"
+              className="px-3 py-2 text-sm w-32 lg:w-48 focus:outline-none"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -209,142 +254,308 @@ const cartCount = cartItems.reduce(
             <Heart size={24} />
           </Link>
 
-          {/* Authentication */}
-          {isAuthenticated ? (
-            <div
-  ref={profileRef}
-  className="relative hidden sm:block"
->
-              <button
-                type="button"
-                onClick={() => setProfileOpen(!profileOpen)}
-                className="flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-              >
-                <User size={18} />
-                {user?.name || "Profile"}
-              </button>
+{/* Authentication */}
+{isAuthenticated ? (
+  <div ref={profileRef} className="relative hidden sm:block">
+    <button
+      type="button"
+      onClick={() => setProfileOpen(!profileOpen)}
+      className="flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+    >
+      <User size={18} />
+      <span className="hidden xl:inline">
+        {user?.name || "Profile"}
+      </span>
+    </button>
 
-              {profileOpen && (
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50">
-                  <div className="p-4 border-b">
-                    <p className="font-semibold">
-                      {user?.name || "User"}
-                    </p>
+    {profileOpen && (
+      <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50">
 
-                    <p className="text-sm text-gray-500 break-words">
-                      {user?.email}
-                    </p>
-                  </div>
+        {/* User Info */}
+        <div className="px-4 py-4 bg-gray-50 border-b">
+          <p className="font-semibold text-gray-800">
+            {user?.name || "User"}
+          </p>
 
-                  <Link
-                    to="/profile"
-                    className="block px-4 py-3 hover:bg-gray-100"
-                    onClick={() => setProfileOpen(false)}
-                  >
-                    👤 My Profile
-                  </Link>
+          <p className="text-sm text-gray-500 break-words">
+            {user?.email}
+          </p>
+        </div>
 
-                  <Link
-                    to="/orders"
-                    className="block px-4 py-3 hover:bg-gray-100"
-                    onClick={() => setProfileOpen(false)}
-                  >
-                    📦 My Orders
-                  </Link>
+        {/* Profile */}
+        <Link
+          to="/profile"
+          onClick={() => setProfileOpen(false)}
+          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100"
+        >
+          <span>👤</span>
+          <span>My Profile</span>
+        </Link>
 
-                  <Link
-                    to="/settings"
-                    className="block px-4 py-3 hover:bg-gray-100"
-                    onClick={() => setProfileOpen(false)}
-                  >
-                    ⚙️ Settings
-                  </Link>
+        {/* Orders */}
+        <Link
+          to="/orders"
+          onClick={() => setProfileOpen(false)}
+          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100"
+        >
+          <span>📦</span>
+          <span>My Orders</span>
+        </Link>
 
-                 <button
-  type="button"
-  onClick={() => setShowLogoutModal(true)}
-  className="w-full text-left px-4 py-3 hover:bg-red-50 text-red-600"
->
-  🚪 Logout
-</button>
-                </div>
-              )}
-            </div>
-          ) : (
+        {/* Settings */}
+        <Link
+          to="/settings"
+          onClick={() => setProfileOpen(false)}
+          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100"
+        >
+          <span>⚙️</span>
+          <span>Settings</span>
+        </Link>
+
+        {/* Admin */}
+        {user?.role === "admin" && (
+          <>
+            <div className="border-t border-gray-200 my-1"></div>
+
             <Link
-              to="/register"
-              className="hidden sm:flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+              to="/admin/dashboard"
+              onClick={() => setProfileOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold"
             >
-              <User size={18} />
-              Register
+              <span>📊</span>
+              <span>Admin Dashboard</span>
+            </Link>
+
+            <Link
+              to="/admin/products"
+              onClick={() => setProfileOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold"
+            >
+              <span>👑</span>
+              <span>Product Management</span>
+            </Link>
+
+            <Link
+              to="/admin/inventory"
+              onClick={() => setProfileOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-blue-600 font-semibold"
+            >
+              <span>📦</span>
+              <span>Inventory Management</span>
+            </Link>
+          </>
+        )}
+
+        <div className="border-t border-gray-200"></div>
+
+        <button
+          type="button"
+          onClick={() => {
+            setProfileOpen(false);
+            setShowLogoutModal(true);
+          }}
+          className="w-full text-left flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50"
+        >
+          <span>🚪</span>
+          <span>Logout</span>
+        </button>
+
+      </div>
+    )}
+  </div>
+) : (
+  <Link
+    to="/register"
+    className="hidden sm:flex gap-2 items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+  >
+    <User size={18} />
+    Register
+  </Link>
+)}
+
+          {/* Mobile Menu */}
+<button
+  onClick={() => setOpen(!open)}
+  className="lg:hidden text-gray-700"
+>
+  {open ? "Close" : "Menu"}
+</button>
+
+</div> {/* Right Section */}
+</div> {/* Navbar Container */}
+{/* Mobile Navigation */}
+<div
+  className={`fixed top-[72px] left-0 right-0 bottom-0 bg-white z-50 transition-transform duration-300 ${
+    open ? "translate-x-0" : "-translate-x-full"
+  } overflow-y-auto`}
+>
+ <div className="flex flex-col p-4 gap-4 bg-white h-full overflow-y-auto">
+
+    {/* Main Navigation */}
+    <Link
+      to="/"
+      onClick={() => setOpen(false)}
+      className="font-semibold text-gray-700 hover:text-blue-600"
+    >
+      {t("Home")}
+    </Link>
+
+    <Link
+      to="/products"
+      onClick={() => setOpen(false)}
+      className="font-semibold text-gray-700 hover:text-blue-600"
+    >
+      {t("Products")}
+    </Link>
+
+    <Link
+      to="/about-us"
+      onClick={() => setOpen(false)}
+      className="font-semibold text-gray-700 hover:text-blue-600"
+    >
+      {t("AboutUs")}
+    </Link>
+
+    {/* Support */}
+    <div className="border-t pt-3">
+      <p className="font-semibold text-gray-900 mb-2">
+        Support
+      </p>
+
+      <Link
+        to="/contact-us"
+        onClick={() => setOpen(false)}
+        className="block py-1 pl-3 text-gray-600 hover:text-blue-600"
+      >
+        Contact Us
+      </Link>
+       <Link
+        to="/faqs"
+        onClick={() => setOpen(false)}
+        className="block py-1 pl-3 text-gray-600 hover:text-blue-600"
+      >
+        FAQs
+      </Link>
+
+      <Link
+        to="/policies"
+        onClick={() => setOpen(false)}
+        className="block py-1 pl-3 text-gray-600 hover:text-blue-600"
+      >
+        Policies
+      </Link>
+
+      <Link
+        to="/support"
+        onClick={() => setOpen(false)}
+        className="block py-1 pl-3 text-gray-600 hover:text-blue-600"
+      >
+        Help & Customer Service
+      </Link>
+    </div>
+
+    {/* Quick Access */}
+    <div className="border-t pt-3">
+      <p className="font-semibold text-gray-900 mb-2">
+        Quick Access
+      </p>
+
+      <Link
+        to="/cart"
+        onClick={() => setOpen(false)}
+        className="flex items-center gap-2 py-2 text-gray-700 hover:text-blue-600"
+      >
+        <ShoppingCart size={18} />
+        Cart
+      </Link>
+
+      <Link
+        to="/wishlist"
+        onClick={() => setOpen(false)}
+        className="flex items-center gap-2 py-2 text-gray-700 hover:text-blue-600"
+      >
+        <Heart size={18} />
+        Wishlist
+      </Link>
+    </div>
+
+    {/* Account */}
+    <div className="border-t pt-3">
+      {isAuthenticated ? (
+        <>
+          <p className="font-semibold text-gray-900 mb-2">
+            {user?.name}
+          </p>
+
+          <Link
+            to="/profile"
+            onClick={() => {
+              setOpen(false);
+              setProfileOpen(false);
+            }}
+            className="block py-2 text-gray-700 hover:text-blue-600"
+          >
+            My Profile
+          </Link>
+
+          <Link
+            to="/orders"
+            onClick={() => setOpen(false)}
+            className="block py-2 text-gray-700 hover:text-blue-600"
+          >
+            My Orders
+          </Link>
+          <Link
+  to="/settings"
+  onClick={() => setOpen(false)}
+  className="block py-2 text-gray-700 hover:text-blue-600"
+>
+  Settings
+</Link>
+
+          {user?.role === "admin" && (
+            <Link
+              to="/admin/dashboard"
+              onClick={() => setOpen(false)}
+              className="block py-2 text-blue-600 font-semibold"
+            >
+              Admin Dashboard
             </Link>
           )}
 
-          {/* Mobile Menu */}
           <button
-            onClick={() => setOpen(!open)}
-            className="md:hidden text-gray-700"
+            onClick={() => {
+              setOpen(false);
+              handleLogout();
+            }}
+            className="py-2 text-red-600 text-left"
           >
-            {open ? "Close" : "Menu"}
+            Logout
           </button>
-        </div>
-      </div>
+        </>
+      ) : (
+        <Link
+          to="/register"
+          onClick={() => setOpen(false)}
+          className="block py-2 text-blue-600 font-semibold"
+        >
+          Register / Login
+        </Link>
+      )}
+    </div>
 
-      {/* Mobile Navigation */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          open
-            ? "max-h-96 opacity-100 translate-y-0"
-            : "max-h-0 opacity-0 -translate-y-2"
-        }`}
-      >
-        <div className="flex flex-col p-4 gap-4">
-          <Link
-            onClick={() => setOpen(false)}
-            className="text-gray-700 hover:text-blue-600 font-semibold"
-            to="/"
-          >
-            {t("Home")}
-          </Link>
-
-          <Link
-            onClick={() => setOpen(false)}
-            className="text-gray-700 hover:text-blue-600 font-semibold"
-            to="/products"
-          >
-            {t("Products")}
-          </Link>
-
-          <Link
-            onClick={() => setOpen(false)}
-            className="text-gray-700 hover:text-blue-600 font-semibold"
-            to="/about-us"
-          >
-            {t("AboutUs")}
-          </Link>
-
-          <Link
-            onClick={() => setOpen(false)}
-            className="text-gray-700 hover:text-blue-600 font-semibold"
-            to="/contact-us"
-          >
-            {t("ContactUs")}
-          </Link>
-        </div>
-      </div>
-
+  </div>
+</div>
       {showLogoutModal && (
         <div
-  className="fixed inset-0 bg-black/40 flex items-center justify-center z-[100]"
-  onClick={() => setShowLogoutModal(false)}
->
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-[100]"
+          onClick={() => setShowLogoutModal(false)}
+        >
           <div
-  className="bg-white rounded-xl shadow-xl p-6 w-80"
-  onClick={(e) => e.stopPropagation()}
->
-            <h2 className="text-xl font-bold mb-3">
-              Confirm Logout
-            </h2>
+            className="bg-white rounded-xl shadow-xl p-6 w-80"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-bold mb-3">Confirm Logout</h2>
 
             <p className="text-gray-600 mb-6">
               Are you sure you want to log out?
@@ -371,7 +582,6 @@ const cartCount = cartItems.reduce(
           </div>
         </div>
       )}
-
     </nav>
   );
 };
