@@ -7,7 +7,13 @@ import {
 
 const router = express.Router();
 
-router.route("/coupon/create").post(createCoupon);
+import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
+
+router.route("/coupon/create").post(
+  verifyUser,
+  roleBasedAccess("admin"),
+  createCoupon
+);
 
 router.route("/coupon/apply").post(applyCoupon);
 
