@@ -105,7 +105,7 @@ const handleChange = async (e) => {
   try {
     if (editingId) {
       await axios.put(
-        `http://localhost:8000/api/v1/address/${editingId}`,
+        `/api/v1/address/${editingId}`,
         formData
       );
     } else {
@@ -143,7 +143,7 @@ window.scrollTo({
   const deleteAddress = async (id) => {
     try {
       const res = await fetch(
-        `http://localhost:8000/api/v1/address/${id}`,
+        `/api/v1/address/${id}`,
         {
           method: "DELETE",
         }

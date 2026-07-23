@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 // Temporary auth middleware
-
+import { verifyUser } from "../helper/userAuth.js";
 
 router.post(
   "/address/new",

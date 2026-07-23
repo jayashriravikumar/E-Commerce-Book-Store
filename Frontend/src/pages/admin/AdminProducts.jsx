@@ -42,7 +42,7 @@ const totalCategories = new Set(
 
     try {
       await axios.delete(
-        `http://localhost:8000/api/v1/admin/product/${id}`,
+        `/api/v1/admin/product/${id}`,
         {
           withCredentials: true,
         }
