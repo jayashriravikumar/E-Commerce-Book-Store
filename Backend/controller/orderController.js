@@ -8,6 +8,44 @@ export const createNewOrder = async (req, res, next) => {
   orderItems,
   paymentInfo,
 } = req.body;
+// Validate empty cart
+if (!orderItems || orderItems.length === 0) {
+  return next(new HandleError("Your cart is empty", 400));
+}
+
+// Validate shipping address
+if (!shippingAddress) {
+  return next(new HandleError("Shipping address is required", 400));
+}
+
+// Validate payment info
+if (!paymentInfo) {
+  return next(new HandleError("Payment information is required", 400));
+}
+
+// Validate stock
+for (const item of orderItems) {
+  const product = await Product.findById(item.product);
+
+  if (!product) {
+    return next(new HandleError("Product not found", 404));
+  }
+
+  if (product.stock <= 0) {
+    return next(
+      new HandleError(`${product.name} is out of stock`, 400)
+    );
+  }
+
+  if (item.quantity > product.stock) {
+    return next(
+      new HandleError(
+        `Only ${product.stock} items available for ${product.name}`,
+        400
+      )
+    );
+  }
+}
 
 const itemPrice = orderItems.reduce(
   (total, item) => total + item.price * item.quantity,
@@ -20,6 +58,12 @@ const shippingPrice = itemPrice > 999 ? 0 : 49;
 
 const totalPrice =
   itemPrice + taxPrice + shippingPrice;
+
+  if (itemPrice <= 0) {
+  return next(
+    new HandleError("Invalid order amount", 400)
+  );
+}
 
 
 

@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 // const loginUser = async () => {
 //   try {
 //     const res = await axios.post(
-//       "http://localhost:8000/api/v1/login",
+//       "/api/v1/login",
 //       {
 //         email: "test@gmail.com",
 //         password: "123456"

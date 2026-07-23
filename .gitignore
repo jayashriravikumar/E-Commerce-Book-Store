@@ -5,3 +5,6 @@
 **/*.env
 **/.env
 Backend/config/config.env
+
+# Generated MongoDB backups
+Backend/backup/

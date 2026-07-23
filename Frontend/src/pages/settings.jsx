@@ -34,7 +34,7 @@ const Settings = () => {
 const handleLogout = async () => {
   try {
     const { data } = await axios.post(
-      "http://localhost:8000/api/v1/logout",
+      "/api/v1/logout",
       {},
       {
         withCredentials: true,

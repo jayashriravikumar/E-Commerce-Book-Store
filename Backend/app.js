@@ -195,7 +195,7 @@ app.use("/api/v1", userRoutes);
 app.use("/api/v1", order);
 app.use("/api/v1",wishlist);
 app.use("/api/v1", payment);
-app.use("/api/v1", inventoryRoutes);
+app.use("/api/v1/inventory", inventoryRoutes);
 app.use("/api/v1", ticketRoutes);
 app.use("/api/v1", salesRoutes);
 app.use("/api/v1", customerServiceRoutes);

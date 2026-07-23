@@ -11,7 +11,7 @@ const AdminProducts = () => {
   const fetchProducts = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8000/api/v1/products"
+        "/api/v1/products"
       );
 
       setProducts(data.products);

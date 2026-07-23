@@ -190,7 +190,11 @@ setProducts(active);
           </button>
           <button
             className="add-btn"
-            onClick={() => navigate("/admin/products/create")}
+            onClick={() =>
+  navigate("/admin/products/create", {
+    state: { from: "/admin/products" },
+  })
+}
           >
             + Add Product
           </button>

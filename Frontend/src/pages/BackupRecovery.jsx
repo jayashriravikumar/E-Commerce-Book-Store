@@ -17,7 +17,7 @@ const BackupRecovery = () => {
     setMessage("Creating database backup...");
 
     const { data } = await axios.post(
-      "http://localhost:8000/api/v1/admin/backup"
+      "/api/v1/admin/backup"
     );
 
     setBackupPath(data.backupPath);
@@ -42,7 +42,7 @@ const handleRestore = async () => {
     setMessage("Restoring database...");
 
     const { data } = await axios.post(
-      "http://localhost:8000/api/v1/admin/restore",
+      "/api/v1/admin/restore",
       {
         backupPath,
       }
@@ -72,7 +72,7 @@ const restoreBackup = async (path) => {
         setMessage("Restoring database...");
 
         const { data } = await axios.post(
-            "http://localhost:8000/api/v1/admin/restore",
+            "/api/v1/admin/restore",
             {
                 backupPath: path
             }
@@ -98,7 +98,7 @@ const restoreBackup = async (path) => {
 const downloadBackup = async (path) => {
   try {
     const response = await axios.post(
-      "http://localhost:8000/api/v1/admin/download-backup",
+      "/api/v1/admin/download-backup",
       {
         backupPath: path,
       },
@@ -132,7 +132,7 @@ const downloadBackup = async (path) => {
   const fetchHistory = async () => {
   try {
     const { data } = await axios.get(
-      "http://localhost:8000/api/v1/admin/backup-history"
+      "/api/v1/admin/backup-history"
     );
 
     setHistory(data.history);
