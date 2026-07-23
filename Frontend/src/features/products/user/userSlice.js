@@ -63,7 +63,7 @@ export const forgetPassword = createAsyncThunk(
       };
 
       const { data } = await axios.post(
-        "http://localhost:8000/api/v1/password/forget",
+        "/api/v1/password/forget",
         { email },
         config
       );
@@ -82,7 +82,7 @@ export const login = createAsyncThunk(
   "user/login",
   async (userData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("http://localhost:8000/api/v1/login", userData, {
+      const { data } = await axios.post("/api/v1/login", userData, {
         headers: {
           "Content-Type": "application/json",
         },

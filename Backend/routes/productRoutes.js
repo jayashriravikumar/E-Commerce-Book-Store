@@ -19,7 +19,7 @@ import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
 const router = express.Router();
 
 router.post(
-  "/admin/product/new",
+  "/admin/products/create",
   verifyUser,
   roleBasedAccess("admin"),
   createProduct

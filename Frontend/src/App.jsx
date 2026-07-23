@@ -151,7 +151,15 @@ const App = () => {
           <Route path="/terms-conditions" element={<TermsConditions />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
-          <Route path="/admin/orders" element={<OrderManagement />} />
+          <Route
+  path="/admin/orders"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<OrderManagement />}
+    />
+  }
+/>
 
           <Route
           path="/admin/products"
@@ -164,14 +172,14 @@ const App = () => {
         />
 
         <Route
-          path="/admin/product/new"
-          element={
-            <ProtectedRoute
-              adminOnly={true}
-              element={<CreateProduct />}
-            />
-          }
-        />
+  path="/admin/products/create"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<CreateProduct />}
+    />
+  }
+/>
 
        <Route
           path="/admin/inventory"
@@ -185,11 +193,106 @@ const App = () => {
         
           <Route path="/verify-email" element={<VerifyOTP />} />
    
-          <Route path="/admin/reviews" element={<ReviewManagement />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/coupons" element={<CouponManagement />} />
-          <Route path="/admin/sales" element={<SalesReport />} />
-          <Route path="/admin/customers" element={<CustomerManagement />} />
+         <Route
+  path="/admin/reviews"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<ReviewManagement />}
+    />
+  }
+/>
+         <Route
+  path="/admin/dashboard"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<AdminDashboard />}
+    />
+  }
+/>
+          <Route
+  path="/admin/coupons"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<CouponManagement />}
+    />
+  }
+/>
+<Route
+  path="/admin/sales"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<SalesReport />}
+    />
+  }
+/>
+<Route
+  path="/admin/analytics"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<AdminAnalytics />}
+    />
+  }
+/>
+<Route
+  path="/admin/faqs"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<AdminFAQ />}
+    />
+  }
+/>
+<Route
+  path="/admin/tickets"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<AdminTickets />}
+    />
+  }
+/>
+<Route
+  path="/admin/backup"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<BackupDashboard />}
+    />
+  }
+/>
+<Route
+  path="/admin/backup/recover"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<BackupRecovery />}
+    />
+  }
+/>
+<Route
+  path="/admin/products/edit/:id"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<EditProduct />}
+    />
+  }
+/>
+
+<Route
+  path="/admin/customers"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<CustomerManagement />}
+    />
+  }
+/>
         </Routes>
       </Suspense>
 

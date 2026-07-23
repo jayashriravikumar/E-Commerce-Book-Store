@@ -17,7 +17,18 @@ if (days && days > 0) {
   };
 }
 
-const orders = await Order.find(query).populate("user", "name email");
+const orders = await Order.find({
+  ...query,
+
+  // Exclude cancelled orders
+  orderStatus: { $ne: "Cancelled" },
+
+  // Exclude invalid/₹0 orders
+  totalPrice: { $gt: 0 },
+
+  // Exclude orders with no items
+  "orderItems.0": { $exists: true },
+}).populate("user", "name email");
 console.log("Orders Returned:", orders.length);
 
     const totalOrders = orders.length;
