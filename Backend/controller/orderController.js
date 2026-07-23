@@ -9,17 +9,21 @@ export const createNewOrder = async (req, res, next) => {
   paymentInfo,
 } = req.body;
 
-const itemPrice = orderItems.reduce(
-  (total, item) => total + item.price * item.quantity,
-  0
-);
+let itemPrice = 0;
+
+for (const item of orderItems) {
+  const product = await Product.findById(item.product);
+
+  if (!product) {
+    return next(new HandleError("Product not found", 404));
+  }
+
+  itemPrice += product.price * item.quantity;
+}
 
 const taxPrice = itemPrice * 0.05;
-
 const shippingPrice = itemPrice > 999 ? 0 : 49;
-
-const totalPrice =
-  itemPrice + taxPrice + shippingPrice;
+const totalPrice = itemPrice + taxPrice + shippingPrice;
 
 
 

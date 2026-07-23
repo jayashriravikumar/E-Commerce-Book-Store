@@ -11,7 +11,7 @@ const AdminProducts = () => {
   const fetchProducts = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8000/api/v1/products"
+        "/api/v1/products"
       );
 
       setProducts(data.products);
@@ -42,7 +42,7 @@ const totalCategories = new Set(
 
     try {
       await axios.delete(
-        `http://localhost:8000/api/v1/admin/product/${id}`,
+        `/api/v1/admin/product/${id}`,
         {
           withCredentials: true,
         }

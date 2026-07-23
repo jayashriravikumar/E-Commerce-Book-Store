@@ -7,7 +7,7 @@ const FAQList = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/v1/faqs")
+      .get("/api/v1/faqs")
       .then((res) => setFaqs(res.data.faqs))
       .catch((err) => console.error(err));
   }, []);

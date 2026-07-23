@@ -103,3 +103,4 @@
 {"level":"error","message":"User does not exists","method":"POST","route":"/api/v1/password/forget","status":400,"timestamp":"2026-07-15T04:59:55.582Z"}
 {"level":"error","message":"User does not exists","method":"POST","route":"/api/v1/password/forget","status":400,"timestamp":"2026-07-15T04:59:59.559Z"}
 {"level":"error","message":"User does not exists","method":"POST","route":"/api/v1/password/forget","status":400,"timestamp":"2026-07-15T05:00:50.046Z"}
+{"level":"error","message":"Route not found: /favicon.ico","method":"GET","route":"/favicon.ico","status":404,"timestamp":"2026-07-23T16:31:52.138Z"}

@@ -191,7 +191,7 @@ const OrderDetails = () => {
               <strong>Total Amount:</strong> ₹{orderDetails.totalPrice}
             </p>
             <a
-              href={`http://localhost:8000/api/v1/invoice/${orderDetails._id}`}
+              href={`/api/v1/invoice/${orderDetails._id}`}
               target="_blank"
               rel="noreferrer"
               className="block w-full mt-5 bg-blue-600 text-white text-center py-3 rounded-xl hover:bg-blue-700 transition"

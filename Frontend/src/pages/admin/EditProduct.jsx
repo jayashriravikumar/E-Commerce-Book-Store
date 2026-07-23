@@ -18,7 +18,7 @@ const EditProduct = () => {
   const fetchProduct = async () => {
 
     const { data } = await axios.get(
-      `http://localhost:8000/api/v1/product/${id}`
+      `/api/v1/product/${id}`
     );
 
     setProduct(data.product);
@@ -34,7 +34,7 @@ const EditProduct = () => {
     e.preventDefault();
 
     await axios.put(
-      `http://localhost:8000/api/v1/admin/product/${id}`,
+      `/api/v1/admin/product/${id}`,
       product
     );
 

@@ -8,7 +8,7 @@ import CookieConsent from "./components/CookieConsent";
 import { useSelector } from "react-redux";
 import FAQ from "./pages/FAQ";
 import AdminFAQ from "./pages/AdminFAQ";
-import Shipping from "./pages/Shipping";
+
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -34,7 +34,6 @@ const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy"));
 const CreateProduct = lazy(() => import("./pages/CreateProduct"));
 const ProductManagement = lazy(() => import("./pages/ProductManagement"));
 const InventoryManagement = lazy(() => import("./pages/InventoryManagement"));
-const VerifyOTP = lazy(() => import("./User/VerifyOTP"));
 const ForgotPassword = lazy(() => import("./User/ForgotPassword"));
 const ResetPassword = lazy(() => import("./User/ResetPassword"));
 const ConfirmOrder = lazy(() => import("./pages/ConfirmOrder"));
@@ -49,11 +48,7 @@ const OrderDetails = lazy(() => import("./pages/OrderDetails"));
 const Support = lazy(() => import("./pages/Support"));
 const YourMessages = lazy(() => import("./pages/YourMessages"));
 const TicketDetails = lazy(() => import("./pages/TicketDetails"));
-
-const CreateProduct = lazy(() => import("./pages/CreateProduct"));
-const ProductManagement = lazy(() => import("./pages/ProductManagement"));
 const EditProduct = lazy(() => import("./pages/EditProduct"));
-const InventoryManagement = lazy(() => import("./pages/InventoryManagement"));
 
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminAnalytics = lazy(() => import("./pages/AdminAnalytics"));
@@ -152,7 +147,15 @@ const App = () => {
           <Route path="/terms-conditions" element={<TermsConditions />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
-          <Route path="/admin/orders" element={<OrderManagement />} />
+          <Route
+  path="/admin/orders"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<OrderManagement />}
+    />
+  }
+/>
 
           <Route
           path="/admin/products"
@@ -186,11 +189,51 @@ const App = () => {
         
           <Route path="/verify-email" element={<VerifyOTP />} />
           <Route path="/product/:id/reviews" element={<ProductReviews />} />
-          <Route path="/admin/reviews" element={<ReviewManagement />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/coupons" element={<CouponManagement />} />
-          <Route path="/admin/sales" element={<SalesReport />} />
-          <Route path="/admin/customers" element={<CustomerManagement />} />
+          <Route
+            path="/admin/reviews"
+            element={
+              <ProtectedRoute
+                adminOnly={true}
+                element={<ReviewManagement />}
+              />
+            }
+          />
+                    <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute
+                adminOnly={true}
+                element={<AdminDashboard />}
+              />
+            }
+/>
+          <Route
+  path="/admin/coupons"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<CouponManagement />}
+    />
+  }
+/>
+          <Route
+  path="/admin/sales"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<SalesReport />}
+    />
+  }
+/>
+          <Route
+  path="/admin/customers"
+  element={
+    <ProtectedRoute
+      adminOnly={true}
+      element={<CustomerManagement />}
+    />
+  }
+/>
         </Routes>
       </Suspense>
 

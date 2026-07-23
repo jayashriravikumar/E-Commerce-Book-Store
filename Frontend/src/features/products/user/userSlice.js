@@ -8,7 +8,7 @@ export const register = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:8000/api/v1/register",
+        "/api/v1/register",
         userData,
         {
           headers: {
@@ -61,7 +61,7 @@ export const forgetPassword = createAsyncThunk(
       };
 
       const { data } = await axios.post(
-        "http://localhost:8000/api/v1/password/forget",
+        "/api/v1/password/forget",
         { email },
         config
       );
@@ -80,7 +80,7 @@ export const login = createAsyncThunk(
   "user/login",
   async (userData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("http://localhost:8000/api/v1/login", userData, {
+      const { data } = await axios.post("/api/v1/login", userData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -110,7 +110,7 @@ export const updateProfile = createAsyncThunk(
       };
 
       const { data } = await axios.put(
-        "http://localhost:8000/api/v1/profile/update",
+        "/api/v1/profile/update",
         userData,
         config,
       );

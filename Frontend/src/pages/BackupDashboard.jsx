@@ -9,7 +9,7 @@ const BackupDashboard = () => {
   const fetchDashboard = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8000/api/v1/admin/dashboard"
+        "/api/v1/admin/dashboard"
       );
 
       setDashboard(data.dashboard);
@@ -21,7 +21,7 @@ const BackupDashboard = () => {
   const fetchAnalytics = async () => {
   try {
     const { data } = await axios.get(
-      "http://localhost:8000/api/v1/admin/analytics"
+      "/api/v1/admin/analytics"
     );
 
     setAnalytics(data.analytics);

@@ -27,7 +27,7 @@ const [localities, setLocalities] = useState([]);
   const fetchAddresses = async () => {
     try {
       const res = await fetch(
-        "http://localhost:8000/api/v1/addresses/me"
+        "/api/v1/addresses/me"
       );
 
       const data = await res.json();
@@ -105,12 +105,12 @@ const handleChange = async (e) => {
   try {
     if (editingId) {
       await axios.put(
-        `http://localhost:8000/api/v1/address/${editingId}`,
+        `/api/v1/address/${editingId}`,
         formData
       );
     } else {
       await axios.post(
-        "http://localhost:8000/api/v1/address/new",
+        "/api/v1/address/new",
         formData
       );
     }
@@ -143,7 +143,7 @@ window.scrollTo({
   const deleteAddress = async (id) => {
     try {
       const res = await fetch(
-        `http://localhost:8000/api/v1/address/${id}`,
+        `/api/v1/address/${id}`,
         {
           method: "DELETE",
         }
