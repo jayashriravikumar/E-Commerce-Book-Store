@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 11,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1783408298373,
@@ -52,6 +52,10 @@
                 {
                     "date": 1783596447193,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -242,9 +242,9 @@\n             filteredProducts.map((product) => {\r\n               const imageUrl = getProductImage(product);\r\n               return (\r\n                 <tr key={product._id}>\r\n-                  <td>\r\n+                  \r\n                     <td>\r\n   {imageUrl ? (\r\n     <img\r\n       src={imageUrl}\r\n@@ -256,9 +256,9 @@\n       No Image\r\n     </span>\r\n   )}\r\n </td>\r\n-                  </td>\r\n+                  \r\n                   <td>{product.name || product.title}</td>\r\n                   <td>{product.author}</td>\r\n                   <td>₹{product.price}</td>\r\n                   <td>\r\n"
+                },
+                {
+                    "date": 1784784027266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -189,9 +189,13 @@\n             {showDeleted ? \"Hide Deleted\" : `🗂 Deleted (${deletedProducts.length})`}\r\n           </button>\r\n           <button\r\n             className=\"add-btn\"\r\n-            onClick={() => navigate(\"/admin/products/create\")}\r\n+            onClick={() =>\r\n+  navigate(\"/admin/products/create\", {\r\n+    state: { from: \"/admin/products\" },\r\n+  })\r\n+}\r\n           >\r\n             + Add Product\r\n           </button>\r\n         </div>\r\n"
                 }
             ],
             "date": 1783408298373,

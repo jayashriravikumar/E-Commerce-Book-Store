@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const CreateProduct = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const backTo = location.state?.from || "/admin/products";
 
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -58,13 +60,13 @@ const CreateProduct = () => {
       };
 
       await axios.post(
-        "/api/v1/admin/product/new",
+        "/api/v1/admin/products/create",
         productData,
         { headers: { "Content-Type": "application/json" } }
       );
 
       toast.success("Product created successfully!");
-      navigate("/admin/products");
+      navigate(backTo);
     } catch (err) {
       console.log(err);
       toast.error(err.response?.data?.message || "Failed to create product");
@@ -96,7 +98,7 @@ const CreateProduct = () => {
     <div style={styles.page}>
       <div style={styles.header}>
         <h2 style={styles.headerTitle}>➕ Create Product</h2>
-        <button style={styles.backBtn} onClick={() => navigate("/admin/products")}>
+        <button style={styles.backBtn} onClick={() => navigate(backTo)}>
           ← Back
         </button>
       </div>
@@ -184,7 +186,7 @@ const CreateProduct = () => {
           )}
 
           <div style={styles.formActions}>
-            <button type="button" style={styles.cancelBtn} onClick={() => navigate("/admin/products")}>
+            <button type="button" style={styles.cancelBtn} onClick={() => navigate(backTo)}>
               Cancel
             </button>
             <button type="submit" style={styles.submitBtn} disabled={submitting}>

@@ -67,7 +67,11 @@ const InventoryManagement = () => {
 
         <button
           className="add-product-btn"
-          onClick={() => navigate("/admin/product/new")}
+          onClick={() =>
+  navigate("/admin/products/create", {
+    state: { from: "/admin/inventory" },
+  })
+}
         >
           + Add Product
         </button>

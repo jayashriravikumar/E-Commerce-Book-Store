@@ -3,11 +3,31 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 5,
             "patches": [
                 {
                     "date": 1783402458312,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1784697596771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n   \"user/register\",\r\n   async (userData, { rejectWithValue }) => {\r\n     try {\r\n       const { data } = await axios.post(\r\n-        \"http://localhost:8000/api/v1/register\",\r\n+        \"/api/v1/register\",\r\n         userData,\r\n         {\r\n           headers: {\r\n             \"Content-Type\": \"multipart/form-data\",\r\n@@ -117,15 +117,17 @@\n       state.success = null;\r\n     },\r\n \r\n     logout: (state) => {\r\n-      state.user = null;\r\n-      state.isAuthenticated = false;\r\n-      state.success = false;\r\n+  state.user = null;\r\n+  state.isAuthenticated = false;\r\n+  state.success = false;\r\n+  state.error = null;\r\n \r\n-      localStorage.removeItem(\"user\");\r\n-      localStorage.removeItem(\"isAuthenticated\");\r\n-    },\r\n+  localStorage.removeItem(\"user\");\r\n+  localStorage.removeItem(\"isAuthenticated\");\r\n+  localStorage.removeItem(\"token\");\r\n+},\r\n   },\r\n   extraReducers: (builder) => {\r\n     builder\r\n       .addCase(register.pending, (state) => {\r\n"
+                },
+                {
+                    "date": 1784697641693,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -84,9 +84,9 @@\n         },\r\n       };\r\n \r\n       const { data } = await axios.put(\r\n-        \"http://localhost:8000/api/v1/profile/update\",\r\n+        \"/api/v1/profile/update\",\r\n         userData,\r\n         config,\r\n       );\r\n       return data;\r\n"
+                },
+                {
+                    "date": 1784715936042,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,24 +31,51 @@\n export const verifyOTP = createAsyncThunk(\r\n   \"user/verifyOTP\",\r\n   async (verificationData, { rejectWithValue }) => {\r\n     try {\r\n-      const config = { headers: { \"Content-Type\": \"application/json\" } };\r\n-      const { data } = await axios.post(\r\n-    \"http://localhost:8000/api/v1/verify-email\",\r\n-    verificationData,\r\n-    {\r\n+      const config = {\r\n         headers: {\r\n-            \"Content-Type\": \"application/json\",\r\n+          \"Content-Type\": \"application/json\",\r\n         },\r\n         withCredentials: true,\r\n+      };\r\n+\r\n+      const { data } = await axios.post(\r\n+        \"/api/v1/verify-email\",\r\n+        verificationData,\r\n+        config\r\n+      );\r\n+\r\n+      return data;\r\n+    } catch (error) {\r\n+      return rejectWithValue(error.response?.data || \"Verification failed\");\r\n     }\r\n+  }\r\n );\r\n+\r\n+export const forgetPassword = createAsyncThunk(\r\n+  \"user/forgetPassword\",\r\n+  async (email, { rejectWithValue }) => {\r\n+    try {\r\n+      const config = {\r\n+        headers: {\r\n+          \"Content-Type\": \"application/json\",\r\n+        },\r\n+      };\r\n+\r\n+      const { data } = await axios.post(\r\n+        \"http://localhost:8000/api/v1/password/forget\",\r\n+        { email },\r\n+        config\r\n+      );\r\n+\r\n       return data;\r\n     } catch (error) {\r\n-      return rejectWithValue(error.response?.data || \"Verification failed\");\r\n+      return rejectWithValue(\r\n+        error.response?.data || \"Failed to send reset email\"\r\n+      );\r\n     }\r\n-  },\r\n+  }\r\n );\r\n \r\n // Login API\r\n export const login = createAsyncThunk(\r\n@@ -198,8 +225,9 @@\n         state.loading = false;\r\n         state.error = action.payload?.message || \"Verification failed\";\r\n       })\r\n \r\n+\r\n       .addCase(updateProfile.pending, (state) => {\r\n         state.loading = true;\r\n         state.error = null;\r\n       })\r\n@@ -213,8 +241,21 @@\n       .addCase(updateProfile.rejected, (state, action) => {\r\n         state.loading = false;\r\n         state.error = action.payload?.message || \"Profile update failed\";\r\n       });\r\n+      builder\r\n+  .addCase(forgetPassword.pending, (state) => {\r\n+    state.loading = true;\r\n+    state.error = null;\r\n+  })\r\n+  .addCase(forgetPassword.fulfilled, (state, action) => {\r\n+    state.loading = false;\r\n+    state.message = action.payload.message;\r\n+  })\r\n+  .addCase(forgetPassword.rejected, (state, action) => {\r\n+    state.loading = false;\r\n+    state.error = action.payload?.message || \"Failed to send reset email\";\r\n+  });\r\n   },\r\n });\r\n \r\n export const { removeErrors, removeSuccess, logout } = userSlice.actions;\r\n"
+                },
+                {
+                    "date": 1784780830474,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,9 +62,9 @@\n         },\r\n       };\r\n \r\n       const { data } = await axios.post(\r\n-        \"http://localhost:8000/api/v1/password/forget\",\r\n+        \"/api/v1/password/forget\",\r\n         { email },\r\n         config\r\n       );\r\n \r\n"
+                },
+                {
+                    "date": 1784780846564,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -81,9 +81,9 @@\n export const login = createAsyncThunk(\r\n   \"user/login\",\r\n   async (userData, { rejectWithValue }) => {\r\n     try {\r\n-      const { data } = await axios.post(\"http://localhost:8000/api/v1/login\", userData, {\r\n+      const { data } = await axios.post(\"/api/v1/login\", userData, {\r\n         headers: {\r\n           \"Content-Type\": \"application/json\",\r\n         },\r\n         withCredentials: true,\r\n"
                 }
             ],
             "date": 1783402458312,
