@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 50,
+            "activePatchIndex": 54,
             "patches": [
                 {
                     "date": 1783177905954,
@@ -208,6 +208,22 @@
                 {
                     "date": 1784782328656,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -171,16 +171,16 @@\n           }\r\n         />\r\n \r\n         <Route\r\n-          path=\"/admin/product/create\"\r\n-          element={\r\n-            <ProtectedRoute\r\n-              adminOnly={true}\r\n-              element={<CreateProduct />}\r\n-            />\r\n-          }\r\n-        />\r\n+  path=\"/admin/products/create\"\r\n+  element={\r\n+    <ProtectedRoute\r\n+      adminOnly={true}\r\n+      element={<CreateProduct />}\r\n+    />\r\n+  }\r\n+/>\r\n \r\n        <Route\r\n           path=\"/admin/inventory\"\r\n           element={\r\n"
+                },
+                {
+                    "date": 1784868396897,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -121,8 +121,9 @@\n             element={<ResetPassword />}\r\n           />\r\n           <Route path=\"/about-us\" element={<About />} />\r\n           <Route path=\"/contact-us\" element={<Contact />} />\r\n+          <Route path=\"/faqs\" element={<FAQ />} />\r\n           <Route path=\"/profile\" element={<Profile />} />\r\n           <Route path=\"/profile/update\" element={<UpdateProfile />} />\r\n           <Route path=\"/update-password\" element={<UpdatePassword />} />\r\n \r\n"
+                },
+                {
+                    "date": 1784868752296,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -151,8 +151,23 @@\n           <Route path=\"/privacy-policy\" element={<PrivacyPolicy />} />\r\n           <Route path=\"/terms-conditions\" element={<TermsConditions />} />\r\n           <Route path=\"/refund-policy\" element={<RefundPolicy />} />\r\n           <Route path=\"/shipping-policy\" element={<ShippingPolicy />} />\r\n+\r\n+{/* Settings */}\r\n+\r\n+<Route path=\"/settings\" element={<Settings />} />\r\n+<Route path=\"/settings/address\" element={<ManageAddress />} />\r\n+<Route path=\"/settings/payment\" element={<ManagePayment />} />\r\n+<Route path=\"/settings/notifications\" element={<NotificationSettings />} />\r\n+<Route path=\"/settings/appearance\" element={<AppearanceSettings />} />\r\n+<Route path=\"/settings/language\" element={<LanguageSettings />} />\r\n+<Route path=\"/settings/security\" element={<Security />} />\r\n+<Route path=\"/settings/about\" element={<AboutSettings />} />\r\n+<Route path=\"/settings/two-factor\" element={<TwoFactor />} />\r\n+<Route path=\"/settings/login-devices\" element={<LoginDevices />} />\r\n+<Route path=\"/settings/delete-account\" element={<DeleteAccount />} />\r\n+          {/* Admin Routes */}\r\n           <Route\r\n   path=\"/admin/orders\"\r\n   element={\r\n     <ProtectedRoute\r\n"
+                },
+                {
+                    "date": 1784869495377,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -154,19 +154,62 @@\n           <Route path=\"/shipping-policy\" element={<ShippingPolicy />} />\r\n \r\n {/* Settings */}\r\n \r\n-<Route path=\"/settings\" element={<Settings />} />\r\n-<Route path=\"/settings/address\" element={<ManageAddress />} />\r\n-<Route path=\"/settings/payment\" element={<ManagePayment />} />\r\n-<Route path=\"/settings/notifications\" element={<NotificationSettings />} />\r\n-<Route path=\"/settings/appearance\" element={<AppearanceSettings />} />\r\n-<Route path=\"/settings/language\" element={<LanguageSettings />} />\r\n-<Route path=\"/settings/security\" element={<Security />} />\r\n-<Route path=\"/settings/about\" element={<AboutSettings />} />\r\n-<Route path=\"/settings/two-factor\" element={<TwoFactor />} />\r\n-<Route path=\"/settings/login-devices\" element={<LoginDevices />} />\r\n-<Route path=\"/settings/delete-account\" element={<DeleteAccount />} />\r\n+<Route\r\n+  path=\"/settings\"\r\n+  element={<ProtectedRoute element={<Settings />} />}\r\n+/>\r\n+\r\n+<Route\r\n+  path=\"/settings/address\"\r\n+  element={<ProtectedRoute element={<ManageAddress />} />}\r\n+/>\r\n+\r\n+<Route\r\n+  path=\"/settings/payment\"\r\n+  element={<ProtectedRoute element={<ManagePayment />} />}\r\n+/>\r\n+\r\n+<Route\r\n+  path=\"/settings/notifications\"\r\n+  element={<ProtectedRoute element={<NotificationSettings />} />}\r\n+/>\r\n+\r\n+<Route\r\n+  path=\"/settings/appearance\"\r\n+  element={<ProtectedRoute element={<AppearanceSettings />} />}\r\n+/>\r\n+\r\n+<Route\r\n+  path=\"/settings/language\"\r\n+  element={<ProtectedRoute element={<LanguageSettings />} />}\r\n+/>\r\n+\r\n+<Route\r\n+  path=\"/settings/security\"\r\n+  element={<ProtectedRoute element={<Security />} />}\r\n+/>\r\n+\r\n+<Route\r\n+  path=\"/settings/about\"\r\n+  element={<ProtectedRoute element={<AboutSettings />} />}\r\n+/>\r\n+\r\n+<Route\r\n+  path=\"/settings/two-factor\"\r\n+  element={<ProtectedRoute element={<TwoFactor />} />}\r\n+/>\r\n+\r\n+<Route\r\n+  path=\"/settings/login-devices\"\r\n+  element={<ProtectedRoute element={<LoginDevices />} />}\r\n+/>\r\n+\r\n+<Route\r\n+  path=\"/settings/delete-account\"\r\n+  element={<ProtectedRoute element={<DeleteAccount />} />}\r\n+/>\r\n           {/* Admin Routes */}\r\n           <Route\r\n   path=\"/admin/orders\"\r\n   element={\r\n"
+                },
+                {
+                    "date": 1784869557561,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -351,8 +351,9 @@\n       element={<CustomerManagement />}\r\n     />\r\n   }\r\n />\r\n+<Route path=\"*\" element={<NotFound />} />\r\n         </Routes>\r\n       </Suspense>\r\n \r\n       <CookieConsent />\r\n"
                 }
             ],
             "date": 1783177905954,

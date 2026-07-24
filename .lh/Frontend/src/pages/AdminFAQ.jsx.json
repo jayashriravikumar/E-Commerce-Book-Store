@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 14,
+            "activePatchIndex": 15,
             "patches": [
                 {
                     "date": 1783573448735,
@@ -64,6 +64,10 @@
                 {
                     "date": 1783616186796,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -142,9 +142,9 @@\n               <td>{faq.category}</td>\r\n \r\n               <td>\r\n                 <button\r\n-                  className=\"btn btn-danger\"\r\n+className=\"bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg\"\r\n                   onClick={() => deleteFAQ(faq._id)}\r\n                 >\r\n                   Delete\r\n                 </button>\r\n"
+                },
+                {
+                    "date": 1784868149466,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n   });\r\n \r\n   const fetchFAQs = async () => {\r\n     try {\r\n-      const { data } = await axios.get(\"/api/v1/faqs\");\r\n+      const { data } = await axios.get(\"/api/v1/admin/faqs\");\r\n       if (data.success) setFaqs(data.faqs);\r\n     } catch (err) {\r\n       console.log(err);\r\n     }\r\n@@ -32,9 +32,9 @@\n   const addFAQ = async (e) => {\r\n     e.preventDefault();\r\n \r\n     try {\r\n-      const { data } = await axios.post(\"/api/v1/faqs\", form);\r\n+      const { data } = await axios.post(\"/api/v1/admin/faqs\", form);\r\n \r\n       if (data.success) {\r\n         alert(\"FAQ Added\");\r\n \r\n@@ -54,9 +54,9 @@\n   const deleteFAQ = async (id) => {\r\n     if (!window.confirm(\"Delete FAQ?\")) return;\r\n \r\n     try {\r\n-      await axios.delete(`/api/v1/faqs/${id}`);\r\n+      await axios.delete(`/api/v1/admin/faqs/${id}`);\r\n       fetchFAQs();\r\n     } catch (err) {\r\n       console.log(err);\r\n     }\r\n"
                 }
             ],
             "date": 1783573448735,
