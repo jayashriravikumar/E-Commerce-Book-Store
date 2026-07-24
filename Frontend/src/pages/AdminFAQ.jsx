@@ -11,7 +11,7 @@ const AdminFAQ = () => {
 
   const fetchFAQs = async () => {
     try {
-      const { data } = await axios.get("/api/v1/faqs");
+      const { data } = await axios.get("/api/v1/admin/faqs");
       if (data.success) setFaqs(data.faqs);
     } catch (err) {
       console.log(err);
@@ -33,7 +33,7 @@ const AdminFAQ = () => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("/api/v1/faqs", form);
+      const { data } = await axios.post("/api/v1/admin/faqs", form);
 
       if (data.success) {
         alert("FAQ Added");
@@ -55,7 +55,7 @@ const AdminFAQ = () => {
     if (!window.confirm("Delete FAQ?")) return;
 
     try {
-      await axios.delete(`/api/v1/faqs/${id}`);
+      await axios.delete(`/api/v1/admin/faqs/${id}`);
       fetchFAQs();
     } catch (err) {
       console.log(err);

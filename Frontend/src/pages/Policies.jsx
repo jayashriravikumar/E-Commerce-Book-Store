@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import {
   ShieldCheck,
   FileText,
@@ -45,6 +47,9 @@ const Policies = () => {
   ];
 
   return (
+  <>
+    <Navbar />
+
     <div className="min-h-screen bg-slate-50">
 
       {/* Hero Section */}
@@ -75,7 +80,6 @@ const Policies = () => {
               to={policy.path}
               className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-2"
             >
-
               <div
                 className={`bg-gradient-to-r ${policy.color} p-6 text-white`}
               >
@@ -83,7 +87,6 @@ const Policies = () => {
               </div>
 
               <div className="p-6">
-
                 <h2 className="text-xl font-bold mb-3 text-gray-900">
                   {policy.title}
                 </h2>
@@ -96,17 +99,19 @@ const Policies = () => {
                   View Policy
                   <ArrowRight size={18} />
                 </div>
-
               </div>
-
             </Link>
           ))}
 
         </div>
 
       </div>
+
     </div>
-  );
+
+    <Footer />
+  </>
+);
 };
 
 export default Policies;

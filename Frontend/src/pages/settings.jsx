@@ -107,19 +107,19 @@ const handleLogout = async () => {
               icon={<MapPin size={26} />}
               title="Manage Address"
               subtitle="Add or edit delivery addresses"
-              onClick={() => navigate("/manage-address")}
+              onClick={() => navigate("/settings/address")}
             />
            <SettingCard
   icon={<CreditCard size={26} />}
   title="Payment Methods"
   subtitle="Manage your debit and credit cards"
-  onClick={() => navigate("/payment-methods")}
+  onClick={() => navigate("/settings/payment")}
 />
 <SettingCard
   icon={<Bell size={26} />}
   title="Notification Settings"
   subtitle="Email, SMS & Push Notifications"
-  onClick={() => navigate("/notification-settings")}
+  onClick={() => navigate("/settings/notifications")}
 />
             
 
@@ -130,13 +130,13 @@ const handleLogout = async () => {
   icon={<Globe size={26} />}
   title="Language & Currency"
   subtitle="Language and Currency Preferences"
-  onClick={() => navigate("/language")}
+  onClick={() => navigate("/settings/language")}
 />
             <SettingCard
   icon={<Lock size={26} />}
   title="Privacy & Security"
   subtitle="Password, Login Devices & Privacy"
-  onClick={() => navigate("/security")}
+  onClick={() => navigate("/settings/security")}
 />
 
             <SettingCard
@@ -151,7 +151,7 @@ const handleLogout = async () => {
   icon={<LogOut size={26} />}
   title="Logout"
   subtitle="Sign out of your account"
-  onClick={() => console.log("Logout clicked")}
+  onClick={handleLogout}
 />
 
           </div>

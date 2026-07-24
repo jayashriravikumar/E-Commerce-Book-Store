@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import FAQList from "../components/FAQList";
 import CustomerServiceForm from "../components/CustomerServiceForm";
@@ -29,6 +31,8 @@ const Support = () => {
   };
 
   return (
+      <>
+    <Navbar />
     <div className="max-w-6xl mx-auto mt-10 p-5">
       {/* Welcome Header */}
       <div className="text-center mb-8">
@@ -178,6 +182,8 @@ const Support = () => {
       </div>
 
     </div>
+      <Footer />
+  </>
   );
 };
 

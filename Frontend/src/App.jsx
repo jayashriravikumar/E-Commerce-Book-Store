@@ -122,6 +122,7 @@ const App = () => {
           />
           <Route path="/about-us" element={<About />} />
           <Route path="/contact-us" element={<Contact />} />
+          <Route path="/faqs" element={<FAQ />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/update" element={<UpdateProfile />} />
           <Route path="/update-password" element={<UpdatePassword />} />
@@ -151,6 +152,64 @@ const App = () => {
           <Route path="/terms-conditions" element={<TermsConditions />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/shipping-policy" element={<ShippingPolicy />} />
+
+{/* Settings */}
+
+<Route
+  path="/settings"
+  element={<ProtectedRoute element={<Settings />} />}
+/>
+
+<Route
+  path="/settings/address"
+  element={<ProtectedRoute element={<ManageAddress />} />}
+/>
+
+<Route
+  path="/settings/payment"
+  element={<ProtectedRoute element={<ManagePayment />} />}
+/>
+
+<Route
+  path="/settings/notifications"
+  element={<ProtectedRoute element={<NotificationSettings />} />}
+/>
+
+<Route
+  path="/settings/appearance"
+  element={<ProtectedRoute element={<AppearanceSettings />} />}
+/>
+
+<Route
+  path="/settings/language"
+  element={<ProtectedRoute element={<LanguageSettings />} />}
+/>
+
+<Route
+  path="/settings/security"
+  element={<ProtectedRoute element={<Security />} />}
+/>
+
+<Route
+  path="/settings/about"
+  element={<ProtectedRoute element={<AboutSettings />} />}
+/>
+
+<Route
+  path="/settings/two-factor"
+  element={<ProtectedRoute element={<TwoFactor />} />}
+/>
+
+<Route
+  path="/settings/login-devices"
+  element={<ProtectedRoute element={<LoginDevices />} />}
+/>
+
+<Route
+  path="/settings/delete-account"
+  element={<ProtectedRoute element={<DeleteAccount />} />}
+/>
+          {/* Admin Routes */}
           <Route
   path="/admin/orders"
   element={
@@ -293,6 +352,7 @@ const App = () => {
     />
   }
 />
+<Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
 
