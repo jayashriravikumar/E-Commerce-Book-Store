@@ -12,7 +12,6 @@ import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
 
 const router = express.Router();
 
-import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
 
 router.route("/coupon/create").post(
   verifyUser,
