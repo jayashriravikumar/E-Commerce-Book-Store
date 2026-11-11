@@ -289,7 +289,7 @@ const Navbar = () => {
     </button>
   </div>
 )}
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50">
+                {/* <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50">
                   <div className="p-4 border-b">
                     <p className="font-semibold">{user?.name || "User"}</p>
 
@@ -340,7 +340,7 @@ const Navbar = () => {
   🚪 Logout
 </button>
                 </div>
-              )}
+              )} */}
             </div>
           ) : (
             <Link

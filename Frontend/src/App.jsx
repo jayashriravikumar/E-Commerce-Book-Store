@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route ,Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import ProductDetails from "./pages/ProductDetails";
@@ -9,7 +9,7 @@ import Profile from "./User/Profile";
 import UpdateProfile from "./User/UpdateProfile";
 import UpdatePassword from "./User/UpdatePassword";
 import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
+import Checkout from "./pages/checkout";
 import Wishlist from "./pages/Wishlist";
 import Policies from "./pages/Policies";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -20,11 +20,7 @@ import CookieConsent from "./components/CookieConsent";
 import ProtectedRoute from './components/ProtectedRoute';
 import CreateProduct from "./pages/CreateProduct";
 import ProductManagement from "./pages/ProductManagement";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import InventoryManagement from "./pages/InventoryManagement";
-import VerifyOTP from './User/VerifyOTP';
-import ProtectedRoute from "./components/ProtectedRoute";
 import VerifyOTP from "./User/VerifyOTP";
 import ConfirmOrder from "./pages/ConfirmOrder";
 import Payment from "./pages/Payment";
@@ -36,9 +32,14 @@ import YourMessages from "./pages/YourMessages";
 import TicketDetails from "./pages/TicketDetails";
 import AdminTickets from "./pages/AdminTickets";
 import AdminAnalytics from "./pages/AdminAnalytics";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 
 const App = () => {
+  
+const { user } = useSelector((state) => state.user || {});
   return (
     <BrowserRouter>
       <Routes>
