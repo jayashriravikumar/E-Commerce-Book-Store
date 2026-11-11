@@ -39,7 +39,7 @@ const ForgotPassword = lazy(() => import("./User/ForgotPassword"));
 const ResetPassword = lazy(() => import("./User/ResetPassword"));
 const ConfirmOrder = lazy(() => import("./pages/ConfirmOrder"));
 const Shipping = lazy(() => import("./pages/Shipping"));
-const Checkout = lazy(() => import("./pages/Checkout"));
+const Checkout = lazy(() => import("./pages/checkout"));
 const PaymentFailure = lazy(() => import("./pages/PaymentFailure"));
 const Payment = lazy(() => import("./pages/Payment"));
 const OrderSuccess = lazy(() => import("./pages/OrderSuccess"));
@@ -69,7 +69,7 @@ const BackupRecovery = lazy(() => import("./pages/BackupRecovery"));
 
 const ServerError = lazy(() => import("./pages/ServerError"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const Settings = lazy(() => import("./pages/Settings"));
+const Settings = lazy(() => import("./pages/settings"));
 const ManageAddress = lazy(() => import("./pages/ManageAddress"));
 const ManagePayment = lazy(() => import("./pages/ManagePayment"));
 const NotificationSettings = lazy(() => import("./pages/NotificationSettings"));
