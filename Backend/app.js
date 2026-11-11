@@ -5,8 +5,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
-import couponRoutes from "./routes/couponRoutes.js";
-import cors from "cors";
 import inventoryRoutes from "./routes/inventoryRoutes.js";
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";
@@ -69,12 +67,10 @@ app.use("/api/v1", couponRoutes);
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(
-  cors({
-    origin: ["http://localhost:5173"],
-    credentials: true,
-  }),
-);
+app.use(cors({
+  origin: [process.env.FRONTEND_URL, "http://localhost:5173"],
+  credentials: true,
+}));
 
 app.use(morgan("dev"));
 
