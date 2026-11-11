@@ -8,7 +8,7 @@ import {
   deleteCoupon,
 } from "../controller/couponController.js";
 
-//import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
+import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
 
 const router = express.Router();
 
