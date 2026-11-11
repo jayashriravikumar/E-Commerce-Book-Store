@@ -1,0 +1,18 @@
+{
+    "sourceFile": "package.json",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783780257827,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783780257827,
+            "name": "Commit-0",
+            "content": "{\r\n  \"dependencies\": {\r\n    \"react-helmet-async\": \"^3.0.0\",\r\n    \"recharts\": \"^3.9.2\",\r\n    \"pdfkit\": \"^0.19.1\"\r\n  }\r\n}\r\n"
+        }
+    ]
+}

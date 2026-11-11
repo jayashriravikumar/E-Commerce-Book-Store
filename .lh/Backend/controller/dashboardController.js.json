@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Backend/controller/dashboardController.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1782993716969,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1782993716969,
+            "name": "Commit-0",
+            "content": "import BackupLog from \"../models/BackupLog.js\";\r\n\r\nexport const getBackupDashboard = async (req, res) => {\r\n  try {\r\n    const totalBackups = await BackupLog.countDocuments();\r\n\r\n    const latestBackup = await BackupLog.findOne()\r\n      .sort({ backupDate: -1 });\r\n\r\n    const successfulBackups =\r\n      await BackupLog.countDocuments({\r\n        status: \"Success\",\r\n      });\r\n\r\n    const failedBackups =\r\n      await BackupLog.countDocuments({\r\n        status: \"Failed\",\r\n      });\r\n\r\n    res.status(200).json({\r\n      success: true,\r\n      dashboard: {\r\n        totalBackups,\r\n        successfulBackups,\r\n        failedBackups,\r\n        latestBackup,\r\n      },\r\n    });\r\n\r\n  } catch (error) {\r\n\r\n    res.status(500).json({\r\n      success: false,\r\n      message: error.message,\r\n    });\r\n\r\n  }\r\n};"
+        }
+    ]
+}

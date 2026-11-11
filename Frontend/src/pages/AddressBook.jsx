@@ -27,7 +27,7 @@ const [localities, setLocalities] = useState([]);
   const fetchAddresses = async () => {
     try {
       const res = await fetch(
-        "http://localhost:8000/api/v1/addresses/me"
+        "/api/v1/addresses/me"
       );
 
       const data = await res.json();
@@ -110,7 +110,7 @@ const handleChange = async (e) => {
       );
     } else {
       await axios.post(
-        "http://localhost:8000/api/v1/address/new",
+        "/api/v1/address/new",
         formData
       );
     }

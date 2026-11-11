@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Backend/controller/salesController.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1784786254817,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1784786254817,
+            "name": "Commit-0",
+            "content": "import Order from \"../models/orderModel.js\";\r\n\r\n// Get Sales Summary\r\nexport const getSalesSummary = async (req, res) => {\r\n  try {\r\n    let query = {};\r\n\r\nconst days = Number(req.query.days);\r\nconsole.log(\"Days Filter:\", days);\r\n\r\nif (days && days > 0) {\r\n  const date = new Date();\r\n  date.setDate(date.getDate() - days);\r\n\r\n  query.createdAt = {\r\n    $gte: date,\r\n  };\r\n}\r\n\r\nconst orders = await Order.find({\r\n  ...query,\r\n\r\n  // Exclude cancelled orders\r\n  orderStatus: { $ne: \"Cancelled\" },\r\n\r\n  // Exclude invalid/₹0 orders\r\n  totalPrice: { $gt: 0 },\r\n\r\n  // Exclude orders with no items\r\n  \"orderItems.0\": { $exists: true },\r\n}).populate(\"user\", \"name email\");\r\nconsole.log(\"Orders Returned:\", orders.length);\r\n\r\n    const totalOrders = orders.length;\r\n\r\n    const totalRevenue = orders.reduce(\r\n      (sum, order) => sum + order.totalPrice,\r\n      0\r\n    );\r\n\r\n    const totalProductsSold = orders.reduce((sum, order) => {\r\n      const items = order.orderItems.reduce(\r\n        (itemSum, item) => itemSum + item.quantity,\r\n        0\r\n      );\r\n\r\n      return sum + items;\r\n    }, 0);\r\n\r\n    const averageOrderValue =\r\n      totalOrders > 0 ? totalRevenue / totalOrders : 0;\r\n\r\n   res.status(200).json({\r\n    success: true,\r\n    totalRevenue,\r\n    totalOrders,\r\n    totalProductsSold,\r\n    averageOrderValue,\r\n    orders,\r\n    });\r\n  } catch (error) {\r\n    res.status(500).json({\r\n      success: false,\r\n      message: error.message,\r\n    });\r\n  }\r\n};"
+        }
+    ]
+}

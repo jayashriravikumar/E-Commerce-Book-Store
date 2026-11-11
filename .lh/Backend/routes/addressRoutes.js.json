@@ -1,0 +1,26 @@
+{
+    "sourceFile": "Backend/routes/addressRoutes.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1784711735078,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1784715478142,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n import express from \"express\";\r\n-import { verifyUser, roleBasedAccess } from \"../helper/user.auth.js\";\r\n+import { verifyUser, roleBasedAccess } from \"../helper/userAuth.js\";\r\n \r\n import {\r\n   addAddress,\r\n   getMyAddresses,\r\n"
+                },
+                {
+                    "date": 1784715565844,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,10 +10,10 @@\n \r\n const router = express.Router();\r\n \r\n // Temporary auth middleware\r\n-import { verifyUser } from \"../helper/user.auth.js\";\r\n \r\n+\r\n router.post(\r\n   \"/address/new\",\r\n   verifyUser,\r\n   addAddress\r\n"
+                }
+            ],
+            "date": 1784711735078,
+            "name": "Commit-0",
+            "content": "import express from \"express\";\r\nimport { verifyUser, roleBasedAccess } from \"../helper/user.auth.js\";\r\n\r\nimport {\r\n  addAddress,\r\n  getMyAddresses,\r\n  updateAddress,\r\n  deleteAddress,\r\n} from \"../controller/addressController.js\";\r\n\r\nconst router = express.Router();\r\n\r\n// Temporary auth middleware\r\nimport { verifyUser } from \"../helper/user.auth.js\";\r\n\r\nrouter.post(\r\n  \"/address/new\",\r\n  verifyUser,\r\n  addAddress\r\n);\r\n\r\nrouter.get(\r\n  \"/addresses/me\",\r\n  verifyUser,\r\n  getMyAddresses\r\n);\r\n\r\nrouter.put(\r\n  \"/address/:id\",\r\n  verifyUser,\r\n  updateAddress\r\n);\r\n\r\nrouter.delete(\r\n  \"/address/:id\",\r\n  verifyUser,\r\n  deleteAddress\r\n);\r\n\r\nexport default router;"
+        }
+    ]
+}

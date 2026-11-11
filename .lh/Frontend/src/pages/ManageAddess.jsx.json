@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Frontend/src/pages/ManageAddess.jsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783661912747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783661912747,
+            "name": "Commit-0",
+            "content": "import React, { useState } from \"react\";\r\nimport Navbar from \"../components/Navbar\";\r\nimport Footer from \"../components/Footer\";\r\n\r\nconst ManageAddress = () => {\r\n\r\n  const [addresses, setAddresses] = useState([]);\r\n\r\n  return (\r\n    <>\r\n      <Navbar />\r\n\r\n      <div className=\"min-h-screen bg-gray-100 py-8\">\r\n\r\n        <div className=\"max-w-5xl mx-auto px-4\">\r\n\r\n          <div className=\"flex justify-between items-center mb-8\">\r\n\r\n            <h1 className=\"text-3xl font-bold\">\r\n              📍 Manage Addresses\r\n            </h1>\r\n\r\n            <button\r\n              className=\"bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-lg\"\r\n            >\r\n              + Add Address\r\n            </button>\r\n\r\n          </div>\r\n\r\n          {addresses.length === 0 ? (\r\n\r\n            <div className=\"bg-white rounded-xl shadow p-12 text-center\">\r\n\r\n              <h2 className=\"text-2xl font-semibold\">\r\n                No Address Found\r\n              </h2>\r\n\r\n              <p className=\"text-gray-500 mt-2\">\r\n                Add your first delivery address.\r\n              </p>\r\n\r\n            </div>\r\n\r\n          ) : (\r\n\r\n            <div>\r\n              Address List\r\n            </div>\r\n\r\n          )}\r\n\r\n        </div>\r\n\r\n      </div>\r\n\r\n      <Footer />\r\n\r\n    </>\r\n  );\r\n};\r\n\r\nexport default ManageAddress;"
+        }
+    ]
+}

@@ -11,7 +11,7 @@ import { v2 as cloudinary } from "cloudinary";
 export const registerUser = async (req, res, next) => {
   console.log("BODY:", req.body);
 
-  const { name, email, password, avatar, captchaToken, role } = req.body;
+  const { name, email, password, avatar, captchaToken } = req.body;
   if (!name) {
     return next(new HandleError("Please enter your name", 400));
   }
@@ -47,6 +47,7 @@ export const registerUser = async (req, res, next) => {
 
   // 1. Generate the 6-digit OTP FIRST
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  console.log("Generated OTP:", otp);
   const hashedOTP = crypto.createHash("sha256").update(otp).digest("hex");
 
   // 2. Create the user AND save the OTP in one single step
@@ -54,7 +55,7 @@ export const registerUser = async (req, res, next) => {
     name,
     email,
     password,
-    role: role || "user",
+    role: "user",
     avatar: {
       public_id: myCloud.public_id,
       url: myCloud.secure_url,
@@ -140,8 +141,8 @@ export const forgetPassword = async (req, res, next) => {
       new HandleError("Could not save the reset token,Try again later", 500),
     );
   }
-  const resetPasswordURL = `${req.protocol}://${req.host}/reset/${resetToken}`;
-  const message = `Reset your password using the link below:\n${resetPasswordURL}\n\nThe link expires in 30 minutes.\nIf you did not request a password reset, please ignore this email.`;
+  const resetPasswordUrl = `http://localhost:5173/password/reset/${resetToken}`;
+ const message = `Reset your password using the link below:\n${resetPasswordUrl}\n\nThe link expires in 30 minutes.\nIf you did not request a password reset, please ignore this email.`;
 
   try {
     await sendEmail({
@@ -251,7 +252,7 @@ export const updateProfile = async (req, res, next) => {
 };
 
 export const getUsers = async (req, res) => {
-  const users = await User.find();
+  const users = await User.find().sort({ createdAt: -1 });
   res.status(200).json({
     success: true,
     users,
@@ -313,6 +314,8 @@ export const verifyEmailOTP = async (req, res, next) => {
     emailVerificationOTP: hashedOTP,
     emailVerificationExpire: { $gt: Date.now() },
   });
+
+ 
 
   if (!user) {
     return next(new HandleError("OTP is invalid or has expired", 400));

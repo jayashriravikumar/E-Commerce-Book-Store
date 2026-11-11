@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Backend/routes/restoreRoutes.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1782975003833,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1782975003832,
+            "name": "Commit-0",
+            "content": "import express from \"express\";\r\nimport { restoreDatabase } from \"../controller/restoreController.js\";\r\n\r\nconst router = express.Router();\r\n\r\nrouter.post(\"/admin/restore\", restoreDatabase);\r\n\r\nexport default router;"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Frontend/src/features/newsletter/newsletterSlice.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1784697609440,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1784697609440,
+            "name": "Commit-0",
+            "content": "import { createSlice, createAsyncThunk } from \"@reduxjs/toolkit\";\r\nimport axios from \"axios\";\r\n\r\nexport const subscribeNewsletter = createAsyncThunk(\r\n  \"newsletter/subscribe\",\r\n  async (email, { rejectWithValue }) => {\r\n    try {\r\n      const { data } = await axios.post(\r\n        \"/api/v1/newsletter/subscribe\",\r\n        { email },\r\n        {\r\n          headers: {\r\n            \"Content-Type\": \"application/json\",\r\n          },\r\n        },\r\n      );\r\n\r\n      return data;\r\n    } catch (error) {\r\n      return rejectWithValue(\r\n        error.response?.data || {\r\n          message: \"Subscription failed.\",\r\n        },\r\n      );\r\n    }\r\n  },\r\n);\r\n\r\nconst newsletterSlice = createSlice({\r\n  name: \"newsletter\",\r\n\r\n  initialState: {\r\n    loading: false,\r\n    success: false,\r\n    error: null,\r\n    message: \"\",\r\n  },\r\n\r\n  reducers: {\r\n    clearNewsletterState: (state) => {\r\n      state.loading = false;\r\n      state.success = false;\r\n      state.error = null;\r\n      state.message = \"\";\r\n    },\r\n  },\r\n\r\n  extraReducers: (builder) => {\r\n    builder\r\n\r\n      .addCase(subscribeNewsletter.pending, (state) => {\r\n        state.loading = true;\r\n        state.error = null;\r\n      })\r\n\r\n      .addCase(subscribeNewsletter.fulfilled, (state, action) => {\r\n        state.loading = false;\r\n        state.success = true;\r\n        state.message = action.payload.message;\r\n      })\r\n\r\n      .addCase(subscribeNewsletter.rejected, (state, action) => {\r\n        state.loading = false;\r\n        state.success = false;\r\n        state.error = action.payload?.message || \"Subscription failed.\";\r\n      });\r\n  },\r\n});\r\n\r\nexport const { clearNewsletterState } = newsletterSlice.actions;\r\n\r\nexport default newsletterSlice.reducer;\r\n"
+        }
+    ]
+}

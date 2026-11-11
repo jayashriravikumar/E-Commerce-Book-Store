@@ -30,7 +30,7 @@ const InventoryManagement = () => {
   const updateStock = async (id, newStock) => {
     try {
       await axios.patch(
-        `http://localhost:8000/api/v1/inventory/${id}/stock`,
+        `/api/v1/inventory/${id}/stock`,
         {
           stock: newStock,
         }
@@ -67,7 +67,11 @@ const InventoryManagement = () => {
 
         <button
           className="add-product-btn"
-          onClick={() => navigate("/admin/product/new")}
+          onClick={() =>
+  navigate("/admin/products/create", {
+    state: { from: "/admin/inventory" },
+  })
+}
         >
           + Add Product
         </button>

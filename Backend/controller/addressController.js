@@ -1,13 +1,11 @@
 import Address from "../models/addressModel.js";
-const DEMO_USER_ID = "685a00000000000000000001";
 
 export const addAddress = async (req, res) => {
   try {
     console.log("BODY:", req.body);
 
  const address = await Address.create({
-  user: "685a00000000000000000001", // temporary test user
-
+  user: req.user.id,
   fullName: req.body.fullName,
   phone: req.body.phone,
   addressLine1: req.body.addressLine1,
@@ -34,8 +32,8 @@ export const addAddress = async (req, res) => {
 export const getMyAddresses = async (req, res) => {
   try {
     const addresses = await Address.find({
-      user: DEMO_USER_ID,
-    });
+  user: req.user._id,
+});
 
     res.status(200).json({
       success: true,
@@ -53,14 +51,24 @@ export const getMyAddresses = async (req, res) => {
 
 export const updateAddress = async (req, res) => {
   try {
-    const address = await Address.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const address = await Address.findOneAndUpdate(
+  {
+    _id: req.params.id,
+    user: req.user._id,
+  },
+  req.body,
+  {
+    new: true,
+    runValidators: true,
+  }
+);
+
+if (!address) {
+  return res.status(404).json({
+    success: false,
+    message: "Address not found",
+  });
+}
 
     res.status(200).json({
       success: true,
@@ -78,7 +86,17 @@ export const updateAddress = async (req, res) => {
 
 export const deleteAddress = async (req, res) => {
   try {
-    await Address.findByIdAndDelete(req.params.id);
+    const address = await Address.findOneAndDelete({
+  _id: req.params.id,
+  user: req.user._id,
+});
+
+if (!address) {
+  return res.status(404).json({
+    success: false,
+    message: "Address not found",
+  });
+}
 
     res.status(200).json({
       success: true,

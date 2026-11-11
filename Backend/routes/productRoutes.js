@@ -15,10 +15,11 @@ import {
 } from "../controller/productcontroller.js";
 
 import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
+
 const router = express.Router();
 
 router.post(
-  "/admin/product/new",
+  "/admin/products/create",
   verifyUser,
   roleBasedAccess("admin"),
   createProduct
@@ -72,12 +73,14 @@ router
 router.get(
   "/admin/reviews",
   verifyUser,
+  roleBasedAccess("admin"),
   viewProductReviews
 );
 
 router.delete(
   "/admin/reviews",
   verifyUser,
+  roleBasedAccess("admin"),
   adminDeleteReview
 );
 

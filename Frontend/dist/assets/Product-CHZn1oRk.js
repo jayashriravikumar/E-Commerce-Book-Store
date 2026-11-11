@@ -1,0 +1,17 @@
+import{a as e,n as t,t as n}from"./jsx-runtime-n5LQ9ujS.js";import{t as r}from"./Rating-07G8sRr4.js";import{Q as i,lt as a,m as o,nt as s,ot as c,rt as l}from"./index-D6o2UO2S.js";var u=i(`chevron-left`,[[`path`,{d:`m15 18-6-6 6-6`,key:`1wnfg3`}]]),d=e(t(),1),f=n(),p=(0,d.memo)(({product:e})=>{let t=s(),n=a(),i=l(e=>e.cart.cartItems),u=(0,d.useMemo)(()=>i.some(t=>t._id===e._id),[i,e._id]),p=(0,d.useCallback)(()=>{t(o(e))},[t,e]),m=(0,d.useCallback)(()=>{t(o(e)),n(`/checkout`)},[t,n,e]);return(0,f.jsxs)(`div`,{className:`bg-white rounded-xl md:rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col h-full`,children:[(0,f.jsx)(c,{to:`/product/${e._id}`,className:`block`,children:(0,f.jsx)(`div`,{className:`h-44 sm:h-56 md:h-80 bg-white flex items-center justify-center p-2 md:p-6`,children:(0,f.jsx)(`img`,{src:e?.image?.[0]?.url||e?.coverImage?.[0]?.url||`https://via.placeholder.com/300x400`,alt:e?.name,className:`h-full w-full object-contain transition-transform duration-300 hover:scale-105`,loading:`lazy`,decoding:`async`})})}),(0,f.jsxs)(`div`,{className:`p-2 md:p-4 flex flex-col flex-1`,children:[(0,f.jsx)(c,{to:`/product/${e._id}`,children:(0,f.jsx)(`h3`,{className:`font-bold text-sm md:text-xl text-gray-900 line-clamp-2 md:line-clamp-1 hover:text-blue-600 min-h-[40px] md:min-h-0`,children:e?.name||e.title})}),(0,f.jsx)(`p`,{className:`text-xs md:text-sm text-gray-500 mt-1 h-4 md:h-5 overflow-hidden`,children:e?.author}),(0,f.jsx)(`p`,{className:`hidden md:block text-gray-600 text-sm mt-3 line-clamp-2 h-10`,children:e?.description}),(0,f.jsxs)(`div`,{className:`mt-2 md:mt-4 flex items-center gap-1 md:gap-2`,children:[(0,f.jsx)(r,{value:e?.ratings||0,disabled:!0,showValue:!1}),(0,f.jsxs)(`span`,{className:`text-xs text-gray-500`,children:[`(`,e?.numOfReviews||0,`)`]})]}),(0,f.jsx)(`div`,{className:`mt-auto pt-5`,children:(0,f.jsxs)(`div`,{className:`flex flex-col gap-3`,children:[(0,f.jsxs)(`span`,{className:`text-xl md:text-3xl font-bold text-blue-600`,children:[`Rs `,e?.price]}),(0,f.jsx)(c,{to:`/product/${e._id}/reviews`,className:`text-xs md:text-sm text-blue-600 hover:underline font-medium`,children:`View Reviews`}),e?.stock>10?(0,f.jsx)(`p`,{className:`text-green-600 text-xs md:text-sm font-medium`,children:`In Stock`}):e?.stock>0?(0,f.jsxs)(`p`,{className:`text-orange-500 text-xs md:text-sm font-medium`,children:[`Only `,e.stock,` left`]}):(0,f.jsx)(`p`,{className:`text-red-600 text-xs md:text-sm font-medium`,children:`Out of Stock`}),(0,f.jsx)(`button`,{onClick:p,disabled:u||e?.stock===0,className:`
+                h-9 md:h-11
+                w-full
+                text-sm md:text-base
+                rounded-xl
+                font-semibold
+                transition
+              ${e?.stock===0?`bg-gray-300 text-gray-600 cursor-not-allowed`:u?`bg-green-100 text-green-700`:`bg-blue-600 hover:bg-blue-700 text-white`}
+              `,children:e?.stock===0?`Out of Stock`:u?`Added`:`Add to Cart`}),(0,f.jsx)(`button`,{onClick:m,disabled:e?.stock===0,className:`
+                h-9 md:h-11
+                w-full
+                text-sm md:text-base
+                rounded-xl
+                font-semibold
+                transition
+                ${e?.stock===0?`bg-gray-300 text-gray-600 cursor-not-allowed`:`bg-orange-500 hover:bg-orange-600 text-white`}
+              `,children:`Buy Now`})]})})]})]})});export{u as n,p as t};

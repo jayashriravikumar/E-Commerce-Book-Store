@@ -1,0 +1,22 @@
+{
+    "sourceFile": "Backend/server.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1782991459689,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1782991549733,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,33 @@\n+import dotenv from \"dotenv\";\r\n+dotenv.config({ path: \"./config/config.env\" });\r\n+\r\n+import app from \"./app.js\";\r\n+import { connectDB } from \"./config/db.js\";\r\n+import { cloudinaryConfig } from \"./config/cloudinary.js\";\r\n+import backupScheduler from \"./utils/backupScheduler.js\";\r\n+\r\n+const PORT = process.env.PORT || 8000;\r\n+\r\n+connectDB();\r\n+cloudinaryConfig();\r\n+backupScheduler();\r\n+\r\n+const server = app.listen(PORT, () => {\r\n+  console.log(`Server is running on port ${PORT}`);\r\n+});\r\n+\r\n+// Handle uncaught errors\r\n+process.on(\"uncaughtException\", (err) => {\r\n+  console.log(`Error: ${err.message}`);\r\n+  console.log(\"Shutting down server due to uncaught exception\");\r\n+  process.exit(1);\r\n+});\r\n+\r\n+// Handle unhandled promise rejections\r\n+process.on(\"unhandledRejection\", (err) => {\r\n+  console.log(`Error: ${err.message}`);\r\n+  console.log(\"Shutting down server due to unhandled rejection\");\r\n+  server.close(() => {\r\n+    process.exit(1);\r\n+  });\r\n+});\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1782991459689,
+            "name": "Commit-0",
+            "content": "import dotenv from \"dotenv\";\r\ndotenv.config({ path: \"./config/config.env\" });\r\n\r\nimport app from \"./app.js\";\r\nimport { connectDB } from \"./config/db.js\";\r\nimport { cloudinaryConfig } from \"./config/cloudinary.js\";\r\nimport backupScheduler from \"./utils/backupScheduler.js\";\r\n\r\nconst PORT = process.env.PORT || 8000;\r\n\r\nconnectDB();\r\ncloudinaryConfig();\r\n\r\nconst server = app.listen(PORT, () => {\r\n  console.log(`Server is running on port ${PORT}`);\r\n});\r\n\r\n// Handle uncaught errors\r\nprocess.on(\"uncaughtException\", (err) => {\r\n  console.log(`Error: ${err.message}`);\r\n  console.log(\"Shutting down server due to uncaught exception\");\r\n  process.exit(1);\r\n});\r\n\r\n// Handle unhandled promise rejections\r\nprocess.on(\"unhandledRejection\", (err) => {\r\n  console.log(`Error: ${err.message}`);\r\n  console.log(\"Shutting down server due to unhandled rejection\");\r\n  server.close(() => {\r\n    process.exit(1);\r\n  });\r\n});"
+        }
+    ]
+}

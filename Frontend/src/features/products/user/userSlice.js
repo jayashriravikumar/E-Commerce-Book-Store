@@ -8,7 +8,7 @@ export const register = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:8000/api/v1/register",
+        "/api/v1/register",
         userData,
         {
           headers: {
@@ -32,17 +32,49 @@ export const verifyOTP = createAsyncThunk(
   "user/verifyOTP",
   async (verificationData, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "application/json" } };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      };
+
       const { data } = await axios.post(
-        "http://localhost:8000/api/v1/verify/otp",
+        "/api/v1/verify-email",
         verificationData,
-        config,
+        config
       );
+
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Verification failed");
     }
-  },
+  }
+);
+
+export const forgetPassword = createAsyncThunk(
+  "user/forgetPassword",
+  async (email, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const { data } = await axios.post(
+        "/api/v1/password/forget",
+        { email },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to send reset email"
+      );
+    }
+  }
 );
 
 // Login API
@@ -50,7 +82,7 @@ export const login = createAsyncThunk(
   "user/login",
   async (userData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("http://localhost:8000/api/v1/login", userData, {
+      const { data } = await axios.post("/api/v1/login", userData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -80,7 +112,7 @@ export const updateProfile = createAsyncThunk(
       };
 
       const { data } = await axios.put(
-        "http://localhost:8000/api/v1/profile/update",
+        "/api/v1/profile/update",
         userData,
         config,
       );
@@ -113,13 +145,15 @@ const userSlice = createSlice({
     },
 
     logout: (state) => {
-      state.user = null;
-      state.isAuthenticated = false;
-      state.success = false;
+  state.user = null;
+  state.isAuthenticated = false;
+  state.success = false;
+  state.error = null;
 
-      localStorage.removeItem("user");
-      localStorage.removeItem("isAuthenticated");
-    },
+  localStorage.removeItem("user");
+  localStorage.removeItem("isAuthenticated");
+  localStorage.removeItem("token");
+},
   },
   extraReducers: (builder) => {
     builder
@@ -192,6 +226,7 @@ const userSlice = createSlice({
         state.error = action.payload?.message || "Verification failed";
       })
 
+
       .addCase(updateProfile.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -207,6 +242,19 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload?.message || "Profile update failed";
       });
+      builder
+  .addCase(forgetPassword.pending, (state) => {
+    state.loading = true;
+    state.error = null;
+  })
+  .addCase(forgetPassword.fulfilled, (state, action) => {
+    state.loading = false;
+    state.message = action.payload.message;
+  })
+  .addCase(forgetPassword.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.payload?.message || "Failed to send reset email";
+  });
   },
 });
 

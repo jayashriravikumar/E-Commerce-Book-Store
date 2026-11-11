@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Frontend/src/pages/admin/AddProduct.jsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1782996832528,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1782996832528,
+            "name": "Commit-0",
+            "content": "import { useState } from \"react\";\r\nimport axios from \"axios\";\r\nimport { useNavigate } from \"react-router-dom\";\r\n\r\nconst AddProduct = () => {\r\n  const navigate = useNavigate();\r\n\r\n  const [product, setProduct] = useState({\r\n    name: \"\",\r\n    author: \"\",\r\n    price: \"\",\r\n    stock: \"\",\r\n    category: \"\",\r\n    description: \"\"\r\n  });\r\n\r\n  const handleChange = (e) => {\r\n    setProduct({\r\n      ...product,\r\n      [e.target.name]: e.target.value,\r\n    });\r\n  };\r\n\r\n  const handleSubmit = async (e) => {\r\n    e.preventDefault();\r\n\r\n    try {\r\n      await axios.post(\r\n        \"http://localhost:8000/api/v1/admin/product/create\",\r\n        product,\r\n        {\r\n          withCredentials: true,\r\n        }\r\n      );\r\n\r\n      alert(\"Product Added Successfully\");\r\n\r\n      navigate(\"/admin/products\");\r\n\r\n    } catch (error) {\r\n      console.log(error);\r\n      alert(\"Failed to add product\");\r\n    }\r\n  };\r\n\r\n  return (\r\n    <div className=\"max-w-3xl mx-auto\">\r\n\r\n      <h1 className=\"text-3xl font-bold mb-6\">\r\n        Add Product\r\n      </h1>\r\n\r\n      <form\r\n        onSubmit={handleSubmit}\r\n        className=\"space-y-4\"\r\n      >\r\n\r\n        <input\r\n          type=\"text\"\r\n          name=\"name\"\r\n          placeholder=\"Book Name\"\r\n          className=\"border p-3 w-full\"\r\n          onChange={handleChange}\r\n        />\r\n\r\n        <input\r\n          type=\"text\"\r\n          name=\"author\"\r\n          placeholder=\"Author\"\r\n          className=\"border p-3 w-full\"\r\n          onChange={handleChange}\r\n        />\r\n\r\n        <input\r\n          type=\"number\"\r\n          name=\"price\"\r\n          placeholder=\"Price\"\r\n          className=\"border p-3 w-full\"\r\n          onChange={handleChange}\r\n        />\r\n\r\n        <input\r\n          type=\"number\"\r\n          name=\"stock\"\r\n          placeholder=\"Stock\"\r\n          className=\"border p-3 w-full\"\r\n          onChange={handleChange}\r\n        />\r\n\r\n        <input\r\n          type=\"text\"\r\n          name=\"category\"\r\n          placeholder=\"Category\"\r\n          className=\"border p-3 w-full\"\r\n          onChange={handleChange}\r\n        />\r\n\r\n        <textarea\r\n          name=\"description\"\r\n          placeholder=\"Description\"\r\n          className=\"border p-3 w-full\"\r\n          rows=\"5\"\r\n          onChange={handleChange}\r\n        />\r\n\r\n        <button\r\n          className=\"bg-green-600 text-white px-6 py-3 rounded\"\r\n        >\r\n          Add Product\r\n        </button>\r\n\r\n      </form>\r\n\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default AddProduct;"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "sourceFile": "Backend/routes/reviewRoutes.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1784695753995,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1784696088514,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,14 @@\n import express from \"express\";\r\n import { getAllReviews } from \"../controller/reviewController.js\";\r\n-import { verifyUser, roleBasedAccess } from \"../middleware/auth.js\";\r\n+import { verifyUser, roleBasedAccess } from \"../helper/userAuth.js\";\r\n \r\n const router = express.Router();\r\n \r\n router.get(\r\n-    \"/admin/reviews\",\r\n-    verifyUser,\r\n-    roleBasedAccess(\"admin\"),\r\n-    getAllReviews\r\n+  \"/admin/reviews\",\r\n+  verifyUser,\r\n+  roleBasedAccess(\"admin\"),\r\n+  getAllReviews\r\n );\r\n \r\n export default router;\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1784695753995,
+            "name": "Commit-0",
+            "content": "import express from \"express\";\r\nimport { getAllReviews } from \"../controller/reviewController.js\";\r\nimport { verifyUser, roleBasedAccess } from \"../middleware/auth.js\";\r\n\r\nconst router = express.Router();\r\n\r\nrouter.get(\r\n    \"/admin/reviews\",\r\n    verifyUser,\r\n    roleBasedAccess(\"admin\"),\r\n    getAllReviews\r\n);\r\n\r\nexport default router;"
+        }
+    ]
+}

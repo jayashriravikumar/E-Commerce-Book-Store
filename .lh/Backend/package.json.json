@@ -1,0 +1,26 @@
+{
+    "sourceFile": "Backend/package.json",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1783175252487,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1783247264242,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,8 +25,10 @@\n     \"express-rate-limit\": \"^8.5.2\",\r\n     \"express-validator\": \"^7.3.1\",\r\n     \"jsonwebtoken\": \"^9.0.3\",\r\n     \"mongoose\": \"^9.7.0\",\r\n+    \"morgan\": \"^1.11.0\",\r\n+    \"node-cron\": \"^4.5.0\",\r\n     \"nodemailer\": \"^8.0.10\",\r\n     \"razorpay\": \"^2.9.6\",\r\n     \"react-toastify\": \"^11.1.0\",\r\n     \"validator\": \"^13.15.26\",\r\n"
+                },
+                {
+                    "date": 1783489873400,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,10 +25,13 @@\n     \"express-rate-limit\": \"^8.5.2\",\r\n     \"express-validator\": \"^7.3.1\",\r\n     \"jsonwebtoken\": \"^9.0.3\",\r\n     \"mongoose\": \"^9.7.0\",\r\n+\r\n     \"morgan\": \"^1.11.0\",\r\n+    \"multer\": \"^2.2.0\",\r\n     \"node-cron\": \"^4.5.0\",\r\n+\r\n     \"nodemailer\": \"^8.0.10\",\r\n     \"razorpay\": \"^2.9.6\",\r\n     \"react-toastify\": \"^11.1.0\",\r\n     \"validator\": \"^13.15.26\",\r\n"
+                }
+            ],
+            "date": 1783175252487,
+            "name": "Commit-0",
+            "content": "{\r\n  \"name\": \"backend\",\r\n  \"version\": \"1.0.0\",\r\n  \"description\": \"\",\r\n  \"main\": \"app.js\",\r\n  \"scripts\": {\r\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\",\r\n    \"start\": \"node server.js\",\r\n    \"dev\": \"nodemon server.js\"\r\n  },\r\n  \"keywords\": [],\r\n  \"author\": \"\",\r\n  \"license\": \"ISC\",\r\n  \"type\": \"module\",\r\n  \"dependencies\": {\r\n    \"archiver\": \"^5.3.2\",\r\n    \"bcryptjs\": \"^3.0.3\",\r\n    \"cloudinary\": \"^2.10.0\",\r\n    \"cookie-parser\": \"^1.4.7\",\r\n    \"cors\": \"^2.8.6\",\r\n    \"crypto\": \"^1.0.1\",\r\n    \"dotenv\": \"^17.4.2\",\r\n    \"express\": \"^5.2.1\",\r\n    \"express-fileupload\": \"^1.5.2\",\r\n    \"express-rate-limit\": \"^8.5.2\",\r\n    \"express-validator\": \"^7.3.1\",\r\n    \"jsonwebtoken\": \"^9.0.3\",\r\n    \"mongoose\": \"^9.7.0\",\r\n    \"nodemailer\": \"^8.0.10\",\r\n    \"razorpay\": \"^2.9.6\",\r\n    \"react-toastify\": \"^11.1.0\",\r\n    \"validator\": \"^13.15.26\",\r\n    \"winston\": \"^3.19.0\"\r\n  },\r\n  \"devDependencies\": {\r\n    \"nodemon\": \"^3.1.14\"\r\n  }\r\n}\r\n"
+        }
+    ]
+}

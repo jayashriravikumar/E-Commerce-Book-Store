@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Mail, Phone } from "lucide-react";
 import {
   FaGithub,
@@ -75,4 +76,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);

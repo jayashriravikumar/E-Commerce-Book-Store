@@ -4,11 +4,13 @@ dotenv.config({ path: "./config/config.env" });
 import app from "./app.js";
 import { connectDB } from "./config/db.js";
 import { cloudinaryConfig } from "./config/cloudinary.js";
+import backupScheduler from "./utils/backupScheduler.js";
 
 const PORT = process.env.PORT || 8000;
 
 connectDB();
 cloudinaryConfig();
+backupScheduler();
 
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Frontend/src/components/FAQList.jsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1784697561623,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1784697561623,
+            "name": "Commit-0",
+            "content": "import React, { useState, useEffect } from \"react\";\r\nimport axios from \"axios\";\r\n\r\nconst FAQList = () => {\r\n  const [faqs, setFaqs] = useState([]);\r\n  const [openFAQ, setOpenFAQ] = useState(null); // ✅ consistent\r\n\r\n  useEffect(() => {\r\n    axios\r\n      .get(\"/api/v1/faqs\")\r\n      .then((res) => setFaqs(res.data.faqs))\r\n      .catch((err) => console.error(err));\r\n  }, []);\r\n\r\n  const toggleFAQ = (id) => {\r\n    setOpenFAQ(openFAQ === id ? null : id);\r\n  };\r\n\r\n  const categories = [\r\n    { name: \"Orders\", id: \"orders\" },\r\n    { name: \"Returns\", id: \"returns\" },\r\n    { name: \"Payments\", id: \"payments\" },\r\n    { name: \"Account\", id: \"account\" },\r\n  ];\r\n\r\n  return (\r\n    <div className=\"space-y-4\">\r\n      {categories.map((cat) => (\r\n        <div key={cat.id} id={cat.id} className=\"faq-category\">\r\n          <h2 className=\"text-xl font-bold mb-2 border-b pb-1\">{cat.name}</h2>\r\n          {faqs\r\n            .filter((faq) => faq.category === cat.name)\r\n            .map((faq) => (\r\n              <div\r\n                key={faq._id}\r\n                className=\"border rounded-xl shadow-sm bg-white mb-3\"\r\n              >\r\n                <button\r\n                  onClick={() => toggleFAQ(faq._id)}\r\n                  className=\"w-full text-left px-4 py-3 font-semibold text-lg flex justify-between items-center\"\r\n                >\r\n                  {faq.question}\r\n                  <span>{openFAQ === faq._id ? \"−\" : \"+\"}</span>{\" \"}\r\n                  {/* ✅ fixed */}\r\n                </button>\r\n                {openFAQ === faq._id && (\r\n                  <div className=\"px-3 pb-2 text-gray-600\">{faq.answer}</div>\r\n                )}\r\n              </div>\r\n            ))}\r\n        </div>\r\n      ))}\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default FAQList;\r\n"
+        }
+    ]
+}

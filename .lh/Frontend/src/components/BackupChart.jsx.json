@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Frontend/src/components/BackupChart.jsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1782994311150,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1782994311150,
+            "name": "Commit-0",
+            "content": "import {\r\n  Chart as ChartJS,\r\n  CategoryScale,\r\n  LinearScale,\r\n  BarElement,\r\n  Tooltip,\r\n  Legend,\r\n} from \"chart.js\";\r\n\r\nimport { Bar } from \"react-chartjs-2\";\r\n\r\nChartJS.register(\r\n  CategoryScale,\r\n  LinearScale,\r\n  BarElement,\r\n  Tooltip,\r\n  Legend\r\n);\r\n\r\nconst BackupChart = ({ analytics }) => {\r\n\r\n  const data = {\r\n    labels: analytics.map(item => item._id),\r\n\r\n    datasets: [\r\n      {\r\n        label: \"Backups\",\r\n        data: analytics.map(item => item.backups),\r\n      },\r\n    ],\r\n  };\r\n\r\n  return <Bar data={data} />;\r\n};\r\n\r\nexport default BackupChart;"
+        }
+    ]
+}

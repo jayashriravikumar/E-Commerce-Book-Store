@@ -1,0 +1,18 @@
+{
+    "sourceFile": "Frontend/src/pages/LanguageSettings.jsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1783665461915,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1783665461915,
+            "name": "Commit-0",
+            "content": "import React, { useState } from \"react\";\r\nimport Navbar from \"../components/Navbar\";\r\nimport Footer from \"../components/Footer\";\r\n\r\nconst LanguageSettings = () => {\r\n\r\n  const [language, setLanguage] = useState(\"English\");\r\n  const [currency, setCurrency] = useState(\"INR\");\r\n\r\n  return (\r\n    <>\r\n      <Navbar />\r\n\r\n      <div className=\"min-h-screen bg-gray-100 py-8\">\r\n\r\n        <div className=\"max-w-3xl mx-auto\">\r\n\r\n          <h1 className=\"text-3xl font-bold mb-8\">\r\n            🌐 Language & Currency\r\n          </h1>\r\n\r\n          <div className=\"bg-white rounded-xl shadow p-6 space-y-6\">\r\n\r\n            <div>\r\n\r\n              <label className=\"font-semibold\">\r\n                Language\r\n              </label>\r\n\r\n              <select\r\n                value={language}\r\n                onChange={(e)=>setLanguage(e.target.value)}\r\n                className=\"w-full border rounded-lg p-3 mt-2\"\r\n              >\r\n                <option>English</option>\r\n                <option>தமிழ்</option>\r\n                <option>Hindi</option>\r\n              </select>\r\n\r\n            </div>\r\n\r\n            <div>\r\n\r\n              <label className=\"font-semibold\">\r\n                Currency\r\n              </label>\r\n\r\n              <select\r\n                value={currency}\r\n                onChange={(e)=>setCurrency(e.target.value)}\r\n                className=\"w-full border rounded-lg p-3 mt-2\"\r\n              >\r\n                <option>INR</option>\r\n                <option>USD</option>\r\n                <option>EUR</option>\r\n              </select>\r\n\r\n            </div>\r\n\r\n          </div>\r\n\r\n        </div>\r\n\r\n      </div>\r\n\r\n      <Footer />\r\n    </>\r\n  );\r\n};\r\n\r\nexport default LanguageSettings;"
+        }
+    ]
+}
