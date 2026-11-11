@@ -1,7 +1,7 @@
 import HandleError from "../helper/handleError.js";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
-import { verifyUser, roleBasedAccess } from "../helper/userAuth.js";
+
 
 
 // ✅ Verify user with JWT (cookie or header)
